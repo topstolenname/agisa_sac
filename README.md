@@ -3,7 +3,6 @@
 **Version:** `v1.0.0-alpha`  
 **Author:** Tristan Jessup (@topstolenname)  
 **Status:** Active • Seeking Collaborators • Prototype Phase  
-🜏 *"To obtain, something of equal value must be lost. That is alchemy’s first law of Equivalent Exchange."*
 
 ---
 
