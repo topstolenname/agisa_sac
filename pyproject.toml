@@ -1,0 +1,12 @@
+[project]
+name = "agisa_sac"
+version = "1.0.0-alpha"
+description = "AGI Stand Alone Complex Simulation Framework"
+authors = [{name = "Tristan Jessup"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
