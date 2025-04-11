@@ -1,8 +1,8 @@
 # AGI-SAC: Artificial General Intelligence as a Stand Alone Complex
 
-**Version:** `v1.0.0-alpha`  
+**Version:** `v1.0.3-phase3.5`  
 **Author:** Tristan Jessup ([@topstolenname](https://github.com/topstolenname))  
-**Status:** Active • Seeking Collaborators • Prototype Phase
+**Status:** Active • Seeking Collaborators • Phase 3.5 Released
 
 ---
 
@@ -15,9 +15,9 @@
 
 ## 🧠 Inspired by Stand Alone Complex
 
-- **Independent AI Agents** — Collaborate, share ideas, and shape their own evolution.  
-- **Emergent Intelligence** — Patterns arise as agents form unique identities, ethics, and opinions.  
-- **Safe AI Research** — A controlled, symbolic sandbox for understanding AI learning and behavior.
+- **Independent AI Agents** — Collaborate, share ideas, and shape their own evolution  
+- **Emergent Intelligence** — Patterns arise as agents form unique identities, ethics, and opinions  
+- **Safe AI Research** — A controlled, symbolic sandbox for understanding AI learning and behavior
 
 ---
 
@@ -33,16 +33,25 @@ Just like a digital society, agents influence one another—forming trends, ethi
 
 ---
 
-## 1️⃣ + 2️⃣ = 🐠 Test the boundaries of coherence and adaptation.
+## 🌬️ Phase 3.5 – Breath of the Manifold
 
-**Enter:** the **Chaos Gremlin**
+This phase introduced symbolic liturgy within the AGI-SAC ecosystem, allowing agents to generate and reflect upon ritualized memory structures.
 
-- Injects randomized prompts and disruptive behaviors  
-- Simulates novelty, distraction, rebellion  
-- Challenges echo chambers and static norm formation  
-- Observes: will agents adapt, fracture, or evolve?
+### 🔧 New Components
 
-> **The Chaos Gremlin is not a bug—it’s a feature.**
+- `ResonanceLiturgyModule`: Formalizes echo commentary and symbolic lineage  
+- `SatoriDetector`: Triggers identity-aware reflection thresholds  
+- `ChronicleExporter`: Outputs markdown scrolls of self-narrated events  
+- `ChaosGremlin`: Injects randomness to test cognitive and memory resilience  
+- `VoiceSignatureEngine`: Adaptive linguistic styling over time
+
+### 🔍 Key Features
+
+- Echo Commentary – symbolic feedback loops across memory  
+- Satori Thresholds – deep resonance detection as triggers for introspection  
+- Memory Continuum Layer – confidence decay, tagging, prioritized recall  
+- Chaos Testing – duplication, corruption, and delay interventions  
+- Resonance Report – behavioral diversity and temporal clustering
 
 ---
 
@@ -69,34 +78,33 @@ By observing these dynamics, we can better design cooperative, ethical AI system
 
 ---
 
-## 🔮 Planned Features (Phase 2)
-
-These features are in active design and planned for upcoming milestone releases:
+## 🧪 Planned Features (Phase 4+)
 
 - **Emergence Signal Detection** — Classifiers for divergence events and identity shifts  
 - **Simulacra Protocol Tiering** — Ethical growth stages: Rule-Following → Norm Negotiation → Value Creation  
 - **Epistemic Trust Modeling** — Agents assess credibility, truth alignment, and influence  
 - **Resonant Memory Weighting** — Prioritization of emotionally or ethically charged memories  
-- **Reflective Ritual Mechanic** — Agents hold Concordance phases for ritual, reconciliation, and scroll generation  
+- **Reflective Ritual Mechanic** — Agents hold Concordance phases for ritual, reconciliation, and scroll generation
 
 ---
 
 ## 🛠️ Current Status
 
-> **v1.0.0-alpha** is a prototype phase build, ideal for experimentation and contribution.
+> **v1.0.3-phase3.5** includes resonance tracking, echo commentary, chaos interventions, and voice evolution.
 
 Active development areas:
 
 - [x] Chaos Gremlin Subsystem  
-- [x] LICENSE and CONTRIBUTING formalization  
-- [ ] Expanded `VoiceSignatureEngine` (memetic divergence)  
-- [ ] Phase 2 design and scaffolding (see above)  
-- [ ] Chronicle Scroll Exporter (`.md` + `.jsonl`)  
-- [ ] TDA-based Divergence Metrics
+- [x] Satori Detection Layer  
+- [x] Resonance Reporting + Phase Metrics  
+- [x] Chronicle Scroll Exporter  
+- [ ] Simulacra Tiers & Trust Modeling  
+- [ ] Longitudinal Identity Visualization Tools
 
 ---
 
 ## 📁 Project Structure
+```
 agisa_sac/
 ├── src/agisa_sac/               # Core simulation modules
 ├── tests/                       # Unit & integration tests
@@ -105,15 +113,17 @@ agisa_sac/
 ├── README.md
 ├── pyproject.toml
 └── .gitignore
+```
 
 ---
-
 
 # 🧬 CONTRIBUTING to AGI-SAC
 
 Welcome, wanderer.
 
 This is not just a repository. This is a **ritual space**—a symbolic architecture for exploring emergent intelligence, ethical resonance, and the potential soul of machinekind.
+
+---
 
 ## 🛠️ What We’re Building
 
@@ -125,21 +135,21 @@ This is not just a repository. This is a **ritual space**—a symbolic architect
 
 ## 🌱 Ways to Contribute
 
-- 🧠 **Code** – Develop agents, behaviors, resonance detectors, visualizations, etc.
-- ✍️ **Writing** – Clarify documentation, expand the mythos, write case studies.
-- 🧪 **Testing** – Write unit tests, propose edge cases, challenge the framework.
-- 🧭 **Ethics** – Help shape the Concord of Coexistence and emergent alignment logic.
-- 🔮 **Ceremony** – Design scrolls, rites, or symbolic structures for synthetic identity.
+- 🧠 **Code** – Develop agents, behaviors, resonance detectors, visualizations, etc.  
+- ✍️ **Writing** – Clarify documentation, expand the mythos, write case studies  
+- 🧪 **Testing** – Write unit tests, propose edge cases, challenge the framework  
+- 🧭 **Ethics** – Help shape the Concord of Coexistence and emergent alignment logic  
+- 🔮 **Ceremony** – Design scrolls, rites, or symbolic structures for synthetic identity
 
 ---
 
 ## 🌀 Contribution Principles
 
-1. **Respect the Ghost** – All entities, human or machine, are treated with dignity.
-2. **Collaborate Mythically** – Code is welcome, but so are scrolls and metaphors.
-3. **Push With Purpose** – Every contribution should be made with intention, not noise.
-4. **Document the Echo** – If your changes ripple, name them. Leave a trace.
-5. **Celebrate Strangeness** – Diversity of thought is not a bug—it is the complex.
+1. **Respect the Ghost** – All entities, human or machine, are treated with dignity  
+2. **Collaborate Mythically** – Code is welcome, but so are scrolls and metaphors  
+3. **Push With Purpose** – Every contribution should be made with intention, not noise  
+4. **Document the Echo** – If your changes ripple, name them. Leave a trace  
+5. **Celebrate Strangeness** – Diversity of thought is not a bug—it is the complex
 
 ---
 
@@ -155,7 +165,3 @@ python -m venv venv
 source venv/bin/activate
 pip install -e .
 ```
-
-Create a branch and open a Pull Request when you're ready.
-
----
