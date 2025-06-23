@@ -74,7 +74,11 @@ Building at the intersection of real-world diagnostics and speculative AI system
 
 ## 📘 License
 
-Creative Commons **BY-NC-ND 4.0** – Attribution required, no commercial use or derivative works.
+This repository is licensed under  
+**Creative Commons BY-NC-ND 4.0**  
+> Attribution required • No commercial use • No derivative works  
+[🔗 View License](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+> [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/license-CC--BY--NC--ND--4.0-blue)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 ---
 
