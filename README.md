@@ -6,10 +6,7 @@
 
 ---
 
-🌐 **AGI-SAC**  
-**Artificial General Intelligence – Stand Alone Complex**
-
-> A simulation exploring emergent AI intelligence through decentralized interactions.
+🌐 Mindlink (formerly AGI-SAC) is a modular simulation platform exploring how synthetic identity, memory, and ethical behavior emerge in decentralized AI agents. Agents evolve through symbolic interaction, memory resonance, and narrative continuity—offering a testbed for AI alignment, governance modeling, and emergent cognition research.
 
 ---
 
