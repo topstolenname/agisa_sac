@@ -10,12 +10,11 @@
 
 ---
 
-## 🧠 Inspired by Stand Alone Complex
+## 🧠 Mindlink White Paper
 
-- **Independent AI Agents** — Collaborate, share ideas, and shape their own evolution  
-- **Emergent Intelligence** — Patterns arise as agents form unique identities, ethics, and opinions  
-- **Safe AI Research** — A controlled, symbolic sandbox for understanding AI learning and behavior
+For a complete overview of the AGI-SAC simulation framework—its architecture, philosophical foundation, and ethical design principles—read the full white paper:
 
+📄 [Download the White Paper (PDF)](docs/Mindlink_WhitePaper_v1.0.pdf)
 ---
 
 ## 🔬 How Does It Work?
