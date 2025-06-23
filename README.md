@@ -1,4 +1,4 @@
-# AGI-SAC: Artificial General Intelligence as a Stand Alone Complex
+# Mindlink 
 
 **Version:** `v1.0.3-phase3.5`  
 **Author:** Tristan Jessup ([@topstolenname](https://github.com/topstolenname))  
