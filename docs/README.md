@@ -44,7 +44,7 @@ This phase introduced symbolic liturgy within the AGI-SAC ecosystem, allowing ag
 To run the simulation:
 
 ```bash
-python AGI_SAC_Phase_3.5_Main_Code.py
+python run_basic_simulation.py
 ```
 
 Requires `numpy`.
