@@ -1,4 +1,3 @@
-"""
 AGI-SAC Simulation Framework
 ----------------------------
 
@@ -24,6 +23,13 @@ try:
     from .analysis.tda import PersistentHomologyTracker
     from .analysis.visualization import plot_persistence_diagram, plot_persistence_barcode, plot_metric_comparison
     from .analysis.clustering import cluster_archetypes
+    from .metrics.monitoring import (
+        compute_sri,
+        compute_nds,
+        compute_vsd,
+        compute_mce,
+        generate_monitoring_metrics,
+    )
     from .utils.message_bus import MessageBus
 except ImportError as e:
     import warnings
@@ -50,6 +56,11 @@ __all__ = [
     "plot_persistence_barcode",
     "plot_metric_comparison",
     "cluster_archetypes",
+    "compute_sri",
+    "compute_nds",
+    "compute_vsd",
+    "compute_mce",
+    "generate_monitoring_metrics",
 ]
 
 # Optional: Basic logging setup for the library
@@ -57,29 +68,3 @@ import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 print(f"AGI-SAC Framework ({FRAMEWORK_VERSION}) initialized.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
