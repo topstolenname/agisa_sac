@@ -5,8 +5,17 @@ description = "AGI Stand Alone Complex Simulation Framework"
 authors = [{name = "Tristan Jessup"}]
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = []
+dependencies = [
+    "numpy",
+    "scipy",
+    "networkx",
+    "sentence_transformers",
+    "fastapi",
+]
 
 [build-system]
 requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+gpu = ["cupy"]

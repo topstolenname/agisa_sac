@@ -65,6 +65,19 @@ This platform is a **sandbox for ethics-first experimentation**, simulating:
 
 ## 👤 Author
 
+## 🚀 Quick Start
+
+Install dependencies and run a demo simulation:
+```bash
+pip install -e .
+```
+Optional GPU features can be installed with:
+```bash
+pip install -e .[gpu]
+```
+python AGI_SAC_Phase_3.5_Main_Code.py
+```
+
 **Tristan Jessup** – Simulation architect, ethical systems designer, and Advanced Repair Agent at Geek Squad.  
 Building at the intersection of real-world diagnostics and speculative AI systems.  
 📫 Contact: Tristan via [LinkedIn](https://www.linkedin.com/in/john-jessup25)  

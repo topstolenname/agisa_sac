@@ -1,5 +1,15 @@
-import random
-import time
-import numpy as np
-# [code truncated here for brevity - assume full script has been captured]
-# --- AGI-SAC Simulation Complete ---
+"""Entry point for running a simple AGI-SAC simulation."""
+from pathlib import Path
+import sys
+
+# Ensure src directory on path
+sys.path.append(str(Path(__file__).resolve().parent / "src"))
+
+from agisa_sac import SimulationOrchestrator
+
+
+if __name__ == "__main__":
+    config = {"num_agents": 3, "num_epochs": 2}
+    orchestrator = SimulationOrchestrator(config)
+    orchestrator.run_simulation()
+    print(orchestrator.analyzer.summarize())

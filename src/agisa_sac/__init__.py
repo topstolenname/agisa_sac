@@ -1,6 +1,5 @@
-AGI-SAC Simulation Framework
+"""AGI-SAC Simulation Framework
 ----------------------------
-
 A multi-agent simulation framework for exploring emergent cognition,
 distributed identity, and Stand Alone Complex phenomena.
 """
@@ -21,7 +20,11 @@ try:
     from .analysis.analyzer import AgentStateAnalyzer
     from .analysis.exporter import ChronicleExporter
     from .analysis.tda import PersistentHomologyTracker
-    from .analysis.visualization import plot_persistence_diagram, plot_persistence_barcode, plot_metric_comparison
+    from .analysis.visualization import (
+        plot_persistence_diagram,
+        plot_persistence_barcode,
+        plot_metric_comparison,
+    )
     from .analysis.clustering import cluster_archetypes
     from .metrics.monitoring import (
         compute_sri,
@@ -33,9 +36,11 @@ try:
     from .utils.message_bus import MessageBus
 except ImportError as e:
     import warnings
-    warnings.warn(f"Could not import all AGI-SAC components during package initialization: {e}", ImportWarning)
+    warnings.warn(
+        f"Could not import all AGI-SAC components during package initialization: {e}",
+        ImportWarning,
+    )
 
-# Define __all__ for explicit public API if desired
 __all__ = [
     "FRAMEWORK_VERSION",
     "SimulationOrchestrator",
@@ -63,8 +68,5 @@ __all__ = [
     "generate_monitoring_metrics",
 ]
 
-# Optional: Basic logging setup for the library
 import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
-
-print(f"AGI-SAC Framework ({FRAMEWORK_VERSION}) initialized.")
