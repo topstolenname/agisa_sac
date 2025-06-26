@@ -9,48 +9,12 @@ distributed identity, and Stand Alone Complex phenomena.
 __version__ = "1.0.0-alpha"
 FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
 
-# Expose key classes for easier import from the top-level package
-try:
-    from .orchestrator import SimulationOrchestrator
-    from .agent import EnhancedAgent
-    from .components.memory import MemoryContinuumLayer, MemoryEncapsulation
-    from .components.cognitive import CognitiveDiversityEngine
-    from .components.social import DynamicSocialGraph
-    from .components.resonance import TemporalResonanceTracker, ResonanceLiturgy
-    from .components.voice import VoiceEngine
-    from .components.reflexivity import ReflexivityLayer
-    from .analysis.analyzer import AgentStateAnalyzer
-    from .analysis.exporter import ChronicleExporter
-    from .analysis.tda import PersistentHomologyTracker
-    from .analysis.visualization import plot_persistence_diagram, plot_persistence_barcode, plot_metric_comparison
-    from .analysis.clustering import cluster_archetypes
-    from .utils.message_bus import MessageBus
-except ImportError as e:
-    import warnings
-    warnings.warn(f"Could not import all AGI-SAC components during package initialization: {e}", ImportWarning)
+# Expose only lightweight metadata at import time to keep package imports fast.
+# Components such as the orchestrator or agent classes should be imported
+# directly from their respective modules when needed.
 
 # Define __all__ for explicit public API if desired
-__all__ = [
-    "FRAMEWORK_VERSION",
-    "SimulationOrchestrator",
-    "EnhancedAgent",
-    "MemoryContinuumLayer",
-    "MemoryEncapsulation",
-    "CognitiveDiversityEngine",
-    "DynamicSocialGraph",
-    "TemporalResonanceTracker",
-    "ResonanceLiturgy",
-    "VoiceEngine",
-    "ReflexivityLayer",
-    "AgentStateAnalyzer",
-    "ChronicleExporter",
-    "PersistentHomologyTracker",
-    "MessageBus",
-    "plot_persistence_diagram",
-    "plot_persistence_barcode",
-    "plot_metric_comparison",
-    "cluster_archetypes",
-]
+__all__ = ["FRAMEWORK_VERSION"]
 
 # Optional: Basic logging setup for the library
 import logging
