@@ -165,3 +165,20 @@ python -m venv venv
 source venv/bin/activate
 pip install -e .
 ```
+
+## 📊 Resonance Monitoring Metrics
+
+The framework provides several metrics through the Resonance Monitoring Layer:
+
+- **Self Reference Index (SRI)** – ratio of self-themed memories.
+- **Narrative Divergence Score (NDS)** – number of unique memory themes.
+- **Voice Style Drift (VSD)** – L2 distance between early and recent style vectors.
+- **Memory Coherence Error (MCE)** – proportion of corrupted memories.
+
+Metrics can be generated programmatically:
+
+```python
+from agisa_sac.analysis.analyzer import AgentStateAnalyzer
+analyzer = AgentStateAnalyzer(agents)
+metrics = analyzer.generate_monitoring_metrics()
+```

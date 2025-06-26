@@ -1,143 +1,98 @@
-i (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/src/agisa_sac/analysis/analyzer.py b/src/agisa_sac/analysis/analyzer.py
-index 36012bd8a586f043ece55ed720153c71234ab226..14aa891ff3520ee528fe7887554ff3fc38808ceb 100644
---- a/src/agisa_sac/analysis/analyzer.py
-+++ b/src/agisa_sac/analysis/analyzer.py
-@@ -1,30 +1,38 @@
- import numpy as np
- import math
- from collections import Counter, defaultdict
- from typing import Dict, List, Optional, Any, TYPE_CHECKING
- 
-+from ..metrics.monitoring import (
-+    compute_sri,
-+    compute_nds,
-+    compute_vsd,
-+    compute_mce,
-+    generate_monitoring_metrics,
-+)
-+
- # Use TYPE_CHECKING for agent hint if EnhancedAgent imports this module
- if TYPE_CHECKING:
-     from ..agent import EnhancedAgent
- 
- class AgentStateAnalyzer:
-     """ Computes system-wide metrics based on the current state of all agents. """
-     def __init__(self, agents: Dict[str, 'EnhancedAgent']):
-         if not isinstance(agents, dict): raise TypeError("Input 'agents' must be a dictionary.")
-         self.agents = agents
-         self.num_agents = len(agents)
- 
-     def compute_archetype_distribution(self) -> Dict[str, int]:
-         """ Calculates the frequency distribution of declared agent archetypes. """
-         if not self.agents: return {}
-         return Counter(agent.voice.linguistic_signature.get("archetype", "unknown") for agent in self.agents.values() if hasattr(agent, 'voice'))
- 
-     def compute_satori_wave_ratio(self, threshold: float = 0.88) -> float:
-         """ Calculates proportion of agents meeting satori echo threshold. (Canonical) """
-         if not self.agents: return 0.0
-         satori_count = 0
-         for agent in self.agents.values():
-             if not all(hasattr(agent, attr) for attr in ['temporal_resonance', 'voice', 'memory']): continue
-             current_style_vector = agent.voice.linguistic_signature.get("style_vector");
-             try: current_theme = agent.memory.get_current_focus_theme(); except Exception: current_theme = None
-             if current_style_vector is None or current_theme is None: continue
-diff --git a/src/agisa_sac/analysis/analyzer.py b/src/agisa_sac/analysis/analyzer.py
-index 36012bd8a586f043ece55ed720153c71234ab226..14aa891ff3520ee528fe7887554ff3fc38808ceb 100644
---- a/src/agisa_sac/analysis/analyzer.py
-+++ b/src/agisa_sac/analysis/analyzer.py
-@@ -34,52 +42,87 @@ class AgentStateAnalyzer:
- 
-     def compute_archetype_entropy(self, distribution: Optional[Dict[str, int]] = None) -> float:
-         """ Calculates the Shannon entropy of the archetype distribution. """
-         if distribution is None: distribution = self.compute_archetype_distribution()
-         if not distribution: return 0.0
-         total_agents = sum(distribution.values());
-         if total_agents == 0: return 0.0
-         entropy = 0.0
-         for count in distribution.values():
-             if count > 0: probability = count / total_agents; entropy -= probability * math.log2(probability)
-         return entropy
- 
-     def compute_mean_resonance_strength(self) -> float:
-         """ Calculates the average similarity of the strongest echo for agents with echoes. """
-         if not self.agents: return 0.0
-         similarities = []
-         for agent in self.agents.values():
-             if not all(hasattr(agent, attr) for attr in ['temporal_resonance', 'voice', 'memory']): continue
-             current_style_vector = agent.voice.linguistic_signature.get("style_vector");
-             try: current_theme = agent.memory.get_current_focus_theme(); except Exception: current_theme = None
-             if current_style_vector is None or current_theme is None: continue
-             detected_echoes = agent.temporal_resonance.detect_echo(current_style_vector, current_theme)
-             if detected_echoes: similarities.append(detected_echoes[0]["similarity"])
-         return float(np.mean(similarities)) if similarities else 0.0
- 
-+    # --- Monitoring Metrics ---
-+    def compute_sri(self, threshold: float = 0.88) -> float:
-+        return compute_sri(self, threshold)
-+
-+    def compute_nds(self) -> float:
-+        return compute_nds(self)
-+
-+    def compute_vsd(self) -> float:
-+        return compute_vsd(self)
-+
-+    def compute_mce(self, confidence_threshold: float = 0.5) -> float:
-+        return compute_mce(self, confidence_threshold)
-+
-+    def get_monitoring_metrics(self, threshold: float = 0.88) -> Dict[str, float]:
-+        return generate_monitoring_metrics(self, threshold)
-+
-     def summarize(self, satori_threshold: float = 0.88) -> Dict[str, Any]:
-         """ Computes and returns a dictionary containing all key system metrics. """
--        if not self.agents: return {"satori_wave_ratio": 0.0, "archetype_distribution": {}, "archetype_entropy": 0.0, "mean_resonance_strength": 0.0, "agent_count": 0}
-+        if not self.agents:
-+            return {
-+                "satori_wave_ratio": 0.0,
-+                "archetype_distribution": {},
-+                "archetype_entropy": 0.0,
-+                "mean_resonance_strength": 0.0,
-+                "sri": 0.0,
-+                "nds": 0.0,
-+                "vsd": 0.0,
-+                "mce": 0.0,
-+                "agent_count": 0,
-+            }
-         distribution = self.compute_archetype_distribution()
--        summary = {"satori_wave_ratio": self.compute_satori_wave_ratio(threshold=satori_threshold), "archetype_distribution": distribution,
--                   "archetype_entropy": self.compute_archetype_entropy(distribution=distribution), "mean_resonance_strength": self.compute_mean_resonance_strength(),
--                   "agent_count": self.num_agents}
-+        summary = {
-+            "satori_wave_ratio": self.compute_satori_wave_ratio(threshold=satori_threshold),
-+            "archetype_distribution": distribution,
-+            "archetype_entropy": self.compute_archetype_entropy(distribution=distribution),
-+            "mean_resonance_strength": self.compute_mean_resonance_strength(),
-+            "sri": self.compute_sri(threshold=satori_threshold),
-+            "nds": self.compute_nds(),
-+            "vsd": self.compute_vsd(),
-+            "mce": self.compute_mce(),
-+            "agent_count": self.num_agents,
-+        }
-         return summary
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-EOF
-)
+import numpy as np
+import math
+from collections import Counter, defaultdict
+from typing import Dict, List, Optional, Any, TYPE_CHECKING
+
+from ..metrics import monitoring
+# Use TYPE_CHECKING for agent hint if EnhancedAgent imports this module
+if TYPE_CHECKING:
+    from ..agent import EnhancedAgent
+
+class AgentStateAnalyzer:
+    """ Computes system-wide metrics based on the current state of all agents. """
+    def __init__(self, agents: Dict[str, 'EnhancedAgent']):
+        if not isinstance(agents, dict): raise TypeError("Input 'agents' must be a dictionary.")
+        self.agents = agents
+        self.num_agents = len(agents)
+
+    def compute_archetype_distribution(self) -> Dict[str, int]:
+        """ Calculates the frequency distribution of declared agent archetypes. """
+        if not self.agents: return {}
+        return Counter(agent.voice.linguistic_signature.get("archetype", "unknown") for agent in self.agents.values() if hasattr(agent, 'voice'))
+
+    def compute_satori_wave_ratio(self, threshold: float = 0.88) -> float:
+        """ Calculates proportion of agents meeting satori echo threshold. (Canonical) """
+        if not self.agents: return 0.0
+        satori_count = 0
+        for agent in self.agents.values():
+            if not all(hasattr(agent, attr) for attr in ['temporal_resonance', 'voice', 'memory']): continue
+            current_style_vector = agent.voice.linguistic_signature.get("style_vector")
+            try:
+                current_theme = agent.memory.get_current_focus_theme()
+            except Exception:
+                current_theme = None
+            if current_style_vector is None or current_theme is None: continue
+            detected_echoes = agent.temporal_resonance.detect_echo(current_style_vector, current_theme)
+            if detected_echoes and detected_echoes[0]["similarity"] >= threshold: satori_count += 1
+        return satori_count / self.num_agents if self.num_agents > 0 else 0.0
+
+    def compute_archetype_entropy(self, distribution: Optional[Dict[str, int]] = None) -> float:
+        """ Calculates the Shannon entropy of the archetype distribution. """
+        if distribution is None: distribution = self.compute_archetype_distribution()
+        if not distribution: return 0.0
+        total_agents = sum(distribution.values());
+        if total_agents == 0: return 0.0
+        entropy = 0.0
+        for count in distribution.values():
+            if count > 0: probability = count / total_agents; entropy -= probability * math.log2(probability)
+        return entropy
+
+    def compute_mean_resonance_strength(self) -> float:
+        """ Calculates the average similarity of the strongest echo for agents with echoes. """
+        if not self.agents: return 0.0
+        similarities = []
+        for agent in self.agents.values():
+            if not all(hasattr(agent, attr) for attr in ['temporal_resonance', 'voice', 'memory']): continue
+            current_style_vector = agent.voice.linguistic_signature.get("style_vector")
+            try:
+                current_theme = agent.memory.get_current_focus_theme()
+            except Exception:
+                current_theme = None
+            if current_style_vector is None or current_theme is None: continue
+            detected_echoes = agent.temporal_resonance.detect_echo(current_style_vector, current_theme)
+            if detected_echoes: similarities.append(detected_echoes[0]["similarity"])
+        return float(np.mean(similarities)) if similarities else 0.0
+
+    def summarize(self, satori_threshold: float = 0.88) -> Dict[str, Any]:
+        """ Computes and returns a dictionary containing all key system metrics. """
+        if not self.agents: return {"satori_wave_ratio": 0.0, "archetype_distribution": {}, "archetype_entropy": 0.0, "mean_resonance_strength": 0.0, "agent_count": 0}
+        distribution = self.compute_archetype_distribution()
+        summary = {"satori_wave_ratio": self.compute_satori_wave_ratio(threshold=satori_threshold), "archetype_distribution": distribution,
+                   "archetype_entropy": self.compute_archetype_entropy(distribution=distribution), "mean_resonance_strength": self.compute_mean_resonance_strength(),
+                   "agent_count": self.num_agents}
+        return summary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def generate_monitoring_metrics(self) -> Dict[str, Dict[str, float]]:
+        """Return monitoring metrics for each agent."""
+        metrics: Dict[str, Dict[str, float]] = {}
+        for agent_id, agent in self.agents.items():
+            metrics[agent_id] = monitoring.generate_monitoring_metrics(agent)
+        return metrics
