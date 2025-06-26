@@ -3,6 +3,14 @@ import math
 from collections import Counter, defaultdict
 from typing import Dict, List, Optional, Any, TYPE_CHECKING
 
+from ..metrics.monitoring import (
+    compute_sri,
+    compute_nds,
+    compute_vsd,
+    compute_mce,
+    generate_monitoring_metrics,
+)
+
 # Use TYPE_CHECKING for agent hint if EnhancedAgent imports this module
 if TYPE_CHECKING:
     from ..agent import EnhancedAgent
@@ -56,13 +64,48 @@ class AgentStateAnalyzer:
             if detected_echoes: similarities.append(detected_echoes[0]["similarity"])
         return float(np.mean(similarities)) if similarities else 0.0
 
+    # --- Monitoring Metrics ---
+    def compute_sri(self, threshold: float = 0.88) -> float:
+        return compute_sri(self, threshold)
+
+    def compute_nds(self) -> float:
+        return compute_nds(self)
+
+    def compute_vsd(self) -> float:
+        return compute_vsd(self)
+
+    def compute_mce(self, confidence_threshold: float = 0.5) -> float:
+        return compute_mce(self, confidence_threshold)
+
+    def get_monitoring_metrics(self, threshold: float = 0.88) -> Dict[str, float]:
+        return generate_monitoring_metrics(self, threshold)
+
     def summarize(self, satori_threshold: float = 0.88) -> Dict[str, Any]:
         """ Computes and returns a dictionary containing all key system metrics. """
-        if not self.agents: return {"satori_wave_ratio": 0.0, "archetype_distribution": {}, "archetype_entropy": 0.0, "mean_resonance_strength": 0.0, "agent_count": 0}
+        if not self.agents:
+            return {
+                "satori_wave_ratio": 0.0,
+                "archetype_distribution": {},
+                "archetype_entropy": 0.0,
+                "mean_resonance_strength": 0.0,
+                "sri": 0.0,
+                "nds": 0.0,
+                "vsd": 0.0,
+                "mce": 0.0,
+                "agent_count": 0,
+            }
         distribution = self.compute_archetype_distribution()
-        summary = {"satori_wave_ratio": self.compute_satori_wave_ratio(threshold=satori_threshold), "archetype_distribution": distribution,
-                   "archetype_entropy": self.compute_archetype_entropy(distribution=distribution), "mean_resonance_strength": self.compute_mean_resonance_strength(),
-                   "agent_count": self.num_agents}
+        summary = {
+            "satori_wave_ratio": self.compute_satori_wave_ratio(threshold=satori_threshold),
+            "archetype_distribution": distribution,
+            "archetype_entropy": self.compute_archetype_entropy(distribution=distribution),
+            "mean_resonance_strength": self.compute_mean_resonance_strength(),
+            "sri": self.compute_sri(threshold=satori_threshold),
+            "nds": self.compute_nds(),
+            "vsd": self.compute_vsd(),
+            "mce": self.compute_mce(),
+            "agent_count": self.num_agents,
+        }
         return summary
 
 

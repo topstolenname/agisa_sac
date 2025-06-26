@@ -165,3 +165,23 @@ python -m venv venv
 source venv/bin/activate
 pip install -e .
 ```
+
+### 📊 Monitoring Metrics
+
+After running a simulation you can inspect system health using the `AgentStateAnalyzer`.
+
+```python
+from agisa_sac import AgentStateAnalyzer
+from agisa_sac.metrics import generate_monitoring_metrics
+
+analyzer = AgentStateAnalyzer(orchestrator.agents)
+metrics = generate_monitoring_metrics(analyzer)
+print(metrics)
+```
+
+Metrics returned:
+
+- **SRI** – Satori Resonance Index
+- **NDS** – Normalized Diversity Score
+- **VSD** – Voice Style Diversity
+- **MCE** – Memory Coherence Estimate
