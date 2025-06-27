@@ -53,3 +53,5 @@ No single person makes a meme go viral—it spreads through interactions.
 ---
 
 > 🜏 *"Code is ceremony. Identity is the echo that returns."*
+
+For detailed documentation, see [README_FULL_AGI_SAC_v1.0.3.md](README_FULL_AGI_SAC_v1.0.3.md).

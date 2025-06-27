@@ -11,6 +11,7 @@ For a comprehensive overview of the system’s architecture, philosophy, and gov
 
 [![View White Paper](https://img.shields.io/badge/Mindlink_White_Paper-View-blue)](docs/Mindlink_WhitePaper_v1.0.pdf)
 
+For comprehensive documentation, see [docs/README_FULL_AGI_SAC_v1.0.3.md](docs/README_FULL_AGI_SAC_v1.0.3.md).
 ---
 
 ## 🚧 Current Capabilities
