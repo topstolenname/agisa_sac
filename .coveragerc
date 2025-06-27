@@ -1,0 +1,7 @@
+[run]
+source = src/agisa_sac
+branch = True
+
+[report]
+omit =
+    tests/*
