@@ -19,3 +19,9 @@ build-backend = "setuptools.build_meta"
 
 [project.optional-dependencies]
 gpu = ["cupy"]
+gcp = [
+    "google-cloud-storage",
+    "google-cloud-bigquery",
+    "google-cloud-aiplatform",
+    "google-cloud-pubsub"
+]

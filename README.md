@@ -57,9 +57,16 @@ This platform is a **sandbox for ethics-first experimentation**, simulating:
 
 ## 🛠 Infrastructure Roadmap
 
-- ✅ Current: Local/Colab prototype with 10–50 agents  
-- 🔄 Next: Migration to GCP with Kubernetes for full-scale orchestration  
+- ✅ Current: Local/Colab prototype with 10–50 agents
+- 🔄 Next: Migration to GCP with Kubernetes for full-scale orchestration
 - 🔜 Future: Vertex AI integration, automated memory decay tuning, and behavioral lineage visualization
+
+### GCP Deployment
+
+Infrastructure scripts for Google Cloud are located under `infra/gcp`. A helper
+script `deploy_vm.sh` provisions GPU-enabled Compute Engine instances and basic
+Kubernetes manifests are provided in `infra/gcp/k8s`. The `sim_runner.py` CLI
+can run simulations with the `--use-gpu` flag when a GPU is available.
 
 ---
 

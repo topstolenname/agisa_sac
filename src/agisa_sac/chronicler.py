@@ -37,6 +37,19 @@ class ResonanceChronicler:
         """Serialize all stored lineages to a dictionary."""
         return {aid: [asdict(e) for e in entries] for aid, entries in self.lineages.items()}
 
+    def export_to_bigquery(self, table_id: str) -> None:
+        """Export stored lineages to a BigQuery table."""
+        from .gcp.bigquery_client import insert_rows
+
+        rows = []
+        for aid, entries in self.lineages.items():
+            for e in entries:
+                row = asdict(e)
+                row["agent_id"] = aid
+                rows.append(row)
+        if rows:
+            insert_rows(table_id, rows)
+
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'ResonanceChronicler':
         inst = cls()
