@@ -252,6 +252,16 @@ class MemoryContinuumLayer:
                  "use_semantic_config": self.use_semantic, "last_update": self.last_update,
                  "memories": {mid: mem.to_dict(include_embedding=include_embeddings) for mid, mem in self.memories.items()} }
 
+    def backup_to_gcs(self, bucket: str, path: str) -> None:
+        """Serialize and upload memory state to Google Cloud Storage."""
+        from ..gcp.gcs_io import upload_file
+        import json, tempfile
+
+        with tempfile.NamedTemporaryFile("w", delete=False) as tmp:
+            json.dump(self.to_dict(include_embeddings=True), tmp)
+            tmp_path = tmp.name
+        upload_file(bucket, tmp_path, path)
+
     @classmethod
     def from_dict(cls, data: Dict[str, Any], message_bus: Optional['MessageBus'] = None) -> 'MemoryContinuumLayer':
         loaded_version = data.get("version"); agent_id = data['agent_id']
