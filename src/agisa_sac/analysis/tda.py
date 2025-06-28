@@ -1,6 +1,6 @@
 import numpy as np
 import warnings
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Tuple
 
 # Import framework version
 try:
