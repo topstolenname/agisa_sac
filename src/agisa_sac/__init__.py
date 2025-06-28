@@ -25,6 +25,7 @@ try:
         plot_persistence_barcode,
         plot_metric_comparison,
     )
+    from .systems import MultiAgentSystem
     from .gcp import VertexAgent
     from .analysis.clustering import cluster_archetypes
     from .metrics.monitoring import (
@@ -67,6 +68,7 @@ __all__ = [
     "compute_vsd",
     "compute_mce",
     "generate_monitoring_metrics",
+    "MultiAgentSystem",
     "VertexAgent",
 ]
 
