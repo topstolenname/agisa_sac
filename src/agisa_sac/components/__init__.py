@@ -7,6 +7,9 @@ from .resonance import TemporalResonanceTracker, ResonanceLiturgy
 from .voice import VoiceEngine
 from .reflexivity import ReflexivityLayer
 from .continuity_bridge import ContinuityBridgeProtocol, CBPMiddleware, CognitiveFragment
+from .semantic_analyzer import EnhancedSemanticAnalyzer, SemanticProfile
+from .crdt_memory import CRDTMemoryLayer
+from .enhanced_cbp import EnhancedContinuityBridgeProtocol
 
 __all__ = [
     "MemoryEncapsulation",
@@ -20,6 +23,10 @@ __all__ = [
     "ContinuityBridgeProtocol",
     "CBPMiddleware",
     "CognitiveFragment",
+    "EnhancedSemanticAnalyzer",
+    "SemanticProfile",
+    "CRDTMemoryLayer",
+    "EnhancedContinuityBridgeProtocol",
 ]
 
 
