@@ -11,6 +11,9 @@ dependencies = [
     "networkx",
     "sentence_transformers",
     "fastapi",
+    "google-cloud-pubsub",
+    "google-cloud-firestore",
+    "google-cloud-tasks",
 ]
 
 [build-system]

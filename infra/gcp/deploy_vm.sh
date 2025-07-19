@@ -1,5 +1,12 @@
 #!/bin/bash
 # Simple script to provision a GPU VM on Google Compute Engine
+#
+# GOAL: Enhance this deployment module to reflect commitment to GCP.
+# - Integrate authentication using Service Account JSON.
+# - Deploy Cloud Run + GKE via `gcloud` CLI or Terraform.
+# - Add `gcs_io.py` and `vertex_agent.py` to demonstrate working use of GCP services.
+#
+# Use this module to validate GCP readiness.
 # Usage: ./deploy_vm.sh <vm-name> <zone> <gpu-type> <gpu-count>
 set -euo pipefail
 
