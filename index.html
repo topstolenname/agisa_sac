@@ -40,14 +40,15 @@
 
         async function loadScenario(type) {
             const data = await fetchData();
-            const scenario = data[type];
+            const scenario = data.scenarios[type];
             if (!scenario) {
                 alert("Scenario not found in dataset.");
                 return;
             }
 
-            const labels = scenario.timestamps || scenario.map((_, i) => i);
-            const values = scenario.values || scenario;
+            const healthData = scenario.healthData || [];
+            const labels = healthData.map((_, i) => `T${i}`);
+            const values = healthData;
 
             const config = {
                 type: 'line',
