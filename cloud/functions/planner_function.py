@@ -3,11 +3,14 @@ import json
 import os
 from google.cloud import pubsub_v1
 
-publisher = pubsub_v1.PublisherClient()
-PROJECT = os.getenv("GCP_PROJECT", "local-project")
-TOPIC = os.getenv("EVENT_TOPIC", "agent-events")
-
-topic_path = publisher.topic_path(PROJECT, TOPIC)
+try:
+    publisher = pubsub_v1.PublisherClient()
+    PROJECT = os.getenv("GCP_PROJECT", "local-project")
+    TOPIC = os.getenv("EVENT_TOPIC", "agent-events")
+    topic_path = publisher.topic_path(PROJECT, TOPIC)
+except Exception:  # Ignore initialization failures during import
+    publisher = None
+    topic_path = None
 
 
 def planner(event, context):
