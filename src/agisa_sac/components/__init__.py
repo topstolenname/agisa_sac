@@ -6,6 +6,7 @@ from .social import DynamicSocialGraph
 from .resonance import TemporalResonanceTracker, ResonanceLiturgy
 from .voice import VoiceEngine
 from .reflexivity import ReflexivityLayer
+from .continuity_bridge import ContinuityBridgeProtocol, CBPMiddleware, CognitiveFragment
 
 __all__ = [
     "MemoryEncapsulation",
@@ -16,6 +17,9 @@ __all__ = [
     "ResonanceLiturgy",
     "VoiceEngine",
     "ReflexivityLayer",
+    "ContinuityBridgeProtocol",
+    "CBPMiddleware",
+    "CognitiveFragment",
 ]
 
 
