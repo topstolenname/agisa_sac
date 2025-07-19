@@ -13,6 +13,7 @@ dependencies = [
     "scikit-learn",
     "torch",
     "fastapi",
+    "httpx",
     "google-cloud-pubsub",
     "google-cloud-firestore",
     "google-cloud-tasks",
