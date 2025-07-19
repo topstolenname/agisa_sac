@@ -1,0 +1,14 @@
+numpy
+scipy
+networkx
+sentence_transformers
+fastapi
+
+[gcp]
+google-cloud-storage
+google-cloud-bigquery
+google-cloud-aiplatform
+google-cloud-pubsub
+
+[gpu]
+cupy

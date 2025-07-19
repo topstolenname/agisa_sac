@@ -74,7 +74,12 @@ class SimulationOrchestrator:
                         RuntimeWarning,
                     )
     def run_epoch(self):
-        if not self.is_running: warnings.warn("Sim not running.", RuntimeWarning); return; epoch_start_time = time.time(); self._trigger_hooks('pre_epoch'); situational_entropy = random.uniform(0.1, 0.7)
+        if not self.is_running: 
+            warnings.warn("Sim not running.", RuntimeWarning)
+            return
+        epoch_start_time = time.time()
+        self._trigger_hooks('pre_epoch')
+        situational_entropy = random.uniform(0.1, 0.7)
         agent_order = list(self.agents.keys()); random.shuffle(agent_order); cognitive_states_for_tda = []
         for agent_id in agent_order:
             agent = self.agents.get(agent_id);
