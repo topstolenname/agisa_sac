@@ -12,6 +12,8 @@ Requires-Dist: scipy
 Requires-Dist: networkx
 Requires-Dist: sentence_transformers
 Requires-Dist: fastapi
+Requires-Dist: ripser
+Requires-Dist: matplotlib
 Provides-Extra: gpu
 Requires-Dist: cupy; extra == "gpu"
 Provides-Extra: gcp

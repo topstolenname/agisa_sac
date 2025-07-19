@@ -3,6 +3,8 @@ scipy
 networkx
 sentence_transformers
 fastapi
+ripser
+matplotlib
 
 [gcp]
 google-cloud-storage
