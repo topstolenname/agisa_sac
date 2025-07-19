@@ -17,6 +17,9 @@ try:
     from .components.resonance import TemporalResonanceTracker, ResonanceLiturgy
     from .components.voice import VoiceEngine
     from .components.reflexivity import ReflexivityLayer
+    from .components.semantic_analyzer import EnhancedSemanticAnalyzer, SemanticProfile
+    from .components.crdt_memory import CRDTMemoryLayer
+    from .components.enhanced_cbp import EnhancedContinuityBridgeProtocol
     from .analysis.analyzer import AgentStateAnalyzer
     from .analysis.exporter import ChronicleExporter
     from .analysis.tda import PersistentHomologyTracker
@@ -55,6 +58,10 @@ __all__ = [
     "ResonanceLiturgy",
     "VoiceEngine",
     "ReflexivityLayer",
+    "EnhancedSemanticAnalyzer",
+    "SemanticProfile",
+    "CRDTMemoryLayer",
+    "EnhancedContinuityBridgeProtocol",
     "AgentStateAnalyzer",
     "ChronicleExporter",
     "PersistentHomologyTracker",

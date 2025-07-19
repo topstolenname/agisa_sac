@@ -1,0 +1,7 @@
+# Prometheus configuration placeholder
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: 'pcp'
+    static_configs:
+      - targets: ['pcp-coordinator:8000']

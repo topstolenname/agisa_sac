@@ -10,6 +10,8 @@ dependencies = [
     "scipy",
     "networkx",
     "sentence_transformers",
+    "scikit-learn",
+    "torch",
     "fastapi",
     "google-cloud-pubsub",
     "google-cloud-firestore",
