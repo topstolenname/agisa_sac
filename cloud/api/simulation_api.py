@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 try:
     from google.cloud import firestore
-except Exception:  # noqa: BLE001
+except ImportError:  # noqa: BLE001
     firestore = None
 
 app = FastAPI(title="Mindlink Simulation API")
