@@ -5,17 +5,17 @@ from typing import Dict, List, Optional, Any
 
 # Import framework version
 try:
-    from . import FRAMEWORK_VERSION
+    from .. import FRAMEWORK_VERSION
 except ImportError:
     FRAMEWORK_VERSION = "unknown"
 
 # Import components using relative paths
-from .components.memory import MemoryContinuumLayer
-from .components.cognitive import CognitiveDiversityEngine
-from .components.voice import VoiceEngine
-from .components.resonance import TemporalResonanceTracker, ResonanceLiturgy
-from .components.reflexivity import ReflexivityLayer
-from .utils.message_bus import MessageBus # Assuming message_bus is in utils
+from ..core.components.memory import MemoryContinuumLayer
+from ..core.components.cognitive import CognitiveDiversityEngine
+from ..core.components.voice import VoiceEngine
+from ..core.components.resonance import TemporalResonanceTracker, ResonanceLiturgy
+from ..core.components.reflexivity import ReflexivityLayer
+from ..utils.message_bus import MessageBus  # Assuming message_bus is in utils
 
 class EnhancedAgent:
     """ Represents a single agent, integrating components. Includes serialization. """

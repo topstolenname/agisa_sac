@@ -1,4 +1,4 @@
-from agisa_sac.components.memory import MemoryContinuumLayer
+from agisa_sac.core.components.memory import MemoryContinuumLayer
 
 
 def test_memory_retrieval_simple():

@@ -1,6 +1,6 @@
 from typing import Dict
 
-from .agent import EnhancedAgent
+from ..agents.agent import EnhancedAgent
 
 class MultiAgentSystem:
     """Minimal container managing a collection of EnhancedAgent instances."""

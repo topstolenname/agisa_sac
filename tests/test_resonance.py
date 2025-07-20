@@ -1,5 +1,5 @@
 import numpy as np
-from agisa_sac.components.resonance import TemporalResonanceTracker
+from agisa_sac.core.components.resonance import TemporalResonanceTracker
 
 
 def test_resonance_detection():

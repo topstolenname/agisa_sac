@@ -1,12 +1,18 @@
 from fastapi import FastAPI, HTTPException
-from google.cloud import firestore
+try:
+    from google.cloud import firestore
+except Exception:  # noqa: BLE001
+    firestore = None
 
 app = FastAPI(title="Mindlink Simulation API")
 
 try:
-    db = firestore.Client()
-    memory_db = None
-except Exception:  # Fallback when credentials are unavailable
+    if firestore is not None:
+        db = firestore.Client()
+        memory_db = None
+    else:
+        raise RuntimeError("Firestore not available")
+except Exception:  # Fallback when credentials or library are unavailable
     db = None
     memory_db = {"agents": {}, "tasks": {}}
 

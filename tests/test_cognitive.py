@@ -1,5 +1,5 @@
-from agisa_sac.components.memory import MemoryContinuumLayer
-from agisa_sac.components.cognitive import CognitiveDiversityEngine
+from agisa_sac.core.components.memory import MemoryContinuumLayer
+from agisa_sac.core.components.cognitive import CognitiveDiversityEngine
 
 
 def test_cognitive_decision():

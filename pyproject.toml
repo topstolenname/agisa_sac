@@ -1,33 +1,81 @@
 [project]
-name = "agisa_sac"
+name = "agisa-sac"
 version = "1.0.0-alpha"
-description = "AGI Stand Alone Complex Simulation Framework"
-authors = [{name = "Tristan Jessup"}]
+description = "AGI Stand Alone Complex: Distributed Consciousness Simulation Framework"
+authors = [{name = "Tristan Jessup", email = "your-email@domain.com"}]
 readme = "README.md"
-requires-python = ">=3.8"
-dependencies = [
-    "numpy",
-    "scipy",
-    "networkx",
-    "sentence_transformers",
-    "scikit-learn",
-    "torch",
-    "fastapi",
-    "httpx",
-    "google-cloud-pubsub",
-    "google-cloud-firestore",
-    "google-cloud-tasks",
+license = {text = "MIT"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 
-[build-system]
-requires = ["setuptools>=42"]
-build-backend = "setuptools.build_meta"
+dependencies = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "networkx>=2.6",
+    "fastapi>=0.100.0",
+    "sentence-transformers>=2.2.0",
+    "scikit-learn>=1.1.0",
+    "torch>=2.0.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+]
 
 [project.optional-dependencies]
-gpu = ["cupy"]
-gcp = [
-    "google-cloud-storage",
-    "google-cloud-bigquery",
-    "google-cloud-aiplatform",
-    "google-cloud-pubsub"
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.0.0",
 ]
+federation = [
+    "docker>=6.0.0",
+    "kubernetes>=27.0.0",
+]
+gcp = [
+    "google-cloud-storage>=2.10.0",
+    "google-cloud-pubsub>=2.18.0",
+    "google-cloud-vertex-ai>=1.38.0",
+]
+chaos = [
+    "locust>=2.17.0",
+    "chaos-toolkit>=1.16.0",
+]
+
+[project.scripts]
+agisa-sac = "agisa_sac.cli:main"
+agisa-federation = "agisa_sac.federation.cli:main"
+agisa-chaos = "agisa_sac.chaos.orchestrator:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+select = ["E", "F", "W", "C90", "I", "N", "UP", "S", "B", "A", "C4", "ICN", "PIE", "T20", "Q"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"

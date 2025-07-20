@@ -1,6 +1,6 @@
 import pytest
 from agisa_sac.chronicler import ResonanceChronicler
-from agisa_sac.agent import EnhancedAgent
+from agisa_sac.agents.agent import EnhancedAgent
 
 
 def make_agent(agent_id="a1"):

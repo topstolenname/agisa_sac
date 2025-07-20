@@ -2,7 +2,7 @@ import pytest
 import random
 from datetime import datetime, timedelta
 
-from agisa_sac.components.continuity_bridge import (
+from agisa_sac.core.components.continuity_bridge import (
     ContinuityBridgeProtocol,
     CognitiveFragment,
     CBPMiddleware,
@@ -13,7 +13,7 @@ class ChaosTestScenarios:
     """Chaos engineering test scenarios for federated AGI-SAC"""
 
     def __init__(self):
-        self.cbp = ContinuityBridgeProtocol(coherence_threshold=0.3)
+        self.cbp = ContinuityBridgeProtocol(coherence_threshold=0.4)
         self.middleware = CBPMiddleware(self.cbp)
         self.setup_test_identity()
 
