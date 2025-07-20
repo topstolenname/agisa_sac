@@ -9,13 +9,13 @@ from typing import Dict, List, Optional, Any, Callable
 
 # Import framework version and components using relative paths
 try:
-    from . import FRAMEWORK_VERSION
-    from .agent import EnhancedAgent
-    from .utils.message_bus import MessageBus
+    from .. import FRAMEWORK_VERSION
+    from ..agents.agent import EnhancedAgent
+    from ..utils.message_bus import MessageBus
     from .components.social import DynamicSocialGraph
-    from .chronicler import ResonanceChronicler # Assuming chronicler moved to top level
-    from .analysis.analyzer import AgentStateAnalyzer
-    from .analysis.tda import PersistentHomologyTracker
+    from ..chronicler import ResonanceChronicler  # Assuming chronicler at package root
+    from ..analysis.analyzer import AgentStateAnalyzer
+    from ..analysis.tda import PersistentHomologyTracker
     # Check optional dependencies status (assuming defined in __init__ or config)
     # from . import HAS_CUPY, HAS_SENTENCE_TRANSFORMER
     HAS_CUPY = False # Placeholder

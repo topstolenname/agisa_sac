@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 from datetime import datetime
 import logging
 
-from ..components.continuity_bridge import (
+from ..core.components.continuity_bridge import (
     ContinuityBridgeProtocol,
     CBPMiddleware,
     CognitiveFragment,

@@ -1,4 +1,4 @@
-from agisa_sac.multi_agent_system import MultiAgentSystem
+from agisa_sac.core.multi_agent_system import MultiAgentSystem
 
 
 def test_agent_count_tracking():
