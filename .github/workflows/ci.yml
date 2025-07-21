@@ -68,12 +68,6 @@ jobs:
             test-results.xml
             coverage.xml
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: coverage.xml
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Authenticate to Google Cloud
         if: github.ref == 'refs/heads/main' && matrix.python-version == '3.11'
@@ -90,37 +84,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && matrix.python-version == '3.11'
         run: gcloud run services list --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Slack failure notification
-        if: failure() && secrets.SLACK_WEBHOOK_URL != ''
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload: |
-            {
-              "text": "CI Job Failed: `${{ github.workflow }}`",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "CI Job Failed: `${{ github.workflow }}`"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    { "type": "mrkdwn", "text": "*Repository:*\n`${{ github.repository }}`" },
-                    { "type": "mrkdwn", "text": "*Ref:*\n`${{ github.ref }}`" },
-                    { "type": "mrkdwn", "text": "*Job Status:*\n${{ job.status }}" },
-                    { "type": "mrkdwn", "text": "*Triggered by:*\n${{ github.actor }}" }
-                  ]
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    { "type": "button", "text": { "type": "plain_text", "text": "View Failed Run" }, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: GKE deploy preview
+        if: github.ref == 'refs/heads/main' && matrix.python-version == '3.11'
+        run: kubectl apply -f infra/gcp/k8s --dry-run=client
+
