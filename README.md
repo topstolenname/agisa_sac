@@ -120,3 +120,4 @@ This repository is licensed under
 
 - 🔗 [White Paper PDF](docs/Mindlink_WhitePaper_v1.0.pdf)  
 - 🔗 [LinkedIn – Tristan Jessup](https://www.linkedin.com/in/john-jessup25)  
+- 🌐 [Research Hub](https://topstolenname.github.io/agisa_sac/)
