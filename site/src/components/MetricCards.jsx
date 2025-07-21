@@ -1,7 +1,9 @@
+import metricsData from '../data/metrics.json';
+
 export default function MetricCards() {
   const metrics = [
-    { name: 'Coherence Index', value: '87%' },
-    { name: 'Trust Volatility', value: '12%' },
+    { name: 'Coherence', value: `${(metricsData.coherence.at(-1) * 100).toFixed(0)}%` },
+    { name: 'Trust', value: `${(metricsData.trust.at(-1) * 100).toFixed(0)}%` },
     { name: 'Emergence Score', value: '0.78' },
     { name: 'Active Fragments', value: '236' },
   ];
