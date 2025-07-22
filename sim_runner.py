@@ -1,4 +1,5 @@
 """Command line interface for running AGI-SAC simulations on GCP or locally."""
+
 from __future__ import annotations
 
 import argparse

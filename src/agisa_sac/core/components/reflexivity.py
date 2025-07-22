@@ -14,28 +14,39 @@ if TYPE_CHECKING:
 
 
 class ReflexivityLayer:
-    """ Handles agent self-reflection and meta-cognition. (State managed via agent ref, no extra serialization needed here) """
-    def __init__(self, agent: 'EnhancedAgent'):
-         """ Initializes with a reference to the owning agent. """
-         if not hasattr(agent, 'agent_id'): # Basic check for valid agent object
-             raise TypeError("Agent reference is required for ReflexivityLayer.")
-         self.agent = agent
+    """Handles agent self-reflection and meta-cognition. (State managed via agent ref, no extra serialization needed here)"""
+
+    def __init__(self, agent: "EnhancedAgent"):
+        """Initializes with a reference to the owning agent."""
+        if not hasattr(agent, "agent_id"):  # Basic check for valid agent object
+            raise TypeError("Agent reference is required for ReflexivityLayer.")
+        self.agent = agent
 
     def force_deep_reflection(self, trigger: str):
-        """ Initiate identity-realignment sequence (Satori Event). """
+        """Initiate identity-realignment sequence (Satori Event)."""
         # print(f"Agent {self.agent.agent_id} entering deep reflection triggered by: {trigger}") # Verbose
-        if not all(hasattr(self.agent, attr) for attr in ['voice', 'memory', 'cognitive']):
-             warnings.warn(f"Agent {self.agent.agent_id}: Missing components for deep reflection.", RuntimeWarning)
-             return
+        if not all(hasattr(self.agent, attr) for attr in ["voice", "memory", "cognitive"]):
+            warnings.warn(
+                f"Agent {self.agent.agent_id}: Missing components for deep reflection.",
+                RuntimeWarning,
+            )
+            return
 
         old_style = self.agent.voice.linguistic_signature.copy()
         # Evolve voice style
-        self.agent.voice.evolve_style(influence={"archetype": "enlightened", "sentence_structure": "paradoxical"})
+        self.agent.voice.evolve_style(
+            influence={"archetype": "enlightened", "sentence_structure": "paradoxical"}
+        )
         # Add Satori memory event
         satori_memory_content = {
-            "type": "satori_event", "trigger": trigger, "timestamp": time.time(), "theme": "self_reflection",
-            "reflection_details": { "old_style_archetype": old_style.get("archetype"),
-                                    "new_style_archetype": self.agent.voice.linguistic_signature.get("archetype") }
+            "type": "satori_event",
+            "trigger": trigger,
+            "timestamp": time.time(),
+            "theme": "self_reflection",
+            "reflection_details": {
+                "old_style_archetype": old_style.get("archetype"),
+                "new_style_archetype": self.agent.voice.linguistic_signature.get("archetype"),
+            },
         }
         # Use agent's memory component to add memory
         self.agent.memory.add_memory(satori_memory_content, importance=1.0)
@@ -44,7 +55,9 @@ class ReflexivityLayer:
         # e.g., self.agent.cognitive.heuristics = self._apply_satori_heuristic_shift(self.agent.cognitive.heuristics)
 
         if self.agent.message_bus:
-             self.agent.message_bus.publish('agent_satori_event', {'agent_id': self.agent.agent_id, 'trigger': trigger})
+            self.agent.message_bus.publish(
+                "agent_satori_event", {"agent_id": self.agent.agent_id, "trigger": trigger}
+            )
         # print(f"Agent {self.agent.agent_id} completed deep reflection.") # Verbose
 
     # Optional helper for heuristic shifts during satori
@@ -54,25 +67,3 @@ class ReflexivityLayer:
     #     shifted[2, 1] += 0.1 # Novelty -> Creative
     #     shifted[2, 2] += 0.1 # Novelty -> Balanced
     #     return np.clip(shifted, 0.1, 0.9)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

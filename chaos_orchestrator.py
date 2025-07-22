@@ -67,9 +67,7 @@ class ChaosOrchestrator:
                     node_ids.append(node_id)
                     self.logger.info(f"Registered chaos node: {node_id}")
                 else:
-                    self.logger.error(
-                        f"Failed to register {node_id}: {response.status_code}"
-                    )
+                    self.logger.error(f"Failed to register {node_id}: {response.status_code}")
             except Exception as e:
                 self.logger.error(f"Registration error for {node_id}: {e}")
         return node_ids
@@ -177,9 +175,7 @@ class ChaosOrchestrator:
                 )
                 if not success and metrics["rejection_threshold"] is None:
                     metrics["rejection_threshold"] = stage["stage"]
-                    self.logger.warning(
-                        f"Rejection threshold reached at stage: {stage['stage']}"
-                    )
+                    self.logger.warning(f"Rejection threshold reached at stage: {stage['stage']}")
                 await asyncio.sleep(random.uniform(30, 90))
             metrics["stages_completed"] += 1
             current_time = stage_end
@@ -366,9 +362,7 @@ class ChaosOrchestrator:
 async def main():
     orchestrator = ChaosOrchestrator()
     results = await orchestrator.run_comprehensive_chaos_suite()
-    with open(
-        f"chaos_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json", "w"
-    ) as f:
+    with open(f"chaos_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json", "w") as f:
         json.dump(results, f, indent=2)
     print(
         f"Chaos suite completed. Resilience score: {results['overall_metrics']['system_resilience_score']:.3f}"

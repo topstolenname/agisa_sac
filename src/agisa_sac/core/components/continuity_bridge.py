@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 @dataclass
 class CognitiveFragment:
     """Represents a memory or state update from an edge node"""
+
     node_id: str
     fragment_type: str  # "memory", "decision", "identity_update"
     content: Dict
@@ -20,6 +21,7 @@ class CognitiveFragment:
 @dataclass
 class IdentityAnchor:
     """Core identity elements that define coherence boundaries"""
+
     identity_hash: str
     core_values: Dict
     recent_memories: List[str]
@@ -185,12 +187,12 @@ class ContinuityBridgeProtocol:
         return {
             "trust_graph": self.trust_graph,
             "quarantine_count": len(self.quarantine_queue),
-            "identity_last_updated": self.identity_anchor.last_updated.isoformat()
-            if self.identity_anchor
-            else None,
-            "recent_memory_count": len(self.identity_anchor.recent_memories)
-            if self.identity_anchor
-            else 0,
+            "identity_last_updated": (
+                self.identity_anchor.last_updated.isoformat() if self.identity_anchor else None
+            ),
+            "recent_memory_count": (
+                len(self.identity_anchor.recent_memories) if self.identity_anchor else 0
+            ),
         }
 
     def review_quarantined_fragments(self) -> List[CognitiveFragment]:

@@ -1,8 +1,10 @@
 """Wrapper class to interact with Vertex AI models."""
+
 from __future__ import annotations
 
 try:
     from google.cloud import aiplatform
+
     HAS_VERTEX_AI = True
 except Exception:  # pragma: no cover - optional dependency
     aiplatform = None
