@@ -1,11 +1,12 @@
-import pytest
 from agisa_sac.chronicler import ResonanceChronicler
 from agisa_sac.agents.agent import EnhancedAgent
 
 
 def make_agent(agent_id="a1"):
     personality = {"openness": 0.5, "consistency": 0.5, "conformity": 0.5, "curiosity": 0.5}
-    return EnhancedAgent(agent_id=agent_id, personality=personality, capacity=10, use_semantic=False)
+    return EnhancedAgent(
+        agent_id=agent_id, personality=personality, capacity=10, use_semantic=False
+    )
 
 
 def test_chronicler_serialization():

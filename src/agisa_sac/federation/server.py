@@ -79,6 +79,7 @@ async def resonance_scan():
 
 # Edge node endpoints
 
+
 @app.post("/api/v1/edge/register")
 async def register_edge_node(
     registration: NodeRegistration, node_id: str = Depends(authenticate_edge_node)
@@ -145,9 +146,7 @@ async def get_trust_metrics(node_id: str = Depends(authenticate_edge_node)) -> T
     total_fragments = 10
     quarantine_count = 1
     success_rate = (
-        (total_fragments - quarantine_count) / total_fragments
-        if total_fragments > 0
-        else 0.0
+        (total_fragments - quarantine_count) / total_fragments if total_fragments > 0 else 0.0
     )
 
     return TrustMetricsResponse(
@@ -215,7 +214,9 @@ async def get_quarantined_fragments():
                 "timestamp": frag.timestamp.isoformat(),
                 "reason": frag.content.get("quarantine_reason", "Unknown"),
                 "content_preview": (
-                    str(frag.content)[:200] + "..." if len(str(frag.content)) > 200 else str(frag.content)
+                    str(frag.content)[:200] + "..."
+                    if len(str(frag.content)) > 200
+                    else str(frag.content)
                 ),
             }
             for frag in quarantined

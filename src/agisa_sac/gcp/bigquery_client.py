@@ -1,8 +1,10 @@
 """Simplified BigQuery client wrapper for AGI-SAC exports."""
+
 from __future__ import annotations
 
 try:
     from google.cloud import bigquery
+
     HAS_GOOGLE_CLOUD_BIGQUERY = True
 except Exception:  # pragma: no cover - optional dependency
     bigquery = None

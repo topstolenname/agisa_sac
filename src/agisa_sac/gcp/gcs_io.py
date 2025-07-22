@@ -1,8 +1,10 @@
 """Utility functions for Google Cloud Storage interactions."""
+
 from __future__ import annotations
 
 try:
     from google.cloud import storage
+
     HAS_GOOGLE_CLOUD_STORAGE = True
 except Exception:  # pragma: no cover - optional dependency
     storage = None

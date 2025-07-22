@@ -32,10 +32,7 @@ class VoiceEngine:
             "emotional_baseline": 0.5,
         }
         if initial_style:
-            if (
-                "style_vector" in initial_style
-                and isinstance(initial_style["style_vector"], list)
-            ):
+            if "style_vector" in initial_style and isinstance(initial_style["style_vector"], list):
                 initial_style["style_vector"] = np.array(initial_style["style_vector"])
             self.linguistic_signature.update(initial_style)
 
@@ -52,16 +49,10 @@ class VoiceEngine:
     def evolve_style(self, influence: Dict):
         if "archetype" in influence and isinstance(influence["archetype"], str):
             self.linguistic_signature["archetype"] = influence["archetype"]
-        if (
-            "sentence_structure" in influence
-            and isinstance(influence["sentence_structure"], str)
-        ):
-            self.linguistic_signature["sentence_structure"] = influence[
-                "sentence_structure"
-            ]
-        if (
-            "vocabulary_richness" in influence
-            and isinstance(influence["vocabulary_richness"], (int, float))
+        if "sentence_structure" in influence and isinstance(influence["sentence_structure"], str):
+            self.linguistic_signature["sentence_structure"] = influence["sentence_structure"]
+        if "vocabulary_richness" in influence and isinstance(
+            influence["vocabulary_richness"], (int, float)
         ):
             self.linguistic_signature["vocabulary_richness"] = np.clip(
                 influence["vocabulary_richness"], 0.0, 1.0
@@ -107,6 +98,7 @@ class VoiceEngine:
 # ---------------------------------------------------------------------------
 # MultiAPIManager
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class APIResponse:
@@ -174,8 +166,11 @@ class MultiAPIManager:
 # Agent and System
 # ---------------------------------------------------------------------------
 
+
 class Agent:
-    def __init__(self, agent_id: str, voice_style: Optional[Dict] = None, preferred_api: str = "local"):
+    def __init__(
+        self, agent_id: str, voice_style: Optional[Dict] = None, preferred_api: str = "local"
+    ):
         self.agent_id = agent_id
         self.voice = VoiceEngine(agent_id, voice_style)
         self.preferred_api = preferred_api
@@ -184,16 +179,20 @@ class Agent:
         self.creation_time = datetime.now()
         self.last_evolution = datetime.now()
 
-    async def respond_to(self, prompt: str, api_manager: MultiAPIManager, context: Dict | None = None) -> str:
+    async def respond_to(
+        self, prompt: str, api_manager: MultiAPIManager, context: Dict | None = None
+    ) -> str:
         api_response = await api_manager.generate_response(prompt, self.preferred_api, "default")
         styled = self.voice.generate_response(api_response.content, context)
-        self.interaction_history.append({
-            "timestamp": datetime.now(),
-            "prompt": prompt,
-            "raw_response": api_response.content,
-            "styled_response": styled,
-            "api_used": api_response.provider,
-        })
+        self.interaction_history.append(
+            {
+                "timestamp": datetime.now(),
+                "prompt": prompt,
+                "raw_response": api_response.content,
+                "styled_response": styled,
+                "api_used": api_response.provider,
+            }
+        )
         self.memory.append(f"Responded to: {prompt[:50]}...")
         return styled
 
@@ -202,14 +201,23 @@ class Agent:
         if similarity > 0.7:
             influence = {"shift_magnitude": 0.05, "new_traits": ["collaborative", "harmonious"]}
         elif similarity < 0.3:
-            influence = {"shift_magnitude": 0.15, "new_traits": ["diverse", "adaptive"], "archetype": "eclectic"}
+            influence = {
+                "shift_magnitude": 0.15,
+                "new_traits": ["diverse", "adaptive"],
+                "archetype": "eclectic",
+            }
         else:
             influence = {"shift_magnitude": 0.1, "new_traits": ["balanced"]}
         self.voice.evolve_style(influence)
         other.voice.evolve_style(influence)
         self.last_evolution = datetime.now()
         other.last_evolution = datetime.now()
-        return {"agents": [self.agent_id, other.agent_id], "topic": topic, "style_similarity": similarity, "timestamp": datetime.now()}
+        return {
+            "agents": [self.agent_id, other.agent_id],
+            "topic": topic,
+            "style_similarity": similarity,
+            "timestamp": datetime.now(),
+        }
 
     def get_stats(self) -> Dict[str, Any]:
         return {
@@ -231,7 +239,9 @@ class MultiAgentSystem:
         self.system_interactions: List[Dict[str, Any]] = []
         self.evolution_history: List[Dict[str, Any]] = []
 
-    def create_agent(self, agent_id: str, archetype: str = "neutral", api_provider: str = "local") -> Agent:
+    def create_agent(
+        self, agent_id: str, archetype: str = "neutral", api_provider: str = "local"
+    ) -> Agent:
         styles = {
             "analytical": {
                 "archetype": "analytical",
@@ -295,7 +305,12 @@ class MultiAgentSystem:
             r2 = await a2.respond_to(f"Thoughts on {topic}?", self.api_manager)
             print(f"{a1.agent_id}: {r1}")
             print(f"{a2.agent_id}: {r2}\n")
-            self.evolution_history.append({"step": step + 1, "agents_state": {aid: ag.get_stats() for aid, ag in self.agents.items()}})
+            self.evolution_history.append(
+                {
+                    "step": step + 1,
+                    "agents_state": {aid: ag.get_stats() for aid, ag in self.agents.items()},
+                }
+            )
             time.sleep(0.2)
 
     def get_system_stats(self) -> Dict[str, Any]:
@@ -312,13 +327,23 @@ class MultiAgentSystem:
 # Utilities
 # ---------------------------------------------------------------------------
 
+
 def export_system_state(system: MultiAgentSystem, filename: str = "agent_system_state.json") -> str:
     data = {
         "timestamp": datetime.now().isoformat(),
         "framework_version": FRAMEWORK_VERSION,
-        "agents": {aid: {"voice_engine": ag.voice.to_dict(), "stats": ag.get_stats()} for aid, ag in system.agents.items()},
+        "agents": {
+            aid: {"voice_engine": ag.voice.to_dict(), "stats": ag.get_stats()}
+            for aid, ag in system.agents.items()
+        },
         "interactions": [
-            {"agents": i["agents"], "topic": i["topic"], "similarity": i["style_similarity"], "timestamp": i["timestamp"].isoformat()} for i in system.system_interactions
+            {
+                "agents": i["agents"],
+                "topic": i["topic"],
+                "similarity": i["style_similarity"],
+                "timestamp": i["timestamp"].isoformat(),
+            }
+            for i in system.system_interactions
         ],
         "evolution_history": system.evolution_history,
         "api_usage": system.api_manager.usage_stats,

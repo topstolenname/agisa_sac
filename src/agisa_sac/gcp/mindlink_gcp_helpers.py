@@ -1,4 +1,5 @@
 """Helper utilities for running AGI-SAC on Google Cloud."""
+
 from __future__ import annotations
 
 import asyncio
@@ -9,6 +10,7 @@ from typing import Any, Dict, Iterable, Optional
 try:
     from fastapi import FastAPI
     from fastapi.responses import JSONResponse
+
     HAS_FASTAPI = True
 except Exception:  # pragma: no cover - optional dependency
     FastAPI = None
@@ -17,6 +19,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 try:
     from google.cloud import storage
+
     HAS_GOOGLE_STORAGE = True
 except Exception:  # pragma: no cover - optional dependency
     storage = None
@@ -24,6 +27,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 try:
     from google.cloud import firestore
+
     HAS_FIRESTORE = True
 except Exception:  # pragma: no cover - optional dependency
     firestore = None
@@ -31,6 +35,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 try:
     from google.cloud import bigquery
+
     HAS_BIGQUERY = True
 except Exception:  # pragma: no cover - optional dependency
     bigquery = None
@@ -38,6 +43,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 try:
     from google.cloud import pubsub_v1
+
     HAS_PUBSUB = True
 except Exception:  # pragma: no cover - optional dependency
     pubsub_v1 = None
@@ -45,6 +51,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 try:
     from google.cloud import aiplatform
+
     HAS_VERTEX = True
 except Exception:  # pragma: no cover - optional dependency
     aiplatform = None
@@ -65,7 +72,9 @@ VERTEX_LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")
 # ------------------------------
 # Storage helpers
 # ------------------------------
-def upload_bytes(blob_name: str, data: bytes, *, content_type: str = "application/octet-stream") -> str:
+def upload_bytes(
+    blob_name: str, data: bytes, *, content_type: str = "application/octet-stream"
+) -> str:
     """Upload data to Cloud Storage and return the public URL."""
     if not HAS_GOOGLE_STORAGE:
         raise ImportError("google-cloud-storage is required for upload_bytes")
@@ -145,7 +154,13 @@ def publish_event(event: Dict[str, Any]) -> None:
 class VertexAILLM:
     """Simplified interface to Vertex AI text models."""
 
-    def __init__(self, *, project: str = PROJECT_ID, location: str = VERTEX_LOCATION, model: str = "text-bison") -> None:
+    def __init__(
+        self,
+        *,
+        project: str = PROJECT_ID,
+        location: str = VERTEX_LOCATION,
+        model: str = "text-bison",
+    ) -> None:
         if not HAS_VERTEX:
             raise ImportError("google-cloud-aiplatform is required for VertexAILLM")
         self.project = project
@@ -155,7 +170,9 @@ class VertexAILLM:
         self.endpoint = aiplatform.TextGenerationModel.from_pretrained(model)
 
     def query(self, prompt: str, *, temperature: float = 0.7, max_tokens: int = 256) -> str:
-        response = self.endpoint.predict(prompt, temperature=temperature, max_output_tokens=max_tokens)
+        response = self.endpoint.predict(
+            prompt, temperature=temperature, max_output_tokens=max_tokens
+        )
         logger.info("Queried Vertex AI model %s", self.model)
         return response.text
 
@@ -177,6 +194,7 @@ if HAS_FASTAPI:
     @app.get("/healthz")
     async def healthz() -> JSONResponse:
         return JSONResponse({"status": "ok"})
+
 else:  # pragma: no cover - API optional
     app = None
 

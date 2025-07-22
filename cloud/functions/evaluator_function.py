@@ -34,7 +34,7 @@ def evaluator(event, context):
         task = {
             "http_request": {
                 "http_method": tasks_v2.HttpMethod.POST,
-                "url": result.get("retry_url", "")
+                "url": result.get("retry_url", ""),
             }
         }
         client.create_task(parent=parent, task=task)
