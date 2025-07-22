@@ -44,6 +44,7 @@ try:
     from .utils.message_bus import MessageBus
 except ImportError as e:
     import warnings
+
     warnings.warn(
         f"Could not import all AGI-SAC components during package initialization: {e}",
         ImportWarning,
@@ -83,4 +84,5 @@ __all__ = [
 ]
 
 import logging
+
 logging.getLogger(__name__).addHandler(logging.NullHandler())

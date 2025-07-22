@@ -7,6 +7,7 @@ from src.agisa_sac.federation.server import app, authenticate_edge_node, cbp, cb
 
 # --- Test Fixtures ---
 
+
 @pytest.fixture
 def client():
     """
@@ -18,12 +19,14 @@ def client():
     # Clean up dependency overrides after the test finishes
     app.dependency_overrides = {}
 
+
 @pytest.fixture
 def authenticated_client():
     """
     Provides a TestClient where the authentication dependency is overridden
     to always succeed with a fixed node_id.
     """
+
     def override_authenticate_edge_node():
         return "test_node_123"
 
@@ -32,6 +35,7 @@ def authenticated_client():
         yield c
     # Clean up dependency overrides
     app.dependency_overrides = {}
+
 
 @pytest.fixture(autouse=True)
 def reset_cbp_state():
@@ -42,12 +46,16 @@ def reset_cbp_state():
     cbp.trust_graph.clear()
     cbp.quarantined_fragments.clear()
     # Re-initialize with a simple identity anchor for predictability
-    cbp.initialize_identity_anchor({
-        "values": {"cooperation": "test"},
-        "ethics": ["test ethic"],
-    })
+    cbp.initialize_identity_anchor(
+        {
+            "values": {"cooperation": "test"},
+            "ethics": ["test ethic"],
+        }
+    )
+
 
 # --- Unit Tests for API Endpoints ---
+
 
 def test_agent_telemetry(client: TestClient):
     """Tests the public telemetry endpoint for basic availability."""
@@ -55,12 +63,13 @@ def test_agent_telemetry(client: TestClient):
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
 
+
 def test_register_edge_node_success(authenticated_client: TestClient):
     """Tests successful registration of a new edge node with mocked authentication."""
     registration_data = {
         "node_type": "desktop",
         "capabilities": ["processing", "storage"],
-        "trust_endorsements": ["endorser_A"]
+        "trust_endorsements": ["endorser_A"],
     }
     response = authenticated_client.post("/api/v1/edge/register", json=registration_data)
 
@@ -71,16 +80,15 @@ def test_register_edge_node_success(authenticated_client: TestClient):
     assert "initial_trust" in data
     assert cbp.trust_graph.get("test_node_123") == data["initial_trust"]
 
+
 def test_register_edge_node_unauthorized(client: TestClient):
     """Tests that the registration endpoint fails without a valid token."""
-    registration_data = {
-        "node_type": "desktop",
-        "capabilities": ["processing", "storage"]
-    }
+    registration_data = {"node_type": "desktop", "capabilities": ["processing", "storage"]}
     # The default client has no auth headers
     response = client.post("/api/v1/edge/register", json=registration_data)
     assert response.status_code == 401
     assert "Missing or invalid authorization" in response.json()["detail"]
+
 
 def test_submit_cognitive_fragment_unregistered(authenticated_client: TestClient):
     """Tests submitting a fragment from a node that is not yet registered."""
@@ -88,11 +96,12 @@ def test_submit_cognitive_fragment_unregistered(authenticated_client: TestClient
         "type": "observation",
         "content": {"data": "some data"},
         "timestamp": "2024-01-01T12:00:00Z",
-        "signature": "abc"
+        "signature": "abc",
     }
     response = authenticated_client.post("/api/v1/edge/submit", json=update_data)
     assert response.status_code == 403
     assert response.json()["detail"] == "Node not registered"
+
 
 def test_submit_cognitive_fragment_success(authenticated_client: TestClient, monkeypatch):
     """Tests successful submission of a fragment from a registered node."""
@@ -105,8 +114,9 @@ def test_submit_cognitive_fragment_success(authenticated_client: TestClient, mon
             "status": "integrated",
             "fragment_id": "frag-1",
             "trust_score": 0.51,
-            "coherence_metrics": {"score": 0.9}
+            "coherence_metrics": {"score": 0.9},
         }
+
     monkeypatch.setattr(cbp_middleware, "process_edge_update", mock_process_edge_update)
 
     # 3. Submit the fragment
@@ -114,7 +124,7 @@ def test_submit_cognitive_fragment_success(authenticated_client: TestClient, mon
         "type": "observation",
         "content": {"data": "some data"},
         "timestamp": "2024-01-01T12:00:00Z",
-        "signature": "abc"
+        "signature": "abc",
     }
     response = authenticated_client.post("/api/v1/edge/submit", json=update_data)
 
@@ -123,11 +133,13 @@ def test_submit_cognitive_fragment_success(authenticated_client: TestClient, mon
     assert data["fragment_status"] == "integrated"
     assert data["fragment_id"] == "frag-1"
 
+
 def test_get_trust_metrics_not_found(authenticated_client: TestClient):
     """Tests retrieving trust metrics for a node that doesn't exist."""
     response = authenticated_client.get("/api/v1/edge/trust-metrics")
     assert response.status_code == 404
     assert response.json()["detail"] == "Node not found"
+
 
 def test_admin_trust_override(client: TestClient):
     """Tests the admin endpoint for overriding a node's trust score."""
@@ -144,13 +156,16 @@ def test_admin_trust_override(client: TestClient):
     assert data["new_trust"] == 0.95
     assert cbp.trust_graph[node_id] == 0.95
 
+
 def test_admin_trust_override_invalid_score(client: TestClient):
     """Tests that the trust override endpoint rejects out-of-range values."""
     response = client.post("/api/v1/admin/trust-override?node_id=any_node&new_trust=1.1")
     assert response.status_code == 400
     assert "must be between 0.0 and 1.0" in response.json()["detail"]
 
+
 # --- Unit Tests for Authentication Logic ---
+
 
 @pytest.mark.asyncio
 async def test_authenticate_edge_node_success():
@@ -162,6 +177,7 @@ async def test_authenticate_edge_node_success():
     result_node_id = await authenticate_edge_node(authorization=auth_header)
     assert result_node_id == node_id
 
+
 @pytest.mark.asyncio
 async def test_authenticate_edge_node_no_header():
     """Tests authentication with a missing Authorization header."""
@@ -169,6 +185,7 @@ async def test_authenticate_edge_node_no_header():
         await authenticate_edge_node(authorization=None)
     assert excinfo.value.status_code == 401
     assert "Missing or invalid authorization" in excinfo.value.detail
+
 
 @pytest.mark.asyncio
 async def test_authenticate_edge_node_invalid_base64():

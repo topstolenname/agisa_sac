@@ -11,20 +11,21 @@ import logging
 @dataclass
 class VectorClock:
     """Vector clock for distributed timestamp ordering"""
+
     clocks: Dict[str, int] = field(default_factory=dict)
 
-    def increment(self, node_id: str) -> 'VectorClock':
+    def increment(self, node_id: str) -> "VectorClock":
         new_clocks = self.clocks.copy()
         new_clocks[node_id] = new_clocks.get(node_id, 0) + 1
         return VectorClock(new_clocks)
 
-    def update(self, other: 'VectorClock') -> 'VectorClock':
+    def update(self, other: "VectorClock") -> "VectorClock":
         new_clocks = self.clocks.copy()
         for node_id, clock in other.clocks.items():
             new_clocks[node_id] = max(new_clocks.get(node_id, 0), clock)
         return VectorClock(new_clocks)
 
-    def compare(self, other: 'VectorClock') -> str:
+    def compare(self, other: "VectorClock") -> str:
         all_nodes = set(self.clocks.keys()) | set(other.clocks.keys())
         self_less = False
         self_greater = False
@@ -36,18 +37,19 @@ class VectorClock:
             elif self_clock > other_clock:
                 self_greater = True
         if not self_less and not self_greater:
-            return 'equal'
+            return "equal"
         elif self_less and not self_greater:
-            return 'before'
+            return "before"
         elif self_greater and not self_less:
-            return 'after'
+            return "after"
         else:
-            return 'concurrent'
+            return "concurrent"
 
 
 @dataclass
 class CRDTMemoryEntry:
     """Individual memory entry with CRDT metadata"""
+
     entry_id: str
     content: Dict[str, Any]
     vector_clock: VectorClock
@@ -66,6 +68,7 @@ class CRDTMemoryEntry:
 @dataclass
 class MemoryMergeConflict:
     """Represents a conflict that occurred during memory merging"""
+
     conflict_id: str
     entry_id: str
     conflicting_entries: List[CRDTMemoryEntry]
@@ -95,7 +98,9 @@ class CRDTMemoryLayer:
         self.logger = logging.getLogger(__name__)
         self.logger.info(f"CRDT Memory Layer initialized for node {node_id}")
 
-    def add_memory(self, content: Dict[str, Any], memory_type: str = "episodic", importance_score: float = 1.0) -> str:
+    def add_memory(
+        self, content: Dict[str, Any], memory_type: str = "episodic", importance_score: float = 1.0
+    ) -> str:
         entry_id = f"{self.node_id}_{uuid.uuid4().hex[:12]}"
         self.vector_clock = self.vector_clock.increment(self.node_id)
         memory_entry = CRDTMemoryEntry(
@@ -181,7 +186,9 @@ class CRDTMemoryLayer:
             "merge_results": merge_results,
         }
         self.sync_history.append(sync_stats)
-        self.logger.info(f"Merged state: {len(remote_memories)} entries, {conflicts_detected} conflicts")
+        self.logger.info(
+            f"Merged state: {len(remote_memories)} entries, {conflicts_detected} conflicts"
+        )
         return merge_results
 
     def _merge_single_entry(self, entry_id: str, remote_entry: CRDTMemoryEntry) -> str:
@@ -223,7 +230,9 @@ class CRDTMemoryLayer:
         else:
             return "conflict_manual_review_required"
 
-    def _select_resolution_strategy(self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry) -> str:
+    def _select_resolution_strategy(
+        self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
+    ) -> str:
         if local_entry.memory_type == "core" or remote_entry.memory_type == "core":
             return "consensus_required"
         if local_entry.importance_score > 0.8 or remote_entry.importance_score > 0.8:
@@ -232,13 +241,17 @@ class CRDTMemoryLayer:
             return "semantic_merge"
         return "last_writer_wins"
 
-    def _resolve_last_writer_wins(self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry) -> Tuple[CRDTMemoryEntry, bool]:
+    def _resolve_last_writer_wins(
+        self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
+    ) -> Tuple[CRDTMemoryEntry, bool]:
         if remote_entry.created_at > local_entry.created_at:
             return remote_entry, False
         else:
             return local_entry, False
 
-    def _resolve_semantic_merge(self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry) -> Tuple[Optional[CRDTMemoryEntry], bool]:
+    def _resolve_semantic_merge(
+        self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
+    ) -> Tuple[Optional[CRDTMemoryEntry], bool]:
         try:
             merged_content = local_entry.content.copy()
             for key, remote_value in remote_entry.content.items():
@@ -264,7 +277,9 @@ class CRDTMemoryLayer:
             self.logger.error(f"Semantic merge failed: {e}")
             return None, True
 
-    def _resolve_importance_weighted(self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry) -> Tuple[CRDTMemoryEntry, bool]:
+    def _resolve_importance_weighted(
+        self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
+    ) -> Tuple[CRDTMemoryEntry, bool]:
         if remote_entry.importance_score > local_entry.importance_score:
             return remote_entry, False
         elif local_entry.importance_score > remote_entry.importance_score:
@@ -272,7 +287,9 @@ class CRDTMemoryLayer:
         else:
             return self._resolve_last_writer_wins(local_entry, remote_entry)
 
-    def _resolve_consensus_required(self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry) -> Tuple[None, bool]:
+    def _resolve_consensus_required(
+        self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
+    ) -> Tuple[None, bool]:
         return None, True
 
     def _cleanup_old_memories(self):
@@ -349,8 +366,12 @@ class CRDTMemoryLayer:
             "memory_types": dict(memory_types),
             "tombstones": len(self.tombstones),
             "conflicts_total": len(self.merge_conflicts),
-            "conflicts_manual_review": sum(1 for c in self.merge_conflicts if c.manual_review_required),
-            "avg_importance": sum(importance_scores) / len(importance_scores) if importance_scores else 0,
+            "conflicts_manual_review": sum(
+                1 for c in self.merge_conflicts if c.manual_review_required
+            ),
+            "avg_importance": (
+                sum(importance_scores) / len(importance_scores) if importance_scores else 0
+            ),
             "avg_access_count": sum(access_counts) / len(access_counts) if access_counts else 0,
             "vector_clock": self.vector_clock.clocks,
             "node_id": self.node_id,

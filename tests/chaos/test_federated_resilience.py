@@ -160,7 +160,9 @@ class TestMaliciousNodeBehavior:
         chaos_scenario.cbp.trust_graph[malicious_node] = 0.4
 
         for attack_type in ["identity_drift", "memory_poisoning"]:
-            malicious_fragment = chaos_scenario.create_malicious_fragment(malicious_node, attack_type)
+            malicious_fragment = chaos_scenario.create_malicious_fragment(
+                malicious_node, attack_type
+            )
             result = chaos_scenario.cbp.process_fragment(malicious_fragment)
             assert result is False
             assert chaos_scenario.cbp.trust_graph[malicious_node] < 0.4

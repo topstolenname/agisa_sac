@@ -11,6 +11,7 @@ from functools import lru_cache
 @dataclass
 class SemanticProfile:
     """Rich semantic representation of identity or fragment"""
+
     text_embedding: np.ndarray
     concept_vectors: Dict[str, np.ndarray]
     ethical_signature: np.ndarray
@@ -22,7 +23,9 @@ class EnhancedSemanticAnalyzer:
     """Advanced semantic coherence analysis using embeddings and concept mapping"""
 
     def __init__(self, model_name: str = "all-MiniLM-L6-v2", device: str = "auto"):
-        self.device = torch.device("cuda" if torch.cuda.is_available() and device == "auto" else "cpu")
+        self.device = torch.device(
+            "cuda" if torch.cuda.is_available() and device == "auto" else "cpu"
+        )
         self.model = SentenceTransformer(model_name, device=self.device)
         self.logger = logging.getLogger(__name__)
 
@@ -56,7 +59,9 @@ class EnhancedSemanticAnalyzer:
         """Get embedding with caching for performance"""
         return self.model.encode(text, convert_to_tensor=False)
 
-    def create_semantic_profile(self, content: Dict, content_type: str = "fragment") -> SemanticProfile:
+    def create_semantic_profile(
+        self, content: Dict, content_type: str = "fragment"
+    ) -> SemanticProfile:
         """Create rich semantic profile from content"""
         if isinstance(content, dict):
             text_content = self._dict_to_semantic_text(content)
@@ -91,7 +96,13 @@ class EnhancedSemanticAnalyzer:
         """Extract embeddings for specific concepts mentioned in content"""
         concept_vectors: Dict[str, np.ndarray] = {}
         concept_patterns = {
-            "cooperation_indicators": ["collaborate", "together", "mutual", "shared", "partnership"],
+            "cooperation_indicators": [
+                "collaborate",
+                "together",
+                "mutual",
+                "shared",
+                "partnership",
+            ],
             "learning_indicators": ["understand", "discover", "learn", "insight", "knowledge"],
             "safety_indicators": ["safe", "protect", "secure", "wellbeing", "harm"],
             "autonomy_indicators": ["choice", "freedom", "self", "independent", "voluntary"],
@@ -100,7 +111,11 @@ class EnhancedSemanticAnalyzer:
         for concept, indicators in concept_patterns.items():
             if any(indicator in content_text for indicator in indicators):
                 concept_context = " ".join(
-                    [word for word in content_text.split() if any(ind in word for ind in indicators)]
+                    [
+                        word
+                        for word in content_text.split()
+                        if any(ind in word for ind in indicators)
+                    ]
                 )
                 if concept_context:
                     concept_vectors[concept] = self._get_cached_embedding(concept_context)
@@ -153,7 +168,9 @@ class EnhancedSemanticAnalyzer:
         concept_overlap = self._compute_concept_overlap(
             fragment_profile.concept_vectors, identity_profile.concept_vectors
         )
-        confidence_factor = min(fragment_profile.confidence_score, identity_profile.confidence_score)
+        confidence_factor = min(
+            fragment_profile.confidence_score, identity_profile.confidence_score
+        )
         coherence_components = {
             "semantic_similarity": primary_similarity,
             "ethical_alignment": ethical_alignment,
@@ -168,7 +185,9 @@ class EnhancedSemanticAnalyzer:
         )
         return final_coherence, coherence_components
 
-    def _compute_concept_overlap(self, concepts1: Dict[str, np.ndarray], concepts2: Dict[str, np.ndarray]) -> float:
+    def _compute_concept_overlap(
+        self, concepts1: Dict[str, np.ndarray], concepts2: Dict[str, np.ndarray]
+    ) -> float:
         """Compute semantic overlap between concept vectors"""
         if not concepts1 or not concepts2:
             return 0.5
@@ -182,7 +201,10 @@ class EnhancedSemanticAnalyzer:
         return np.mean(overlaps) if overlaps else 0.5
 
     def detect_semantic_anomalies(
-        self, fragment_profile: SemanticProfile, identity_profile: SemanticProfile, threshold: float = 0.3
+        self,
+        fragment_profile: SemanticProfile,
+        identity_profile: SemanticProfile,
+        threshold: float = 0.3,
     ) -> List[str]:
         """Detect specific types of semantic anomalies"""
         anomalies = []
@@ -195,9 +217,12 @@ class EnhancedSemanticAnalyzer:
             anomalies.append("concept_contradiction")
         if fragment_profile.confidence_score < 0.3:
             anomalies.append("low_confidence_content")
-        semantic_distance = 1 - cosine_similarity(
-            [fragment_profile.text_embedding], [identity_profile.text_embedding]
-        )[0][0]
+        semantic_distance = (
+            1
+            - cosine_similarity(
+                [fragment_profile.text_embedding], [identity_profile.text_embedding]
+            )[0][0]
+        )
         if semantic_distance > 0.7:
             anomalies.append("semantic_drift")
         return anomalies

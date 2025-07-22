@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+
 try:
     from google.cloud import firestore
 except ImportError:  # noqa: BLE001
@@ -32,6 +33,7 @@ async def inject_agent(agent: dict):
 @app.post("/submit-task")
 async def submit_task(task: dict):
     from cloud.run.task_dispatcher import submit_task as dispatch
+
     result = await dispatch(task)
     if db is None and isinstance(result, dict) and "task_id" in result:
         memory_db["tasks"][result["task_id"]] = task
