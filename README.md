@@ -101,8 +101,7 @@ python AGI_SAC_Phase_3.5_Main_Code.py
 
 **Tristan Jessup** – Simulation architect, ethical systems designer, and Advanced Repair Agent at Geek Squad.  
 Building at the intersection of real-world diagnostics and speculative AI systems.  
-📫 Contact: Tristan via [LinkedIn](https://www.linkedin.com/in/john-jessup25)  
-📬 Email: jessupj25+mindlink@gmail.com
+📬 Email: tristan@mindlink.dev
 
 ---
 
