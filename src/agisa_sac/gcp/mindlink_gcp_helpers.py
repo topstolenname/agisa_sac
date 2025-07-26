@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import os
-from typing import Any, Dict, Iterable, Optional
+from collections.abc import Iterable
+from typing import Any, Dict, Optional
 
 try:
     from fastapi import FastAPI
@@ -57,6 +59,14 @@ except Exception:  # pragma: no cover - optional dependency
     aiplatform = None
     HAS_VERTEX = False
 
+try:
+    from google.api_core import exceptions
+
+    HAS_GOOGLE_EXCEPTIONS = True
+except Exception:  # pragma: no cover - optional dependency
+    exceptions = None
+    HAS_GOOGLE_EXCEPTIONS = False
+
 # Basic stdout logging works with Cloud Logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -68,6 +78,10 @@ PUBSUB_TOPIC = os.getenv("PUBSUB_TOPIC", "")
 FIRESTORE_COLLECTION = os.getenv("FIRESTORE_COLLECTION", "agent_states")
 VERTEX_LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")
 
+# Reused service clients
+db = firestore.Client() if HAS_FIRESTORE else None
+storage_client = storage.Client() if HAS_GOOGLE_STORAGE else None
+
 
 # ------------------------------
 # Storage helpers
@@ -78,23 +92,25 @@ def upload_bytes(
     """Upload data to Cloud Storage and return the public URL."""
     if not HAS_GOOGLE_STORAGE:
         raise ImportError("google-cloud-storage is required for upload_bytes")
-    client = storage.Client()
-    bucket = client.bucket(GCS_BUCKET)
+    bucket = storage_client.bucket(GCS_BUCKET)
     blob = bucket.blob(blob_name)
     blob.upload_from_string(data, content_type=content_type)
     logger.info("Uploaded %s to GCS bucket %s", blob_name, GCS_BUCKET)
     return blob.public_url
 
 
-def download_bytes(blob_name: str) -> bytes:
+def download_bytes(blob_name: str) -> Optional[bytes]:
     """Download data from Cloud Storage."""
     if not HAS_GOOGLE_STORAGE:
         raise ImportError("google-cloud-storage is required for download_bytes")
-    client = storage.Client()
-    bucket = client.bucket(GCS_BUCKET)
+    bucket = storage_client.bucket(GCS_BUCKET)
     blob = bucket.blob(blob_name)
     logger.info("Downloading %s from GCS bucket %s", blob_name, GCS_BUCKET)
-    return blob.download_as_bytes()
+    try:
+        return blob.download_as_bytes()
+    except exceptions.NotFound:
+        logger.warning("Blob %s not found in bucket %s", blob_name, GCS_BUCKET)
+        return None
 
 
 # ------------------------------
@@ -104,7 +120,6 @@ def save_state(agent_id: str, state: Dict[str, Any]) -> None:
     """Persist agent state to Firestore."""
     if not HAS_FIRESTORE:
         raise ImportError("google-cloud-firestore is required for save_state")
-    db = firestore.Client()
     db.collection(FIRESTORE_COLLECTION).document(agent_id).set(state)
     logger.info("Saved agent state for %s", agent_id)
 
@@ -113,7 +128,6 @@ def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
     """Load agent state from Firestore."""
     if not HAS_FIRESTORE:
         raise ImportError("google-cloud-firestore is required for load_state")
-    db = firestore.Client()
     doc = db.collection(FIRESTORE_COLLECTION).document(agent_id).get()
     if doc.exists:
         return doc.to_dict()
@@ -143,7 +157,8 @@ def publish_event(event: Dict[str, Any]) -> None:
         raise ImportError("google-cloud-pubsub is required for publish_event")
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(PROJECT_ID, PUBSUB_TOPIC)
-    future = publisher.publish(topic_path, data=str(event).encode("utf-8"))
+    data = json.dumps(event).encode("utf-8")
+    future = publisher.publish(topic_path, data=data)
     logger.info("Published event: %s", event)
     return future.result()
 

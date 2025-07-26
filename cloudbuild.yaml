@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build','-t','us-central1-docker.pkg.dev/ml111/agisa-repo/agent:latest','.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push','us-central1-docker.pkg.dev/ml111/agisa-repo/agent:latest']
+  - name: 'hashicorp/terraform'
+    entrypoint: 'sh'
+    args: ['-c','terraform init && terraform apply -auto-approve']
+    dir: 'infra/ml111'
+images:
+  - 'us-central1-docker.pkg.dev/ml111/agisa-repo/agent:latest'
+
