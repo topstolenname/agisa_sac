@@ -1,0 +1,10 @@
+name: agisa-deploy
+description: Deploy AGISA on main branch
+github:
+  owner: YOUR_GITHUB_USER
+  name: YOUR_REPOSITORY
+  push:
+    branch: '^main$'
+build:
+  filename: cloudbuild.yaml
+
