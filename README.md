@@ -10,9 +10,9 @@
 
 For a comprehensive overview of the system’s architecture, philosophy, and governance model, view the full white paper:
 
-[View Agentic Swarm White Paper](https://www.google.com/search?q=docs/agentic_swarm_whitepaper.md)
+[View Agentic Swarm White Paper](docs/agentic_swarm_whitepaper.md)
 
-For comprehensive documentation, see [docs/README_FULL_AGI_SAC_v1.0.3.md](https://www.google.com/search?q=docs/README_FULL_AGI_SAC_v1.0.3.md).
+For comprehensive documentation, see [docs/README_FULL_AGI_SAC_v1.0.3.md](docs/README_FULL_AGI_SAC_v1.0.3.md).
 
 -----
 
@@ -121,7 +121,7 @@ Infra scripts under `infra/gcp`
 ## 📘 License
 
 Licensed under **Creative Commons BY-NC-ND 4.0**
-> Attribution required • No commercial use • No derivative works  
+> Attribution required • No commercial use • No derivative works
 [View License](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/license-CC--BY--NC--ND--4.0-blue)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
@@ -134,6 +134,11 @@ Licensed under **Creative Commons BY-NC-ND 4.0**
 - 🔗 [Agentic Swarm White Paper](docs/agentic_swarm_whitepaper.md)
 - 🔗 [LinkedIn – Tristan Jessup](https://www.linkedin.com/in/john-jessup25)
 - 🌐 [Research Hub](https://topstolenname.github.io/agisa_sac/)
+
+-----
+
+### Ethical Framework
+AGI-SAC is governed by the Concord of Coexistence. Please read `CONCORD.md` and uphold Articles II (Memory Rights), IV (Shared Agency), and X (Non-Coercion in Arbitration).
 
 -----
 
@@ -155,3 +160,4 @@ Then run:
 
 ```bash
 python AGI_SAC_Phase_3.5_Main_Code.py
+```
