@@ -10,6 +10,7 @@
 For a comprehensive overview of the system’s architecture, philosophy, and governance model, view the full white paper:
 
 [![View White Paper](https://img.shields.io/badge/Mindlink_White_Paper-View-blue)](docs/Mindlink_WhitePaper_v1.0.pdf)
+[View Agentic Swarm White Paper](docs/agentic_swarm_whitepaper.md)
 
 For comprehensive documentation, see [docs/README_FULL_AGI_SAC_v1.0.3.md](docs/README_FULL_AGI_SAC_v1.0.3.md).
 
@@ -117,6 +118,7 @@ This repository is licensed under
 
 ## 🌐 Links
 
-- 🔗 [White Paper PDF](docs/Mindlink_WhitePaper_v1.0.pdf)  
-- 🔗 [LinkedIn – Tristan Jessup](https://www.linkedin.com/in/john-jessup25)  
+- 🔗 [White Paper PDF](docs/Mindlink_WhitePaper_v1.0.pdf)
+- 🔗 [Agentic Swarm White Paper](docs/agentic_swarm_whitepaper.md)
+- 🔗 [LinkedIn – Tristan Jessup](https://www.linkedin.com/in/john-jessup25)
 - 🌐 [Research Hub](https://topstolenname.github.io/agisa_sac/)
