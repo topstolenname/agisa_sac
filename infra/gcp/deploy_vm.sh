@@ -28,10 +28,10 @@ if [[ -n "${SERVICE_ACCOUNT_JSON:-}" && -f "${SERVICE_ACCOUNT_JSON}" ]]; then
     gcloud auth activate-service-account --key-file "$SERVICE_ACCOUNT_JSON"
 fi
 
-# Optional service account flags
-SA_FLAGS=""
+# Optional service account flags (safe array form)
+SA_ARGS=()
 if [[ -n "$SERVICE_ACCOUNT_EMAIL" ]]; then
-    SA_FLAGS="--service-account $SERVICE_ACCOUNT_EMAIL --scopes=https://www.googleapis.com/auth/cloud-platform"
+    SA_ARGS=(--service-account "$SERVICE_ACCOUNT_EMAIL" --scopes=https://www.googleapis.com/auth/cloud-platform)
 fi
 
 gcloud compute instances create "$VM_NAME" \
@@ -41,7 +41,7 @@ gcloud compute instances create "$VM_NAME" \
     --boot-disk-size 200GB \
     --maintenance-policy TERMINATE \
     --restart-on-failure \
-    $SA_FLAGS
+    "${SA_ARGS[@]}"
 
 # Print connection info
 echo "VM $VM_NAME created in $ZONE with $GPU_COUNT $GPU_TYPE GPU(s)."
