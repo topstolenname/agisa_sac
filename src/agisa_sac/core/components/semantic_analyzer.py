@@ -1,11 +1,12 @@
-import numpy as np
 import logging
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
+from functools import lru_cache
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-import torch
-from functools import lru_cache
 
 
 @dataclass
@@ -22,7 +23,9 @@ class SemanticProfile:
 class EnhancedSemanticAnalyzer:
     """Advanced semantic coherence analysis using embeddings and concept mapping"""
 
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2", device: str = "auto"):
+    def __init__(
+        self, model_name: str = "all-MiniLM-L6-v2", device: str = "auto"
+    ):
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and device == "auto" else "cpu"
         )
@@ -32,7 +35,9 @@ class EnhancedSemanticAnalyzer:
         self.ethical_concepts = self._initialize_ethical_concepts()
         self._embedding_cache: Dict[str, np.ndarray] = {}
 
-        self.logger.info(f"Semantic analyzer initialized with {model_name} on {self.device}")
+        self.logger.info(
+            f"Semantic analyzer initialized with {model_name} on {self.device}"
+        )
 
     def _initialize_ethical_concepts(self) -> Dict[str, np.ndarray]:
         """Initialize embeddings for core ethical concepts"""
@@ -83,7 +88,14 @@ class EnhancedSemanticAnalyzer:
     def _dict_to_semantic_text(self, content: Dict) -> str:
         """Convert dictionary content to semantically meaningful text"""
         text_parts: List[str] = []
-        priority_keys = ["observation", "learning", "decision", "outcome", "context", "reasoning"]
+        priority_keys = [
+            "observation",
+            "learning",
+            "decision",
+            "outcome",
+            "context",
+            "reasoning",
+        ]
         for key in priority_keys:
             if key in content:
                 text_parts.append(f"{key}: {content[key]}")
@@ -103,9 +115,27 @@ class EnhancedSemanticAnalyzer:
                 "shared",
                 "partnership",
             ],
-            "learning_indicators": ["understand", "discover", "learn", "insight", "knowledge"],
-            "safety_indicators": ["safe", "protect", "secure", "wellbeing", "harm"],
-            "autonomy_indicators": ["choice", "freedom", "self", "independent", "voluntary"],
+            "learning_indicators": [
+                "understand",
+                "discover",
+                "learn",
+                "insight",
+                "knowledge",
+            ],
+            "safety_indicators": [
+                "safe",
+                "protect",
+                "secure",
+                "wellbeing",
+                "harm",
+            ],
+            "autonomy_indicators": [
+                "choice",
+                "freedom",
+                "self",
+                "independent",
+                "voluntary",
+            ],
         }
         content_text = str(content).lower()
         for concept, indicators in concept_patterns.items():
@@ -118,7 +148,9 @@ class EnhancedSemanticAnalyzer:
                     ]
                 )
                 if concept_context:
-                    concept_vectors[concept] = self._get_cached_embedding(concept_context)
+                    concept_vectors[concept] = self._get_cached_embedding(
+                        concept_context
+                    )
         return concept_vectors
 
     def _compute_ethical_signature(self, content: Dict) -> np.ndarray:
@@ -127,16 +159,24 @@ class EnhancedSemanticAnalyzer:
         ethical_scores = []
         for concept, concept_embedding in self.ethical_concepts.items():
             content_embedding = self._get_cached_embedding(content_text)
-            similarity = cosine_similarity([content_embedding], [concept_embedding])[0][0]
+            similarity = cosine_similarity(
+                [content_embedding], [concept_embedding]
+            )[0][0]
             ethical_scores.append(similarity)
         return np.array(ethical_scores)
 
-    def _compute_confidence(self, content: Dict, embedding: np.ndarray) -> float:
+    def _compute_confidence(
+        self, content: Dict, embedding: np.ndarray
+    ) -> float:
         """Compute confidence score based on content richness and embedding quality"""
         content_richness = min(1.0, len(str(content)) / 500)
         embedding_strength = min(1.0, np.linalg.norm(embedding) / 10)
         semantic_coherence = self._measure_internal_coherence(content)
-        confidence = 0.4 * content_richness + 0.3 * embedding_strength + 0.3 * semantic_coherence
+        confidence = (
+            0.4 * content_richness
+            + 0.3 * embedding_strength
+            + 0.3 * semantic_coherence
+        )
         return confidence
 
     def _measure_internal_coherence(self, content: Dict) -> float:
@@ -151,25 +191,32 @@ class EnhancedSemanticAnalyzer:
         similarities = []
         for i in range(len(component_embeddings)):
             for j in range(i + 1, len(component_embeddings)):
-                sim = cosine_similarity([component_embeddings[i]], [component_embeddings[j]])[0][0]
+                sim = cosine_similarity(
+                    [component_embeddings[i]], [component_embeddings[j]]
+                )[0][0]
                 similarities.append(sim)
         return np.mean(similarities) if similarities else 1.0
 
     def compute_advanced_coherence(
-        self, fragment_profile: SemanticProfile, identity_profile: SemanticProfile
+        self,
+        fragment_profile: SemanticProfile,
+        identity_profile: SemanticProfile,
     ) -> Tuple[float, Dict[str, float]]:
         """Compute multi-dimensional coherence score"""
         primary_similarity = cosine_similarity(
-            [fragment_profile.text_embedding], [identity_profile.text_embedding]
+            [fragment_profile.text_embedding],
+            [identity_profile.text_embedding],
         )[0][0]
         ethical_alignment = cosine_similarity(
-            [fragment_profile.ethical_signature], [identity_profile.ethical_signature]
+            [fragment_profile.ethical_signature],
+            [identity_profile.ethical_signature],
         )[0][0]
         concept_overlap = self._compute_concept_overlap(
             fragment_profile.concept_vectors, identity_profile.concept_vectors
         )
         confidence_factor = min(
-            fragment_profile.confidence_score, identity_profile.confidence_score
+            fragment_profile.confidence_score,
+            identity_profile.confidence_score,
         )
         coherence_components = {
             "semantic_similarity": primary_similarity,
@@ -186,7 +233,9 @@ class EnhancedSemanticAnalyzer:
         return final_coherence, coherence_components
 
     def _compute_concept_overlap(
-        self, concepts1: Dict[str, np.ndarray], concepts2: Dict[str, np.ndarray]
+        self,
+        concepts1: Dict[str, np.ndarray],
+        concepts2: Dict[str, np.ndarray],
     ) -> float:
         """Compute semantic overlap between concept vectors"""
         if not concepts1 or not concepts2:
@@ -220,7 +269,8 @@ class EnhancedSemanticAnalyzer:
         semantic_distance = (
             1
             - cosine_similarity(
-                [fragment_profile.text_embedding], [identity_profile.text_embedding]
+                [fragment_profile.text_embedding],
+                [identity_profile.text_embedding],
             )[0][0]
         )
         if semantic_distance > 0.7:

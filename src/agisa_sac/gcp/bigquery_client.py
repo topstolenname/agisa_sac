@@ -9,7 +9,8 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     bigquery = None
     HAS_GOOGLE_CLOUD_BIGQUERY = False
-from typing import Any, Iterable
+from collections.abc import Iterable
+from typing import Any
 
 
 def insert_rows(table_id: str, rows: Iterable[dict]) -> None:

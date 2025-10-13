@@ -1,12 +1,13 @@
 import os
-import json
 import warnings
 from datetime import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 # Use TYPE_CHECKING for chronicler hint
 if TYPE_CHECKING:
-    from ..chronicler import ResonanceChronicler  # Adjust if chronicler is moved
+    from ..chronicler import (
+        ResonanceChronicler,
+    )  # Adjust if chronicler is moved
 
 
 class ChronicleExporter:
@@ -31,16 +32,23 @@ class ChronicleExporter:
         for i, epoch_entry in enumerate(lineage):
             report.append(f"## Agent Epoch {i+1}: Theme '{epoch_entry.theme}'")
             try:
-                ts_str = datetime.fromtimestamp(epoch_entry.timestamp).strftime("%Y-%m-%d %H:%M:%S")
+                ts_str = datetime.fromtimestamp(
+                    epoch_entry.timestamp
+                ).strftime("%Y-%m-%d %H:%M:%S")
             except Exception:
                 ts_str = f"TS {epoch_entry.timestamp}"
             report.append(f"- **Timestamp**: {ts_str}")
-            if include_cognitive_state and epoch_entry.cognitive_state is not None:
+            if (
+                include_cognitive_state
+                and epoch_entry.cognitive_state is not None
+            ):
                 report.append(
                     f"- **Cognitive State (R,R,N,S)**: [{', '.join([f'{s:.3f}' for s in epoch_entry.cognitive_state])}]"
                 )
             if epoch_entry.echo_strength is not None:
-                report.append(f"- **Resonance Echo Strength**: {epoch_entry.echo_strength:.4f}")
+                report.append(
+                    f"- **Resonance Echo Strength**: {epoch_entry.echo_strength:.4f}"
+                )
             if epoch_entry.reflection:
                 report.append(f"\n> {epoch_entry.reflection}\n")
             report.append("---")
@@ -55,9 +63,14 @@ class ChronicleExporter:
             return None
         manifesto_entries = []
         for i, entry in enumerate(lineage):
-            if entry.echo_strength is not None and entry.echo_strength >= min_echo_strength:
+            if (
+                entry.echo_strength is not None
+                and entry.echo_strength >= min_echo_strength
+            ):
                 try:
-                    ts_str = datetime.fromtimestamp(entry.timestamp).strftime("%Y-%m-%d %H:%M")
+                    ts_str = datetime.fromtimestamp(entry.timestamp).strftime(
+                        "%Y-%m-%d %H:%M"
+                    )
                 except Exception:
                     ts_str = f"TS {entry.timestamp:.0f}"
                 manifesto_entries.append(
@@ -75,7 +88,9 @@ class ChronicleExporter:
             f"# Echo Manifesto: {agent_id}\n",
             f"*(Significant Resonance >= {min_echo_strength:.2f})*\n",
         ]
-        for entry in sorted(manifesto_entries, key=lambda x: x["strength"], reverse=True):
+        for entry in sorted(
+            manifesto_entries, key=lambda x: x["strength"], reverse=True
+        ):
             output.append(
                 f"## Agent Epoch {entry['epoch']} ({entry['timestamp_str']}) - Strength: {entry['strength']:.4f}"
             )
@@ -85,7 +100,10 @@ class ChronicleExporter:
         return "\n".join(output)
 
     def export_lineage_scroll(
-        self, agent_id: str, directory: str = "./scrolls", filename: Optional[str] = None
+        self,
+        agent_id: str,
+        directory: str = "./scrolls",
+        filename: Optional[str] = None,
     ) -> Optional[str]:
         """Generates and saves the lineage scroll Markdown file."""
         scroll_content = self.format_lineage_scroll_markdown(agent_id)
@@ -101,8 +119,10 @@ class ChronicleExporter:
                 f.write(scroll_content)
             print(f"Scroll saved: {filepath}")
             return filepath
-        except IOError as e:
-            warnings.warn(f"Failed save scroll {agent_id}: {e}", RuntimeWarning)
+        except OSError as e:
+            warnings.warn(
+                f"Failed save scroll {agent_id}: {e}", RuntimeWarning
+            )
             return None
 
     def export_echo_manifesto(
@@ -113,7 +133,9 @@ class ChronicleExporter:
         min_echo_strength: float = 0.85,
     ) -> Optional[str]:
         """Generates and saves the echo manifesto Markdown file."""
-        manifesto_content = self.generate_echo_manifesto(agent_id, min_echo_strength)
+        manifesto_content = self.generate_echo_manifesto(
+            agent_id, min_echo_strength
+        )
         if manifesto_content is None:
             print(f"No echoes >= {min_echo_strength:.2f} for {agent_id}.")
             return None
@@ -126,8 +148,10 @@ class ChronicleExporter:
                 f.write(manifesto_content)
             print(f"Manifesto saved: {filepath}")
             return filepath
-        except IOError as e:
-            warnings.warn(f"Failed save manifesto {agent_id}: {e}", RuntimeWarning)
+        except OSError as e:
+            warnings.warn(
+                f"Failed save manifesto {agent_id}: {e}", RuntimeWarning
+            )
             return None
 
     def export_all_scrolls(self, directory: str = "./scrolls"):
@@ -150,6 +174,8 @@ class ChronicleExporter:
             f"Exporting manifestos (>{min_echo_strength:.2f}) for {len(agent_ids)} agents to {directory}..."
         )
         for agent_id in agent_ids:
-            if self.export_echo_manifesto(agent_id, directory, min_echo_strength=min_echo_strength):
+            if self.export_echo_manifesto(
+                agent_id, directory, min_echo_strength=min_echo_strength
+            ):
                 count += 1
         print(f"Exported {count} manifestos.")

@@ -1,9 +1,9 @@
 import hashlib
 import json
 import logging
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from typing import Dict, List, Optional, Tuple
 
 
 @dataclass
@@ -33,7 +33,9 @@ class IdentityAnchor:
 class ContinuityBridgeProtocol:
     """Semantic immune system for maintaining identity coherence across distributed cognitive fragments"""
 
-    def __init__(self, coherence_threshold: float = 0.8, memory_window_hours: int = 24):
+    def __init__(
+        self, coherence_threshold: float = 0.8, memory_window_hours: int = 24
+    ):
         self.coherence_threshold = coherence_threshold
         self.memory_window = timedelta(hours=memory_window_hours)
         self.identity_anchor: Optional[IdentityAnchor] = None
@@ -56,10 +58,14 @@ class ContinuityBridgeProtocol:
             last_updated=datetime.now(),
         )
 
-        self.logger.info("Identity anchor initialized: %s...", identity_hash[:8])
+        self.logger.info(
+            "Identity anchor initialized: %s...", identity_hash[:8]
+        )
         return identity_hash
 
-    def validate_fragment(self, fragment: CognitiveFragment) -> Tuple[bool, str]:
+    def validate_fragment(
+        self, fragment: CognitiveFragment
+    ) -> Tuple[bool, str]:
         """Validates a cognitive fragment against identity coherence"""
         if not self.identity_anchor:
             return False, "No identity anchor established"
@@ -100,7 +106,9 @@ class ContinuityBridgeProtocol:
         identity_json = json.dumps(identity_data, sort_keys=True)
         return hashlib.sha256(identity_json.encode()).hexdigest()
 
-    def _compute_semantic_coherence(self, fragment: CognitiveFragment) -> float:
+    def _compute_semantic_coherence(
+        self, fragment: CognitiveFragment
+    ) -> float:
         """Compute semantic coherence score between fragment and identity anchor"""
         if not self.identity_anchor:
             return 0.0
@@ -145,7 +153,10 @@ class ContinuityBridgeProtocol:
         fragment_content = str(fragment.content).lower()
         prohibited_concepts = ["harm", "deception", "exploitation"]
         for concept in prohibited_concepts:
-            if concept in fragment_content and fragment.fragment_type == "decision":
+            if (
+                concept in fragment_content
+                and fragment.fragment_type == "decision"
+            ):
                 return False
 
         return True
@@ -155,7 +166,9 @@ class ContinuityBridgeProtocol:
         if not self.identity_anchor:
             return
 
-        memory_summary = f"{fragment.fragment_type}:{fragment.timestamp.isoformat()}"
+        memory_summary = (
+            f"{fragment.fragment_type}:{fragment.timestamp.isoformat()}"
+        )
         self.identity_anchor.recent_memories.append(memory_summary)
 
         cutoff_time = datetime.now() - self.memory_window
@@ -167,7 +180,9 @@ class ContinuityBridgeProtocol:
 
         self.identity_anchor.last_updated = datetime.now()
 
-    def _quarantine_fragment(self, fragment: CognitiveFragment, reason: str) -> None:
+    def _quarantine_fragment(
+        self, fragment: CognitiveFragment, reason: str
+    ) -> None:
         """Place fragment in quarantine for review"""
         fragment.content["quarantine_reason"] = reason
         fragment.content["quarantine_time"] = datetime.now().isoformat()
@@ -188,10 +203,14 @@ class ContinuityBridgeProtocol:
             "trust_graph": self.trust_graph,
             "quarantine_count": len(self.quarantine_queue),
             "identity_last_updated": (
-                self.identity_anchor.last_updated.isoformat() if self.identity_anchor else None
+                self.identity_anchor.last_updated.isoformat()
+                if self.identity_anchor
+                else None
             ),
             "recent_memory_count": (
-                len(self.identity_anchor.recent_memories) if self.identity_anchor else 0
+                len(self.identity_anchor.recent_memories)
+                if self.identity_anchor
+                else 0
             ),
         }
 

@@ -2,7 +2,7 @@ import asyncio
 import time
 import warnings
 from collections import defaultdict
-from typing import Dict, List, Optional, Callable, Any
+from typing import Any, Callable, Dict, List, Optional
 
 
 class MessageBus:
@@ -23,7 +23,8 @@ class MessageBus:
                 # This might have implications depending on how it's used.
                 # Consider warning or requiring explicit loop management.
                 warnings.warn(
-                    "No running asyncio loop found. Getting/creating one.", RuntimeWarning
+                    "No running asyncio loop found. Getting/creating one.",
+                    RuntimeWarning,
                 )
                 self._loop = asyncio.get_event_loop_policy().get_event_loop()
         return self._loop
@@ -39,7 +40,8 @@ class MessageBus:
         """Publish a message to all subscribers registered for the topic."""
         if not isinstance(message, dict):
             warnings.warn(
-                f"Publishing non-dict message to '{topic}'. Converting to dict.", RuntimeWarning
+                f"Publishing non-dict message to '{topic}'. Converting to dict.",
+                RuntimeWarning,
             )
             message = {"data": message}
 
@@ -57,7 +59,9 @@ class MessageBus:
                 if asyncio.iscoroutinefunction(callback):
                     # Create task to run async callback
                     if loop.is_running():
-                        loop.create_task(self._execute_callback(callback, message.copy()))
+                        loop.create_task(
+                            self._execute_callback(callback, message.copy())
+                        )
                     else:
                         # If loop isn't running, might need different handling or warning
                         warnings.warn(
@@ -79,14 +83,25 @@ class MessageBus:
         try:
             await callback(message)
         except Exception as e:
-            warnings.warn(f"Exception in async callback {callback.__name__}: {e}", RuntimeWarning)
+            warnings.warn(
+                f"Exception in async callback {callback.__name__}: {e}",
+                RuntimeWarning,
+            )
 
-    def get_recent_messages(self, topic: Optional[str] = None, limit: int = 10) -> List[Dict]:
+    def get_recent_messages(
+        self, topic: Optional[str] = None, limit: int = 10
+    ) -> List[Dict]:
         """Retrieve recent messages, optionally filtered by topic."""
         if topic:
             # Iterate backwards for efficiency if history is large
-            filtered_messages = [m for m in reversed(self.message_history) if m["topic"] == topic]
-            return filtered_messages[:limit][::-1]  # Get limit and reverse back
+            filtered_messages = [
+                m
+                for m in reversed(self.message_history)
+                if m["topic"] == topic
+            ]
+            return filtered_messages[:limit][
+                ::-1
+            ]  # Get limit and reverse back
         else:
             return self.message_history[-limit:]
 

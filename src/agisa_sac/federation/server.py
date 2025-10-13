@@ -1,13 +1,13 @@
-from fastapi import FastAPI, HTTPException, Depends, Header
-from pydantic import BaseModel
-from typing import Dict, List, Optional
-from datetime import datetime
 import logging
+from datetime import datetime
+from typing import Dict, List, Optional
+
+from fastapi import Depends, FastAPI, Header, HTTPException
+from pydantic import BaseModel
 
 from ..core.components.continuity_bridge import (
-    ContinuityBridgeProtocol,
     CBPMiddleware,
-    CognitiveFragment,
+    ContinuityBridgeProtocol,
 )
 
 app = FastAPI(title="AGI-SAC PCP")
@@ -55,7 +55,9 @@ class TrustMetricsResponse(BaseModel):
 async def authenticate_edge_node(authorization: str = Header(None)) -> str:
     """Simple token-based authentication for edge nodes"""
     if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Missing or invalid authorization")
+        raise HTTPException(
+            status_code=401, detail="Missing or invalid authorization"
+        )
 
     token = authorization.split(" ")[1]
     try:
@@ -82,7 +84,8 @@ async def resonance_scan():
 
 @app.post("/api/v1/edge/register")
 async def register_edge_node(
-    registration: NodeRegistration, node_id: str = Depends(authenticate_edge_node)
+    registration: NodeRegistration,
+    node_id: str = Depends(authenticate_edge_node),
 ):
     """Register a new edge node with the federated network"""
 
@@ -98,7 +101,9 @@ async def register_edge_node(
 
     cbp.trust_graph[node_id] = initial_trust
 
-    logging.info("Registered edge node %s with trust %s", node_id, initial_trust)
+    logging.info(
+        "Registered edge node %s with trust %s", node_id, initial_trust
+    )
 
     return {
         "status": "registered",
@@ -130,11 +135,15 @@ async def submit_cognitive_fragment(
 
     except Exception as e:
         logging.error("Error processing fragment from %s: %s", node_id, e)
-        raise HTTPException(status_code=500, detail="Fragment processing failed")
+        raise HTTPException(
+            status_code=500, detail="Fragment processing failed"
+        )
 
 
 @app.get("/api/v1/edge/trust-metrics")
-async def get_trust_metrics(node_id: str = Depends(authenticate_edge_node)) -> TrustMetricsResponse:
+async def get_trust_metrics(
+    node_id: str = Depends(authenticate_edge_node),
+) -> TrustMetricsResponse:
     """Get trust metrics for the requesting node"""
 
     if node_id not in cbp.trust_graph:
@@ -146,7 +155,9 @@ async def get_trust_metrics(node_id: str = Depends(authenticate_edge_node)) -> T
     total_fragments = 10
     quarantine_count = 1
     success_rate = (
-        (total_fragments - quarantine_count) / total_fragments if total_fragments > 0 else 0.0
+        (total_fragments - quarantine_count) / total_fragments
+        if total_fragments > 0
+        else 0.0
     )
 
     return TrustMetricsResponse(
@@ -164,7 +175,11 @@ async def get_network_status(node_id: str = Depends(authenticate_edge_node)):
     metrics = cbp.get_trust_metrics()
 
     active_nodes = len(cbp.trust_graph)
-    avg_trust = sum(cbp.trust_graph.values()) / active_nodes if active_nodes > 0 else 0.0
+    avg_trust = (
+        sum(cbp.trust_graph.values()) / active_nodes
+        if active_nodes > 0
+        else 0.0
+    )
     high_trust_nodes = len([t for t in cbp.trust_graph.values() if t > 0.7])
 
     return {
@@ -172,7 +187,9 @@ async def get_network_status(node_id: str = Depends(authenticate_edge_node)):
         "average_trust": avg_trust,
         "high_trust_nodes": high_trust_nodes,
         "quarantine_backlog": metrics["quarantine_count"],
-        "identity_coherence": "stable" if metrics["identity_last_updated"] else "uninitialized",
+        "identity_coherence": (
+            "stable" if metrics["identity_last_updated"] else "uninitialized"
+        ),
         "last_memory_update": metrics["identity_last_updated"],
     }
 
@@ -182,14 +199,22 @@ async def request_state_sync(node_id: str = Depends(authenticate_edge_node)):
     """Request state synchronization for CRDT-based eventual consistency"""
 
     if not cbp.identity_anchor:
-        raise HTTPException(status_code=503, detail="Identity anchor not initialized")
+        raise HTTPException(
+            status_code=503, detail="Identity anchor not initialized"
+        )
 
     sync_data = {
         "identity_hash": cbp.identity_anchor.identity_hash,
-        "core_values_hash": cbp._compute_identity_hash(cbp.identity_anchor.core_values),
+        "core_values_hash": cbp._compute_identity_hash(
+            cbp.identity_anchor.core_values
+        ),
         "ethical_principles": cbp.identity_anchor.ethical_principles,
         "coherence_threshold": cbp.coherence_threshold,
-        "trusted_peers": {node: trust for node, trust in cbp.trust_graph.items() if trust > 0.6},
+        "trusted_peers": {
+            node: trust
+            for node, trust in cbp.trust_graph.items()
+            if trust > 0.6
+        },
     }
 
     return {
@@ -229,12 +254,16 @@ async def override_node_trust(node_id: str, new_trust: float):
     """Admin override for node trust scores"""
 
     if not 0.0 <= new_trust <= 1.0:
-        raise HTTPException(status_code=400, detail="Trust score must be between 0.0 and 1.0")
+        raise HTTPException(
+            status_code=400, detail="Trust score must be between 0.0 and 1.0"
+        )
 
     old_trust = cbp.trust_graph.get(node_id, 0.0)
     cbp.trust_graph[node_id] = new_trust
 
-    logging.warning("Admin trust override: %s from %s to %s", node_id, old_trust, new_trust)
+    logging.warning(
+        "Admin trust override: %s from %s to %s", node_id, old_trust, new_trust
+    )
 
     return {
         "status": "updated",

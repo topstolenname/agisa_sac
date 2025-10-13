@@ -1,0 +1,4 @@
+[console_scripts]
+agisa-chaos = agisa_sac.chaos.orchestrator:main
+agisa-federation = agisa_sac.federation.cli:main
+agisa-sac = agisa_sac.cli:main

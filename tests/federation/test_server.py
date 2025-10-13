@@ -1,9 +1,15 @@
-import pytest
-from fastapi.testclient import TestClient
-from fastapi import HTTPException
 import base64
 
-from src.agisa_sac.federation.server import app, authenticate_edge_node, cbp, cbp_middleware
+import pytest
+from fastapi import HTTPException
+from fastapi.testclient import TestClient
+
+from src.agisa_sac.federation.server import (
+    app,
+    authenticate_edge_node,
+    cbp,
+    cbp_middleware,
+)
 
 # --- Test Fixtures ---
 
@@ -30,7 +36,9 @@ def authenticated_client():
     def override_authenticate_edge_node():
         return "test_node_123"
 
-    app.dependency_overrides[authenticate_edge_node] = override_authenticate_edge_node
+    app.dependency_overrides[authenticate_edge_node] = (
+        override_authenticate_edge_node
+    )
     with TestClient(app) as c:
         yield c
     # Clean up dependency overrides
@@ -71,7 +79,9 @@ def test_register_edge_node_success(authenticated_client: TestClient):
         "capabilities": ["processing", "storage"],
         "trust_endorsements": ["endorser_A"],
     }
-    response = authenticated_client.post("/api/v1/edge/register", json=registration_data)
+    response = authenticated_client.post(
+        "/api/v1/edge/register", json=registration_data
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -83,14 +93,19 @@ def test_register_edge_node_success(authenticated_client: TestClient):
 
 def test_register_edge_node_unauthorized(client: TestClient):
     """Tests that the registration endpoint fails without a valid token."""
-    registration_data = {"node_type": "desktop", "capabilities": ["processing", "storage"]}
+    registration_data = {
+        "node_type": "desktop",
+        "capabilities": ["processing", "storage"],
+    }
     # The default client has no auth headers
     response = client.post("/api/v1/edge/register", json=registration_data)
     assert response.status_code == 401
     assert "Missing or invalid authorization" in response.json()["detail"]
 
 
-def test_submit_cognitive_fragment_unregistered(authenticated_client: TestClient):
+def test_submit_cognitive_fragment_unregistered(
+    authenticated_client: TestClient,
+):
     """Tests submitting a fragment from a node that is not yet registered."""
     update_data = {
         "type": "observation",
@@ -98,12 +113,16 @@ def test_submit_cognitive_fragment_unregistered(authenticated_client: TestClient
         "timestamp": "2024-01-01T12:00:00Z",
         "signature": "abc",
     }
-    response = authenticated_client.post("/api/v1/edge/submit", json=update_data)
+    response = authenticated_client.post(
+        "/api/v1/edge/submit", json=update_data
+    )
     assert response.status_code == 403
     assert response.json()["detail"] == "Node not registered"
 
 
-def test_submit_cognitive_fragment_success(authenticated_client: TestClient, monkeypatch):
+def test_submit_cognitive_fragment_success(
+    authenticated_client: TestClient, monkeypatch
+):
     """Tests successful submission of a fragment from a registered node."""
     # 1. Register the node first
     cbp.trust_graph["test_node_123"] = 0.5
@@ -117,7 +136,9 @@ def test_submit_cognitive_fragment_success(authenticated_client: TestClient, mon
             "coherence_metrics": {"score": 0.9},
         }
 
-    monkeypatch.setattr(cbp_middleware, "process_edge_update", mock_process_edge_update)
+    monkeypatch.setattr(
+        cbp_middleware, "process_edge_update", mock_process_edge_update
+    )
 
     # 3. Submit the fragment
     update_data = {
@@ -126,7 +147,9 @@ def test_submit_cognitive_fragment_success(authenticated_client: TestClient, mon
         "timestamp": "2024-01-01T12:00:00Z",
         "signature": "abc",
     }
-    response = authenticated_client.post("/api/v1/edge/submit", json=update_data)
+    response = authenticated_client.post(
+        "/api/v1/edge/submit", json=update_data
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -146,7 +169,9 @@ def test_admin_trust_override(client: TestClient):
     node_id = "node_to_override"
     cbp.trust_graph[node_id] = 0.5
 
-    response = client.post(f"/api/v1/admin/trust-override?node_id={node_id}&new_trust=0.95")
+    response = client.post(
+        f"/api/v1/admin/trust-override?node_id={node_id}&new_trust=0.95"
+    )
 
     assert response.status_code == 200
     data = response.json()
@@ -159,7 +184,9 @@ def test_admin_trust_override(client: TestClient):
 
 def test_admin_trust_override_invalid_score(client: TestClient):
     """Tests that the trust override endpoint rejects out-of-range values."""
-    response = client.post("/api/v1/admin/trust-override?node_id=any_node&new_trust=1.1")
+    response = client.post(
+        "/api/v1/admin/trust-override?node_id=any_node&new_trust=1.1"
+    )
     assert response.status_code == 400
     assert "must be between 0.0 and 1.0" in response.json()["detail"]
 

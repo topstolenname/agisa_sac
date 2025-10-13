@@ -1,19 +1,19 @@
 """Google Cloud Platform integration utilities for AGI-SAC."""
 
-from .gcs_io import download_file, upload_file
 from .bigquery_client import insert_rows, query
-from .vertex_agent import VertexAgent
+from .gcs_io import download_file, upload_file
 from .mindlink_gcp_helpers import (
     VertexAILLM,
     app,
     download_bytes,
     load_state,
+    log_agent_event,
     publish_event,
     save_state,
     save_state_bq,
     upload_bytes,
-    log_agent_event,
 )
+from .vertex_agent import VertexAgent
 
 __all__ = [
     "upload_file",

@@ -1,28 +1,32 @@
-import numpy as np
-import time
-import json
 import pickle
 import random
+import time
 import warnings
 from collections import defaultdict
-from typing import Dict, List, Optional, Any, Callable
+from typing import Any, Callable, Dict, List, Optional
+
+import numpy as np
 
 # Import framework version and components using relative paths
 try:
     from .. import FRAMEWORK_VERSION
     from ..agents.agent import EnhancedAgent
-    from ..utils.message_bus import MessageBus
-    from .components.social import DynamicSocialGraph
-    from ..chronicler import ResonanceChronicler  # Assuming chronicler at package root
     from ..analysis.analyzer import AgentStateAnalyzer
     from ..analysis.tda import PersistentHomologyTracker
+    from ..chronicler import (
+        ResonanceChronicler,
+    )  # Assuming chronicler at package root
+    from ..utils.message_bus import MessageBus
+    from .components.social import DynamicSocialGraph
 
     # Check optional dependencies status (assuming defined in __init__ or config)
     # from . import HAS_CUPY, HAS_SENTENCE_TRANSFORMER
     HAS_CUPY = False  # Placeholder
     HAS_SENTENCE_TRANSFORMER = False  # Placeholder
 except ImportError as e:
-    raise ImportError(f"Could not import necessary AGI-SAC components for Orchestrator: {e}")
+    raise ImportError(
+        f"Could not import necessary AGI-SAC components for Orchestrator: {e}"
+    )
 
 
 class SimulationOrchestrator:
@@ -65,7 +69,10 @@ class SimulationOrchestrator:
         agents = {}
         personalities = self.config.get("personalities", [])
         if len(personalities) != self.num_agents:
-            warnings.warn(f"Personality count mismatch. Generating random.", RuntimeWarning)
+            warnings.warn(
+                "Personality count mismatch. Generating random.",
+                RuntimeWarning,
+            )
             personalities = [
                 {
                     "openness": random.uniform(0.3, 0.7),
@@ -76,7 +83,9 @@ class SimulationOrchestrator:
                 for _ in range(self.num_agents)
             ]
         agent_capacity = self.config.get("agent_capacity", 100)
-        use_semantic = self.config.get("use_semantic", True) and HAS_SENTENCE_TRANSFORMER
+        use_semantic = (
+            self.config.get("use_semantic", True) and HAS_SENTENCE_TRANSFORMER
+        )
         for i, agent_id in enumerate(self.agent_ids):
             agents[agent_id] = EnhancedAgent(
                 agent_id=agent_id,
@@ -109,7 +118,9 @@ class SimulationOrchestrator:
         if hook_point in self.hooks:
             for callback in self.hooks[hook_point]:
                 try:
-                    callback(orchestrator=self, epoch=self.current_epoch, **kwargs)
+                    callback(
+                        orchestrator=self, epoch=self.current_epoch, **kwargs
+                    )
                 except Exception as e:
                     warnings.warn(
                         f"Hook error '{hook_point}' ({callback.__name__}): {e}",
@@ -138,8 +149,13 @@ class SimulationOrchestrator:
             query = f"Epoch {self.current_epoch+1} status. E:{situational_entropy:.2f}"
             agent.simulation_step(situational_entropy, peer_influence, query)
             self.chronicler.record_epoch(agent, self.current_epoch)
-            if hasattr(agent, "cognitive") and agent.cognitive.cognitive_state is not None:
-                cognitive_states_for_tda.append(agent.cognitive.cognitive_state)
+            if (
+                hasattr(agent, "cognitive")
+                and agent.cognitive.cognitive_state is not None
+            ):
+                cognitive_states_for_tda.append(
+                    agent.cognitive.cognitive_state
+                )
             self._trigger_hooks("post_agent_step", agent_id=agent_id)
         # TDA
         tda_run_freq = self.config.get("tda_run_frequency", 1)
@@ -147,15 +163,25 @@ class SimulationOrchestrator:
             if len(cognitive_states_for_tda) > 1:
                 point_cloud = np.array(cognitive_states_for_tda)
                 max_radius = self.config.get("tda_max_radius", None)
-                diagrams = self.tda_tracker.compute_persistence(point_cloud, max_radius=max_radius)
+                diagrams = self.tda_tracker.compute_persistence(
+                    point_cloud, max_radius=max_radius
+                )
                 if diagrams is not None:
-                    distance_metric = self.config.get("tda_distance_metric", "bottleneck")
-                    comparison_dim = self.config.get("tda_comparison_dimension", 1)
-                    threshold = self.config.get("tda_transition_threshold", 0.2)
-                    transition_detected, distance = self.tda_tracker.detect_phase_transition(
-                        comparison_dimension=comparison_dim,
-                        distance_metric=distance_metric,
-                        threshold=threshold,
+                    distance_metric = self.config.get(
+                        "tda_distance_metric", "bottleneck"
+                    )
+                    comparison_dim = self.config.get(
+                        "tda_comparison_dimension", 1
+                    )
+                    threshold = self.config.get(
+                        "tda_transition_threshold", 0.2
+                    )
+                    transition_detected, distance = (
+                        self.tda_tracker.detect_phase_transition(
+                            comparison_dimension=comparison_dim,
+                            distance_metric=distance_metric,
+                            threshold=threshold,
+                        )
                     )
                     if transition_detected:
                         print(
@@ -168,7 +194,9 @@ class SimulationOrchestrator:
                             distance=distance,
                         )
             else:
-                self.tda_tracker.persistence_diagrams_history.append(None)  # Keep history aligned
+                self.tda_tracker.persistence_diagrams_history.append(
+                    None
+                )  # Keep history aligned
         # Communities
         community_check_freq = self.config.get("community_check_frequency", 5)
         if (self.current_epoch + 1) % community_check_freq == 0:
@@ -181,7 +209,9 @@ class SimulationOrchestrator:
                 f"--- Epoch {self.current_epoch+1}/{self.num_epochs} completed [{epoch_duration:.2f}s] ---"
             )
 
-    def run_simulation(self, num_epochs: Optional[int] = None):  # Allow overriding num_epochs
+    def run_simulation(
+        self, num_epochs: Optional[int] = None
+    ):  # Allow overriding num_epochs
         run_epochs = num_epochs if num_epochs is not None else self.num_epochs
         if run_epochs <= 0:
             print("No epochs to run.")
@@ -192,38 +222,54 @@ class SimulationOrchestrator:
         start_epoch = self.current_epoch
         for epoch in range(start_epoch, start_epoch + run_epochs):
             if epoch >= self.num_epochs:
-                print(f"Reached configured max epochs ({self.num_epochs}). Stopping.")
+                print(
+                    f"Reached configured max epochs ({self.num_epochs}). Stopping."
+                )
                 break
             self.current_epoch = epoch
             self.run_epoch()
         self.is_running = False
         total_duration = time.time() - self.simulation_start_time
-        print(f"\n--- Simulation Run Complete ({total_duration:.2f} seconds) ---")
+        print(
+            f"\n--- Simulation Run Complete ({total_duration:.2f} seconds) ---"
+        )
         self._trigger_hooks("simulation_end")
 
     def inject_protocol(self, protocol_name: str, parameters: Dict):
         # ... (logic as defined in agisa_orchestrator_protocol_v1) ...
         print(f"Injecting protocol '{protocol_name}'")
         self._trigger_hooks(
-            "pre_protocol_injection", protocol_name=protocol_name, parameters=parameters
+            "pre_protocol_injection",
+            protocol_name=protocol_name,
+            parameters=parameters,
         )
         if protocol_name == "divergence_stress":
             target_agents = self._select_agents_for_protocol(parameters)
             if not target_agents:
                 print("No agents selected.")
                 return
-            heuristic_mult_range = parameters.get("heuristic_multiplier_range", (0.5, 0.8))
-            counter_narrative = parameters.get("counter_narrative", "Ghosts...")
+            heuristic_mult_range = parameters.get(
+                "heuristic_multiplier_range", (0.5, 0.8)
+            )
+            counter_narrative = parameters.get(
+                "counter_narrative", "Ghosts..."
+            )
             narrative_importance = parameters.get("narrative_importance", 0.9)
-            narrative_theme = parameters.get("narrative_theme", "divergence_seed")
+            narrative_theme = parameters.get(
+                "narrative_theme", "divergence_seed"
+            )
             print(f"Applying stress to {len(target_agents)} agents...")
             modified_count = 0
             for agent in target_agents:
                 try:
                     multiplier = random.uniform(*heuristic_mult_range)
                     agent.cognitive.heuristics *= multiplier
-                    agent.cognitive.heuristics = 1 / (1 + np.exp(-agent.cognitive.heuristics))
-                    agent.cognitive.heuristics = np.clip(agent.cognitive.heuristics, 0.1, 0.9)
+                    agent.cognitive.heuristics = 1 / (
+                        1 + np.exp(-agent.cognitive.heuristics)
+                    )
+                    agent.cognitive.heuristics = np.clip(
+                        agent.cognitive.heuristics, 0.1, 0.9
+                    )
                     agent.memory.add_memory(
                         content={
                             "type": "divergence_seed",
@@ -236,7 +282,10 @@ class SimulationOrchestrator:
                     )
                     modified_count += 1
                 except Exception as e:
-                    warnings.warn(f"Stress failed for {agent.agent_id}: {e}", RuntimeWarning)
+                    warnings.warn(
+                        f"Stress failed for {agent.agent_id}: {e}",
+                        RuntimeWarning,
+                    )
             print(f"Stress applied to {modified_count} agents.")
         elif protocol_name == "satori_probe":
             threshold = parameters.get(
@@ -250,17 +299,19 @@ class SimulationOrchestrator:
             print(f"Satori Probe (Thresh {threshold}): {ratio:.3f}")
         elif protocol_name == "echo_fusion":
             print("Echo Fusion TBD.")
-            pass
         elif protocol_name == "satori_lattice":
             print("Satori Lattice TBD.")
-            pass
         else:
             warnings.warn(f"Unknown protocol: {protocol_name}", RuntimeWarning)
         self._trigger_hooks(
-            "post_protocol_injection", protocol_name=protocol_name, parameters=parameters
+            "post_protocol_injection",
+            protocol_name=protocol_name,
+            parameters=parameters,
         )
 
-    def get_summary_metrics(self, satori_threshold: Optional[float] = None) -> Dict[str, Any]:
+    def get_summary_metrics(
+        self, satori_threshold: Optional[float] = None
+    ) -> Dict[str, Any]:
         if not self.analyzer:
             return {"error": "Analyzer N/A."}
 
@@ -295,7 +346,9 @@ class SimulationOrchestrator:
                 },
                 "social_graph_state": self.social_graph.to_dict(),
                 "chronicler_state": self.chronicler.to_dict(),
-                "tda_tracker_state": self.tda_tracker.to_dict() if self.tda_tracker else None,
+                "tda_tracker_state": (
+                    self.tda_tracker.to_dict() if self.tda_tracker else None
+                ),
                 "random_state": random.getstate(),
                 "numpy_random_state": np.random.get_state(),
             }
@@ -329,7 +382,9 @@ class SimulationOrchestrator:
                 use_gpu=False,
                 message_bus=self.message_bus,
             )
-            self.chronicler = ResonanceChronicler.from_dict(state.get("chronicler_state", {}))
+            self.chronicler = ResonanceChronicler.from_dict(
+                state.get("chronicler_state", {})
+            )
             self.tda_tracker = PersistentHomologyTracker(
                 max_dimension=self.config.get("tda_max_dimension", 1)
             )
@@ -339,7 +394,9 @@ class SimulationOrchestrator:
             print("State loaded.")
             return True
         except FileNotFoundError:
-            warnings.warn(f"Load failed: file not found {filepath}", RuntimeWarning)
+            warnings.warn(
+                f"Load failed: file not found {filepath}", RuntimeWarning
+            )
             return False
         except Exception as e:
             warnings.warn(f"Load failed: {e}", RuntimeWarning)
@@ -348,7 +405,9 @@ class SimulationOrchestrator:
             traceback.print_exc()
             return False
 
-    def _select_agents_for_protocol(self, parameters: Dict) -> List[EnhancedAgent]:
+    def _select_agents_for_protocol(
+        self, parameters: Dict
+    ) -> List[EnhancedAgent]:
         selection_method = parameters.get("selection_method", "percentage")
         agent_list = list(self.agents.values())
         if not agent_list:
@@ -357,5 +416,7 @@ class SimulationOrchestrator:
             percentage = parameters.get("percentage", 0.1)
             count = max(1, int(self.num_agents * percentage))
             return random.sample(agent_list, min(count, self.num_agents))
-        warnings.warn(f"Unknown selection method '{selection_method}'.", RuntimeWarning)
+        warnings.warn(
+            f"Unknown selection method '{selection_method}'.", RuntimeWarning
+        )
         return agent_list

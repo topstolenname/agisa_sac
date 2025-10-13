@@ -87,7 +87,10 @@ storage_client = storage.Client() if HAS_GOOGLE_STORAGE else None
 # Storage helpers
 # ------------------------------
 def upload_bytes(
-    blob_name: str, data: bytes, *, content_type: str = "application/octet-stream"
+    blob_name: str,
+    data: bytes,
+    *,
+    content_type: str = "application/octet-stream",
 ) -> str:
     """Upload data to Cloud Storage and return the public URL."""
     if not HAS_GOOGLE_STORAGE:
@@ -102,7 +105,9 @@ def upload_bytes(
 def download_bytes(blob_name: str) -> Optional[bytes]:
     """Download data from Cloud Storage."""
     if not HAS_GOOGLE_STORAGE:
-        raise ImportError("google-cloud-storage is required for download_bytes")
+        raise ImportError(
+            "google-cloud-storage is required for download_bytes"
+        )
     bucket = storage_client.bucket(GCS_BUCKET)
     blob = bucket.blob(blob_name)
     logger.info("Downloading %s from GCS bucket %s", blob_name, GCS_BUCKET)
@@ -137,7 +142,9 @@ def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
 def save_state_bq(agent_id: str, state: Dict[str, Any]) -> None:
     """Insert agent state into BigQuery."""
     if not HAS_BIGQUERY:
-        raise ImportError("google-cloud-bigquery is required for save_state_bq")
+        raise ImportError(
+            "google-cloud-bigquery is required for save_state_bq"
+        )
     table_id = f"{PROJECT_ID}.mindlink.agent_states"
     rows: Iterable[dict[str, Any]] = [{**state, "agent_id": agent_id}]
     client = bigquery.Client()
@@ -177,14 +184,18 @@ class VertexAILLM:
         model: str = "text-bison",
     ) -> None:
         if not HAS_VERTEX:
-            raise ImportError("google-cloud-aiplatform is required for VertexAILLM")
+            raise ImportError(
+                "google-cloud-aiplatform is required for VertexAILLM"
+            )
         self.project = project
         self.location = location
         self.model = model
         aiplatform.init(project=project, location=location)
         self.endpoint = aiplatform.TextGenerationModel.from_pretrained(model)
 
-    def query(self, prompt: str, *, temperature: float = 0.7, max_tokens: int = 256) -> str:
+    def query(
+        self, prompt: str, *, temperature: float = 0.7, max_tokens: int = 256
+    ) -> str:
         response = self.endpoint.predict(
             prompt, temperature=temperature, max_output_tokens=max_tokens
         )
@@ -195,7 +206,9 @@ class VertexAILLM:
 # ------------------------------
 # Observability helpers
 # ------------------------------
-def log_agent_event(event_type: str, agent_id: str, details: Dict[str, Any]) -> None:
+def log_agent_event(
+    event_type: str, agent_id: str, details: Dict[str, Any]
+) -> None:
     """Log an agent-related event."""
     logger.info("[%s] Agent: %s | Details: %s", event_type, agent_id, details)
 

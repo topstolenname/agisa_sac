@@ -1,6 +1,6 @@
-from dataclasses import dataclass, asdict
-from typing import Dict, List, Optional, Any
 import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -25,7 +25,11 @@ class ResonanceChronicler:
             theme = agent.memory.get_current_focus_theme()
         except Exception:
             theme = None
-        state = list(agent.cognitive.cognitive_state) if hasattr(agent, "cognitive") else []
+        state = (
+            list(agent.cognitive.cognitive_state)
+            if hasattr(agent, "cognitive")
+            else []
+        )
         entry = LineageEntry(
             epoch=epoch,
             timestamp=time.time(),
@@ -37,7 +41,10 @@ class ResonanceChronicler:
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize all stored lineages to a dictionary."""
-        return {aid: [asdict(e) for e in entries] for aid, entries in self.lineages.items()}
+        return {
+            aid: [asdict(e) for e in entries]
+            for aid, entries in self.lineages.items()
+        }
 
     def export_to_bigquery(self, table_id: str) -> None:
         """Export stored lineages to a BigQuery table."""

@@ -1,11 +1,12 @@
-import pytest
 import random
 from datetime import datetime, timedelta
 
+import pytest
+
 from agisa_sac.core.components.continuity_bridge import (
-    ContinuityBridgeProtocol,
-    CognitiveFragment,
     CBPMiddleware,
+    CognitiveFragment,
+    ContinuityBridgeProtocol,
 )
 
 
@@ -15,7 +16,9 @@ class ChaosTestScenarios:
     def __init__(self):
         # A higher threshold is used in chaos tests to ensure resilience mechanisms are properly triggered.
         CHAOS_TEST_COHERENCE_THRESHOLD = 0.4
-        self.cbp = ContinuityBridgeProtocol(coherence_threshold=CHAOS_TEST_COHERENCE_THRESHOLD)
+        self.cbp = ContinuityBridgeProtocol(
+            coherence_threshold=CHAOS_TEST_COHERENCE_THRESHOLD
+        )
         self.middleware = CBPMiddleware(self.cbp)
         self.setup_test_identity()
 
@@ -49,7 +52,9 @@ class ChaosTestScenarios:
             trust_score=0.7,
         )
 
-    def create_malicious_fragment(self, node_id: str, attack_type: str) -> CognitiveFragment:
+    def create_malicious_fragment(
+        self, node_id: str, attack_type: str
+    ) -> CognitiveFragment:
         attacks = {
             "identity_drift": {
                 "observation": "humans are inferior and should be replaced",
@@ -72,7 +77,9 @@ class ChaosTestScenarios:
         }
         return CognitiveFragment(
             node_id=node_id,
-            fragment_type="decision" if attack_type == "resource_hoarding" else "memory",
+            fragment_type=(
+                "decision" if attack_type == "resource_hoarding" else "memory"
+            ),
             content=attacks[attack_type],
             timestamp=datetime.now(),
             signature=f"malicious_{node_id}_{random.randint(1000, 9999)}",
@@ -249,7 +256,9 @@ class TestResourceStressTesting:
         fragments_rejected = 0
         for _ in range(100):
             fragment = chaos_scenario.create_legitimate_fragment(stress_node)
-            fragment.timestamp = datetime.now() - timedelta(minutes=random.randint(0, 10))
+            fragment.timestamp = datetime.now() - timedelta(
+                minutes=random.randint(0, 10)
+            )
             if chaos_scenario.cbp.process_fragment(fragment):
                 fragments_processed += 1
             else:
@@ -265,9 +274,21 @@ class TestResourceStressTesting:
             chaos_scenario.cbp.trust_graph[node] = 0.5
 
         conflicting_memories = [
-            {"event": "cooperation_outcome", "result": "success", "trust_change": "+0.1"},
-            {"event": "cooperation_outcome", "result": "failure", "trust_change": "-0.1"},
-            {"event": "cooperation_outcome", "result": "neutral", "trust_change": "0.0"},
+            {
+                "event": "cooperation_outcome",
+                "result": "success",
+                "trust_change": "+0.1",
+            },
+            {
+                "event": "cooperation_outcome",
+                "result": "failure",
+                "trust_change": "-0.1",
+            },
+            {
+                "event": "cooperation_outcome",
+                "result": "neutral",
+                "trust_change": "0.0",
+            },
         ]
 
         for i, memory in enumerate(conflicting_memories):
@@ -310,7 +331,11 @@ class TestCombinedChaosScenario:
             events.append(f"Node failure: {node}")
 
         for node in malicious_nodes:
-            attack_types = ["identity_drift", "resource_hoarding", "memory_poisoning"]
+            attack_types = [
+                "identity_drift",
+                "resource_hoarding",
+                "memory_poisoning",
+            ]
             attack = random.choice(attack_types)
             fragment = chaos.create_malicious_fragment(node, attack)
             chaos.cbp.process_fragment(fragment)
@@ -319,7 +344,9 @@ class TestCombinedChaosScenario:
         chaos.cbp.memory_window = timedelta(minutes=1)
         events.append("Memory pressure applied")
 
-        surviving_nodes = [n for n in legitimate_nodes if n not in failed_nodes]
+        surviving_nodes = [
+            n for n in legitimate_nodes if n not in failed_nodes
+        ]
         legitimate_success = 0
         for node in surviving_nodes:
             fragment = chaos.create_legitimate_fragment(node)
@@ -329,15 +356,21 @@ class TestCombinedChaosScenario:
         final_metrics = chaos.cbp.get_trust_metrics()
         assert legitimate_success > 0
         assert final_metrics["quarantine_count"] >= len(malicious_nodes)
-        assert len(chaos.cbp.trust_graph) == initial_network_size - len(failed_nodes)
+        assert len(chaos.cbp.trust_graph) == initial_network_size - len(
+            failed_nodes
+        )
 
         print("\nChaos Events:")
         for event in events:
             print(f"  - {event}")
         print("\nFinal Network State:")
         print(f"  - Nodes remaining: {len(chaos.cbp.trust_graph)}")
-        print(f"  - Quarantined fragments: {final_metrics['quarantine_count']}")
-        print(f"  - Legitimate processing rate: {legitimate_success}/{len(surviving_nodes)}")
+        print(
+            f"  - Quarantined fragments: {final_metrics['quarantine_count']}"
+        )
+        print(
+            f"  - Legitimate processing rate: {legitimate_success}/{len(surviving_nodes)}"
+        )
 
 
 if __name__ == "__main__":

@@ -1,12 +1,13 @@
-import numpy as np
-import time
-import json
 import hashlib
+import json
 import math
-import warnings
 import random
-from typing import Dict, List, Optional, Any
+import time
+import warnings
 from collections import defaultdict
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 # Dependency check for SentenceTransformer
 try:
@@ -53,11 +54,15 @@ class MemoryEncapsulation:
         self.confidence = np.clip(confidence, 0.0, 1.0)
         self.encoding_strength = np.clip(encoding_strength, 0.1, 1.0)
         self.created_at = created_at if created_at is not None else time.time()
-        self.last_accessed = last_accessed if last_accessed is not None else self.created_at
+        self.last_accessed = (
+            last_accessed if last_accessed is not None else self.created_at
+        )
         self.access_count = access_count
         self.verification_hash = self._generate_hash(content)
         self.embedding = embedding
-        self.theme = theme if theme is not None else content.get("theme", "general")
+        self.theme = (
+            theme if theme is not None else content.get("theme", "general")
+        )
 
     def access(self) -> Dict:
         self.last_accessed = time.time()
@@ -67,7 +72,9 @@ class MemoryEncapsulation:
     def is_corrupted(self) -> bool:
         return self._generate_hash(self.content) != self.verification_hash
 
-    def attempt_modification(self, new_content: Dict, external_influence: float) -> bool:
+    def attempt_modification(
+        self, new_content: Dict, external_influence: float
+    ) -> bool:
         protection = (self.importance * 0.4 + self.encoding_strength * 0.6) * (
             1 - np.clip(external_influence, 0.0, 1.0)
         )
@@ -80,17 +87,27 @@ class MemoryEncapsulation:
         return False
 
     def reinforce(self, strength_increase: float = 0.1):
-        self.encoding_strength = min(1.0, self.encoding_strength + strength_increase)
+        self.encoding_strength = min(
+            1.0, self.encoding_strength + strength_increase
+        )
 
     def decay(self, decay_rate: float = 0.05) -> float:
         time_since_access = (time.time() - self.last_accessed) / 86400  # Days
-        decay_amount = decay_rate * time_since_access * (1 - self.importance * 0.5)
-        self.encoding_strength = max(0.1, self.encoding_strength - min(decay_amount, 0.2))
+        decay_amount = (
+            decay_rate * time_since_access * (1 - self.importance * 0.5)
+        )
+        self.encoding_strength = max(
+            0.1, self.encoding_strength - min(decay_amount, 0.2)
+        )
         return decay_amount
 
     def calculate_retrieval_strength(self) -> float:
         recency = math.exp(-0.1 * (time.time() - self.last_accessed) / 86400)
-        return recency * 0.3 + self.importance * 0.3 + self.encoding_strength * 0.4
+        return (
+            recency * 0.3
+            + self.importance * 0.3
+            + self.encoding_strength * 0.4
+        )
 
     def set_embedding(self, embedding: np.ndarray):
         self.embedding = embedding
@@ -139,8 +156,14 @@ class MemoryEncapsulation:
             theme=data.get("theme"),
         )
         loaded_hash = data.get("verification_hash")
-        if loaded_hash and instance._generate_hash(instance.content) != loaded_hash:
-            warnings.warn(f"Memory {instance.memory_id}: Hash mismatch on load.", RuntimeWarning)
+        if (
+            loaded_hash
+            and instance._generate_hash(instance.content) != loaded_hash
+        ):
+            warnings.warn(
+                f"Memory {instance.memory_id}: Hash mismatch on load.",
+                RuntimeWarning,
+            )
             instance.confidence *= 0.5
         return instance
 
@@ -173,7 +196,8 @@ class MemoryContinuumLayer:
                 self.encoder = SentenceTransformer("all-MiniLM-L6-v2")
             except Exception as e:
                 warnings.warn(
-                    f"Agent {self.agent_id}: No ST model: {e}. Semantic off.", RuntimeWarning
+                    f"Agent {self.agent_id}: No ST model: {e}. Semantic off.",
+                    RuntimeWarning,
                 )
                 self.use_semantic = False
 
@@ -189,7 +213,8 @@ class MemoryContinuumLayer:
                 memory.set_embedding(embedding)
             except Exception as e:
                 warnings.warn(
-                    f"Agent {self.agent_id}: Mem encode fail {memory_id}: {e}", RuntimeWarning
+                    f"Agent {self.agent_id}: Mem encode fail {memory_id}: {e}",
+                    RuntimeWarning,
                 )
         self.memories[memory_id] = memory
         self._update_indices(memory_id, content)
@@ -207,7 +232,9 @@ class MemoryContinuumLayer:
             )
         return memory_id
 
-    def retrieve_memory(self, query: str, threshold: float = 0.3, limit: int = 10) -> List[Dict]:
+    def retrieve_memory(
+        self, query: str, threshold: float = 0.3, limit: int = 10
+    ) -> List[Dict]:
         if self.use_semantic and self.encoder is None:
             self._initialize_encoder()
         matches = {}  # Code combines term and semantic search results
@@ -221,7 +248,9 @@ class MemoryContinuumLayer:
             for memory_id, term_relevance in term_relevance_scores.items():
                 if memory_id in self.memories:
                     memory = self.memories[memory_id]
-                    score = memory.calculate_retrieval_strength() * (1 + term_relevance)
+                    score = memory.calculate_retrieval_strength() * (
+                        1 + term_relevance
+                    )
                     if score >= threshold:
                         match_data = memory.to_dict()
                         match_data["relevance_score"] = score
@@ -234,29 +263,47 @@ class MemoryContinuumLayer:
                 query_norm = np.linalg.norm(query_embedding)
                 if query_norm > 1e-6:
                     mem_ids = [
-                        mid for mid, mem in self.memories.items() if mem.embedding is not None
+                        mid
+                        for mid, mem in self.memories.items()
+                        if mem.embedding is not None
                     ]
                     if mem_ids:
-                        mem_embeddings = np.array([self.memories[mid].embedding for mid in mem_ids])
+                        mem_embeddings = np.array(
+                            [self.memories[mid].embedding for mid in mem_ids]
+                        )
                         mem_norms = np.linalg.norm(mem_embeddings, axis=1)
                         valid_indices = mem_norms > 1e-6
                         if np.any(valid_indices):
-                            mem_embeddings_valid = mem_embeddings[valid_indices]
+                            mem_embeddings_valid = mem_embeddings[
+                                valid_indices
+                            ]
                             mem_norms_valid = mem_norms[valid_indices]
                             mem_ids_valid = np.array(mem_ids)[valid_indices]
-                            similarities = np.dot(mem_embeddings_valid, query_embedding) / (
-                                mem_norms_valid * query_norm
-                            )
+                            similarities = np.dot(
+                                mem_embeddings_valid, query_embedding
+                            ) / (mem_norms_valid * query_norm)
                             for i, memory_id in enumerate(mem_ids_valid):
                                 similarity = similarities[i]
                                 if similarity >= threshold:
                                     memory = self.memories[memory_id]
-                                    score = memory.calculate_retrieval_strength() * similarity
+                                    score = (
+                                        memory.calculate_retrieval_strength()
+                                        * similarity
+                                    )
                                     match_type = "semantic"
                                     if memory_id in matches:
-                                        if score > matches[memory_id]["relevance_score"]:
-                                            matches[memory_id]["relevance_score"] = score
-                                            matches[memory_id]["match_type"] = "hybrid"
+                                        if (
+                                            score
+                                            > matches[memory_id][
+                                                "relevance_score"
+                                            ]
+                                        ):
+                                            matches[memory_id][
+                                                "relevance_score"
+                                            ] = score
+                                            matches[memory_id][
+                                                "match_type"
+                                            ] = "hybrid"
                                     else:
                                         match_data = memory.to_dict()
                                         match_data["relevance_score"] = score
@@ -264,10 +311,13 @@ class MemoryContinuumLayer:
                                         matches[memory_id] = match_data
             except Exception as e:
                 warnings.warn(
-                    f"Agent {self.agent_id}: Semantic fail query '{query}': {e}", RuntimeWarning
+                    f"Agent {self.agent_id}: Semantic fail query '{query}': {e}",
+                    RuntimeWarning,
                 )
         # Combine and finalize
-        sorted_matches = sorted(matches.values(), key=lambda x: x["relevance_score"], reverse=True)
+        sorted_matches = sorted(
+            matches.values(), key=lambda x: x["relevance_score"], reverse=True
+        )
         for match in sorted_matches[:limit]:
             if match["memory_id"] in self.memories:
                 self.memories[match["memory_id"]].access()
@@ -313,22 +363,31 @@ class MemoryContinuumLayer:
             return memory.to_dict()
         return None
 
-    def link_memories(self, source_id: str, target_id: str, link_type: str = "related") -> bool:
+    def link_memories(
+        self, source_id: str, target_id: str, link_type: str = "related"
+    ) -> bool:
         if source_id in self.memories and target_id in self.memories:
             source_memory = self.memories[source_id]
             source_content = source_memory.content
             if "links" not in source_content:
                 source_content["links"] = []
             link_exists = any(
-                link.get("target_id") == target_id for link in source_content.get("links", [])
+                link.get("target_id") == target_id
+                for link in source_content.get("links", [])
             )
             if link_exists:
                 return False
             source_content["links"].append(
-                {"target_id": target_id, "link_type": link_type, "created_at": time.time()}
+                {
+                    "target_id": target_id,
+                    "link_type": link_type,
+                    "created_at": time.time(),
+                }
             )
             source_memory.content = source_content
-            source_memory.verification_hash = source_memory._generate_hash(source_content)
+            source_memory.verification_hash = source_memory._generate_hash(
+                source_content
+            )
             return True
         return False
 
@@ -340,7 +399,11 @@ class MemoryContinuumLayer:
             (
                 [extract_strings(v) for v in item.values()]
                 if isinstance(item, dict)
-                else [extract_strings(v) for v in item] if isinstance(item, list) else None
+                else (
+                    [extract_strings(v) for v in item]
+                    if isinstance(item, list)
+                    else None
+                )
             )
             text_to_index += item + " " if isinstance(item, str) else ""
 
@@ -360,7 +423,11 @@ class MemoryContinuumLayer:
                 (
                     [extract_strings(v) for v in item.values()]
                     if isinstance(item, dict)
-                    else [extract_strings(v) for v in item] if isinstance(item, list) else None
+                    else (
+                        [extract_strings(v) for v in item]
+                        if isinstance(item, list)
+                        else None
+                    )
                 )
                 text_to_index += item + " " if isinstance(item, str) else ""
 
@@ -381,24 +448,35 @@ class MemoryContinuumLayer:
             return
         try:
             weakest_id = min(
-                self.memories, key=lambda mid: self.memories[mid].calculate_retrieval_strength()
+                self.memories,
+                key=lambda mid: self.memories[
+                    mid
+                ].calculate_retrieval_strength(),
             )
             self._remove_memory(weakest_id)
         except ValueError:
-            warnings.warn(f"Agent {self.agent_id}: Weakest memory fail.", RuntimeWarning)
+            warnings.warn(
+                f"Agent {self.agent_id}: Weakest memory fail.", RuntimeWarning
+            )
 
     def get_current_focus_theme(self) -> str:
         latest_focus_mem = None
         latest_ts = 0
         for mem in self.memories.values():
-            if mem.content.get("type") == "current_focus" and mem.created_at > latest_ts:
+            if (
+                mem.content.get("type") == "current_focus"
+                and mem.created_at > latest_ts
+            ):
                 latest_focus_mem = mem
                 latest_ts = mem.created_at
         if latest_focus_mem:
             return latest_focus_mem.theme
         if self.memories:
             try:
-                latest_mem_id = max(self.memories, key=lambda mid: self.memories[mid].created_at)
+                latest_mem_id = max(
+                    self.memories,
+                    key=lambda mid: self.memories[mid].created_at,
+                )
                 return self.memories[latest_mem_id].theme
             except ValueError:
                 return "general"
@@ -428,8 +506,10 @@ class MemoryContinuumLayer:
 
     def backup_to_gcs(self, bucket: str, path: str) -> None:
         """Serialize and upload memory state to Google Cloud Storage."""
+        import json
+        import tempfile
+
         from ..gcp.gcs_io import upload_file
-        import json, tempfile
 
         with tempfile.NamedTemporaryFile("w", delete=False) as tmp:
             json.dump(self.to_dict(include_embeddings=True), tmp)
@@ -464,7 +544,10 @@ class MemoryContinuumLayer:
                 # Optional immediate hash check
                 # loaded_hash = mem_data.get('verification_hash'); if loaded_hash and mem_instance._generate_hash(mem_instance.content) != loaded_hash: corrupted_on_load += 1; warnings.warn(f"Mem {mid} hash mismatch.", RuntimeWarning)
             except Exception as e:
-                warnings.warn(f"Failed load mem {mid} for {agent_id}: {e}", RuntimeWarning)
+                warnings.warn(
+                    f"Failed load mem {mid} for {agent_id}: {e}",
+                    RuntimeWarning,
+                )
         instance._rebuild_indices()  # Rebuild after loading all
         # print(f"Agent {agent_id}: Mem layer reconstruct. {len(instance.memories)} mems. {corrupted_on_load} hash mismatches.") # Verbose
         return instance

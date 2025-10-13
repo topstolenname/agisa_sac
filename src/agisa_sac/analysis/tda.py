@@ -1,6 +1,7 @@
-import numpy as np
 import warnings
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
 
 # Import framework version
 try:
@@ -30,11 +31,16 @@ class PersistentHomologyTracker:
 
     def __init__(self, max_dimension: int = 1):
         self.max_dimension = max_dimension
-        self.persistence_diagrams_history: List[Optional[List[np.ndarray]]] = []
+        self.persistence_diagrams_history: List[Optional[List[np.ndarray]]] = (
+            []
+        )
         self.has_tda_lib = HAS_RIPSER  # Store availability
 
     def compute_persistence(
-        self, point_cloud: np.ndarray, max_radius: Optional[float] = None, **ripser_kwargs
+        self,
+        point_cloud: np.ndarray,
+        max_radius: Optional[float] = None,
+        **ripser_kwargs,
     ) -> Optional[List[np.ndarray]]:
         """Computes persistence diagram using ripser."""
         if (
@@ -76,7 +82,9 @@ class PersistentHomologyTracker:
             self.persistence_diagrams_history.append(cleaned_diagrams)
             return cleaned_diagrams
         except Exception as e:
-            warnings.warn(f"Persistence computation failed: {e}", RuntimeWarning)
+            warnings.warn(
+                f"Persistence computation failed: {e}", RuntimeWarning
+            )
             self.persistence_diagrams_history.append(None)
             return None
 
@@ -99,12 +107,16 @@ class PersistentHomologyTracker:
         ):
             return False, 0.0
         current_diagram = np.array(current_diagram_list[comparison_dimension])
-        previous_diagram = np.array(previous_diagram_list[comparison_dimension])
+        previous_diagram = np.array(
+            previous_diagram_list[comparison_dimension]
+        )
         distance = 0.0
         if current_diagram.shape[0] == 0 and previous_diagram.shape[0] == 0:
             distance = 0.0
         elif current_diagram.shape[0] == 0 or previous_diagram.shape[0] == 0:
-            distance = threshold + 0.1  # Assume change if features appear/vanish
+            distance = (
+                threshold + 0.1
+            )  # Assume change if features appear/vanish
         else:
             try:
                 if distance_metric == "bottleneck":
@@ -147,10 +159,14 @@ class PersistentHomologyTracker:
             finite_persistence = persistence[np.isfinite(persistence)]
             summary[f"H{dim}_features"] = diag.shape[0]
             summary[f"H{dim}_total_persistence"] = (
-                float(np.sum(finite_persistence)) if finite_persistence.size > 0 else 0.0
+                float(np.sum(finite_persistence))
+                if finite_persistence.size > 0
+                else 0.0
             )
             summary[f"H{dim}_mean_persistence"] = (
-                float(np.mean(finite_persistence)) if finite_persistence.size > 0 else 0.0
+                float(np.mean(finite_persistence))
+                if finite_persistence.size > 0
+                else 0.0
             )
         return summary
 
@@ -169,12 +185,17 @@ class PersistentHomologyTracker:
         loaded_version = state.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Loading TDA v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.", UserWarning
+                f"Loading TDA v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
             )
         self.max_dimension = state.get("max_dimension", self.max_dimension)
         loaded_history = state.get("persistence_diagrams_history", [])
         self.persistence_diagrams_history = [
-            [np.array(d) for d in diag_list_data] if diag_list_data is not None else None
+            (
+                [np.array(d) for d in diag_list_data]
+                if diag_list_data is not None
+                else None
+            )
             for diag_list_data in loaded_history
         ]
         self.has_tda_lib = HAS_RIPSER  # Re-check on load

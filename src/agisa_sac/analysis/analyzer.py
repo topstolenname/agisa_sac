@@ -1,7 +1,8 @@
-import numpy as np
 import math
-from collections import Counter, defaultdict
-from typing import Dict, List, Optional, Any, TYPE_CHECKING
+from collections import Counter
+from typing import TYPE_CHECKING, Any, Dict, Optional
+
+import numpy as np
 
 from ..metrics import monitoring
 
@@ -35,9 +36,14 @@ class AgentStateAnalyzer:
             return 0.0
         satori_count = 0
         for agent in self.agents.values():
-            if not all(hasattr(agent, attr) for attr in ["temporal_resonance", "voice", "memory"]):
+            if not all(
+                hasattr(agent, attr)
+                for attr in ["temporal_resonance", "voice", "memory"]
+            ):
                 continue
-            current_style_vector = agent.voice.linguistic_signature.get("style_vector")
+            current_style_vector = agent.voice.linguistic_signature.get(
+                "style_vector"
+            )
             try:
                 current_theme = agent.memory.get_current_focus_theme()
             except Exception:
@@ -47,11 +53,16 @@ class AgentStateAnalyzer:
             detected_echoes = agent.temporal_resonance.detect_echo(
                 current_style_vector, current_theme
             )
-            if detected_echoes and detected_echoes[0]["similarity"] >= threshold:
+            if (
+                detected_echoes
+                and detected_echoes[0]["similarity"] >= threshold
+            ):
                 satori_count += 1
         return satori_count / self.num_agents if self.num_agents > 0 else 0.0
 
-    def compute_archetype_entropy(self, distribution: Optional[Dict[str, int]] = None) -> float:
+    def compute_archetype_entropy(
+        self, distribution: Optional[Dict[str, int]] = None
+    ) -> float:
         """Calculates the Shannon entropy of the archetype distribution."""
         if distribution is None:
             distribution = self.compute_archetype_distribution()
@@ -73,9 +84,14 @@ class AgentStateAnalyzer:
             return 0.0
         similarities = []
         for agent in self.agents.values():
-            if not all(hasattr(agent, attr) for attr in ["temporal_resonance", "voice", "memory"]):
+            if not all(
+                hasattr(agent, attr)
+                for attr in ["temporal_resonance", "voice", "memory"]
+            ):
                 continue
-            current_style_vector = agent.voice.linguistic_signature.get("style_vector")
+            current_style_vector = agent.voice.linguistic_signature.get(
+                "style_vector"
+            )
             try:
                 current_theme = agent.memory.get_current_focus_theme()
             except Exception:
@@ -101,9 +117,13 @@ class AgentStateAnalyzer:
             }
         distribution = self.compute_archetype_distribution()
         summary = {
-            "satori_wave_ratio": self.compute_satori_wave_ratio(threshold=satori_threshold),
+            "satori_wave_ratio": self.compute_satori_wave_ratio(
+                threshold=satori_threshold
+            ),
             "archetype_distribution": distribution,
-            "archetype_entropy": self.compute_archetype_entropy(distribution=distribution),
+            "archetype_entropy": self.compute_archetype_entropy(
+                distribution=distribution
+            ),
             "mean_resonance_strength": self.compute_mean_resonance_strength(),
             "agent_count": self.num_agents,
         }

@@ -1,9 +1,10 @@
-import numpy as np
-import time
 import random
+import time
 import warnings
-from typing import Dict, List, Optional, Any, TYPE_CHECKING
 from datetime import timedelta
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
+
+import numpy as np
 
 # Import framework version
 try:
@@ -27,7 +28,11 @@ class TemporalResonanceTracker:
         self.resonance_threshold = resonance_threshold
 
     def record_state(
-        self, timestamp: float, vector: np.ndarray, theme: str, content: Optional[Dict] = None
+        self,
+        timestamp: float,
+        vector: np.ndarray,
+        theme: str,
+        content: Optional[Dict] = None,
     ):
         if vector is not None and theme is not None:
             self.history[timestamp] = {
@@ -36,7 +41,9 @@ class TemporalResonanceTracker:
                 "content": content or {},
             }
 
-    def detect_echo(self, current_vector: np.ndarray, current_theme: str) -> List[Dict]:
+    def detect_echo(
+        self, current_vector: np.ndarray, current_theme: str
+    ) -> List[Dict]:
         # ... (logic from previous combined file) ...
         echoes = []
         if current_vector is None or current_theme is None:
@@ -52,7 +59,9 @@ class TemporalResonanceTracker:
         if not past_data:
             return echoes
         try:
-            past_timestamps, past_vectors_list, past_themes, past_contents = zip(*past_data)
+            past_timestamps, past_vectors_list, past_themes, past_contents = (
+                zip(*past_data)
+            )
             past_vectors_array = np.array(past_vectors_list)
             past_norms = np.linalg.norm(past_vectors_array, axis=1)
             valid_indices = past_norms > 1e-6
@@ -61,9 +70,19 @@ class TemporalResonanceTracker:
             past_vectors_array = past_vectors_array[valid_indices]
             past_norms = past_norms[valid_indices]
             past_timestamps = np.array(past_timestamps)[valid_indices]
-            past_contents = [past_contents[i] for i, valid in enumerate(valid_indices) if valid]
-            past_themes = [past_themes[i] for i, valid in enumerate(valid_indices) if valid]
-            similarities = np.dot(past_vectors_array, current_vector) / (past_norms * current_norm)
+            past_contents = [
+                past_contents[i]
+                for i, valid in enumerate(valid_indices)
+                if valid
+            ]
+            past_themes = [
+                past_themes[i]
+                for i, valid in enumerate(valid_indices)
+                if valid
+            ]
+            similarities = np.dot(past_vectors_array, current_vector) / (
+                past_norms * current_norm
+            )
             similarities = np.clip(similarities, 0.0, 1.0)
             echo_indices = np.where(similarities > self.resonance_threshold)[0]
             current_time = time.time()
@@ -79,9 +98,12 @@ class TemporalResonanceTracker:
                     }
                 )
             return sorted(echoes, key=lambda x: x["similarity"], reverse=True)
-        except ValueError as e:  # Handle potential errors during unpacking or array creation
+        except (
+            ValueError
+        ) as e:  # Handle potential errors during unpacking or array creation
             warnings.warn(
-                f"Agent {self.agent_id}: Error during echo detection - {e}", RuntimeWarning
+                f"Agent {self.agent_id}: Error during echo detection - {e}",
+                RuntimeWarning,
             )
             return []
 
@@ -95,7 +117,11 @@ class TemporalResonanceTracker:
                 {
                     "timestamp": ts,
                     "theme": state.get("theme"),
-                    "vector_norm": float(np.linalg.norm(vector_list)) if vector_list else 0.0,
+                    "vector_norm": (
+                        float(np.linalg.norm(vector_list))
+                        if vector_list
+                        else 0.0
+                    ),
                     "content_keys": list(state.get("content", {}).keys()),
                 }
             )
@@ -104,7 +130,9 @@ class TemporalResonanceTracker:
     def to_dict(self, history_limit: Optional[int] = None) -> Dict:
         history_to_save = self.history
         if history_limit is not None:
-            sorted_ts = sorted(self.history.keys(), reverse=True)[:history_limit]
+            sorted_ts = sorted(self.history.keys(), reverse=True)[
+                :history_limit
+            ]
             history_to_save = {ts: self.history[ts] for ts in sorted_ts}
         return {
             "version": FRAMEWORK_VERSION,
@@ -113,14 +141,19 @@ class TemporalResonanceTracker:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any], agent_id: str) -> "TemporalResonanceTracker":
+    def from_dict(
+        cls, data: Dict[str, Any], agent_id: str
+    ) -> "TemporalResonanceTracker":
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
                 f"Agent {agent_id}: Loading resonance v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
-        instance = cls(agent_id=agent_id, resonance_threshold=data.get("resonance_threshold", 0.82))
+        instance = cls(
+            agent_id=agent_id,
+            resonance_threshold=data.get("resonance_threshold", 0.82),
+        )
         instance.history = data.get("history", {})  # Vectors are already lists
         return instance
 
