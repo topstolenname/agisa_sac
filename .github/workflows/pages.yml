@@ -1,0 +1,70 @@
+name: Deploy MkDocs to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Render diagrams (Mermaid, Graphviz, Python)
+      - name: Setup Node for mermaid-cli
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm i -g @mermaid-js/mermaid-cli
+
+      - name: Render Mermaid to SVG
+        run: |
+          mkdir -p docs/figs/svg
+          shopt -s nullglob
+          for f in docs/figs/src/*.mmd; do
+            mmdc -i "$f" -o "docs/figs/svg/$(basename "${f%.mmd}.svg")" -w 1200 -s 2
+          done
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Render Graphviz to SVG
+        run: |
+          shopt -s nullglob
+          for f in docs/figs/src/*.dot; do
+            dot -Tsvg "$f" -o "docs/figs/svg/$(basename "${f%.dot}.svg")"
+          done
+
+      - name: Python figure scripts (optional)
+        run: |
+          python - <<'PY'
+          import subprocess, os, glob
+          os.makedirs('docs/figs/svg', exist_ok=True)
+          if os.path.exists('docs/figs/src/figure1_persistence.py'):
+              subprocess.check_call(['python', 'docs/figs/src/figure1_persistence.py'])
+          PY
+
+      - name: Build site
+        run: mkdocs build --clean --strict
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
