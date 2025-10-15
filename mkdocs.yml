@@ -1,0 +1,62 @@
+site_name: Mindlink / The Agentic Swarm
+site_description: Emergent agent swarms, ethical governance, and AGI system architecture
+repo_url: https://github.com/topstolenname/agisa_sac
+repo_name: topstolenname/agisa_sac
+docs_dir: docs
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.tracking
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep purple
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+  - mermaid2
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - footnotes
+  - def_list
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.emoji
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/topstolenname/agisa_sac
+nav:
+  - Home: index.md
+  - Paper:
+      - "Mindlink Paper": Mindlink_Paper.md
+  - Gallery:
+      - Overview: gallery/index.md
+      - "Figure 1 – Persistence": gallery/figure1.md
+      - "Figure 2 – Mapper": gallery/figure2.md
+      - "Figure 3 – Network": gallery/figure3.md
+      - "Figure 4 – Convergence": gallery/figure4.md
+      - "Figure 5 – Identity": gallery/figure5.md
+      - "Figure 6 – Workflow": gallery/figure6.md
+      - "Figure 7 – Dashboard": gallery/figure7.md
+  - API:
+      - agisa_sac: api/agisa_sac.md
+  - Supplement:
+      - Citation Guide: CITATION_GUIDE.md
+      - Figure Catalog: FIGURE_CATALOG.md
+      - Start Here: START_HERE.md
+      - Implementation: README_IMPLEMENTATION.md
