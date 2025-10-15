@@ -1,0 +1,39 @@
+name: Build Diagrams
+on:
+  push:
+    paths:
+      - 'docs/figs/src/**'
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node (mermaid-cli)
+        uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm i -g @mermaid-js/mermaid-cli
+      - name: Render Mermaid
+        run: |
+          mkdir -p docs/figs/svg
+          for f in docs/figs/src/*.mmd; do
+            [ -e "$f" ] || continue
+            mmdc -i "$f" -o "docs/figs/svg/$(basename "${f%.mmd}.svg")" -w 1200 -s 2
+          done
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+      - name: Render Graphviz
+        run: |
+          for f in docs/figs/src/*.dot; do
+            [ -e "$f" ] || continue
+            dot -Tsvg "$f" -o "docs/figs/svg/$(basename "${f%.dot}.svg")"
+          done
+      - name: Python figure scripts
+        uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
+          python -m pip install matplotlib
+          [ -f docs/figs/src/figure1_persistence.py ] && python docs/figs/src/figure1_persistence.py || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: figs-svg
+          path: docs/figs/svg

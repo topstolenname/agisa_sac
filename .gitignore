@@ -1,5 +1,10 @@
 __pycache__/
 *.pyc
+.env
 .env/
+.venv/
 .idea/
 .vscode/
+build/
+site/
+docs/figs/png/
