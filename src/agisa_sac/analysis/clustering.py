@@ -1,44 +1,40 @@
-import warnings
-from typing import TYPE_CHECKING, Dict, List, Optional
+# ==============================================================================
+# STRANGLER FIG PATTERN: Compatibility Shim
+# ==============================================================================
+# This file is a compatibility shim for the Strangler Fig refactoring pattern.
+# 
+# The canonical source for this function has been migrated to:
+#   AGI-SAC_Clean/src/agisa_sac/analysis/clustering.py
+#
+# This shim ensures that existing import paths continue to work during the
+# transition period. Once all code has been updated to import from the new
+# location, this file can be safely deleted.
+#
+# Migration date: October 16, 2025
+# ==============================================================================
 
-# Use TYPE_CHECKING for chronicler hint
-if TYPE_CHECKING:
-    from ..chronicler import (
-        ResonanceChronicler,
-    )  # Adjust if chronicler is moved
+import sys
+import os
+import importlib.util
 
-# Dependency check
-try:
+# Calculate the path to the clean repository's clustering.py
+_base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../'))
+_clean_path = os.path.join(_base_path, 'AGI-SAC_Clean/src/agisa_sac/analysis/clustering.py')
 
-    HAS_SKLEARN = True
-except ImportError:
-    HAS_SKLEARN = False
-    warnings.warn(
-        "`scikit-learn` not found. Archetype clustering disabled.",
-        ImportWarning,
-    )
+# Load the module directly from the clean repository using importlib
+_spec = importlib.util.spec_from_file_location("_clean_clustering", _clean_path)
+if _spec is None or _spec.loader is None:
+    raise ImportError(f"Could not load clustering module from clean repository: {_clean_path}")
 
+_clean_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_clean_module)
 
-def cluster_archetypes(
-    chronicler: "ResonanceChronicler",
-    n_clusters: int = 5,
-    min_samples: int = 10,
-) -> Optional[Dict[int, List[str]]]:
-    """
-    Clusters agent style vectors recorded by the chronicler using KMeans
-    to identify emergent archetypes based on linguistic style.
+# Re-export the function from the clean repository
+cluster_archetypes = _clean_module.cluster_archetypes
 
-    Args:
-        chronicler: The ResonanceChronicler instance containing simulation history.
-        n_clusters: The target number of clusters (archetypes) to find.
-        min_samples: Minimum number of style vectors required to attempt clustering.
+__all__ = ["cluster_archetypes"]
 
-    Returns:
-        A dictionary mapping cluster label (int) to a list of agent IDs belonging
-        predominantly to that cluster, or None if clustering fails or insufficient data.
-    """
-    if not HAS_SKLEARN:
-        warnings.warn(
-            "Cannot cluster archetypes: scikit-learn not installed.",
-            RuntimeWarning,
-        )
+# ==============================================================================
+# Original implementation has been moved to:
+#   AGI-SAC_Clean/src/agisa_sac/analysis/clustering.py
+# ==============================================================================

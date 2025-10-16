@@ -78,9 +78,28 @@ PUBSUB_TOPIC = os.getenv("PUBSUB_TOPIC", "")
 FIRESTORE_COLLECTION = os.getenv("FIRESTORE_COLLECTION", "agent_states")
 VERTEX_LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")
 
-# Reused service clients
-db = firestore.Client() if HAS_FIRESTORE else None
-storage_client = storage.Client() if HAS_GOOGLE_STORAGE else None
+# Reused service clients - only initialize if credentials are available
+db = None
+storage_client = None
+
+# Lazy initialization of GCP clients to avoid credential errors at import time
+def _get_firestore_client():
+    global db
+    if db is None and HAS_FIRESTORE:
+        try:
+            db = firestore.Client()
+        except Exception:
+            pass  # Credentials not available
+    return db
+
+def _get_storage_client():
+    global storage_client
+    if storage_client is None and HAS_GOOGLE_STORAGE:
+        try:
+            storage_client = storage.Client()
+        except Exception:
+            pass  # Credentials not available
+    return storage_client
 
 
 # ------------------------------
@@ -95,7 +114,10 @@ def upload_bytes(
     """Upload data to Cloud Storage and return the public URL."""
     if not HAS_GOOGLE_STORAGE:
         raise ImportError("google-cloud-storage is required for upload_bytes")
-    bucket = storage_client.bucket(GCS_BUCKET)
+    client = _get_storage_client()
+    if not client:
+        raise RuntimeError("Google Cloud Storage client not available")
+    bucket = client.bucket(GCS_BUCKET)
     blob = bucket.blob(blob_name)
     blob.upload_from_string(data, content_type=content_type)
     logger.info("Uploaded %s to GCS bucket %s", blob_name, GCS_BUCKET)
@@ -108,7 +130,10 @@ def download_bytes(blob_name: str) -> Optional[bytes]:
         raise ImportError(
             "google-cloud-storage is required for download_bytes"
         )
-    bucket = storage_client.bucket(GCS_BUCKET)
+    client = _get_storage_client()
+    if not client:
+        raise RuntimeError("Google Cloud Storage client not available")
+    bucket = client.bucket(GCS_BUCKET)
     blob = bucket.blob(blob_name)
     logger.info("Downloading %s from GCS bucket %s", blob_name, GCS_BUCKET)
     try:
@@ -125,7 +150,10 @@ def save_state(agent_id: str, state: Dict[str, Any]) -> None:
     """Persist agent state to Firestore."""
     if not HAS_FIRESTORE:
         raise ImportError("google-cloud-firestore is required for save_state")
-    db.collection(FIRESTORE_COLLECTION).document(agent_id).set(state)
+    client = _get_firestore_client()
+    if not client:
+        raise RuntimeError("Firestore client not available")
+    client.collection(FIRESTORE_COLLECTION).document(agent_id).set(state)
     logger.info("Saved agent state for %s", agent_id)
 
 
@@ -133,7 +161,10 @@ def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
     """Load agent state from Firestore."""
     if not HAS_FIRESTORE:
         raise ImportError("google-cloud-firestore is required for load_state")
-    doc = db.collection(FIRESTORE_COLLECTION).document(agent_id).get()
+    client = _get_firestore_client()
+    if not client:
+        raise RuntimeError("Firestore client not available")
+    doc = client.collection(FIRESTORE_COLLECTION).document(agent_id).get()
     if doc.exists:
         return doc.to_dict()
     return None

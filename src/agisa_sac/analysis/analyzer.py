@@ -1,137 +1,40 @@
-import math
-from collections import Counter
-from typing import TYPE_CHECKING, Any, Dict, Optional
+# ==============================================================================
+# STRANGLER FIG PATTERN: Compatibility Shim
+# ==============================================================================
+# This file is a compatibility shim for the Strangler Fig refactoring pattern.
+# 
+# The canonical source for this class has been migrated to:
+#   AGI-SAC_Clean/src/agisa_sac/analysis/analyzer.py
+#
+# This shim ensures that existing import paths continue to work during the
+# transition period. Once all code has been updated to import from the new
+# location, this file can be safely deleted.
+#
+# Migration date: October 16, 2025
+# ==============================================================================
 
-import numpy as np
+import sys
+import os
+import importlib.util
 
-from ..metrics import monitoring
+# Calculate the path to the clean repository's analyzer.py
+_base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../'))
+_clean_path = os.path.join(_base_path, 'AGI-SAC_Clean/src/agisa_sac/analysis/analyzer.py')
 
-# Use TYPE_CHECKING for agent hint if EnhancedAgent imports this module
-if TYPE_CHECKING:
-    from ..agent import EnhancedAgent
+# Load the module directly from the clean repository using importlib
+_spec = importlib.util.spec_from_file_location("_clean_analyzer", _clean_path)
+if _spec is None or _spec.loader is None:
+    raise ImportError(f"Could not load analyzer module from clean repository: {_clean_path}")
 
+_clean_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_clean_module)
 
-class AgentStateAnalyzer:
-    """Computes system-wide metrics based on the current state of all agents."""
+# Re-export the class from the clean repository
+AgentStateAnalyzer = _clean_module.AgentStateAnalyzer
 
-    def __init__(self, agents: Dict[str, "EnhancedAgent"]):
-        if not isinstance(agents, dict):
-            raise TypeError("Input 'agents' must be a dictionary.")
-        self.agents = agents
-        self.num_agents = len(agents)
+__all__ = ["AgentStateAnalyzer"]
 
-    def compute_archetype_distribution(self) -> Dict[str, int]:
-        """Calculates the frequency distribution of declared agent archetypes."""
-        if not self.agents:
-            return {}
-        return Counter(
-            agent.voice.linguistic_signature.get("archetype", "unknown")
-            for agent in self.agents.values()
-            if hasattr(agent, "voice")
-        )
-
-    def compute_satori_wave_ratio(self, threshold: float = 0.88) -> float:
-        """Calculates proportion of agents meeting satori echo threshold. (Canonical)"""
-        if not self.agents:
-            return 0.0
-        satori_count = 0
-        for agent in self.agents.values():
-            if not all(
-                hasattr(agent, attr)
-                for attr in ["temporal_resonance", "voice", "memory"]
-            ):
-                continue
-            current_style_vector = agent.voice.linguistic_signature.get(
-                "style_vector"
-            )
-            try:
-                current_theme = agent.memory.get_current_focus_theme()
-            except Exception:
-                current_theme = None
-            if current_style_vector is None or current_theme is None:
-                continue
-            detected_echoes = agent.temporal_resonance.detect_echo(
-                current_style_vector, current_theme
-            )
-            if (
-                detected_echoes
-                and detected_echoes[0]["similarity"] >= threshold
-            ):
-                satori_count += 1
-        return satori_count / self.num_agents if self.num_agents > 0 else 0.0
-
-    def compute_archetype_entropy(
-        self, distribution: Optional[Dict[str, int]] = None
-    ) -> float:
-        """Calculates the Shannon entropy of the archetype distribution."""
-        if distribution is None:
-            distribution = self.compute_archetype_distribution()
-        if not distribution:
-            return 0.0
-        total_agents = sum(distribution.values())
-        if total_agents == 0:
-            return 0.0
-        entropy = 0.0
-        for count in distribution.values():
-            if count > 0:
-                probability = count / total_agents
-                entropy -= probability * math.log2(probability)
-        return entropy
-
-    def compute_mean_resonance_strength(self) -> float:
-        """Calculates the average similarity of the strongest echo for agents with echoes."""
-        if not self.agents:
-            return 0.0
-        similarities = []
-        for agent in self.agents.values():
-            if not all(
-                hasattr(agent, attr)
-                for attr in ["temporal_resonance", "voice", "memory"]
-            ):
-                continue
-            current_style_vector = agent.voice.linguistic_signature.get(
-                "style_vector"
-            )
-            try:
-                current_theme = agent.memory.get_current_focus_theme()
-            except Exception:
-                current_theme = None
-            if current_style_vector is None or current_theme is None:
-                continue
-            detected_echoes = agent.temporal_resonance.detect_echo(
-                current_style_vector, current_theme
-            )
-            if detected_echoes:
-                similarities.append(detected_echoes[0]["similarity"])
-        return float(np.mean(similarities)) if similarities else 0.0
-
-    def summarize(self, satori_threshold: float = 0.88) -> Dict[str, Any]:
-        """Computes and returns a dictionary containing all key system metrics."""
-        if not self.agents:
-            return {
-                "satori_wave_ratio": 0.0,
-                "archetype_distribution": {},
-                "archetype_entropy": 0.0,
-                "mean_resonance_strength": 0.0,
-                "agent_count": 0,
-            }
-        distribution = self.compute_archetype_distribution()
-        summary = {
-            "satori_wave_ratio": self.compute_satori_wave_ratio(
-                threshold=satori_threshold
-            ),
-            "archetype_distribution": distribution,
-            "archetype_entropy": self.compute_archetype_entropy(
-                distribution=distribution
-            ),
-            "mean_resonance_strength": self.compute_mean_resonance_strength(),
-            "agent_count": self.num_agents,
-        }
-        return summary
-
-    def generate_monitoring_metrics(self) -> Dict[str, Dict[str, float]]:
-        """Return monitoring metrics for each agent."""
-        metrics: Dict[str, Dict[str, float]] = {}
-        for agent_id, agent in self.agents.items():
-            metrics[agent_id] = monitoring.generate_monitoring_metrics(agent)
-        return metrics
+# ==============================================================================
+# Original implementation has been moved to:
+#   AGI-SAC_Clean/src/agisa_sac/analysis/analyzer.py
+# ==============================================================================
