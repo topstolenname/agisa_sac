@@ -38,7 +38,7 @@ jobs:
           mkdir -p docs/figs/svg
           shopt -s nullglob
           for f in docs/figs/src/*.mmd; do
-            mmdc -i "$f" -o "docs/figs/svg/$(basename "${f%.mmd}.svg")" -w 1200 -s 2
+            mmdc --no-sandbox -i "$f" -o "docs/figs/svg/$(basename "${f%.mmd}.svg")" -w 1200 -s 2
           done
 
       - name: Install Graphviz
