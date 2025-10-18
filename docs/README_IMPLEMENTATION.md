@@ -215,28 +215,28 @@ mmdc -i source.mmd -o output-mobile.svg -w 600 -s 1
 ```
 agisa_sac/
 ├── docs/
-â"‚   ├── The_Agentic_Swarm.docx         # Main document
-â"‚   ├── The_Conscious_Machine.pdf       # Co-authored whitepaper
-â"‚   ├── CITATION_GUIDE.md               # From this package
-â"‚   ├── FIGURE_CATALOG.md               # From this package
-â"‚   └── figs/
-â"‚       ├── src/                        # Source diagrams
-â"‚       â"‚   ├── figure1_persistence.py
-â"‚       â"‚   ├── figure2_mapper.dot
-â"‚       â"‚   ├── figure3_network_enhanced.mmd
-â"‚       â"‚   ├── figure4_convergence_enhanced.mmd
-â"‚       â"‚   ├── figure5_identity_enhanced.mmd
-â"‚       â"‚   ├── figure6_workflow_enhanced.mmd
-â"‚       â"‚   └── figure7_dashboard.jsx
-â"‚       ├── svg/                        # Rendered SVG (auto-generated)
-â"‚       ├── png/                        # Raster exports (auto-generated)
-â"‚       ├── alt/                        # Alt-text from this package
-â"‚       └── captions.yaml               # Metadata (optional)
+│   ├── The_Agentic_Swarm.docx         # Main document
+│   ├── The_Conscious_Machine.pdf       # Co-authored whitepaper
+│   ├── CITATION_GUIDE.md               # From this package
+│   ├── FIGURE_CATALOG.md               # From this package
+│   └── figs/
+│       ├── src/                        # Source diagrams
+│       │   ├── figure1_persistence.py
+│       │   ├── figure2_mapper.dot
+│       │   ├── figure3_network_enhanced.mmd
+│       │   ├── figure4_convergence_enhanced.mmd
+│       │   ├── figure5_identity_enhanced.mmd
+│       │   ├── figure6_workflow_enhanced.mmd
+│       │   └── figure7_dashboard.jsx
+│       ├── svg/                        # Rendered SVG (auto-generated)
+│       ├── png/                        # Raster exports (auto-generated)
+│       ├── alt/                        # Alt-text from this package
+│       └── captions.yaml               # Metadata (optional)
 ├── .github/
-â"‚   └── workflows/
-â"‚       └── diagram-build.yml           # From uploads
+│   └── workflows/
+│       └── diagram-build.yml           # From uploads
 ├── src/
-â"‚   └── agisa_sac/                  # Python package
+│   └── agisa_sac/                  # Python package
 └── README.md                           # Main repo README
 ```
 
@@ -343,9 +343,9 @@ Jessup, T. J. (2025). Pub/Sub topics as global workspace [Figure].
 ```
 [Slide with Figure 3]
 
-â€¢ Decentralized architecture
-â€¢ No centralized orchestration
-â€¢ Emergent coordination through message passing
+"¢ Decentralized architecture
+"¢ No centralized orchestration
+"¢ Emergent coordination through message passing
 
 Source: Jessup (2025), "The Agentic Swarm," 
 https://github.com/topstolenname/agisa_sac

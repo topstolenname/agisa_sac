@@ -288,7 +288,7 @@ docs/figs/
 
 4. **Update this README** with new row in Figure Matrix table
 
-5. **Commit and push**â€"GitHub Action automatically renders and validates
+5. **Commit and push**—GitHub Action automatically renders and validates
 
 ### Quality Checklist
 

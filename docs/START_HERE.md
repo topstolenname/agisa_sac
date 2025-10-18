@@ -29,8 +29,8 @@ your-repo/docs/
 ├── README_IMPLEMENTATION.md
 └── figs/
     ├── alt/                      # 7 alt-text files
-    â"‚   ├── fig01_persistence_alt.md
-    â"‚   └── ...
+    │   ├── fig01_persistence_alt.md
+    │   └── ...
     └── src/                      # 4 enhanced diagram sources
         ├── figure3_network_enhanced.mmd
         └── ...
@@ -52,7 +52,7 @@ open docs/figs/svg/figure3.svg  # macOS
 
 ---
 
-## ðŸ"š Essential Reading Order
+## 📚 Essential Reading Order
 
 ### For First-Time Users (30 minutes total)
 
@@ -76,7 +76,7 @@ open docs/figs/svg/figure3.svg  # macOS
 
 ---
 
-## ðŸ" File Manifest (17 files)
+## 🔍 File Manifest (17 files)
 
 ### Primary Documentation (5 files)
 - `INDEX.md` .................... Master index with quick reference
@@ -103,19 +103,19 @@ open docs/figs/svg/figure3.svg  # macOS
 
 ---
 
-## ðŸ—º️ Navigation Map
+## 🗺️ Navigation Map
 
 ```
 START_HERE.md (YOU ARE HERE)
-        â"‚
+        │
         ├── Need citations? ────────────> CITATION_GUIDE.md
-        â"‚
+        │
         ├── Want to browse figures? ────> FIGURE_CATALOG.md
-        â"‚
+        │
         ├── Ready to implement? ────────> README_IMPLEMENTATION.md
-        â"‚
+        │
         ├── Need comprehensive overview? ─> PACKAGE_SUMMARY.md
-        â"‚
+        │
         └── Just want quick navigation? ─> INDEX.md
 ```
 
@@ -188,7 +188,7 @@ git push
 
 ---
 
-## ðŸ"Š Package Statistics
+## 🔍Š Package Statistics
 
 **Files**: 17 total (5 docs + 7 alt-text + 4 diagrams + 1 tree)  
 **Size**: 101KB total  
@@ -214,7 +214,7 @@ This package has been validated for:
 
 ---
 
-## ðŸ"§ Troubleshooting
+## 🔍§ Troubleshooting
 
 **Problem**: "I don't know where to start"  
 **Solution**: Read this file (START_HERE.md) then INDEX.md
@@ -233,7 +233,7 @@ This package has been validated for:
 
 ---
 
-## ðŸ"ž Contact & Support
+## 🔍ž Contact & Support
 
 **Maintainer**: Tristan J. Jessup  
 **Email**: tristan@mindlink.dev  
@@ -253,7 +253,7 @@ Copyright Â© 2025 Tristan J. Jessup
 
 ---
 
-## ðŸ"… Version & Roadmap
+## 🔍… Version & Roadmap
 
 **Current**: v1.0.0 (October 15, 2025)  
 **Next**: v1.1.0 (TBD) - Temporal evolution heatmaps, interactive network graph  
