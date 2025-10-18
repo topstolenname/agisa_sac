@@ -24,6 +24,7 @@ src/agisa_sac/core/components/cognitive.py
 src/agisa_sac/core/components/continuity_bridge.py
 src/agisa_sac/core/components/crdt_memory.py
 src/agisa_sac/core/components/enhanced_cbp.py
+src/agisa_sac/core/components/memory.py
 src/agisa_sac/core/components/reflexivity.py
 src/agisa_sac/core/components/resonance.py
 src/agisa_sac/core/components/semantic_analyzer.py

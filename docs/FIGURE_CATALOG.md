@@ -17,13 +17,13 @@ Visual mapping of concepts to figures, with metadata and links:
 
 | # | Conceptual Domain | Figure Title | Type | Source | Rendered | Alt-Text | Caption |
 |---|-------------------|--------------|------|--------|----------|----------|---------|
-| 1 | TDA/Topology | Persistence Diagram | Python | [figure1_persistence.py](../src/figure1_persistence.py) | [figure1.svg](../svg/figure1.svg) | [Alt](../alt/fig01_persistence_alt.md) | β₀/β₁ persistence tracking system coherence |
-| 2 | TDA/Topology | Mapper Graph | Graphviz | [figure2_mapper.dot](../src/figure2_mapper.dot) | [figure2.svg](../svg/figure2.svg) | [Alt](../alt/fig02_mapper_alt.md) | Topological skeleton of behavior space |
-| 3 | Architecture | Decentralized Agent Network | Mermaid | [figure3_network.mmd](../src/figure3_network.mmd) | [figure3.svg](../svg/figure3.svg) | [Alt](../alt/fig03_network_alt.md) | Pub/Sub as global workspace |
-| 4 | Safety/Ethics | Instrumental Convergence | Mermaid | [figure4_convergence.mmd](../src/figure4_convergence.mmd) | [figure4.svg](../svg/figure4.svg) | [Alt](../alt/fig04_convergence_alt.md) | Diverse goals → shared subgoals |
-| 5 | Identity | Identity Layer Stack | Mermaid | [figure5_identity.mmd](../src/figure5_identity.mmd) | [figure5.svg](../svg/figure5.svg) | [Alt](../alt/fig05_identity_alt.md) | Cryptographic → Credential → Relational |
-| 6 | Implementation | agisa_sac Workflow | Mermaid | [figure6_workflow.mmd](../src/figure6_workflow.mmd) | [figure6.svg](../svg/figure6.svg) | [Alt](../alt/fig06_workflow_alt.md) | Task → Plan → Execute → Evaluate → Persist |
-| 7 | Observability | Consciousness Metrics Dashboard | React/JSX | [figure7_dashboard.jsx](../src/figure7_dashboard.jsx) | *Interactive* | [Alt](../alt/fig07_dashboard_alt.md) | Live: Φ, recursion, coherence, memory |
+| 1 | TDA/Topology | Persistence Diagram | Python | [figure1_persistence.py](figs/src/figure1_persistence.py) | [figure1.svg](figs/svg/figure1.svg) | [Alt](figs/alt/fig01_persistence_alt.md) | β₀/β₁ persistence tracking system coherence |
+| 2 | TDA/Topology | Mapper Graph | Graphviz | [figure2_mapper.dot](figs/src/figure2_mapper.dot) | [figure2.svg](figs/svg/figure2.svg) | [Alt](figs/alt/fig02_mapper_alt.md) | Topological skeleton of behavior space |
+| 3 | Architecture | Decentralized Agent Network | Mermaid | [figure3_network.mmd](figs/src/figure3_network.mmd) | [figure3.svg](figs/svg/figure3.svg) | [Alt](figs/alt/fig03_network_alt.md) | Pub/Sub as global workspace |
+| 4 | Safety/Ethics | Instrumental Convergence | Mermaid | [figure4_convergence.mmd](figs/src/figure4_convergence.mmd) | [figure4.svg](figs/svg/figure4.svg) | [Alt](figs/alt/fig04_convergence_alt.md) | Diverse goals → shared subgoals |
+| 5 | Identity | Identity Layer Stack | Mermaid | [figure5_identity.mmd](figs/src/figure5_identity.mmd) | [figure5.svg](figs/svg/figure5.svg) | [Alt](figs/alt/fig05_identity_alt.md) | Cryptographic → Credential → Relational |
+| 6 | Implementation | agisa_sac Workflow | Mermaid | [figure6_workflow.mmd](figs/src/figure6_workflow.mmd) | [figure6.svg](figs/svg/figure6.svg) | [Alt](figs/alt/fig06_workflow_alt.md) | Task → Plan → Execute → Evaluate → Persist |
+| 7 | Observability | Consciousness Metrics Dashboard | React/JSX | [figure7_dashboard.jsx](figs/src/figure7_dashboard.jsx) | *Interactive* | [Alt](figs/alt/fig07_dashboard_alt.md) | Live: Φ, recursion, coherence, memory |
 
 ---
 
@@ -159,7 +159,7 @@ All diagrams maintain WCAG 2.1 AA compliance:
    ```bash
    inkscape figure1.svg --export-pdf=figure1.pdf --export-dpi=300
    ```
-3. Cite using formats in [CITATION_GUIDE.md](../../CITATION_GUIDE.md)
+3. Cite using formats in [CITATION_GUIDE.md](CITATION_GUIDE.md)
 
 **Journal Submissions**:
 - Single-column width: 3.5 inches (1050px @ 300 DPI)
@@ -312,7 +312,7 @@ Before committing new figures:
 
 **Issues/Questions**: https://github.com/topstolenname/agisa_sac/issues
 
-**Contributing**: See [CONTRIBUTING.md](../../CONTRIBUTING.md) for collaboration guidelines
+**Contributing**: See [CONTRIBUTING.md](../CONTRIBUTING.md) for collaboration guidelines
 
 ---
 
