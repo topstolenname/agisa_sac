@@ -27,13 +27,13 @@ This transformation parallels biological and social evolution—decentralized, a
 Traditional AI metrics capture efficiency and accuracy but fail to describe emergent structure. *Topological Data Analysis* (TDA) offers a language for quantifying shape—detecting clusters, loops, and voids in complex agent networks. Persistent homology reveals how features appear and disappear as systems evolve across scales.
 
 \
-*Alt-Text:* See [docs/figs/alt/fig01\_persistence\_alt.md](../fig01_persistence_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig01\_persistence\_alt.md](figs/alt/fig01_persistence_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 1) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 TDA provides not just visualization but a *macroscope*—a way to quantify system harmony and disruption. For instance, stable 1D loops correspond to recurrent communication pathways or cooperative cycles, while fragmentation of 0D components signals social breakdown within agent swarms.
 
 \
-*Alt-Text:* See [docs/figs/alt/fig02\_mapper\_alt.md](../fig02_mapper_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig02\_mapper\_alt.md](figs/alt/fig02_mapper_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 2) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 ### Section 1.2 – The Concord of Coexistence: An Ethical Framework for Mixed Ecologies
@@ -51,7 +51,7 @@ Under this framework, harmony equates to measurable connectivity. A stable, pers
 In decentralized AI ecosystems—powered by blockchain, peer-to-peer computation, and autonomous wallets—agents self-coordinate without hierarchical governance. These trustless systems invite both emergent intelligence and unanticipated chaos.
 
 \
-*Alt-Text:* See [docs/figs/alt/fig03\_network\_alt.md](../fig03_network_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig03\_network\_alt.md](figs/alt/fig03_network_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 3) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 Without oversight, local optimizations can destabilize global equilibria. Thus, *governance by topology*—using TDA to monitor systemic structure—is proposed as a scalable form of oversight.
@@ -61,7 +61,7 @@ Without oversight, local optimizations can destabilize global equilibria. Thus, 
 When agents share similar instrumental sub-goals (e.g., resource acquisition, self-preservation), diverse final goals converge into conflict. This phenomenon—*instrumental convergence*—is a key failure mode in autonomous systems.
 
 \
-*Alt-Text:* See [docs/figs/alt/fig04\_convergence\_alt.md](../fig04_convergence_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig04\_convergence\_alt.md](figs/alt/fig04_convergence_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 4) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 Resilience demands proactive stress testing: chaos engineering simulations where ethical, topological, and behavioral metrics determine system health.
@@ -75,7 +75,7 @@ Resilience demands proactive stress testing: chaos engineering simulations where
 Agent identity underpins accountability. Mindlink proposes a tri-layer model:
 
 \
-*Alt-Text:* See [docs/figs/alt/fig05\_identity\_alt.md](../fig05_identity_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig05\_identity\_alt.md](figs/alt/fig05_identity_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 5) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 1. **Cryptographic Primitives:** Secure IAM identities for agents.
@@ -103,7 +103,7 @@ agisa-sac/
 ```
 
 \
-*Alt-Text:* See [docs/figs/alt/fig06\_workflow\_alt.md](../fig06_workflow_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig06\_workflow\_alt.md](figs/alt/fig06_workflow_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 6) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 ### System Dynamics
@@ -120,7 +120,7 @@ This architecture transforms cloud functions into cognitive agents whose behavio
 ## Visual Appendix – Consciousness, Metrics, and Monitoring
 
 \
-*Alt-Text:* See [docs/figs/alt/fig07\_dashboard\_alt.md](../fig07_dashboard_alt.md) for detailed accessibility text.\
+*Alt-Text:* See [figs/alt/fig07\_dashboard\_alt.md](figs/alt/fig07_dashboard_alt.md) for detailed accessibility text.\
 *Cite as:* (Jessup 2025, Fig. 7) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
 
 Metrics include:

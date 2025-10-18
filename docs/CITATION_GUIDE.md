@@ -1,4 +1,3 @@
-[CITATION_GUIDE.md](https://github.com/user-attachments/files/22920725/CITATION_GUIDE.md)
 # Appendix: Figure Citation Guide for Academic Publications
 
 This appendix provides standardized citation formats for figures from "The Agentic Swarm" documentation suite and the agisa_sac implementation repository.
