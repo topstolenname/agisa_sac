@@ -1,4 +1,3 @@
-[README_IMPLEMENTATION.md](https://github.com/user-attachments/files/22920719/README_IMPLEMENTATION.md)
 # The Agentic Swarm: Visual Documentation Implementation Guide
 
 This package contains production-ready visualizations linking theoretical consciousness research, cloud-native implementation, and topological observability frameworks for "The Agentic Swarm" document and the agisa_sac repository.
@@ -215,30 +214,30 @@ mmdc -i source.mmd -o output-mobile.svg -w 600 -s 1
 
 ```
 agisa_sac/
-â"œâ"€â"€ docs/
-â"‚   â"œâ"€â"€ The_Agentic_Swarm.docx         # Main document
-â"‚   â"œâ"€â"€ The_Conscious_Machine.pdf       # Co-authored whitepaper
-â"‚   â"œâ"€â"€ CITATION_GUIDE.md               # From this package
-â"‚   â"œâ"€â"€ FIGURE_CATALOG.md               # From this package
-â"‚   â""â"€â"€ figs/
-â"‚       â"œâ"€â"€ src/                        # Source diagrams
-â"‚       â"‚   â"œâ"€â"€ figure1_persistence.py
-â"‚       â"‚   â"œâ"€â"€ figure2_mapper.dot
-â"‚       â"‚   â"œâ"€â"€ figure3_network_enhanced.mmd
-â"‚       â"‚   â"œâ"€â"€ figure4_convergence_enhanced.mmd
-â"‚       â"‚   â"œâ"€â"€ figure5_identity_enhanced.mmd
-â"‚       â"‚   â"œâ"€â"€ figure6_workflow_enhanced.mmd
-â"‚       â"‚   â""â"€â"€ figure7_dashboard.jsx
-â"‚       â"œâ"€â"€ svg/                        # Rendered SVG (auto-generated)
-â"‚       â"œâ"€â"€ png/                        # Raster exports (auto-generated)
-â"‚       â"œâ"€â"€ alt/                        # Alt-text from this package
-â"‚       â""â"€â"€ captions.yaml               # Metadata (optional)
-â"œâ"€â"€ .github/
-â"‚   â""â"€â"€ workflows/
-â"‚       â""â"€â"€ diagram-build.yml           # From uploads
-â"œâ"€â"€ src/
-â"‚   â""â"€â"€ agisa_sac/                  # Python package
-â""â"€â"€ README.md                           # Main repo README
+├── docs/
+│   ├── The_Agentic_Swarm.docx         # Main document
+│   ├── The_Conscious_Machine.pdf       # Co-authored whitepaper
+│   ├── CITATION_GUIDE.md               # From this package
+│   ├── FIGURE_CATALOG.md               # From this package
+│   └── figs/
+│       ├── src/                        # Source diagrams
+│       │   ├── figure1_persistence.py
+│       │   ├── figure2_mapper.dot
+│       │   ├── figure3_network_enhanced.mmd
+│       │   ├── figure4_convergence_enhanced.mmd
+│       │   ├── figure5_identity_enhanced.mmd
+│       │   ├── figure6_workflow_enhanced.mmd
+│       │   └── figure7_dashboard.jsx
+│       ├── svg/                        # Rendered SVG (auto-generated)
+│       ├── png/                        # Raster exports (auto-generated)
+│       ├── alt/                        # Alt-text from this package
+│       └── captions.yaml               # Metadata (optional)
+├── .github/
+│   └── workflows/
+│       └── diagram-build.yml           # From uploads
+├── src/
+│   └── agisa_sac/                  # Python package
+└── README.md                           # Main repo README
 ```
 
 ### Link Figures in Main README
@@ -344,9 +343,9 @@ Jessup, T. J. (2025). Pub/Sub topics as global workspace [Figure].
 ```
 [Slide with Figure 3]
 
-â€¢ Decentralized architecture
-â€¢ No centralized orchestration
-â€¢ Emergent coordination through message passing
+"¢ Decentralized architecture
+"¢ No centralized orchestration
+"¢ Emergent coordination through message passing
 
 Source: Jessup (2025), "The Agentic Swarm," 
 https://github.com/topstolenname/agisa_sac
