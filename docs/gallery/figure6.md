@@ -1,7 +1,15 @@
+---
+title: Figure 6 — agisa_sac Workflow
+summary: Multi-agent workflow orchestration flowchart
+---
+
 # Figure 6 — agisa_sac Workflow
 
-![Figure 6](../figs/svg/figure6.svg)
+![Figure 6 — Workflow](../figs/svg/figure6.svg){ width="100%" loading="lazy" }
 
-**Alt-text**: See [detailed description](../figs/alt/fig06_workflow_alt.md).
+**Alt-text:** See [detailed description](../figs/alt/fig06_workflow_alt.md).  
+**Source:** Generated via CI from Mermaid/Graphviz/Python.
 
-**Source**: Rendered via CI from Mermaid/Graphviz/Python sources.
+!!! note "Rendering"
+    Figures are generated during CI/CD using the documentation build pipeline.  
+    When local development runs, placeholders will appear instead.

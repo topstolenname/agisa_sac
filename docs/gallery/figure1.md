@@ -1,7 +1,15 @@
-# Figure 1 — Persistence Diagram
+---
+title: Figure 1 — Topological Persistence Diagram
+summary: Topological persistence diagram of agent interactions
+---
 
-![Figure 1](../figs/svg/figure1.svg)
+# Figure 1 — Topological Persistence Diagram
 
-**Alt-text**: See [detailed description](../figs/alt/fig01_persistence_alt.md).
+![Figure 1 — Persistence](../figs/svg/figure1.svg){ width="100%" loading="lazy" }
 
-**Source**: Rendered via CI from Mermaid/Graphviz/Python sources.
+**Alt-text:** See [detailed description](../figs/alt/fig01_persistence_alt.md).  
+**Source:** Generated via CI from Mermaid/Graphviz/Python.
+
+!!! note "Rendering"
+    Figures are generated during CI/CD using the documentation build pipeline.  
+    When local development runs, placeholders will appear instead.

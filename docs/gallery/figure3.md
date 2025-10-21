@@ -1,7 +1,15 @@
+---
+title: Figure 3 — Decentralized Agent Network
+summary: Interaction graph with emergent sub-communities
+---
+
 # Figure 3 — Decentralized Agent Network
 
-![Figure 3](../figs/svg/figure3.svg)
+![Figure 3 — Network](../figs/svg/figure3.svg){ width="100%" loading="lazy" }
 
-**Alt-text**: See [detailed description](../figs/alt/fig03_network_alt.md).
+**Alt-text:** See [detailed description](../figs/alt/fig03_network_alt.md).  
+**Source:** Generated via CI from Mermaid/Graphviz/Python.
 
-**Source**: Rendered via CI from Mermaid/Graphviz/Python sources.
+!!! note "Rendering"
+    Figures are generated during CI/CD using the documentation build pipeline.  
+    When local development runs, placeholders will appear instead.
