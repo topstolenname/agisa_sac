@@ -1,3 +1,8 @@
+---
+title: Figure Catalog
+summary: Publication-ready diagrams linking theory, implementation, and observability
+---
+
 # Figure Catalog: The Agentic Swarm Visual Documentation
 
 **Publication-ready diagrams linking theoretical consciousness research, cloud-native implementation, and topological observability.**

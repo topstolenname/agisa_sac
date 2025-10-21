@@ -1,4 +1,4 @@
-# Figure 5: Identity Layer Stack â€" Alt Text
+# Figure 5: Identity Layer Stack – Alt Text
 
 **Figure 5: Three-Tier Agentic Identity Architecture**
 
@@ -18,9 +18,9 @@ Three explanatory text boxes positioned below the main flow, connected by dashed
 
 **Interpretation**: The diagram illustrates the hierarchical construction of agent identity, analogous to how human identity builds from biological uniqueness (DNA/fingerprints) → legal credentials (passports, licenses) → social reputation (trust networks, references).
 
-**Layer 1 â€" Cryptographic Foundation**: Each agent instance has a unique cryptographic keypair or IAM service account. This provides unforgeable identity but conveys no information about *capabilities* or *trustworthiness*â€"just uniqueness and authentication.
+**Layer 1 — Cryptographic Foundation**: Each agent instance has a unique cryptographic keypair or IAM service account. This provides unforgeable identity but conveys no information about *capabilities* or *trustworthiness*—just uniqueness and authentication.
 
-**Layer 2 â€" Credential Accruement**: Agents earn verifiable credentials through demonstrated performance. In agisa_sac, these are evaluation scores stored in Firestore:
+**Layer 2 — Credential Accruement**: Agents earn verifiable credentials through demonstrated performance. In agisa_sac, these are evaluation scores stored in Firestore:
 - Task completion rates
 - Quality metrics (from evaluator_function.py)
 - Capability attestations (which task types the agent handles well)
@@ -28,7 +28,7 @@ Three explanatory text boxes positioned below the main flow, connected by dashed
 
 Unlike self-asserted claims, these credentials are cryptographically signed by the evaluator and publicly verifiable.
 
-**Layer 3 â€" Reputation Emergence**: Over extended operation, agents build relational identity through interaction history:
+**Layer 3 — Reputation Emergence**: Over extended operation, agents build relational identity through interaction history:
 - Collaboration patterns (which agents work well together on multi-step tasks)
 - Reliability trends (does quality improve or degrade over time?)
 - Ethical adherence (consistency with value alignment criteria)

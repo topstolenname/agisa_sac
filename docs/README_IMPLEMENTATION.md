@@ -1,3 +1,8 @@
+---
+title: Implementation Guide
+summary: Setup and troubleshooting for visual documentation package
+---
+
 # The Agentic Swarm: Visual Documentation Implementation Guide
 
 This package contains production-ready visualizations linking theoretical consciousness research, cloud-native implementation, and topological observability frameworks for "The Agentic Swarm" document and the agisa_sac repository.

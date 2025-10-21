@@ -1,3 +1,8 @@
+---
+title: Start Here
+summary: Quick start guide for The Agentic Swarm visual documentation package
+---
+
 # ✨ START HERE: The Agentic Swarm Visual Documentation Package
 
 **Version 1.0.0** | October 15, 2025 | 17 files, 101KB
@@ -121,7 +126,7 @@ START_HERE.md (YOU ARE HERE)
 
 ---
 
-## ðŸ'¡ Common Use Cases
+## 💡 Common Use Cases
 
 ### Case 1: "I'm writing an academic paper"
 
@@ -188,7 +193,7 @@ git push
 
 ---
 
-## 🔍Š Package Statistics
+## 📊 Package Statistics
 
 **Files**: 17 total (5 docs + 7 alt-text + 4 diagrams + 1 tree)  
 **Size**: 101KB total  
@@ -214,7 +219,7 @@ This package has been validated for:
 
 ---
 
-## 🔍§ Troubleshooting
+## 🔧 Troubleshooting
 
 **Problem**: "I don't know where to start"  
 **Solution**: Read this file (START_HERE.md) then INDEX.md
@@ -233,7 +238,7 @@ This package has been validated for:
 
 ---
 
-## 🔍ž Contact & Support
+## 📞 Contact & Support
 
 **Maintainer**: Tristan J. Jessup  
 **Email**: tristan@mindlink.dev  
@@ -243,17 +248,17 @@ This package has been validated for:
 
 ---
 
-## ðŸŽ" License
+## 🎓 License
 
 **MIT License** - Free for commercial and academic use
 
 Full license text in PACKAGE_SUMMARY.md
 
-Copyright Â© 2025 Tristan J. Jessup
+Copyright © 2025 Tristan J. Jessup
 
 ---
 
-## 🔍… Version & Roadmap
+## 🗺️ Version & Roadmap
 
 **Current**: v1.0.0 (October 15, 2025)  
 **Next**: v1.1.0 (TBD) - Temporal evolution heatmaps, interactive network graph  
@@ -261,7 +266,7 @@ Copyright Â© 2025 Tristan J. Jessup
 
 ---
 
-## ðŸ™ Acknowledgments
+## 🙏 Acknowledgments
 
 **Theoretical Foundations**:
 - "The Agentic Swarm" (primary document)
