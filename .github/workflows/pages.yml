@@ -1,18 +1,3 @@
-name: Deploy MkDocs to GitHub Pages
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'docs/**'
-      - 'src/**'
-      - 'mkdocs.yml'
-      - 'requirements.txt'
-      - '.github/workflows/pages.yml'
-  workflow_dispatch:
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -29,7 +14,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # 👇 NEW: list inputs so we can see what CI finds
+      - name: Debug – list figure sources
+        run: |
+          echo "[inputs] docs/figs/src:"
+          if [ -d docs/figs/src ]; then
+            find docs/figs/src -maxdepth 1 -type f -printf "%f\n" | sort || true
+          else
+            echo "docs/figs/src does not exist"
+          fi
+
       # Render diagrams (Mermaid, Graphviz, Python)
+      - name: Setup Node for mermaid-cli
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm i -g @mermaid-js/mermaid-cli
+
       - name: Render Mermaid to SVG (name-stable)
         run: |
           set -euo pipefail
@@ -37,16 +38,15 @@ jobs:
           shopt -s nullglob
           count=0
           for f in docs/figs/src/figure*.mmd; do
-            base="$(basename "$f")"           # e.g., figure3_network.mmd
-            stem="${base%%.*}"               # e.g., figure3_network
-            fig="${stem%%_*}"                # e.g., figure3
-            out="docs/figs/svg/${fig}.svg"   # force figure3.svg
+            base="$(basename "$f")"
+            stem="${base%%.*}"
+            fig="${stem%%_*}"
+            out="docs/figs/svg/${fig}.svg"
             echo "Rendering $f -> $out"
             mmdc -p puppeteer-config.json -i "$f" -o "$out" -w 1200 -s 2
             count=$((count+1))
           done
           echo "Mermaid files rendered: $count"
-          ls -l docs/figs/svg || true
 
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
@@ -67,17 +67,34 @@ jobs:
             count=$((count+1))
           done
           echo "Graphviz files rendered: $count"
-          ls -l docs/figs/svg || true
+
       - name: Python figure scripts (optional)
         run: |
           python - <<'PY'
           import os, subprocess
           os.makedirs('docs/figs/svg', exist_ok=True)
-          # Example: ensure Python script writes docs/figs/svg/figure1.svg
           p = 'docs/figs/src/figure1_persistence.py'
           if os.path.exists(p):
               subprocess.check_call(['python', p, 'docs/figs/svg/figure1.svg'])
           PY
+
+      # 👇 NEW: verify the exact outputs your pages use
+      - name: Verify rendered outputs
+        run: |
+          echo "[outputs] docs/figs/svg:"
+          ls -l docs/figs/svg || true
+          missing=0
+          for n in 1 2 3 4 5 6 7; do
+            if [ ! -f "docs/figs/svg/figure${n}.svg" ]; then
+              echo "MISSING: docs/figs/svg/figure${n}.svg"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "One or more expected figures are missing; failing the build."
+            exit 1
+          fi
+
       - name: Build site
         run: mkdocs build --clean --strict
 
