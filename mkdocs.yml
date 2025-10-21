@@ -27,19 +27,19 @@ plugins:
           options:
             docstring_style: google
             show_source: true
-  - mermaid2
-markdown_extensions:
+  - mermaid2markdown_extensions:
   - admonition
   - toc:
       permalink: true
   - footnotes
   - def_list
   - attr_list
+  - md_in_html            # ← enables Markdown inside <div>…</div>
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.emoji:
+  - pymdownx.emoji:       # ← renders :material-*:, :octicons-*:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
 extra:
