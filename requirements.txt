@@ -1,5 +1,5 @@
 -e .
-mkdocs-material
+mkdocs-material>=9.5
 mkdocstrings[python]
 mkdocs-mermaid2-plugin
 matplotlib>=3.5.0
