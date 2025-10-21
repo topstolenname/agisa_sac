@@ -18,7 +18,7 @@
 <link href="../assets/_mkdocstrings.css" rel="stylesheet"/>
 <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 </head>
-<body data-md-color-accent="deep-purple" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<body data-md-color-accent="deep-purple" data-md-color-primary="indigo" data-md-color-scheme="slate" dir="ltr">
 <input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
@@ -29,7 +29,7 @@
 </div>
 <div data-md-component="announce">
 </div>
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
 <a aria-label="Mindlink / The Agentic Swarm" class="md-header__button md-logo" data-md-component="logo" href=".." title="Mindlink / The Agentic Swarm">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -54,7 +54,7 @@
 </div>
 </div>
 <form class="md-header__option" data-md-component="palette">
-<input aria-hidden="true" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<input aria-hidden="true" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_0" name="__palette" type="radio"/>
 </form>
 <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
 <label class="md-header__button md-icon" for="__search">
@@ -74,6 +74,7 @@
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
 </button>
 </nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
 </form>
 <div class="md-search__output">
 <div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
@@ -100,12 +101,65 @@
 </nav>
 </header>
 <div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../Mindlink_Paper/">
+          
+  
+  
+  Paper
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../gallery/">
+          
+  
+  
+  Gallery
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../api/agisa_sac/">
+          
+  
+  
+  API
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../CITATION_GUIDE/">
+          
+  
+  
+  Supplement
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
 <main class="md-main" data-md-component="main">
 <div class="md-main__inner md-grid">
 <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
 <a aria-label="Mindlink / The Agentic Swarm" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Mindlink / The Agentic Swarm">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -131,9 +185,9 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--section md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
 <span class="md-ellipsis">
     Paper
     
@@ -157,9 +211,9 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--section md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
 <span class="md-ellipsis">
     Gallery
     
@@ -239,9 +293,9 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--section md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
-<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
 <span class="md-ellipsis">
     API
     
@@ -670,354 +724,6 @@
 </div>
 </div>
 </div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#package-contents">
-<span class="md-ellipsis">
-      Package Contents
-    </span>
-</a>
-<nav aria-label="Package Contents" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#core-documentation-files">
-<span class="md-ellipsis">
-      Core Documentation Files
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#alt-text-descriptions-accessibility">
-<span class="md-ellipsis">
-      Alt-Text Descriptions (Accessibility)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#enhanced-diagram-sources">
-<span class="md-ellipsis">
-      Enhanced Diagram Sources
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#quick-start">
-<span class="md-ellipsis">
-      Quick Start
-    </span>
-</a>
-<nav aria-label="Quick Start" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-copy-files-to-your-repository">
-<span class="md-ellipsis">
-      1. Copy Files to Your Repository
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-set-up-rendering-pipeline">
-<span class="md-ellipsis">
-      2. Set Up Rendering Pipeline
-    </span>
-</a>
-<nav aria-label="2. Set Up Rendering Pipeline" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#install-dependencies">
-<span class="md-ellipsis">
-      Install Dependencies
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#render-diagrams-locally">
-<span class="md-ellipsis">
-      Render Diagrams Locally
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-set-up-github-actions-automated-rendering">
-<span class="md-ellipsis">
-      3. Set Up GitHub Actions (Automated Rendering)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#4-embed-in-documents">
-<span class="md-ellipsis">
-      4. Embed in Documents
-    </span>
-</a>
-<nav aria-label="4. Embed in Documents" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#markdown-github-readme-jekyll-hugo">
-<span class="md-ellipsis">
-      Markdown (GitHub README, Jekyll, Hugo)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#latex-academic-papers">
-<span class="md-ellipsis">
-      LaTeX (Academic Papers)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#html-with-accessibility">
-<span class="md-ellipsis">
-      HTML (with Accessibility)
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#enhanced-diagram-features">
-<span class="md-ellipsis">
-      Enhanced Diagram Features
-    </span>
-</a>
-<nav aria-label="Enhanced Diagram Features" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#comprehensive-styling">
-<span class="md-ellipsis">
-      Comprehensive Styling
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#accessibility-enhancements">
-<span class="md-ellipsis">
-      Accessibility Enhancements
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#theory-integration">
-<span class="md-ellipsis">
-      Theory Integration
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#educational-clarity">
-<span class="md-ellipsis">
-      Educational Clarity
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#customization-guide">
-<span class="md-ellipsis">
-      Customization Guide
-    </span>
-</a>
-<nav aria-label="Customization Guide" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#modify-color-scheme">
-<span class="md-ellipsis">
-      Modify Color Scheme
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#add-new-annotations">
-<span class="md-ellipsis">
-      Add New Annotations
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#adjust-layout">
-<span class="md-ellipsis">
-      Adjust Layout
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#export-at-different-scales">
-<span class="md-ellipsis">
-      Export at Different Scales
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#integration-with-agisa_sac-repository">
-<span class="md-ellipsis">
-      Integration with agisa_sac Repository
-    </span>
-</a>
-<nav aria-label="Integration with agisa_sac Repository" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#recommended-directory-structure">
-<span class="md-ellipsis">
-      Recommended Directory Structure
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#link-figures-in-main-readme">
-<span class="md-ellipsis">
-      Link Figures in Main README
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#troubleshooting">
-<span class="md-ellipsis">
-      Troubleshooting
-    </span>
-</a>
-<nav aria-label="Troubleshooting" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mermaid-rendering-errors">
-<span class="md-ellipsis">
-      Mermaid Rendering Errors
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#graphviz-layout-issues">
-<span class="md-ellipsis">
-      Graphviz Layout Issues
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#color-contrast-failures">
-<span class="md-ellipsis">
-      Color Contrast Failures
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#alt-text-too-long">
-<span class="md-ellipsis">
-      Alt-Text Too Long
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#citation-examples">
-<span class="md-ellipsis">
-      Citation Examples
-    </span>
-</a>
-<nav aria-label="Citation Examples" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#in-academic-paper">
-<span class="md-ellipsis">
-      In Academic Paper
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#in-presentation">
-<span class="md-ellipsis">
-      In Presentation
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#maintenance">
-<span class="md-ellipsis">
-      Maintenance
-    </span>
-</a>
-<nav aria-label="Maintenance" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#updating-figures">
-<span class="md-ellipsis">
-      Updating Figures
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#version-tagging">
-<span class="md-ellipsis">
-      Version Tagging
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#quality-checklist">
-<span class="md-ellipsis">
-      Quality Checklist
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#support">
-<span class="md-ellipsis">
-      Support
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#license">
-<span class="md-ellipsis">
-      License
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#acknowledgments">
-<span class="md-ellipsis">
-      Acknowledgments
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <a class="md-content__button md-icon" href="https://github.com/topstolenname/agisa_sac/edit/master/docs/README_IMPLEMENTATION.md" rel="edit" title="Edit this page">
@@ -1373,6 +1079,7 @@ furnished to do so, subject to the following conditions:
 <em>Last Updated: October 15, 2025</em></p>
 </article>
 </div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
 </div>
 </main>
@@ -1399,7 +1106,7 @@ furnished to do so, subject to the following conditions:
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tabs", "navigation.expand", "navigation.sections", "toc.integrate", "search.suggest", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
 <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
 </body>
 </html>
