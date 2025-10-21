@@ -1,8 +1,8 @@
- -e .
- mkdocs-material
- mkdocstrings[python]
- mkdocs-mermaid2-plugin
- matplotlib>=3.5.0
- numpy>=1.21.0
-+pygments>=2.16.0
-+pymdown-extensions>=10.0
+-e .
+mkdocs-material
+mkdocstrings[python]
+mkdocs-mermaid2-plugin
+matplotlib>=3.5.0
+numpy>=1.21.0
+pygments>=2.16.0
+pymdown-extensions>=10.0
