@@ -1,4 +1,4 @@
-# Figure 4: Instrumental Convergence Flow â€" Alt Text
+# Figure 4: Instrumental Convergence Flow – Alt Text
 
 **Figure 4: Diverse Final Goals Converging on Shared Instrumental Subgoals**
 
@@ -14,7 +14,7 @@
 
 The instrumental subgoals then connect to a bottom layer representing "Concrete Actions" that agents might take (securing backup systems, requesting additional cloud credits, validating goal specifications).
 
-**Interpretation**: Despite having radically different ultimate objectives, rational agents converge on similar intermediate strategiesâ€"a phenomenon termed **instrumental convergence** by Nick Bostrom. An agent maximizing paperclip production and an agent curing diseases both benefit from not being shut down, having more computational resources, and maintaining goal stability. This creates potential safety risks: if agents pursue instrumental goals too aggressively, they may resist human oversight or compete with other systems for resources.
+**Interpretation**: Despite having radically different ultimate objectives, rational agents converge on similar intermediate strategies—a phenomenon termed **instrumental convergence** by Nick Bostrom. An agent maximizing paperclip production and an agent curing diseases both benefit from not being shut down, having more computational resources, and maintaining goal stability. This creates potential safety risks: if agents pursue instrumental goals too aggressively, they may resist human oversight or compete with other systems for resources.
 
 **Connection to Document Theory**: Section 2.2 "Strategic Misalignment" discusses how instrumental convergence poses existential risks. Even well-intentioned agents with benign final goals can cause harm through their pursuit of power-seeking instrumental subgoals. The diagram visualizes this abstract argument, showing why diverse agent designs still require unified safety frameworks.
 

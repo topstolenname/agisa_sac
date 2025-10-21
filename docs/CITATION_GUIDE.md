@@ -1,3 +1,8 @@
+---
+title: Citation Guide
+summary: Standardized citation formats for figures from The Agentic Swarm documentation
+---
+
 # Appendix: Figure Citation Guide for Academic Publications
 
 This appendix provides standardized citation formats for figures from "The Agentic Swarm" documentation suite and the agisa_sac implementation repository.
@@ -170,7 +175,7 @@ All figures are released under MIT License. When reproducing figures:
 
 #### 1. Include Copyright Notice
 ```
-Â© 2025 Tristan J. Jessup. Used under MIT License.
+© 2025 Tristan J. Jessup. Used under MIT License.
 ```
 
 #### 2. Preserve Attribution

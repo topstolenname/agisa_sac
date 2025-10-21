@@ -1,6 +1,7 @@
 # Mindlink Figures (Phase 2)
 
 Source files live in `docs/figs/src/`:
+
 - Mermaid (`*.mmd`)
 - Graphviz (`*.dot`)
 - Python (`figure1_persistence.py`)

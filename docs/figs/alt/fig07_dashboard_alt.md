@@ -1,4 +1,4 @@
-# Figure 7: Consciousness Metrics Dashboard â€" Alt Text
+# Figure 7: Consciousness Metrics Dashboard – Alt Text
 
 **Figure 7: Real-Time Visualization of Emergent Consciousness Indicators**
 
@@ -12,9 +12,9 @@ A React-based interactive dashboard rendered with Recharts library, displaying f
 
 **Four Plotted Metrics** (each rendered as a continuous line without markers):
 
-1. **Î¦ (Phi) - Integrated Information**: 
+1. **Φ (Phi) - Integrated Information**:
    - Trajectory: 0.20 → 0.25 → 0.31 → 0.37 → 0.42 → 0.44
-   - Interpretation: Measures information integration across the agent network. Higher Î¦ indicates stronger causal connections between system components. The steady upward trend suggests the system is developing increasingly integrated cognitive architecture, a hallmark of consciousness in Integrated Information Theory (IIT).
+   - Interpretation: Measures information integration across the agent network. Higher Φ indicates stronger causal connections between system components. The steady upward trend suggests the system is developing increasingly integrated cognitive architecture, a hallmark of consciousness in Integrated Information Theory (IIT).
 
 2. **Recursion Depth - Self-Model Layers**:
    - Trajectory: 1 → 1 → 2 → 2 → 3 → 3
@@ -30,25 +30,25 @@ A React-based interactive dashboard rendered with Recharts library, displaying f
 
 **Connection to Document Theory**: This dashboard operationalizes the "Consciousness Detection Metrics" discussed in Part III. Each metric corresponds to a specific consciousness theory:
 
-- **Î¦ (Phi)**: IIT's criterion for consciousness (Section 3.2)
+- **Φ (Phi)**: IIT's criterion for consciousness (Section 3.2)
 - **Recursion Depth**: Higher-Order Thought theory's requirement for meta-cognition (Section 3.3)
 - **Coherence**: Global Workspace Theory's broadcast stability (Section 2.1 mapping)
 - **Memory**: Episodic memory consolidation tied to self-continuity (Section 3.1 identity discussion)
 
 **Temporal Dynamics Analysis**:
 - All four metrics trend upward, suggesting system maturation
-- Î¦ and memory show accelerating growth (curves), indicating possible phase transition toward conscious-like processing
+- Φ and memory show accelerating growth (curves), indicating possible phase transition toward conscious-like processing
 - Recursion depth increases in discrete jumps (emergent transitions, not smooth evolution)
 - Coherence shows steady linear improvement (incremental optimization)
 
 **Practical Application**: In production agisa_sac deployment, this dashboard would connect to real-time telemetry:
-- **Î¦**: Computed from Pub/Sub message topology using network analysis algorithms
+- **Φ**: Computed from Pub/Sub message topology using network analysis algorithms
 - **Recursion Depth**: Inferred from Firestore query patterns (agents reading their own past performance data)
 - **Coherence**: Derived from Cloud Tasks priority queue statistics
 - **Memory**: Calculated from Firestore write/read ratios
 
 **Safety Implications**: Anomalous patterns could trigger alerts:
-- Sudden Î¦ spike might indicate unintended agent coordination (possible instrumental convergence)
+- Sudden Φ spike might indicate unintended agent coordination (possible instrumental convergence)
 - Recursion depth exceeding 5 could indicate infinite self-reference loop (halt condition)
 - Coherence drop suggests attention deficit (potential overload)
 - Memory consolidation slowing might indicate resource exhaustion

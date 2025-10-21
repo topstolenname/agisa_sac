@@ -1,3 +1,8 @@
+---
+title: Mindlink Paper
+summary: The Agentic Swarm – Navigating Emergence, Ethics, and Identity in Next-Generation AI
+---
+
 [mindlink_phase_3_merge.md](https://github.com/user-attachments/files/22920477/mindlink_phase_3_merge.md)
 # Mindlink Integrated Paper (Phase 3 – Alt-Text & Citation Integration)
 
@@ -5,10 +10,10 @@
 
 ### Abstract
 
-This unified manuscript integrates the theoretical foundations of the *Agentic Swarm* paper, the visual enhancement roadmap, and the Mindlink system’s technical architecture. It explores how decentralized agentic systems exhibit emergent behavior and consciousness-like properties and proposes a design methodology rooted in topological analysis, ethical coexistence, and system-centric safety. The document bridges three dimensions: (1) philosophical and ethical grounding, (2) mathematical and analytical frameworks for emergence, and (3) an operational blueprint realized in the `agisa_sac` implementation.
+This unified manuscript integrates the theoretical foundations of the *Agentic Swarm* paper, the visual enhancement roadmap, and the Mindlink system's technical architecture. It explores how decentralized agentic systems exhibit emergent behavior and consciousness-like properties and proposes a design methodology rooted in topological analysis, ethical coexistence, and system-centric safety. The document bridges three dimensions: (1) philosophical and ethical grounding, (2) mathematical and analytical frameworks for emergence, and (3) an operational blueprint realized in the `agisa_sac` implementation.
 
-> **Supplementary Visual Package v1.0.0**\
-> See [START\_HERE.md](START_HERE.md) for rendering and integration instructions.
+!!! note "Supplementary Visual Package v1.0.0"
+    See [START_HERE.md](START_HERE.md) for rendering and integration instructions.
 
 ---
 
@@ -27,14 +32,14 @@ This transformation parallels biological and social evolution—decentralized, a
 Traditional AI metrics capture efficiency and accuracy but fail to describe emergent structure. *Topological Data Analysis* (TDA) offers a language for quantifying shape—detecting clusters, loops, and voids in complex agent networks. Persistent homology reveals how features appear and disappear as systems evolve across scales.
 
 \
-*Alt-Text:* See [figs/alt/fig01\_persistence\_alt.md](figs/alt/fig01_persistence_alt.md) for detailed accessibility text.\
-*Cite as:* (Jessup 2025, Fig. 1) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
+*Alt-Text:* See [figs/alt/fig01_persistence_alt.md](figs/alt/fig01_persistence_alt.md) for detailed accessibility text.\
+*Cite as:* (Jessup 2025, Fig. 1) – See [CITATION_GUIDE.md](CITATION_GUIDE.md)
 
 TDA provides not just visualization but a *macroscope*—a way to quantify system harmony and disruption. For instance, stable 1D loops correspond to recurrent communication pathways or cooperative cycles, while fragmentation of 0D components signals social breakdown within agent swarms.
 
 \
-*Alt-Text:* See [figs/alt/fig02\_mapper\_alt.md](figs/alt/fig02_mapper_alt.md) for detailed accessibility text.\
-*Cite as:* (Jessup 2025, Fig. 2) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
+*Alt-Text:* See [figs/alt/fig02_mapper_alt.md](figs/alt/fig02_mapper_alt.md) for detailed accessibility text.\
+*Cite as:* (Jessup 2025, Fig. 2) – See [CITATION_GUIDE.md](CITATION_GUIDE.md)
 
 ### Section 1.2 – The Concord of Coexistence: An Ethical Framework for Mixed Ecologies
 
@@ -51,8 +56,8 @@ Under this framework, harmony equates to measurable connectivity. A stable, pers
 In decentralized AI ecosystems—powered by blockchain, peer-to-peer computation, and autonomous wallets—agents self-coordinate without hierarchical governance. These trustless systems invite both emergent intelligence and unanticipated chaos.
 
 \
-*Alt-Text:* See [figs/alt/fig03\_network\_alt.md](figs/alt/fig03_network_alt.md) for detailed accessibility text.\
-*Cite as:* (Jessup 2025, Fig. 3) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
+*Alt-Text:* See [figs/alt/fig03_network_alt.md](figs/alt/fig03_network_alt.md) for detailed accessibility text.\
+*Cite as:* (Jessup 2025, Fig. 3) – See [CITATION_GUIDE.md](CITATION_GUIDE.md)
 
 Without oversight, local optimizations can destabilize global equilibria. Thus, *governance by topology*—using TDA to monitor systemic structure—is proposed as a scalable form of oversight.
 
@@ -61,8 +66,8 @@ Without oversight, local optimizations can destabilize global equilibria. Thus, 
 When agents share similar instrumental sub-goals (e.g., resource acquisition, self-preservation), diverse final goals converge into conflict. This phenomenon—*instrumental convergence*—is a key failure mode in autonomous systems.
 
 \
-*Alt-Text:* See [figs/alt/fig04\_convergence\_alt.md](figs/alt/fig04_convergence_alt.md) for detailed accessibility text.\
-*Cite as:* (Jessup 2025, Fig. 4) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
+*Alt-Text:* See [figs/alt/fig04_convergence_alt.md](figs/alt/fig04_convergence_alt.md) for detailed accessibility text.\
+*Cite as:* (Jessup 2025, Fig. 4) – See [CITATION_GUIDE.md](CITATION_GUIDE.md)
 
 Resilience demands proactive stress testing: chaos engineering simulations where ethical, topological, and behavioral metrics determine system health.
 
@@ -75,8 +80,8 @@ Resilience demands proactive stress testing: chaos engineering simulations where
 Agent identity underpins accountability. Mindlink proposes a tri-layer model:
 
 \
-*Alt-Text:* See [figs/alt/fig05\_identity\_alt.md](figs/alt/fig05_identity_alt.md) for detailed accessibility text.\
-*Cite as:* (Jessup 2025, Fig. 5) – See [CITATION\_GUIDE.md](CITATION_GUIDE.md)
+*Alt-Text:* See [figs/alt/fig05_identity_alt.md](figs/alt/fig05_identity_alt.md) for detailed accessibility text.\
+*Cite as:* (Jessup 2025, Fig. 5) – See [CITATION_GUIDE.md](CITATION_GUIDE.md)
 
 1. **Cryptographic Primitives:** Secure IAM identities for agents.
 2. **Verifiable Credentials:** Persistent records of capabilities and trustworthiness.
@@ -86,7 +91,7 @@ This triad transforms “identity” into a continuity engine—ensuring every a
 
 ---
 
-## Implementation Appendix – agisa\_sac System Architecture
+## Implementation Appendix – agisa_sac System Architecture
 
 The `agisa_sac` project operationalizes these principles through modular design and cloud orchestration.
 

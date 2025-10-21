@@ -1,4 +1,4 @@
-# Figure 6: agisa_sac Workflow â€" Alt Text
+# Figure 6: agisa_sac Workflow – Alt Text
 
 **Figure 6: Complete Task Lifecycle in agisa_sac Architecture**
 

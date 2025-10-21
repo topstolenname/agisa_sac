@@ -1,4 +1,4 @@
-# Figure 3: Decentralized Agent Network â€" Alt Text
+# Figure 3: Decentralized Agent Network – Alt Text
 
 **Figure 3: Pub/Sub Topics as Global Workspace for Emergent Coordination**
 
