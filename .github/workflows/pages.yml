@@ -30,39 +30,54 @@ jobs:
           pip install -r requirements.txt
 
       # Render diagrams (Mermaid, Graphviz, Python)
-      - name: Setup Node for mermaid-cli
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: npm i -g @mermaid-js/mermaid-cli
-
-      - name: Render Mermaid to SVG
+      - name: Render Mermaid to SVG (name-stable)
         run: |
+          set -euo pipefail
           mkdir -p docs/figs/svg
           shopt -s nullglob
-          for f in docs/figs/src/*.mmd; do
-            mmdc -p puppeteer-config.json -i "$f" -o "docs/figs/svg/$(basename "${f%.mmd}.svg")" -w 1200 -s 2
+          count=0
+          for f in docs/figs/src/figure*.mmd; do
+            base="$(basename "$f")"           # e.g., figure3_network.mmd
+            stem="${base%%.*}"               # e.g., figure3_network
+            fig="${stem%%_*}"                # e.g., figure3
+            out="docs/figs/svg/${fig}.svg"   # force figure3.svg
+            echo "Rendering $f -> $out"
+            mmdc -p puppeteer-config.json -i "$f" -o "$out" -w 1200 -s 2
+            count=$((count+1))
           done
+          echo "Mermaid files rendered: $count"
+          ls -l docs/figs/svg || true
 
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
 
-      - name: Render Graphviz to SVG
+      - name: Render Graphviz to SVG (name-stable)
         run: |
+          set -euo pipefail
+          mkdir -p docs/figs/svg
           shopt -s nullglob
-          for f in docs/figs/src/*.dot; do
-            dot -Tsvg "$f" -o "docs/figs/svg/$(basename "${f%.dot}.svg")"
+          count=0
+          for f in docs/figs/src/figure*.dot; do
+            base="$(basename "$f")"
+            stem="${base%%.*}"
+            fig="${stem%%_*}"
+            out="docs/figs/svg/${fig}.svg"
+            echo "Rendering $f -> $out"
+            dot -Tsvg "$f" -o "$out"
+            count=$((count+1))
           done
-
+          echo "Graphviz files rendered: $count"
+          ls -l docs/figs/svg || true
       - name: Python figure scripts (optional)
         run: |
           python - <<'PY'
-          import subprocess, os, glob
+          import os, subprocess
           os.makedirs('docs/figs/svg', exist_ok=True)
-          if os.path.exists('docs/figs/src/figure1_persistence.py'):
-              subprocess.check_call(['python', 'docs/figs/src/figure1_persistence.py'])
+          # Example: ensure Python script writes docs/figs/svg/figure1.svg
+          p = 'docs/figs/src/figure1_persistence.py'
+          if os.path.exists(p):
+              subprocess.check_call(['python', p, 'docs/figs/svg/figure1.svg'])
           PY
-
       - name: Build site
         run: mkdocs build --clean --strict
 
