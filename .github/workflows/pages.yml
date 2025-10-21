@@ -1,3 +1,21 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -14,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 👇 NEW: list inputs so we can see what CI finds
+      # --- Diagnostics: see exactly what sources CI finds ---
       - name: Debug – list figure sources
         run: |
           echo "[inputs] docs/figs/src:"
@@ -24,7 +42,7 @@ jobs:
             echo "docs/figs/src does not exist"
           fi
 
-      # Render diagrams (Mermaid, Graphviz, Python)
+      # --- Mermaid render ---
       - name: Setup Node for mermaid-cli
         uses: actions/setup-node@v4
         with:
@@ -38,16 +56,17 @@ jobs:
           shopt -s nullglob
           count=0
           for f in docs/figs/src/figure*.mmd; do
-            base="$(basename "$f")"
-            stem="${base%%.*}"
-            fig="${stem%%_*}"
-            out="docs/figs/svg/${fig}.svg"
+            base="$(basename "$f")"           # e.g., figure3_network.mmd
+            stem="${base%%.*}"                # figure3_network
+            fig="${stem%%_*}"                 # figure3
+            out="docs/figs/svg/${fig}.svg"    # force figure3.svg
             echo "Rendering $f -> $out"
             mmdc -p puppeteer-config.json -i "$f" -o "$out" -w 1200 -s 2
             count=$((count+1))
           done
           echo "Mermaid files rendered: $count"
 
+      # --- Graphviz render ---
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
 
@@ -68,17 +87,19 @@ jobs:
           done
           echo "Graphviz files rendered: $count"
 
+      # --- Optional Python figures (write to exact filenames) ---
       - name: Python figure scripts (optional)
         run: |
           python - <<'PY'
           import os, subprocess
           os.makedirs('docs/figs/svg', exist_ok=True)
+          # Example: figure 1 generator -> docs/figs/svg/figure1.svg
           p = 'docs/figs/src/figure1_persistence.py'
           if os.path.exists(p):
               subprocess.check_call(['python', p, 'docs/figs/svg/figure1.svg'])
           PY
 
-      # 👇 NEW: verify the exact outputs your pages use
+      # --- Verify outputs before building the site ---
       - name: Verify rendered outputs
         run: |
           echo "[outputs] docs/figs/svg:"
@@ -95,6 +116,7 @@ jobs:
             exit 1
           fi
 
+      # --- Build & Deploy ---
       - name: Build site
         run: mkdocs build --clean --strict
 
