@@ -1,0 +1,12 @@
+%% Figure 5 – Identity Layer Stack
+graph LR
+    K[Cryptographic Keys / IAM] --> VC[Verifiable Credentials / Attestations]
+    VC --> R[Relational Identity / Reputation]
+    subgraph Notes
+        N1[Keys: service accounts, signatures]
+        N2[VCs: capabilities, scores]
+        N3[Reputation: longitudinal behavior]
+    end
+    K --- N1
+    VC --- N2
+    R --- N3

@@ -1,0 +1,1468 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Emergent agent swarms, ethical governance, and AGI system architecture">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>AGI-SAC Refactoring Strategy - Mindlink / The Agentic Swarm</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#agi-sac-refactoring-strategy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Mindlink / The Agentic Swarm" class="md-header__button md-logo" aria-label="Mindlink / The Agentic Swarm" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mindlink / The Agentic Swarm
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AGI-SAC Refactoring Strategy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/topstolenname/agisa_sac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Mindlink / The Agentic Swarm" class="md-nav__button md-logo" aria-label="Mindlink / The Agentic Swarm" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Mindlink / The Agentic Swarm
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/topstolenname/agisa_sac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Paper
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Paper
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mindlink_Paper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mindlink Paper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Gallery
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Gallery
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 1 – Persistence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 2 – Mapper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 3 – Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 4 – Convergence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 5 – Identity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 6 – Workflow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 7 – Dashboard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/agisa_sac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    agisa_sac
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Supplement
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Supplement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CITATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Citation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FIGURE_CATALOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure Catalog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../START_HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start Here
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_IMPLEMENTATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Date
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-strangler-fig-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Strangler Fig Pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#our-implementation-the-importlib-shim" class="md-nav__link">
+    <span class="md-ellipsis">
+      Our Implementation: The importlib Shim
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Our Implementation: The importlib Shim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Challenge
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Solution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shim-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shim Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-importlib" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why importlib?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-copy-dont-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Copy (Don't Move)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-the-shim" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Create the Shim
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-refactor-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Refactor (Optional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-clean-up-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Clean Up (Future)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrated-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migrated Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migrated Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Completed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#milestone-core-components-migration-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎊 MILESTONE: Core Components Migration Complete!
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-analysis-package-migration-in-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Analysis Package Migration (In Progress)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2: Analysis Package Migration (In Progress)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#milestone-phase-2-complete-analysis-package-fully-migrated" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎊 MILESTONE: Phase 2 Complete - Analysis Package Fully Migrated!
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 In Progress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Planned
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#golden-master-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Golden Master Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-driven-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test-Driven Migration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-this-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of This Approach
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Directory Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/topstolenname/agisa_sac/edit/master/docs/REFACTORING_STRATEGY.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="agi-sac-refactoring-strategy">AGI-SAC Refactoring Strategy<a class="headerlink" href="#agi-sac-refactoring-strategy" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This document describes the <strong>Strangler Fig Pattern</strong> refactoring strategy being used to gradually migrate the AGI-SAC codebase from its original monolithic structure to a clean, modular architecture.</p>
+<h2 id="migration-date">Migration Date<a class="headerlink" href="#migration-date" title="Permanent link">&para;</a></h2>
+<p>Started: <strong>October 16, 2025</strong></p>
+<h2 id="the-strangler-fig-pattern">The Strangler Fig Pattern<a class="headerlink" href="#the-strangler-fig-pattern" title="Permanent link">&para;</a></h2>
+<p>The <a href="https://martinfowler.com/bliki/StranglerFigApplication.html">Strangler Fig Pattern</a> is a refactoring approach where:</p>
+<ol>
+<li>New functionality is built in a new system alongside the old</li>
+<li>The old system is gradually strangled (replaced) by the new one</li>
+<li>Once all functionality has migrated, the old system can be safely removed</li>
+</ol>
+<h2 id="our-implementation-the-importlib-shim">Our Implementation: The importlib Shim<a class="headerlink" href="#our-implementation-the-importlib-shim" title="Permanent link">&para;</a></h2>
+<h3 id="the-challenge">The Challenge<a class="headerlink" href="#the-challenge" title="Permanent link">&para;</a></h3>
+<p>Python's module system doesn't natively support having the same package in two locations simultaneously. We need a way to:</p>
+<ul>
+<li>Keep the original import paths working</li>
+<li>Source code from a new, clean repository</li>
+<li>Avoid breaking existing code during the transition</li>
+</ul>
+<h3 id="the-solution">The Solution<a class="headerlink" href="#the-solution" title="Permanent link">&para;</a></h3>
+<p>We use <strong>compatibility shims</strong> - small Python files that dynamically load modules from the clean repository using <code>importlib.util</code>.</p>
+<h3 id="shim-template">Shim Template<a class="headerlink" href="#shim-template" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ==============================================================================</span>
+<span class="c1"># STRANGLER FIG PATTERN: Compatibility Shim</span>
+<span class="c1"># Migration date: October 16, 2025</span>
+<span class="c1"># ==============================================================================</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Calculate the path to the clean repository&#39;s module</span>
+<span class="n">_base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;../../../../../&#39;</span><span class="p">))</span>
+<span class="n">_clean_module_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_base_path</span><span class="p">,</span> <span class="s1">&#39;AGI-SAC_Clean/src/agisa_sac/core/components/MODULE_NAME.py&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load the module directly from the clean repository</span>
+<span class="n">_spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span><span class="s2">&quot;_clean_MODULE_NAME&quot;</span><span class="p">,</span> <span class="n">_clean_module_path</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">_spec</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">_spec</span><span class="o">.</span><span class="n">loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not load MODULE_NAME from clean repository: </span><span class="si">{</span><span class="n">_clean_module_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">_clean_module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">_spec</span><span class="p">)</span>
+<span class="n">_spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">_clean_module</span><span class="p">)</span>
+
+<span class="c1"># Re-export the classes from the clean repository</span>
+<span class="n">ClassName</span> <span class="o">=</span> <span class="n">_clean_module</span><span class="o">.</span><span class="n">ClassName</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ClassName&quot;</span><span class="p">]</span>
+<span class="c1"># ==============================================================================</span>
+</code></pre></div>
+<h3 id="why-importlib">Why importlib?<a class="headerlink" href="#why-importlib" title="Permanent link">&para;</a></h3>
+<p>Using <code>importlib.util.spec_from_file_location()</code> allows us to:</p>
+<ol>
+<li><strong>Load a module from an absolute file path</strong> without modifying <code>sys.path</code></li>
+<li><strong>Avoid circular imports</strong> by giving the loaded module a different internal name</li>
+<li><strong>Re-export classes</strong> so existing imports continue to work unchanged</li>
+<li><strong>Maintain compatibility</strong> during the entire migration process</li>
+</ol>
+<h2 id="migration-process">Migration Process<a class="headerlink" href="#migration-process" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-copy-dont-move">Step 1: Copy (Don't Move)<a class="headerlink" href="#step-1-copy-dont-move" title="Permanent link">&para;</a></h3>
+<p>Copy the component to the clean repository, keeping the original in place:</p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>agisa_sac/src/agisa_sac/core/components/MODULE.py<span class="w"> </span>AGI-SAC_Clean/src/agisa_sac/core/components/MODULE.py
+</code></pre></div>
+<h3 id="step-2-create-the-shim">Step 2: Create the Shim<a class="headerlink" href="#step-2-create-the-shim" title="Permanent link">&para;</a></h3>
+<p>Replace the original file's contents with an importlib shim that redirects to the clean version.</p>
+<h3 id="step-3-test">Step 3: Test<a class="headerlink" href="#step-3-test" title="Permanent link">&para;</a></h3>
+<p>Run the golden master test to verify behavioral consistency:</p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>tests/test_simulation_fidelity.py<span class="w"> </span>-v
+</code></pre></div>
+<h3 id="step-4-refactor-optional">Step 4: Refactor (Optional)<a class="headerlink" href="#step-4-refactor-optional" title="Permanent link">&para;</a></h3>
+<p>Now you can safely refactor the clean version. The shim ensures backward compatibility.</p>
+<h3 id="step-5-clean-up-future">Step 5: Clean Up (Future)<a class="headerlink" href="#step-5-clean-up-future" title="Permanent link">&para;</a></h3>
+<p>Once the migration is complete and stable, shims can be removed and imports updated.</p>
+<h2 id="migrated-components">Migrated Components<a class="headerlink" href="#migrated-components" title="Permanent link">&para;</a></h2>
+<h3 id="completed">✅ Completed<a class="headerlink" href="#completed" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Original Location</th>
+<th>Clean Location</th>
+<th>Migration Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>memory.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>cognitive.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>resonance.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>semantic_analyzer.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>reflexivity.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>social.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>voice.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>crdt_memory.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>enhanced_cbp.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>continuity_bridge.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/core/components/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/core/components/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestone-core-components-migration-complete">🎊 MILESTONE: Core Components Migration Complete!<a class="headerlink" href="#milestone-core-components-migration-complete" title="Permanent link">&para;</a></h3>
+<p><strong>All 10 core cognitive components successfully migrated with 100% test pass rate!</strong></p>
+<h2 id="phase-2-analysis-package-migration-in-progress">Phase 2: Analysis Package Migration (In Progress)<a class="headerlink" href="#phase-2-analysis-package-migration-in-progress" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Original Location</th>
+<th>Clean Location</th>
+<th>Migration Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tda.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/analysis/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/analysis/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>analyzer.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/analysis/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/analysis/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>clustering.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/analysis/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/analysis/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>visualization.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/analysis/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/analysis/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+<tr>
+<td><code>exporter.py</code></td>
+<td><code>agisa_sac/src/agisa_sac/analysis/</code></td>
+<td><code>AGI-SAC_Clean/src/agisa_sac/analysis/</code></td>
+<td>Oct 16, 2025</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestone-phase-2-complete-analysis-package-fully-migrated">🎊 MILESTONE: Phase 2 Complete - Analysis Package Fully Migrated!<a class="headerlink" href="#milestone-phase-2-complete-analysis-package-fully-migrated" title="Permanent link">&para;</a></h3>
+<p><strong>All 5 analysis components successfully migrated with 100% test pass rate!</strong></p>
+<h3 id="in-progress">🔄 In Progress<a class="headerlink" href="#in-progress" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 3 planning</td>
+<td>Next phase</td>
+<td>Additional packages TBD</td>
+</tr>
+<tr>
+<td><code>clustering.py</code></td>
+<td>Queued</td>
+<td>Archetype clustering</td>
+</tr>
+<tr>
+<td><code>visualization.py</code></td>
+<td>Queued</td>
+<td>TDA visualization</td>
+</tr>
+<tr>
+<td><code>exporter.py</code></td>
+<td>Queued</td>
+<td>Chronicle export</td>
+</tr>
+</tbody>
+</table>
+<h3 id="planned">📋 Planned<a class="headerlink" href="#planned" title="Permanent link">&para;</a></h3>
+<p>Components to migrate (priority order):</p>
+<ol>
+<li><code>cognitive.py</code> - Cognitive diversity engine</li>
+<li><code>semantic_analyzer.py</code> - Semantic analysis components</li>
+<li><code>resonance.py</code> - Resonance tracking</li>
+<li><code>reflexivity.py</code> - Reflexivity layer</li>
+<li><code>social.py</code> - Social graph dynamics</li>
+<li>Additional components as identified</li>
+</ol>
+<h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="golden-master-testing">Golden Master Testing<a class="headerlink" href="#golden-master-testing" title="Permanent link">&para;</a></h3>
+<p>We use <strong>characterization testing</strong> (golden master testing) to ensure that refactoring doesn't change behavior:</p>
+<ul>
+<li><code>tests/test_simulation_fidelity.py</code> captures simulation output</li>
+<li>Compares against a known "golden" reference</li>
+<li>Any behavioral change is immediately detected</li>
+</ul>
+<h3 id="test-driven-migration">Test-Driven Migration<a class="headerlink" href="#test-driven-migration" title="Permanent link">&para;</a></h3>
+<p>Before each migration:
+1. ✅ Ensure golden master test passes
+2. 🔄 Perform migration (copy + shim)
+3. ✅ Verify test still passes
+4. 🎉 Migration successful</p>
+<h2 id="benefits-of-this-approach">Benefits of This Approach<a class="headerlink" href="#benefits-of-this-approach" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Zero Downtime</strong> - System continues working throughout migration</li>
+<li><strong>Incremental Progress</strong> - Migrate one component at a time</li>
+<li><strong>Safety Net</strong> - Golden master tests catch any breaking changes</li>
+<li><strong>Rollback Capable</strong> - Easy to revert if issues arise</li>
+<li><strong>Clear Documentation</strong> - Shim files self-document the migration state</li>
+</ol>
+<h2 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>C:\New folder\
+├── agisa_sac/                    # Original repository
+│   └── src/agisa_sac/
+│       └── core/components/
+│           ├── memory.py         # ← SHIM: Redirects to clean repo
+│           ├── cognitive.py      # ← SHIM: Redirects to clean repo
+│           └── ...               # Other components (not yet migrated)
+│
+└── AGI-SAC_Clean/                # Clean refactored repository
+    └── src/agisa_sac/
+        └── core/components/
+            ├── memory.py         # ← CANONICAL: Clean implementation
+            ├── cognitive.py      # ← CANONICAL: Clean implementation
+            └── ...               # Future clean implementations
+</code></pre></div>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Shim files are temporary and will be removed once migration is complete</li>
+<li>Each shim is approximately 30-40 lines vs 500+ lines of original code</li>
+<li>The clean repository becomes the source of truth for migrated components</li>
+<li>Original files can be backed up with <code>.backup</code> extension if needed</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://martinfowler.com/bliki/StranglerFigApplication.html">Martin Fowler - Strangler Fig Application</a></li>
+<li><a href="https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052">Working Effectively with Legacy Code</a> by Michael Feathers</li>
+<li>Golden Master Testing: Characterization tests for refactoring safety</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/topstolenname/agisa_sac" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

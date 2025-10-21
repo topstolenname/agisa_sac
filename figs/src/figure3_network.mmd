@@ -1,0 +1,16 @@
+%% Figure 3 – Decentralized Agent Network (Pub/Sub as Global Workspace)
+graph TD
+    subgraph PubSub["Global Workspace"]
+        T1((planner-tasks))
+        T2((agent-results))
+        T3((evaluation-events))
+    end
+    P[Planner Function] --> T1
+    T1 --> Aα[Agent Cluster α]
+    T1 --> Aβ[Agent Cluster β]
+    Aα --> T2
+    Aβ --> T2
+    T2 --> E[Evaluator Function]
+    E -->|Write| M[(Firestore Memory)]
+    E --> T3
+    T3 --> P

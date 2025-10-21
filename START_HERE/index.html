@@ -1,0 +1,1127 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Emergent agent swarms, ethical governance, and AGI system architecture" name="description"/>
+<link href="../FIGURE_CATALOG/" rel="prev"/>
+<link href="../README_IMPLEMENTATION/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.6.22" name="generator"/>
+<title>Start Here - Mindlink / The Agentic Swarm</title>
+<link href="../assets/stylesheets/main.84d31ad4.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../assets/_mkdocstrings.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#start-here-the-agentic-swarm-visual-documentation-package">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Mindlink / The Agentic Swarm" class="md-header__button md-logo" data-md-component="logo" href=".." title="Mindlink / The Agentic Swarm">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Mindlink / The Agentic Swarm
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Start Here
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-hidden="true" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/topstolenname/agisa_sac" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Mindlink / The Agentic Swarm" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Mindlink / The Agentic Swarm">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Mindlink / The Agentic Swarm
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/topstolenname/agisa_sac" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    Home
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-ellipsis">
+    Paper
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Paper
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Mindlink_Paper/">
+<span class="md-ellipsis">
+    Mindlink Paper
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    Gallery
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Gallery
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/">
+<span class="md-ellipsis">
+    Overview
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure1/">
+<span class="md-ellipsis">
+    Figure 1 – Persistence
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure2/">
+<span class="md-ellipsis">
+    Figure 2 – Mapper
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure3/">
+<span class="md-ellipsis">
+    Figure 3 – Network
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure4/">
+<span class="md-ellipsis">
+    Figure 4 – Convergence
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure5/">
+<span class="md-ellipsis">
+    Figure 5 – Identity
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure6/">
+<span class="md-ellipsis">
+    Figure 6 – Workflow
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gallery/figure7/">
+<span class="md-ellipsis">
+    Figure 7 – Dashboard
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    API
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api/agisa_sac/">
+<span class="md-ellipsis">
+    agisa_sac
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-ellipsis">
+    Supplement
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            Supplement
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../CITATION_GUIDE/">
+<span class="md-ellipsis">
+    Citation Guide
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../FIGURE_CATALOG/">
+<span class="md-ellipsis">
+    Figure Catalog
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Start Here
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Start Here
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-you-just-received">
+<span class="md-ellipsis">
+      🎯 What You Just Received
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#60-second-quick-start">
+<span class="md-ellipsis">
+      🚀 60-Second Quick Start
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#essential-reading-order">
+<span class="md-ellipsis">
+      📚 Essential Reading Order
+    </span>
+</a>
+<nav aria-label="📚 Essential Reading Order" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-first-time-users-30-minutes-total">
+<span class="md-ellipsis">
+      For First-Time Users (30 minutes total)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-academic-authors-15-minutes">
+<span class="md-ellipsis">
+      For Academic Authors (15 minutes)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-software-developers-20-minutes">
+<span class="md-ellipsis">
+      For Software Developers (20 minutes)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-manifest-17-files">
+<span class="md-ellipsis">
+      🔍 File Manifest (17 files)
+    </span>
+</a>
+<nav aria-label="🔍 File Manifest (17 files)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#primary-documentation-5-files">
+<span class="md-ellipsis">
+      Primary Documentation (5 files)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#alt-text-descriptions-7-files">
+<span class="md-ellipsis">
+      Alt-Text Descriptions (7 files)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enhanced-diagram-sources-4-files">
+<span class="md-ellipsis">
+      Enhanced Diagram Sources (4 files)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#navigation-map">
+<span class="md-ellipsis">
+      🗺️ Navigation Map
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#common-use-cases">
+<span class="md-ellipsis">
+      💡 Common Use Cases
+    </span>
+</a>
+<nav aria-label="💡 Common Use Cases" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-1-im-writing-an-academic-paper">
+<span class="md-ellipsis">
+      Case 1: "I'm writing an academic paper"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-2-i-want-to-add-visuals-to-my-github-repo">
+<span class="md-ellipsis">
+      Case 2: "I want to add visuals to my GitHub repo"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-3-i-need-to-customize-diagram-colorslayout">
+<span class="md-ellipsis">
+      Case 3: "I need to customize diagram colors/layout"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-4-i-just-want-to-understand-whats-available">
+<span class="md-ellipsis">
+      Case 4: "I just want to understand what's available"
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#as-quick-reference-commands">
+<span class="md-ellipsis">
+      âš¡ Quick Reference Commands
+    </span>
+</a>
+<nav aria-label="âš¡ Quick Reference Commands" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#render-mermaid-diagrams">
+<span class="md-ellipsis">
+      Render Mermaid Diagrams
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#render-graphviz-diagrams">
+<span class="md-ellipsis">
+      Render Graphviz Diagrams
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#execute-python-figure-scripts">
+<span class="md-ellipsis">
+      Execute Python Figure Scripts
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#set-up-cicd">
+<span class="md-ellipsis">
+      Set Up CI/CD
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-statistics">
+<span class="md-ellipsis">
+      📊 Package Statistics
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quality-assurance-checklist">
+<span class="md-ellipsis">
+      ✅ Quality Assurance Checklist
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#troubleshooting">
+<span class="md-ellipsis">
+      🔧 Troubleshooting
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contact-support">
+<span class="md-ellipsis">
+      📞 Contact &amp; Support
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#license">
+<span class="md-ellipsis">
+      🎓 License
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#version-roadmap">
+<span class="md-ellipsis">
+      🗺️ Version &amp; Roadmap
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#acknowledgments">
+<span class="md-ellipsis">
+      🙏 Acknowledgments
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#next-steps">
+<span class="md-ellipsis">
+      🎯 Next Steps
+    </span>
+</a>
+<nav aria-label="🎯 Next Steps" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#immediate-next-5-minutes">
+<span class="md-ellipsis">
+      Immediate (Next 5 Minutes)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#near-term-next-hour">
+<span class="md-ellipsis">
+      Near-Term (Next Hour)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#long-term-next-week">
+<span class="md-ellipsis">
+      Long-Term (Next Week)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../README_IMPLEMENTATION/">
+<span class="md-ellipsis">
+    Implementation
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-you-just-received">
+<span class="md-ellipsis">
+      🎯 What You Just Received
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#60-second-quick-start">
+<span class="md-ellipsis">
+      🚀 60-Second Quick Start
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#essential-reading-order">
+<span class="md-ellipsis">
+      📚 Essential Reading Order
+    </span>
+</a>
+<nav aria-label="📚 Essential Reading Order" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-first-time-users-30-minutes-total">
+<span class="md-ellipsis">
+      For First-Time Users (30 minutes total)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-academic-authors-15-minutes">
+<span class="md-ellipsis">
+      For Academic Authors (15 minutes)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#for-software-developers-20-minutes">
+<span class="md-ellipsis">
+      For Software Developers (20 minutes)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-manifest-17-files">
+<span class="md-ellipsis">
+      🔍 File Manifest (17 files)
+    </span>
+</a>
+<nav aria-label="🔍 File Manifest (17 files)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#primary-documentation-5-files">
+<span class="md-ellipsis">
+      Primary Documentation (5 files)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#alt-text-descriptions-7-files">
+<span class="md-ellipsis">
+      Alt-Text Descriptions (7 files)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enhanced-diagram-sources-4-files">
+<span class="md-ellipsis">
+      Enhanced Diagram Sources (4 files)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#navigation-map">
+<span class="md-ellipsis">
+      🗺️ Navigation Map
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#common-use-cases">
+<span class="md-ellipsis">
+      💡 Common Use Cases
+    </span>
+</a>
+<nav aria-label="💡 Common Use Cases" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-1-im-writing-an-academic-paper">
+<span class="md-ellipsis">
+      Case 1: "I'm writing an academic paper"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-2-i-want-to-add-visuals-to-my-github-repo">
+<span class="md-ellipsis">
+      Case 2: "I want to add visuals to my GitHub repo"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-3-i-need-to-customize-diagram-colorslayout">
+<span class="md-ellipsis">
+      Case 3: "I need to customize diagram colors/layout"
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#case-4-i-just-want-to-understand-whats-available">
+<span class="md-ellipsis">
+      Case 4: "I just want to understand what's available"
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#as-quick-reference-commands">
+<span class="md-ellipsis">
+      âš¡ Quick Reference Commands
+    </span>
+</a>
+<nav aria-label="âš¡ Quick Reference Commands" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#render-mermaid-diagrams">
+<span class="md-ellipsis">
+      Render Mermaid Diagrams
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#render-graphviz-diagrams">
+<span class="md-ellipsis">
+      Render Graphviz Diagrams
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#execute-python-figure-scripts">
+<span class="md-ellipsis">
+      Execute Python Figure Scripts
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#set-up-cicd">
+<span class="md-ellipsis">
+      Set Up CI/CD
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#package-statistics">
+<span class="md-ellipsis">
+      📊 Package Statistics
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quality-assurance-checklist">
+<span class="md-ellipsis">
+      ✅ Quality Assurance Checklist
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#troubleshooting">
+<span class="md-ellipsis">
+      🔧 Troubleshooting
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contact-support">
+<span class="md-ellipsis">
+      📞 Contact &amp; Support
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#license">
+<span class="md-ellipsis">
+      🎓 License
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#version-roadmap">
+<span class="md-ellipsis">
+      🗺️ Version &amp; Roadmap
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#acknowledgments">
+<span class="md-ellipsis">
+      🙏 Acknowledgments
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#next-steps">
+<span class="md-ellipsis">
+      🎯 Next Steps
+    </span>
+</a>
+<nav aria-label="🎯 Next Steps" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#immediate-next-5-minutes">
+<span class="md-ellipsis">
+      Immediate (Next 5 Minutes)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#near-term-next-hour">
+<span class="md-ellipsis">
+      Near-Term (Next Hour)
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#long-term-next-week">
+<span class="md-ellipsis">
+      Long-Term (Next Week)
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/topstolenname/agisa_sac/edit/master/docs/START_HERE.md" rel="edit" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+</a>
+<h1 id="start-here-the-agentic-swarm-visual-documentation-package">✨ START HERE: The Agentic Swarm Visual Documentation Package<a class="headerlink" href="#start-here-the-agentic-swarm-visual-documentation-package" title="Permanent link">¶</a></h1>
+<p><strong>Version 1.0.0</strong> | October 15, 2025 | 17 files, 101KB</p>
+<hr/>
+<h2 id="what-you-just-received">🎯 What You Just Received<a class="headerlink" href="#what-you-just-received" title="Permanent link">¶</a></h2>
+<p>A complete, publication-ready visual documentation package for "The Agentic Swarm" document and the agisa_sac repository, including:</p>
+<p>✅ <strong>7 comprehensive alt-text descriptions</strong> (accessibility compliant)<br/>
+✅ <strong>4 enhanced diagram sources</strong> (styled with consciousness theory annotations)<br/>
+✅ <strong>Complete citation guide</strong> (APA, Chicago, MLA, BibTeX)<br/>
+✅ <strong>Figure catalog</strong> with metadata matrix<br/>
+✅ <strong>Implementation guide</strong> with troubleshooting<br/>
+✅ <strong>Automated CI/CD</strong> workflow template</p>
+<hr/>
+<h2 id="60-second-quick-start">🚀 60-Second Quick Start<a class="headerlink" href="#60-second-quick-start" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Download all 17 files from /mnt/user-data/outputs/</span>
+
+<span class="c1"># 2. Organize in your repository:</span>
+your-repo/docs/
+├──<span class="w"> </span>CITATION_GUIDE.md
+├──<span class="w"> </span>FIGURE_CATALOG.md<span class="w">  </span>
+├──<span class="w"> </span>README_IMPLEMENTATION.md
+└──<span class="w"> </span>figs/
+<span class="w">    </span>├──<span class="w"> </span>alt/<span class="w">                      </span><span class="c1"># 7 alt-text files</span>
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>fig01_persistence_alt.md
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>...
+<span class="w">    </span>└──<span class="w"> </span>src/<span class="w">                      </span><span class="c1"># 4 enhanced diagram sources</span>
+<span class="w">        </span>├──<span class="w"> </span>figure3_network_enhanced.mmd
+<span class="w">        </span>└──<span class="w"> </span>...
+
+<span class="c1"># 3. Install rendering tools:</span>
+npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@mermaid-js/mermaid-cli
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>graphviz<span class="w">  </span><span class="c1"># or: brew install graphviz</span>
+
+<span class="c1"># 4. Render your first diagram:</span>
+mmdc<span class="w"> </span>-i<span class="w"> </span>docs/figs/src/figure3_network_enhanced.mmd<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-o<span class="w"> </span>docs/figs/svg/figure3.svg<span class="w"> </span>-w<span class="w"> </span><span class="m">1200</span><span class="w"> </span>-s<span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># 5. View the result:</span>
+open<span class="w"> </span>docs/figs/svg/figure3.svg<span class="w">  </span><span class="c1"># macOS</span>
+<span class="c1"># or: xdg-open docs/figs/svg/figure3.svg  # Linux</span>
+
+<span class="c1"># Done! You now have publication-ready visuals.</span>
+</code></pre></div>
+<hr/>
+<h2 id="essential-reading-order">📚 Essential Reading Order<a class="headerlink" href="#essential-reading-order" title="Permanent link">¶</a></h2>
+<h3 id="for-first-time-users-30-minutes-total">For First-Time Users (30 minutes total)<a class="headerlink" href="#for-first-time-users-30-minutes-total" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>This file</strong> (START_HERE.md) - 2 minutes</li>
+<li><strong>INDEX.md</strong> - Navigation guide - 5 minutes</li>
+<li><strong>PACKAGE_SUMMARY.md</strong> - Complete overview - 10 minutes</li>
+<li><strong>FIGURE_CATALOG.md</strong> - Browse all diagrams - 8 minutes</li>
+<li><strong>Pick one alt-text file</strong> (e.g., fig03_network_alt.md) - 5 minutes</li>
+</ol>
+<h3 id="for-academic-authors-15-minutes">For Academic Authors (15 minutes)<a class="headerlink" href="#for-academic-authors-15-minutes" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>CITATION_GUIDE.md</strong> - All citation formats - 10 minutes</li>
+<li><strong>Pick relevant figures</strong> from FIGURE_CATALOG.md - 5 minutes</li>
+<li><strong>Export and cite</strong> using provided templates</li>
+</ol>
+<h3 id="for-software-developers-20-minutes">For Software Developers (20 minutes)<a class="headerlink" href="#for-software-developers-20-minutes" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>README_IMPLEMENTATION.md</strong> - Setup guide - 10 minutes</li>
+<li><strong>Integration Checklist</strong> section - 5 minutes</li>
+<li><strong>Troubleshooting</strong> section (skim for future reference) - 5 minutes</li>
+</ol>
+<hr/>
+<h2 id="file-manifest-17-files">🔍 File Manifest (17 files)<a class="headerlink" href="#file-manifest-17-files" title="Permanent link">¶</a></h2>
+<h3 id="primary-documentation-5-files">Primary Documentation (5 files)<a class="headerlink" href="#primary-documentation-5-files" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>INDEX.md</code> .................... Master index with quick reference</li>
+<li><code>PACKAGE_SUMMARY.md</code> .......... Complete overview &amp; inventory</li>
+<li><code>CITATION_GUIDE.md</code> ........... Academic citation formats</li>
+<li><code>FIGURE_CATALOG.md</code> ........... Figure matrix with metadata</li>
+<li><code>README_IMPLEMENTATION.md</code> .... Setup &amp; troubleshooting</li>
+<li><code>PACKAGE_TREE.txt</code> ............ Visual package structure</li>
+</ul>
+<h3 id="alt-text-descriptions-7-files">Alt-Text Descriptions (7 files)<a class="headerlink" href="#alt-text-descriptions-7-files" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>fig01_persistence_alt.md</code> .... TDA persistence diagram</li>
+<li><code>fig02_mapper_alt.md</code> ......... TDA mapper graph</li>
+<li><code>fig03_network_alt.md</code> ........ Decentralized agent architecture</li>
+<li><code>fig04_convergence_alt.md</code> .... Instrumental convergence flow</li>
+<li><code>fig05_identity_alt.md</code> ....... Three-tier identity stack</li>
+<li><code>fig06_workflow_alt.md</code> ....... Complete task lifecycle</li>
+<li><code>fig07_dashboard_alt.md</code> ...... Consciousness metrics dashboard</li>
+</ul>
+<h3 id="enhanced-diagram-sources-4-files">Enhanced Diagram Sources (4 files)<a class="headerlink" href="#enhanced-diagram-sources-4-files" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>figure3_network_enhanced.mmd</code> ........ Global workspace with GWT annotations</li>
+<li><code>figure4_convergence_enhanced.mmd</code> .... Safety risks with hierarchical layout</li>
+<li><code>figure5_identity_enhanced.mmd</code> ....... Identity layers with examples</li>
+<li><code>figure6_workflow_enhanced.mmd</code> ....... 5-phase workflow with meta-learning</li>
+</ul>
+<hr/>
+<h2 id="navigation-map">🗺️ Navigation Map<a class="headerlink" href="#navigation-map" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code>START_HERE.md (YOU ARE HERE)
+        │
+        ├── Need citations? ────────────&gt; CITATION_GUIDE.md
+        │
+        ├── Want to browse figures? ────&gt; FIGURE_CATALOG.md
+        │
+        ├── Ready to implement? ────────&gt; README_IMPLEMENTATION.md
+        │
+        ├── Need comprehensive overview? ─&gt; PACKAGE_SUMMARY.md
+        │
+        └── Just want quick navigation? ─&gt; INDEX.md
+</code></pre></div>
+<hr/>
+<h2 id="common-use-cases">💡 Common Use Cases<a class="headerlink" href="#common-use-cases" title="Permanent link">¶</a></h2>
+<h3 id="case-1-im-writing-an-academic-paper">Case 1: "I'm writing an academic paper"<a class="headerlink" href="#case-1-im-writing-an-academic-paper" title="Permanent link">¶</a></h3>
+<ol>
+<li>Browse <strong>FIGURE_CATALOG.md</strong> to select relevant figures</li>
+<li>Export figures at required DPI (instructions in README_IMPLEMENTATION.md)</li>
+<li>Cite using <strong>CITATION_GUIDE.md</strong> templates (BibTeX recommended)</li>
+<li>Include alt-text files as supplementary materials</li>
+</ol>
+<p><strong>Time estimate</strong>: 30 minutes</p>
+<h3 id="case-2-i-want-to-add-visuals-to-my-github-repo">Case 2: "I want to add visuals to my GitHub repo"<a class="headerlink" href="#case-2-i-want-to-add-visuals-to-my-github-repo" title="Permanent link">¶</a></h3>
+<ol>
+<li>Follow <strong>README_IMPLEMENTATION.md</strong> Integration Checklist</li>
+<li>Copy diagram sources to <code>docs/figs/src/</code></li>
+<li>Copy alt-text files to <code>docs/figs/alt/</code></li>
+<li>Set up GitHub Actions using provided workflow</li>
+<li>Embed figures in README with alt-text links</li>
+</ol>
+<p><strong>Time estimate</strong>: 45 minutes</p>
+<h3 id="case-3-i-need-to-customize-diagram-colorslayout">Case 3: "I need to customize diagram colors/layout"<a class="headerlink" href="#case-3-i-need-to-customize-diagram-colorslayout" title="Permanent link">¶</a></h3>
+<ol>
+<li>Read <strong>README_IMPLEMENTATION.md</strong> §Customization Guide</li>
+<li>Edit <code>classDef</code> statements in <code>.mmd</code> files</li>
+<li>Render locally to test changes</li>
+<li>Commit and push (CI/CD renders automatically)</li>
+</ol>
+<p><strong>Time estimate</strong>: 20 minutes per diagram</p>
+<h3 id="case-4-i-just-want-to-understand-whats-available">Case 4: "I just want to understand what's available"<a class="headerlink" href="#case-4-i-just-want-to-understand-whats-available" title="Permanent link">¶</a></h3>
+<ol>
+<li>Read <strong>PACKAGE_SUMMARY.md</strong> (10 minutes)</li>
+<li>Skim <strong>FIGURE_CATALOG.md</strong> figure matrix (5 minutes)</li>
+<li>Pick one alt-text file to understand detail level (5 minutes)</li>
+</ol>
+<p><strong>Time estimate</strong>: 20 minutes</p>
+<hr/>
+<h2 id="as-quick-reference-commands">âš¡ Quick Reference Commands<a class="headerlink" href="#as-quick-reference-commands" title="Permanent link">¶</a></h2>
+<h3 id="render-mermaid-diagrams">Render Mermaid Diagrams<a class="headerlink" href="#render-mermaid-diagrams" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>mmdc<span class="w"> </span>-i<span class="w"> </span>source.mmd<span class="w"> </span>-o<span class="w"> </span>output.svg<span class="w"> </span>-w<span class="w"> </span><span class="m">1200</span><span class="w"> </span>-s<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+<h3 id="render-graphviz-diagrams">Render Graphviz Diagrams<a class="headerlink" href="#render-graphviz-diagrams" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>dot<span class="w"> </span>-Tsvg<span class="w"> </span>source.dot<span class="w"> </span>-o<span class="w"> </span>output.svg<span class="w"> </span>-Gdpi<span class="o">=</span><span class="m">300</span>
+</code></pre></div>
+<h3 id="execute-python-figure-scripts">Execute Python Figure Scripts<a class="headerlink" href="#execute-python-figure-scripts" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>figure1_persistence.py<span class="w">  </span><span class="c1"># outputs to svg/ and png/</span>
+</code></pre></div>
+<h3 id="set-up-cicd">Set Up CI/CD<a class="headerlink" href="#set-up-cicd" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>diagram-build.yml<span class="w"> </span>.github/workflows/
+git<span class="w"> </span>add<span class="w"> </span>.github/workflows/diagram-build.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"ci: add diagram rendering workflow"</span>
+git<span class="w"> </span>push
+</code></pre></div>
+<hr/>
+<h2 id="package-statistics">📊 Package Statistics<a class="headerlink" href="#package-statistics" title="Permanent link">¶</a></h2>
+<p><strong>Files</strong>: 17 total (5 docs + 7 alt-text + 4 diagrams + 1 tree)<br/>
+<strong>Size</strong>: 101KB total<br/>
+<strong>Coverage</strong>: All 7 figures from "The Agentic Swarm"<br/>
+<strong>Accessibility</strong>: 27KB of alt-text (27% of package)<br/>
+<strong>Format Support</strong>: LaTeX, Markdown, HTML, React/JSX<br/>
+<strong>License</strong>: MIT (free for commercial and academic use)</p>
+<hr/>
+<h2 id="quality-assurance-checklist">✅ Quality Assurance Checklist<a class="headerlink" href="#quality-assurance-checklist" title="Permanent link">¶</a></h2>
+<p>This package has been validated for:</p>
+<ul>
+<li>✅ WCAG 2.1 AA accessibility compliance</li>
+<li>✅ 300 DPI publication quality (SVG vector)</li>
+<li>✅ Consistent color scheme across all diagrams</li>
+<li>✅ Theory-code integration (consciousness frameworks + agisa_sac)</li>
+<li>✅ Academic citation formats (APA, Chicago, MLA, BibTeX)</li>
+<li>✅ Comprehensive alt-text for all figures</li>
+<li>✅ GitHub Actions CI/CD compatibility</li>
+<li>✅ Mobile-responsive rendering options</li>
+</ul>
+<hr/>
+<h2 id="troubleshooting">🔧 Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
+<p><strong>Problem</strong>: "I don't know where to start"<br/>
+<strong>Solution</strong>: Read this file (START_HERE.md) then INDEX.md</p>
+<p><strong>Problem</strong>: "Diagram won't render"<br/>
+<strong>Solution</strong>: See README_IMPLEMENTATION.md §Troubleshooting</p>
+<p><strong>Problem</strong>: "Need specific citation format"<br/>
+<strong>Solution</strong>: See CITATION_GUIDE.md §Figure-Specific Citations</p>
+<p><strong>Problem</strong>: "Want to modify diagram colors"<br/>
+<strong>Solution</strong>: See README_IMPLEMENTATION.md §Customization Guide</p>
+<p><strong>Problem</strong>: "Don't understand alt-text purpose"<br/>
+<strong>Solution</strong>: See PACKAGE_SUMMARY.md §Accessibility Features</p>
+<hr/>
+<h2 id="contact-support">📞 Contact &amp; Support<a class="headerlink" href="#contact-support" title="Permanent link">¶</a></h2>
+<p><strong>Maintainer</strong>: Tristan J. Jessup<br/>
+<strong>Email</strong>: tristan@mindlink.dev<br/>
+<strong>GitHub</strong>: @topstolenname<br/>
+<strong>Repository</strong>: https://github.com/topstolenname/agisa_sac<br/>
+<strong>Issues</strong>: https://github.com/topstolenname/agisa_sac/issues</p>
+<hr/>
+<h2 id="license">🎓 License<a class="headerlink" href="#license" title="Permanent link">¶</a></h2>
+<p><strong>MIT License</strong> - Free for commercial and academic use</p>
+<p>Full license text in PACKAGE_SUMMARY.md</p>
+<p>Copyright © 2025 Tristan J. Jessup</p>
+<hr/>
+<h2 id="version-roadmap">🗺️ Version &amp; Roadmap<a class="headerlink" href="#version-roadmap" title="Permanent link">¶</a></h2>
+<p><strong>Current</strong>: v1.0.0 (October 15, 2025)<br/>
+<strong>Next</strong>: v1.1.0 (TBD) - Temporal evolution heatmaps, interactive network graph<br/>
+<strong>Future</strong>: v2.0.0 (TBD) - 3D topology visualizations, AR overlays</p>
+<hr/>
+<h2 id="acknowledgments">🙏 Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permanent link">¶</a></h2>
+<p><strong>Theoretical Foundations</strong>:
+- "The Agentic Swarm" (primary document)
+- "The Conscious Machine" whitepaper (co-authored)
+- Integrated Information Theory (Tononi et al.)
+- Global Workspace Theory (Baars, Dehaene)</p>
+<p><strong>Visual Inspiration</strong>:
+- Neuroscience EEG dashboards
+- TDA visualization best practices
+- Google Cloud architecture diagrams</p>
+<p><strong>Software Stack</strong>:
+- Mermaid.js, Graphviz, Matplotlib, Recharts
+- GitHub Actions, mermaid-cli</p>
+<hr/>
+<h2 id="next-steps">🎯 Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h3 id="immediate-next-5-minutes">Immediate (Next 5 Minutes)<a class="headerlink" href="#immediate-next-5-minutes" title="Permanent link">¶</a></h3>
+<ul>
+<li>[ ] Read INDEX.md for comprehensive navigation</li>
+<li>[ ] Identify your primary use case (academic, GitHub, presentation, etc.)</li>
+<li>[ ] Jump to relevant guide (CITATION, CATALOG, or IMPLEMENTATION)</li>
+</ul>
+<h3 id="near-term-next-hour">Near-Term (Next Hour)<a class="headerlink" href="#near-term-next-hour" title="Permanent link">¶</a></h3>
+<ul>
+<li>[ ] Set up local rendering environment (npm, graphviz, python)</li>
+<li>[ ] Render one diagram locally to verify setup</li>
+<li>[ ] Review alt-text file structure to understand detail level</li>
+</ul>
+<h3 id="long-term-next-week">Long-Term (Next Week)<a class="headerlink" href="#long-term-next-week" title="Permanent link">¶</a></h3>
+<ul>
+<li>[ ] Integrate visuals into your repository or manuscript</li>
+<li>[ ] Set up GitHub Actions CI/CD for automated rendering</li>
+<li>[ ] Customize diagrams for your specific needs</li>
+<li>[ ] Share package with collaborators</li>
+</ul>
+<hr/>
+<p><strong>You're all set!</strong> Browse the other documentation files to dive deeper into specific topics.</p>
+<p>For the fastest start, read <strong>INDEX.md</strong> next (5 minutes), then jump to the guide most relevant to your use case.</p>
+<hr/>
+<p><em>START_HERE Version: 1.0.0</em><br/>
+<em>Last Updated: October 15, 2025</em><br/>
+<em>Questions? Open an issue: https://github.com/topstolenname/agisa_sac/issues</em></p>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/topstolenname/agisa_sac" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+</body>
+</html>

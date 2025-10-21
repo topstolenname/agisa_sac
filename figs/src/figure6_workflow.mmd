@@ -1,0 +1,14 @@
+%% Figure 6 – agisa_sac Workflow (End-to-End)
+sequenceDiagram
+    participant U as User/Trigger
+    participant P as planner_function.py
+    participant A as Agents (Cloud Functions)
+    participant E as evaluator_function.py
+    participant F as Firestore (Memory)
+
+    U->>P: Submit Task
+    P->>A: Publish Subtasks (Pub/Sub)
+    A-->>E: Return Results
+    E->>F: Write Evaluation Scores
+    E-->>P: Feedback for retries (Cloud Tasks)
+    P-->>U: Aggregate Completion
