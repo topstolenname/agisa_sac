@@ -27,7 +27,7 @@ plugins:
           options:
             docstring_style: google
             show_source: true
-  - mermaid2markdown_extensions:
+  - mermaid2
   - admonition
   - toc:
       permalink: true
