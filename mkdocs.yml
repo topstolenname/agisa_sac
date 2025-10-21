@@ -3,6 +3,7 @@ site_description: Emergent agent swarms, ethical governance, and AGI system arch
 repo_url: https://github.com/topstolenname/agisa_sac
 repo_name: topstolenname/agisa_sac
 docs_dir: docs
+
 theme:
   name: material
   palette:
@@ -19,6 +20,7 @@ theme:
     - content.code.copy
     - content.action.edit
     - content.tabs.link
+
 plugins:
   - search
   - mkdocstrings:
@@ -28,6 +30,7 @@ plugins:
             docstring_style: google
             show_source: true
   - mermaid2
+
 markdown_extensions:
   - admonition
   - toc:
@@ -43,9 +46,12 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/topstolenname/agisa_sac
+
 nav:
   - Home: index.md
   - Paper:
