@@ -2,4 +2,6 @@
 
 from __future__ import annotations
 
-__all__ = []
+from .engine import ChaosOrchestrator
+
+__all__ = ["ChaosOrchestrator"]

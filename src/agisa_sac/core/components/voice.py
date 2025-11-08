@@ -50,7 +50,6 @@ class VoiceEngine:
 
     def evolve_style(self, influence: Dict):
         """Evolves the linguistic signature based on external influence."""
-        # print(f"Agent {self.agent_id} voice style evolving with influence: {influence}") # Verbose
         if "archetype" in influence and isinstance(
             influence["archetype"], str
         ):

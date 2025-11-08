@@ -28,7 +28,6 @@ class ReflexivityLayer:
 
     def force_deep_reflection(self, trigger: str):
         """Initiate identity-realignment sequence (Satori Event)."""
-        # print(f"Agent {self.agent.agent_id} entering deep reflection triggered by: {trigger}") # Verbose
         if not all(
             hasattr(self.agent, attr)
             for attr in ["voice", "memory", "cognitive"]
@@ -71,7 +70,6 @@ class ReflexivityLayer:
                 "agent_satori_event",
                 {"agent_id": self.agent.agent_id, "trigger": trigger},
             )
-        # print(f"Agent {self.agent.agent_id} completed deep reflection.") # Verbose
 
     # Optional helper for heuristic shifts during satori
     # def _apply_satori_heuristic_shift(self, current_heuristics):

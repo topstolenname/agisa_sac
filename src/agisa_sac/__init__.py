@@ -109,8 +109,15 @@ __all__ = [
     "generate_monitoring_metrics",
     # Cloud
     "VertexAgent",
+    # Logging
+    "get_logger",
+    "setup_logging",
 ]
 
+# Configure logging
+from .utils.logger import get_logger, setup_logging
+
+# Set up default logging configuration (can be overridden by applications)
 import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())

@@ -34,7 +34,6 @@ class MessageBus:
         if not callable(callback):
             raise TypeError("Callback must be a callable function.")
         self.subscribers[topic].append(callback)
-        # print(f"Subscribed {callback.__name__} to topic '{topic}'") # Debug
 
     def publish(self, topic: str, message: Dict):
         """Publish a message to all subscribers registered for the topic."""
@@ -52,7 +51,6 @@ class MessageBus:
         if len(self.message_history) > 10000:  # Example limit
             self.message_history.pop(0)
 
-        # print(f"Publishing to topic '{topic}': {message}") # Debug
         loop = self._get_loop()
         for callback in self.subscribers[topic]:
             try:

@@ -484,12 +484,10 @@ class MemoryContinuumLayer:
 
     def _rebuild_indices(self):
         self.memory_indices = {"term": defaultdict(list)}
-        # print(f"Agent {self.agent_id}: Rebuilding memory indices...") # Verbose
         start_time = time.time()
         for memory_id, memory in self.memories.items():
             self._update_indices(memory_id, memory.content)
         duration = time.time() - start_time
-        # print(f"Agent {self.agent_id}: Index rebuild complete [{duration:.2f}s].") # Verbose
 
     def to_dict(self, include_embeddings: bool = False) -> Dict:
         return {
@@ -549,5 +547,4 @@ class MemoryContinuumLayer:
                     RuntimeWarning,
                 )
         instance._rebuild_indices()  # Rebuild after loading all
-        # print(f"Agent {agent_id}: Mem layer reconstruct. {len(instance.memories)} mems. {corrupted_on_load} hash mismatches.") # Verbose
         return instance

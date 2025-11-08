@@ -11,16 +11,21 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Optional
 
 from .config import PRESETS, SimulationConfig, get_preset
 from .core.orchestrator import SimulationOrchestrator
+from .utils.logger import configure_simple_logging, get_logger
+
+logger = get_logger(__name__)
 
 
 def list_presets() -> None:
     """List available configuration presets."""
+    # Use print for CLI output (user-facing, not logging)
     print("Available configuration presets:\n")
     for name, config in PRESETS.items():
         print(f"  {name:12} - {config.num_agents:3} agents, {config.num_epochs:3} epochs")
@@ -36,6 +41,7 @@ def run_simulation(args: argparse.Namespace) -> int:
         # Load from JSON file
         config_path = Path(args.config)
         if not config_path.exists():
+            logger.error(f"Config file not found: {config_path}")
             print(f"Error: Config file not found: {config_path}", file=sys.stderr)
             return 1
 
@@ -43,8 +49,10 @@ def run_simulation(args: argparse.Namespace) -> int:
             with open(config_path) as f:
                 config_dict = json.load(f)
             config = SimulationConfig.from_dict(config_dict)
+            logger.info(f"Loaded configuration from: {config_path}")
             print(f"Loaded configuration from: {config_path}")
         except Exception as e:
+            logger.error(f"Error loading config: {e}", exc_info=True)
             print(f"Error loading config: {e}", file=sys.stderr)
             return 1
 
@@ -52,34 +60,45 @@ def run_simulation(args: argparse.Namespace) -> int:
         # Load preset
         try:
             config = get_preset(args.preset)
+            logger.info(f"Using preset: {args.preset}")
             print(f"Using preset: {args.preset}")
         except KeyError as e:
+            logger.error(f"Invalid preset: {e}")
             print(f"Error: {e}", file=sys.stderr)
             return 1
 
     else:
         # Use default preset
         config = get_preset("default")
+        logger.info("Using default configuration")
         print("Using default configuration")
 
     # Apply command-line overrides
     if args.gpu:
         config.use_gpu = True
+        logger.info("GPU acceleration enabled")
         print("GPU acceleration enabled")
 
     if args.agents:
         config.num_agents = args.agents
+        logger.info(f"Overriding num_agents: {args.agents}")
         print(f"Overriding num_agents: {args.agents}")
 
     if args.epochs:
         config.num_epochs = args.epochs
+        logger.info(f"Overriding num_epochs: {args.epochs}")
         print(f"Overriding num_epochs: {args.epochs}")
 
     if args.seed is not None:
         config.random_seed = args.seed
+        logger.info(f"Using random seed: {args.seed}")
         print(f"Using random seed: {args.seed}")
 
+    if hasattr(args, 'log_file') and args.log_file:
+        logger.info(f"Logging to file: {args.log_file}")
+
     # Run simulation
+    logger.info(f"Starting simulation: {config.num_agents} agents, {config.num_epochs} epochs")
     print(f"\nStarting simulation: {config.num_agents} agents, {config.num_epochs} epochs")
     print("-" * 60)
 
@@ -87,6 +106,7 @@ def run_simulation(args: argparse.Namespace) -> int:
         orchestrator = SimulationOrchestrator(config.to_dict())
         orchestrator.run_simulation()
 
+        logger.info("Simulation completed successfully")
         print("\n" + "=" * 60)
         print("SIMULATION COMPLETE")
         print("=" * 60)
@@ -95,6 +115,7 @@ def run_simulation(args: argparse.Namespace) -> int:
         return 0
 
     except Exception as e:
+        logger.error(f"Error during simulation: {e}", exc_info=True)
         print(f"\nError during simulation: {e}", file=sys.stderr)
         if args.verbose:
             import traceback
@@ -150,6 +171,22 @@ def main() -> int:
         action="store_true",
         help="Verbose output with stack traces",
     )
+    run_parser.add_argument(
+        "--log-level",
+        type=str,
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Set logging level (overrides LOG_LEVEL env var)",
+    )
+    run_parser.add_argument(
+        "--log-file",
+        type=str,
+        help="Write logs to specified file",
+    )
+    run_parser.add_argument(
+        "--json-logs",
+        action="store_true",
+        help="Output logs in JSON format (for production)",
+    )
 
     # List presets command
     list_parser = subparsers.add_parser("list-presets", help="List configuration presets")
@@ -157,7 +194,21 @@ def main() -> int:
     # Parse arguments
     args = parser.parse_args()
 
+    # Configure logging based on arguments
     if args.command == "run":
+        log_level = None
+        if hasattr(args, 'log_level') and args.log_level:
+            log_level = getattr(logging, args.log_level)
+        elif hasattr(args, 'verbose') and args.verbose:
+            log_level = logging.DEBUG
+
+        log_file = Path(args.log_file) if hasattr(args, 'log_file') and args.log_file else None
+        json_format = hasattr(args, 'json_logs') and args.json_logs
+        verbose = hasattr(args, 'verbose') and args.verbose
+
+        from .utils.logger import setup_logging
+        setup_logging(level=log_level, log_file=log_file, json_format=json_format, verbose=verbose)
+
         return run_simulation(args)
     elif args.command == "list-presets":
         list_presets()

@@ -34,9 +34,7 @@ def list_scenarios() -> None:
 async def run_scenario(args: argparse.Namespace) -> int:
     """Run a chaos engineering scenario."""
     try:
-        # Import the chaos orchestrator from scripts
-        sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
-        from chaos_orchestrator import ChaosOrchestrator
+        from .engine import ChaosOrchestrator
 
         orchestrator = ChaosOrchestrator(coordinator_url=args.url)
 

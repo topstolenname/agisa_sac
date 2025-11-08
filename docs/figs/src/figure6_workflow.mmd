@@ -1,14 +1,103 @@
-%% Figure 6 – agisa_sac Workflow (End-to-End)
-sequenceDiagram
-    participant U as User/Trigger
-    participant P as planner_function.py
-    participant A as Agents (Cloud Functions)
-    participant E as evaluator_function.py
-    participant F as Firestore (Memory)
+%% Figure 6 â€" Complete agisa_sac Task Lifecycle Workflow
+%% Five-phase processing with recursive feedback loop
 
-    U->>P: Submit Task
-    P->>A: Publish Subtasks (Pub/Sub)
-    A-->>E: Return Results
-    E->>F: Write Evaluation Scores
-    E-->>P: Feedback for retries (Cloud Tasks)
-    P-->>U: Aggregate Completion
+flowchart TD
+    %% Phase 1: Task Arrival
+    subgraph Phase1["Phase 1: Task Arrival"]
+        T1[External Trigger / User Input]:::input
+        T2[Task Message Published]:::event
+    end
+    
+    %% Phase 2: Planning & Decomposition
+    subgraph Phase2["Phase 2: Planning & Decomposition"]
+        P1[planner_function.py\nCloud Function]:::function
+        P2[LLM-Powered Analysis]:::process
+        P3[Subtask Generation]:::process
+        P4[Publish to agent-processing]:::event
+    end
+    
+    %% Phase 3: Distributed Execution
+    subgraph Phase3["Phase 3: Distributed Execution (Parallel)"]
+        A1[Agent Instance 1]:::agent
+        A2[Agent Instance 2]:::agent
+        A3[Agent Instance N]:::agent
+        A4[Execute via Tools/APIs]:::process
+        A5[Publish Results]:::event
+    end
+    
+    %% Phase 4: Evaluation & Quality Control
+    subgraph Phase4["Phase 4: Evaluation & Quality Control"]
+        E1[evaluator_function.py\nCloud Function]:::function
+        E2{Quality\nThreshold?}:::decision
+        E3[Cloud Tasks\nRetry Queue]:::queue
+        E4[Success Path]:::success
+    end
+    
+    %% Phase 5: Persistence & Aggregation
+    subgraph Phase5["Phase 5: Persistence & Aggregation"]
+        M1[(Firestore:\nTask History)]:::storage
+        M2[(Firestore:\nAgent Performance)]:::storage
+        M3[(Firestore:\nReputation Scores)]:::storage
+        M4[Aggregate Results]:::process
+        M5[Final Output]:::output
+    end
+    
+    %% Flow connections
+    T1 --> T2
+    T2 --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    
+    P4 --> A1
+    P4 --> A2
+    P4 --> A3
+    A1 --> A4
+    A2 --> A4
+    A3 --> A4
+    A4 --> A5
+    
+    A5 --> E1
+    E1 --> E2
+    E2 -->|Fail| E3
+    E2 -->|Pass| E4
+    E3 -.retry.-> P4
+    
+    E4 --> M1
+    E4 --> M2
+    M2 --> M3
+    M1 --> M4
+    M3 --> M4
+    M4 --> M5
+    
+    %% Recursive feedback loop (meta-learning)
+    M2 -.query performance.-> P1
+    M3 -.adapt strategy.-> P1
+    
+    %% Consciousness theory annotations
+    note1["First-Order:\nAgents execute tasks"]:::annotation
+    note2["Second-Order:\nEvaluator observes agents"]:::annotation
+    note3["Third-Order:\nPlanner reflects on\nplanning history"]:::annotation
+    
+    Phase3 -.-> note1
+    Phase4 -.-> note2
+    M2 -.-> note3
+    
+    %% Style definitions
+    classDef input fill:#e7f5ff,stroke:#1c7ed6,stroke-width:1.5px
+    classDef event fill:#f3f8ff,stroke:#5b8def,stroke-width:1.5px
+    classDef function fill:#fff4e6,stroke:#e8590c,stroke-width:2px,font-weight:bold
+    classDef process fill:#f8f9fa,stroke:#495057
+    classDef agent fill:#ebfbee,stroke:#2f9e44,stroke-width:1.5px
+    classDef decision fill:#fff0f6,stroke:#d63384,stroke-width:2px
+    classDef queue fill:#fff9db,stroke:#f08c00,stroke-width:1.5px
+    classDef success fill:#ebfbee,stroke:#2f9e44,stroke-width:2px
+    classDef storage fill:#fff4e6,stroke:#e8590c,stroke-width:2px
+    classDef output fill:#f3f8ff,stroke:#5b8def,stroke-width:2px,font-weight:bold
+    classDef annotation fill:#f0f0f0,stroke:#888,stroke-dasharray:3,font-size:10px
+    
+    style Phase1 fill:#f8f9ff,stroke:#495057,stroke-dasharray:3
+    style Phase2 fill:#fff4e6,stroke:#e8590c,stroke-dasharray:3
+    style Phase3 fill:#ebfbee,stroke:#2f9e44,stroke-dasharray:3
+    style Phase4 fill:#fff0f6,stroke:#d63384,stroke-dasharray:3
+    style Phase5 fill:#f3f8ff,stroke:#5b8def,stroke-dasharray:3

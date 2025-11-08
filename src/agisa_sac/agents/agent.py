@@ -298,7 +298,6 @@ class EnhancedAgent:
                     f"Agent {agent_id}: State validation failed post-load: {e}",
                     RuntimeWarning,
                 )
-        # print(f"Agent {agent_id} reconstructed.") # Verbose
         return agent
 
     def _validate_state(self, strict: bool = True):

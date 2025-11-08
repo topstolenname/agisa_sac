@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from typing import Dict, List, Optional
 
@@ -9,8 +8,14 @@ from ..core.components.continuity_bridge import (
     CBPMiddleware,
     ContinuityBridgeProtocol,
 )
+from ..utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 app = FastAPI(title="AGI-SAC PCP")
+
+# Server start time for uptime tracking
+server_start_time = datetime.utcnow()
 
 # Initialize Continuity Bridge Protocol
 cbp = ContinuityBridgeProtocol(coherence_threshold=0.8, memory_window_hours=24)
@@ -69,13 +74,38 @@ async def authenticate_edge_node(authorization: str = Header(None)) -> str:
         raise HTTPException(status_code=401, detail="Invalid token format")
 
 
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint for monitoring and CLI status.
+
+    Returns:
+        dict: Service health status and basic metrics
+    """
+    uptime_seconds = (datetime.utcnow() - server_start_time).total_seconds()
+
+    return {
+        "status": "healthy",
+        "service": "agisa-sac-federation",
+        "timestamp": datetime.utcnow().isoformat(),
+        "registered_nodes": len(cbp.trust_graph),
+        "uptime_seconds": uptime_seconds,
+        "identity_initialized": cbp.identity_anchor is not None,
+        "version": "1.0.0-alpha",
+    }
+
+
 @app.get("/pcp/agent/telemetry")
 async def agent_telemetry():
+    """Legacy telemetry endpoint"""
+    logger.debug("Telemetry request received")
     return {"status": "ok"}
 
 
 @app.post("/pcp/resonance-scan")
 async def resonance_scan():
+    """Legacy resonance scan endpoint"""
+    logger.debug("Resonance scan request received")
     return {"detected": False}
 
 
@@ -101,8 +131,8 @@ async def register_edge_node(
 
     cbp.trust_graph[node_id] = initial_trust
 
-    logging.info(
-        "Registered edge node %s with trust %s", node_id, initial_trust
+    logger.info(
+        f"Registered edge node {node_id} (type={registration.node_type}) with trust={initial_trust:.3f}"
     )
 
     return {
@@ -134,7 +164,7 @@ async def submit_cognitive_fragment(
         }
 
     except Exception as e:
-        logging.error("Error processing fragment from %s: %s", node_id, e)
+        logger.error(f"Error processing fragment from {node_id}: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail="Fragment processing failed"
         )
@@ -261,8 +291,8 @@ async def override_node_trust(node_id: str, new_trust: float):
     old_trust = cbp.trust_graph.get(node_id, 0.0)
     cbp.trust_graph[node_id] = new_trust
 
-    logging.warning(
-        "Admin trust override: %s from %s to %s", node_id, old_trust, new_trust
+    logger.warning(
+        f"Admin trust override for {node_id}: {old_trust:.3f} -> {new_trust:.3f}"
     )
 
     return {
