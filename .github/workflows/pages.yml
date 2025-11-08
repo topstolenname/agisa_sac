@@ -56,10 +56,9 @@ jobs:
           shopt -s nullglob
           count=0
           for f in docs/figs/src/figure*.mmd; do
-            base="$(basename "$f")"           # e.g., figure3_network.mmd
-            stem="${base%%.*}"                # figure3_network
-            fig="${stem%%_*}"                 # figure3
-            out="docs/figs/svg/${fig}.svg"    # force figure3.svg
+            base="$(basename "$f")"
+            stem="${base%%.*}"                 # This is the full stem, e.g., 'figure0_layer_stack'
+            out="docs/figs/svg/${stem}.svg"   # Use the full stem for the output file
             echo "Rendering $f -> $out"
             mmdc -p puppeteer-config.json -i "$f" -o "$out" -w 1200 -s 2
             count=$((count+1))
@@ -78,9 +77,8 @@ jobs:
           count=0
           for f in docs/figs/src/figure*.dot; do
             base="$(basename "$f")"
-            stem="${base%%.*}"
-            fig="${stem%%_*}"
-            out="docs/figs/svg/${fig}.svg"
+            stem="${base%%.*}"                 # This is the full stem, e.g., 'figure_phi_integration'
+            out="docs/figs/svg/${stem}.svg"   # Use the full stem for the output file
             echo "Rendering $f -> $out"
             dot -Tsvg "$f" -o "$out"
             count=$((count+1))
@@ -115,6 +113,13 @@ jobs:
             echo "One or more expected figures are missing; failing the build."
             exit 1
           fi
+
+      # --- Copy root markdown files into docs ---
+      - name: Copy root markdown files into docs
+        run: |
+          cp README.md docs/README.md
+          cp CONTRIBUTING.md docs/CONTRIBUTING.md
+          cp TODO.md docs/TODO.md
 
       # --- Build & Deploy ---
       - name: Build site

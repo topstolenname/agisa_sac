@@ -54,6 +54,11 @@ extra:
 
 nav:
   - Home: index.md
+  - 'Project README': 'README.md'
+  - 'Contributing': 'CONTRIBUTING.md'
+  - 'Project TODO': 'TODO.md'
+  - 'Deployment': 'deployment.md'
+  - 'Refactoring': 'REFACTORING_SUMMARY.md'
   - Paper:
       - "Mindlink Paper": Mindlink_Paper.md
   - Gallery:
