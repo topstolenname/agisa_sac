@@ -31,10 +31,23 @@ dependencies = [
 dev = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "coverage>=7.0.0",
     "black>=23.0.0",
     "ruff>=0.1.0",
+    "flake8>=6.0.0",
     "mypy>=1.5.0",
     "pre-commit>=3.0.0",
+]
+docs = [
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.24.0",
+    "mkdocs-mermaid2-plugin>=1.1.0",
+    "pygments>=2.16.0",
+    "pymdown-extensions>=10.0",
+]
+visualization = [
+    "matplotlib>=3.5.0",
 ]
 federation = [
     "docker>=6.0.0",
@@ -44,10 +57,15 @@ gcp = [
     "google-cloud-storage>=2.10.0",
     "google-cloud-pubsub>=2.18.0",
     "google-cloud-vertex-ai>=1.38.0",
+    "google-cloud-firestore>=2.13.0",
+    "google-cloud-tasks>=2.14.0",
 ]
 chaos = [
     "locust>=2.17.0",
     "chaos-toolkit>=1.16.0",
+]
+all = [
+    "agisa-sac[dev,docs,visualization,federation,gcp,chaos]",
 ]
 
 [project.scripts]

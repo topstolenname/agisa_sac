@@ -1,40 +1,82 @@
-# ==============================================================================
-# STRANGLER FIG PATTERN: Compatibility Shim
-# ==============================================================================
-# This file is a compatibility shim for the Strangler Fig refactoring pattern.
-# 
-# The canonical source for this class has been migrated to:
-#   AGI-SAC_Clean/src/agisa_sac/core/components/reflexivity.py
-#
-# This shim ensures that existing import paths continue to work during the
-# transition period. Once all code has been updated to import from the new
-# location, this file can be safely deleted.
-#
-# Migration date: October 16, 2025
-# ==============================================================================
+import time
+import warnings
+from typing import TYPE_CHECKING
 
-import sys
-import os
-import importlib.util
+# Import framework version
+try:
+    from .. import FRAMEWORK_VERSION
+except ImportError:
+    FRAMEWORK_VERSION = "unknown"
 
-# Calculate the path to the clean repository's reflexivity.py
-_base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../'))
-_clean_path = os.path.join(_base_path, 'AGI-SAC_Clean/src/agisa_sac/core/components/reflexivity.py')
+# Use TYPE_CHECKING for agent hint to avoid circular import
+if TYPE_CHECKING:
+    from ..agent import EnhancedAgent
 
-# Load the module directly from the clean repository using importlib
-_spec = importlib.util.spec_from_file_location("_clean_reflexivity", _clean_path)
-if _spec is None or _spec.loader is None:
-    raise ImportError(f"Could not load reflexivity module from clean repository: {_clean_path}")
 
-_clean_module = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_clean_module)
+class ReflexivityLayer:
+    """Handles agent self-reflection and meta-cognition. (State managed via agent ref, no extra serialization needed here)"""
 
-# Re-export the class from the clean repository
-ReflexivityLayer = _clean_module.ReflexivityLayer
+    def __init__(self, agent: "EnhancedAgent"):
+        """Initializes with a reference to the owning agent."""
+        if not hasattr(
+            agent, "agent_id"
+        ):  # Basic check for valid agent object
+            raise TypeError(
+                "Agent reference is required for ReflexivityLayer."
+            )
+        self.agent = agent
 
-__all__ = ["ReflexivityLayer"]
+    def force_deep_reflection(self, trigger: str):
+        """Initiate identity-realignment sequence (Satori Event)."""
+        # print(f"Agent {self.agent.agent_id} entering deep reflection triggered by: {trigger}") # Verbose
+        if not all(
+            hasattr(self.agent, attr)
+            for attr in ["voice", "memory", "cognitive"]
+        ):
+            warnings.warn(
+                f"Agent {self.agent.agent_id}: Missing components for deep reflection.",
+                RuntimeWarning,
+            )
+            return
 
-# ==============================================================================
-# Original implementation has been moved to:
-#   AGI-SAC_Clean/src/agisa_sac/core/components/reflexivity.py
-# ==============================================================================
+        old_style = self.agent.voice.linguistic_signature.copy()
+        # Evolve voice style
+        self.agent.voice.evolve_style(
+            influence={
+                "archetype": "enlightened",
+                "sentence_structure": "paradoxical",
+            }
+        )
+        # Add Satori memory event
+        satori_memory_content = {
+            "type": "satori_event",
+            "trigger": trigger,
+            "timestamp": time.time(),
+            "theme": "self_reflection",
+            "reflection_details": {
+                "old_style_archetype": old_style.get("archetype"),
+                "new_style_archetype": self.agent.voice.linguistic_signature.get(
+                    "archetype"
+                ),
+            },
+        }
+        # Use agent's memory component to add memory
+        self.agent.memory.add_memory(satori_memory_content, importance=1.0)
+
+        # Optional: Trigger cognitive heuristic changes here if desired
+        # e.g., self.agent.cognitive.heuristics = self._apply_satori_heuristic_shift(self.agent.cognitive.heuristics)
+
+        if self.agent.message_bus:
+            self.agent.message_bus.publish(
+                "agent_satori_event",
+                {"agent_id": self.agent.agent_id, "trigger": trigger},
+            )
+        # print(f"Agent {self.agent.agent_id} completed deep reflection.") # Verbose
+
+    # Optional helper for heuristic shifts during satori
+    # def _apply_satori_heuristic_shift(self, current_heuristics):
+    #     # Example: Increase novelty/creativity focus
+    #     shifted = current_heuristics.copy()
+    #     shifted[2, 1] += 0.1 # Novelty -> Creative
+    #     shifted[2, 2] += 0.1 # Novelty -> Balanced
+    #     return np.clip(shifted, 0.1, 0.9)
