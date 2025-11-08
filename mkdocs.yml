@@ -58,6 +58,7 @@ nav:
       - "Mindlink Paper": Mindlink_Paper.md
   - Gallery:
       - Overview: gallery/index.md
+      - "Figure 0 – Layer Stack": gallery/figure0.md
       - "Figure 1 – Persistence": gallery/figure1.md
       - "Figure 2 – Mapper": gallery/figure2.md
       - "Figure 3 – Network": gallery/figure3.md
@@ -65,6 +66,8 @@ nav:
       - "Figure 5 – Identity": gallery/figure5.md
       - "Figure 6 – Workflow": gallery/figure6.md
       - "Figure 7 – Dashboard": gallery/figure7.md
+      - "Figure Φ – Integration": gallery/figure_phi.md
+      - "Figure Code – Mapping": gallery/figure_code.md
   - API:
       - agisa_sac: api/agisa_sac.md
   - Supplement:
