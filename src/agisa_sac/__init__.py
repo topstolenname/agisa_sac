@@ -7,6 +7,16 @@ distributed identity, and Stand Alone Complex phenomena.
 __version__ = "1.0.0-alpha"
 FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
 
+# Import configuration module
+from .config import (
+    DEFAULT,
+    LARGE,
+    MEDIUM,
+    QUICK_TEST,
+    SimulationConfig,
+    get_preset,
+)
+
 # Expose key classes for easier import from the top-level package
 try:
     from .agents.agent import EnhancedAgent
@@ -58,6 +68,14 @@ except ImportError as e:
 
 __all__ = [
     "FRAMEWORK_VERSION",
+    # Configuration
+    "SimulationConfig",
+    "get_preset",
+    "QUICK_TEST",
+    "DEFAULT",
+    "MEDIUM",
+    "LARGE",
+    # Core components
     "SimulationOrchestrator",
     "EnhancedAgent",
     "MemoryContinuumLayer",
@@ -72,20 +90,24 @@ __all__ = [
     "SemanticProfile",
     "CRDTMemoryLayer",
     "EnhancedContinuityBridgeProtocol",
+    # Analysis
     "AgentStateAnalyzer",
     "ChronicleExporter",
     "PersistentHomologyTracker",
-    "MessageBus",
     "plot_persistence_diagram",
     "plot_persistence_barcode",
     "plot_metric_comparison",
     "cluster_archetypes",
+    # Systems
     "MultiAgentSystem",
+    "MessageBus",
+    # Metrics
     "compute_sri",
     "compute_nds",
     "compute_vsd",
     "compute_mce",
     "generate_monitoring_metrics",
+    # Cloud
     "VertexAgent",
 ]
 
