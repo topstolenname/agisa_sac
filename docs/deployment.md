@@ -12,7 +12,7 @@ This guide covers production deployment of AGI-SAC simulations and federation in
 4. [Standalone Deployment](#standalone-deployment)
 5. [Federation Deployment](#federation-deployment)
 6. [Docker Deployment](#docker-deployment)
-7. [Monitoring & Health Checks](#monitoring--health-checks)
+7. [Monitoring & Health Checks](#monitoring-health-checks)
 8. [Performance Tuning](#performance-tuning)
 9. [Troubleshooting](#troubleshooting)
 10. [Security Considerations](#security-considerations)
@@ -755,4 +755,4 @@ After deployment:
 4. Scale federation to multiple nodes
 5. Optimize for your specific use case
 
-See [TODO.md](../TODO.md) for roadmap and upcoming features.
+See [TODO.md](TODO.md) for roadmap and upcoming features.

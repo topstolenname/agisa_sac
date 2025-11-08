@@ -29,10 +29,10 @@ This document summarizes the comprehensive refactoring of the agisa-sac reposito
 
 ## Table of Contents
 
-1. [Phase 1: Foundation & Cleanup](#phase-1-foundation--cleanup)
+1. [Phase 1: Foundation & Cleanup](#phase-1-foundation-cleanup)
 2. [Phase 2: Architecture Migration](#phase-2-architecture-migration)
 3. [Phase 3: Developer Experience](#phase-3-developer-experience)
-4. [Metrics & Impact](#metrics--impact)
+4. [Metrics & Impact](#metrics-impact)
 5. [Breaking Changes](#breaking-changes)
 6. [Migration Guide](#migration-guide)
 7. [References](#references)
@@ -600,8 +600,8 @@ This enables fast feedback (unit tests in ~10s) before running slower integratio
 ### Related Documentation
 
 - [REFACTORING_STRATEGY.md](./REFACTORING_STRATEGY.md) - Detailed migration process and Strangler Fig pattern implementation
-- [README.md](../README.md) - Project overview and quick start guide
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Developer contribution guidelines
+- [README.md](README.md) - Project overview and quick start guide
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Developer contribution guidelines
 
 ### External Resources
 
