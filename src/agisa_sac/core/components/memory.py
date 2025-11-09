@@ -537,7 +537,11 @@ class MemoryContinuumLayer:
                 mem_instance = MemoryEncapsulation.from_dict(mem_data)
                 instance.memories[mid] = mem_instance
                 # Optional immediate hash check
-                # loaded_hash = mem_data.get('verification_hash'); if loaded_hash and mem_instance._generate_hash(mem_instance.content) != loaded_hash: corrupted_on_load += 1; warnings.warn(f"Mem {mid} hash mismatch.", RuntimeWarning)
+                # loaded_hash = mem_data.get('verification_hash');
+                # if loaded_hash and mem_instance._generate_hash(
+                #     mem_instance.content) != loaded_hash:
+                #     warnings.warn(
+                #         f"Mem {mid} hash mismatch.", RuntimeWarning)
             except Exception as e:
                 warnings.warn(
                     f"Failed load mem {mid} for {agent_id}: {e}",

@@ -73,7 +73,9 @@ class SimulationOrchestrator:
         personalities = self.config.get("personalities", [])
         if len(personalities) != self.num_agents:
             logger.warning(
-                f"Personality count mismatch: expected {self.num_agents}, got {len(personalities)}. Generating random personalities."
+                f"Personality count mismatch: expected "
+                f"{self.num_agents}, got {len(personalities)}. "
+                f"Generating random personalities."
             )
             personalities = [
                 {
@@ -99,7 +101,9 @@ class SimulationOrchestrator:
             )
         return agents
 
-    # ... (register_hook, _trigger_hooks, run_epoch, run_simulation, inject_protocol, get_summary_metrics methods as defined in agisa_orchestrator_serialization_v1) ...
+    # ... (register_hook, _trigger_hooks, run_epoch, run_simulation,
+    # inject_protocol, get_summary_metrics methods as defined in
+    # agisa_orchestrator_serialization_v1) ...
     def register_hook(self, hook_point: str, callback: Callable):
         valid_hooks = {
             "pre_epoch",

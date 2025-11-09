@@ -14,7 +14,8 @@ if TYPE_CHECKING:
 
 
 class ReflexivityLayer:
-    """Handles agent self-reflection and meta-cognition. (State managed via agent ref, no extra serialization needed here)"""
+    """Handles agent self-reflection and meta-cognition.
+    (State managed via agent ref, no extra serialization needed here)"""
 
     def __init__(self, agent: "EnhancedAgent"):
         """Initializes with a reference to the owning agent."""
@@ -63,7 +64,9 @@ class ReflexivityLayer:
         self.agent.memory.add_memory(satori_memory_content, importance=1.0)
 
         # Optional: Trigger cognitive heuristic changes here if desired
-        # e.g., self.agent.cognitive.heuristics = self._apply_satori_heuristic_shift(self.agent.cognitive.heuristics)
+        # e.g., self.agent.cognitive.heuristics =
+        #     self._apply_satori_heuristic_shift(
+        #         self.agent.cognitive.heuristics)
 
         if self.agent.message_bus:
             self.agent.message_bus.publish(

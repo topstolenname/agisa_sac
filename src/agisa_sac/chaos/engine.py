@@ -506,8 +506,9 @@ async def main():
         f"chaos_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json", "w"
     ) as f:
         json.dump(results, f, indent=2)
+    resilience_score = results['overall_metrics']['system_resilience_score']
     logger.info(
-        f"Chaos suite completed. Resilience score: {results['overall_metrics']['system_resilience_score']:.3f}"
+        f"Chaos suite completed. Resilience score: {resilience_score:.3f}"
     )
 
 

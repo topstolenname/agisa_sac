@@ -63,7 +63,9 @@ class MessageBus:
                     else:
                         # If loop isn't running, might need different handling or warning
                         warnings.warn(
-                            f"Cannot schedule async callback {callback.__name__} for '{topic}' - loop not running.",
+                            f"Cannot schedule async callback "
+                            f"{callback.__name__} for '{topic}' - "
+                            f"loop not running.",
                             RuntimeWarning,
                         )
                 else:
