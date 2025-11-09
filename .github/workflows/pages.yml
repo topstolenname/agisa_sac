@@ -57,8 +57,19 @@ jobs:
           count=0
           for f in docs/figs/src/figure*.mmd; do
             base="$(basename "$f")"
-            stem="${base%%.*}"                 # This is the full stem, e.g., 'figure0_layer_stack'
-            out="docs/figs/svg/${stem}.svg"   # Use the full stem for the output file
+            stem="${base%%.*}"                 # Full stem, e.g., 'figure0_layer_stack'
+
+            # For numbered figures 1-7, use simple name; for figure0 and special figures, use full stem
+            if [[ "$stem" =~ ^figure[1-7]_ ]]; then
+              # Extract just the number for simple naming (figures 1-7 only)
+              num="${stem#figure}"
+              num="${num%%_*}"
+              out="docs/figs/svg/figure${num}.svg"
+            else
+              # Use full stem for figure0 and special figures (e.g., figure_code_mapping)
+              out="docs/figs/svg/${stem}.svg"
+            fi
+
             echo "Rendering $f -> $out"
             mmdc -p puppeteer-config.json -i "$f" -o "$out" -w 1200 -s 2
             count=$((count+1))
@@ -77,8 +88,19 @@ jobs:
           count=0
           for f in docs/figs/src/figure*.dot; do
             base="$(basename "$f")"
-            stem="${base%%.*}"                 # This is the full stem, e.g., 'figure_phi_integration'
-            out="docs/figs/svg/${stem}.svg"   # Use the full stem for the output file
+            stem="${base%%.*}"                 # Full stem, e.g., 'figure_phi_integration'
+
+            # For numbered figures 1-7, use simple name; for figure0 and special figures, use full stem
+            if [[ "$stem" =~ ^figure[1-7]_ ]]; then
+              # Extract just the number for simple naming (figures 1-7 only)
+              num="${stem#figure}"
+              num="${num%%_*}"
+              out="docs/figs/svg/figure${num}.svg"
+            else
+              # Use full stem for figure0 and special figures (e.g., figure_phi_integration)
+              out="docs/figs/svg/${stem}.svg"
+            fi
+
             echo "Rendering $f -> $out"
             dot -Tsvg "$f" -o "$out"
             count=$((count+1))
@@ -103,12 +125,32 @@ jobs:
           echo "[outputs] docs/figs/svg:"
           ls -l docs/figs/svg || true
           missing=0
+
+          # Check figure 0 (full stem name)
+          if [ ! -f "docs/figs/svg/figure0_layer_stack.svg" ]; then
+            echo "MISSING: docs/figs/svg/figure0_layer_stack.svg"
+            missing=1
+          fi
+
+          # Check numbered figures 1-7 (simple names)
           for n in 1 2 3 4 5 6 7; do
             if [ ! -f "docs/figs/svg/figure${n}.svg" ]; then
               echo "MISSING: docs/figs/svg/figure${n}.svg"
               missing=1
             fi
           done
+
+          # Check special named figures (full stem names)
+          if [ ! -f "docs/figs/svg/figure_code_mapping.svg" ]; then
+            echo "MISSING: docs/figs/svg/figure_code_mapping.svg"
+            missing=1
+          fi
+
+          if [ ! -f "docs/figs/svg/figure_phi_integration.svg" ]; then
+            echo "MISSING: docs/figs/svg/figure_phi_integration.svg"
+            missing=1
+          fi
+
           if [ "$missing" -ne 0 ]; then
             echo "One or more expected figures are missing; failing the build."
             exit 1
