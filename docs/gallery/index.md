@@ -10,33 +10,45 @@ summary: Browse publication-ready figures from The Agentic Swarm
 
 <div class="grid cards" markdown>
 
--   :material-chart-line: **Figure 1 — Persistence**  
-    Topological persistence diagram of agent interactions.  
+-   :material-layers-triple: **Figure 0 — Layer Stack**
+    Infrastructure → Emergence architectural layers.
+    [:octicons-arrow-right-16: View →](figure0.md)
+
+-   :material-chart-line: **Figure 1 — Persistence**
+    Topological persistence diagram of agent interactions.
     [:octicons-arrow-right-16: View →](figure1.md)
 
--   :material-diagram-projector: **Figure 2 — Mapper**  
-    Mapper-based cluster visualization of swarm topology.  
+-   :material-diagram-projector: **Figure 2 — Mapper**
+    Mapper-based cluster visualization of swarm topology.
     [:octicons-arrow-right-16: View →](figure2.md)
 
--   :material-graph: **Figure 3 — Network**  
-    Interaction graph with emergent sub-communities.  
+-   :material-graph: **Figure 3 — Network**
+    Interaction graph with emergent sub-communities.
     [:octicons-arrow-right-16: View →](figure3.md)
 
--   :material-loop: **Figure 4 — Convergence**  
-    Temporal convergence map of agentic behavior.  
+-   :material-loop: **Figure 4 — Convergence**
+    Temporal convergence map of agentic behavior.
     [:octicons-arrow-right-16: View →](figure4.md)
 
--   :material-identifier: **Figure 5 — Identity**  
-    Cognitive signature visualization.  
+-   :material-identifier: **Figure 5 — Identity**
+    Cognitive signature visualization.
     [:octicons-arrow-right-16: View →](figure5.md)
 
--   :material-cogs: **Figure 6 — Workflow**  
-    Multi-agent workflow orchestration flowchart.  
+-   :material-cogs: **Figure 6 — Workflow**
+    Multi-agent workflow orchestration flowchart.
     [:octicons-arrow-right-16: View →](figure6.md)
 
--   :material-monitor-dashboard: **Figure 7 — Dashboard**  
-    Consciousness metrics dashboard visualization.  
+-   :material-monitor-dashboard: **Figure 7 — Dashboard**
+    Consciousness metrics dashboard visualization.
     [:octicons-arrow-right-16: View →](figure7.md)
+
+-   :material-code-braces: **Figure Code — Mapping**
+    Code ↔ Consciousness class diagram traceability.
+    [:octicons-arrow-right-16: View →](figure_code.md)
+
+-   :material-phi: **Figure Φ — Integration**
+    Integrated Information (Φ) network topology.
+    [:octicons-arrow-right-16: View →](figure_phi.md)
 
 </div>
 
