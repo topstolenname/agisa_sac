@@ -117,7 +117,7 @@ jobs:
       # --- Copy root markdown files into docs ---
       - name: Copy root markdown files into docs
         run: |
-          cp README.md docs/README.md
+          cp README.md docs/PROJECT_README.md
           cp CONTRIBUTING.md docs/CONTRIBUTING.md
           cp TODO.md docs/TODO.md
 
