@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from google.cloud import storage
 import base64
 import json
+
+from google.cloud import storage
 
 
 def export_scroll(event, context):

@@ -1,8 +1,6 @@
-import logging
 import pickle
 import random
 import time
-import warnings
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
 
@@ -114,10 +112,14 @@ class SimulationOrchestrator:
             "tda_phase_transition",
         }
         if hook_point not in valid_hooks:
-            logger.warning(f"Invalid hook point: {hook_point}. Valid hooks: {valid_hooks}")
+            logger.warning(
+                f"Invalid hook point: {hook_point}. Valid hooks: {valid_hooks}"
+            )
             return
         self.hooks[hook_point].append(callback)
-        logger.debug(f"Registered hook '{callback.__name__}' for '{hook_point}'")
+        logger.debug(
+            f"Registered hook '{callback.__name__}' for '{hook_point}'"
+        )
 
     def _trigger_hooks(self, hook_point: str, **kwargs):
         if hook_point in self.hooks:
@@ -129,12 +131,14 @@ class SimulationOrchestrator:
                 except Exception as e:
                     logger.error(
                         f"Hook error at '{hook_point}' ({callback.__name__}): {e}",
-                        exc_info=True
+                        exc_info=True,
                     )
 
     def run_epoch(self):
         if not self.is_running:
-            logger.warning("Attempted to run epoch but simulation is not running")
+            logger.warning(
+                "Attempted to run epoch but simulation is not running"
+            )
             return
 
         epoch_start_time = time.time()
@@ -244,7 +248,9 @@ class SimulationOrchestrator:
 
     def inject_protocol(self, protocol_name: str, parameters: Dict):
         # ... (logic as defined in agisa_orchestrator_protocol_v1) ...
-        logger.info(f"Injecting protocol '{protocol_name}' with parameters: {parameters}")
+        logger.info(
+            f"Injecting protocol '{protocol_name}' with parameters: {parameters}"
+        )
         self._trigger_hooks(
             "pre_protocol_injection",
             protocol_name=protocol_name,
@@ -253,7 +259,9 @@ class SimulationOrchestrator:
         if protocol_name == "divergence_stress":
             target_agents = self._select_agents_for_protocol(parameters)
             if not target_agents:
-                logger.warning("No agents selected for divergence_stress protocol")
+                logger.warning(
+                    "No agents selected for divergence_stress protocol"
+                )
                 return
             heuristic_mult_range = parameters.get(
                 "heuristic_multiplier_range", (0.5, 0.8)
@@ -265,7 +273,9 @@ class SimulationOrchestrator:
             narrative_theme = parameters.get(
                 "narrative_theme", "divergence_seed"
             )
-            logger.info(f"Applying divergence stress to {len(target_agents)} agents")
+            logger.info(
+                f"Applying divergence stress to {len(target_agents)} agents"
+            )
             modified_count = 0
             for agent in target_agents:
                 try:
@@ -291,9 +301,11 @@ class SimulationOrchestrator:
                 except Exception as e:
                     logger.error(
                         f"Failed to apply stress to agent {agent.agent_id}: {e}",
-                        exc_info=True
+                        exc_info=True,
                     )
-            logger.info(f"Divergence stress applied to {modified_count}/{len(target_agents)} agents")
+            logger.info(
+                f"Divergence stress applied to {modified_count}/{len(target_agents)} agents"
+            )
         elif protocol_name == "satori_probe":
             threshold = parameters.get(
                 "threshold", self.config.get("satori_threshold_analyzer", 0.88)
@@ -303,7 +315,9 @@ class SimulationOrchestrator:
                 if self.analyzer
                 else 0.0
             )
-            logger.info(f"Satori probe result: ratio={ratio:.3f} (threshold={threshold})")
+            logger.info(
+                f"Satori probe result: ratio={ratio:.3f} (threshold={threshold})"
+            )
         elif protocol_name == "echo_fusion":
             logger.warning("Echo Fusion protocol not yet implemented")
         elif protocol_name == "satori_lattice":
@@ -364,7 +378,9 @@ class SimulationOrchestrator:
             logger.info(f"State saved successfully to {filepath}")
             return True
         except Exception as e:
-            logger.error(f"Failed to save state to {filepath}: {e}", exc_info=True)
+            logger.error(
+                f"Failed to save state to {filepath}: {e}", exc_info=True
+            )
             return False
 
     def load_state(self, filepath: str) -> bool:
@@ -395,13 +411,17 @@ class SimulationOrchestrator:
             if state.get("tda_tracker_state"):
                 self.tda_tracker.load_state(state["tda_tracker_state"])
             self.analyzer = AgentStateAnalyzer(self.agents)
-            logger.info(f"State loaded successfully from {filepath} at epoch {self.current_epoch}")
+            logger.info(
+                f"State loaded successfully from {filepath} at epoch {self.current_epoch}"
+            )
             return True
         except FileNotFoundError:
             logger.error(f"State file not found: {filepath}")
             return False
         except Exception as e:
-            logger.error(f"Failed to load state from {filepath}: {e}", exc_info=True)
+            logger.error(
+                f"Failed to load state from {filepath}: {e}", exc_info=True
+            )
             return False
 
     def _select_agents_for_protocol(
@@ -416,7 +436,9 @@ class SimulationOrchestrator:
             percentage = parameters.get("percentage", 0.1)
             count = max(1, int(self.num_agents * percentage))
             selected_count = min(count, self.num_agents)
-            logger.debug(f"Selecting {selected_count} agents ({percentage*100:.1f}%) for protocol")
+            logger.debug(
+                f"Selecting {selected_count} agents ({percentage*100:.1f}%) for protocol"
+            )
             return random.sample(agent_list, selected_count)
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."

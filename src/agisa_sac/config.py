@@ -5,7 +5,7 @@ This module provides configuration presets and validation for simulation runs.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 
@@ -53,7 +53,9 @@ class SimulationConfig:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> SimulationConfig:
         """Create configuration from dictionary."""
-        return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
+        return cls(
+            **{k: v for k, v in data.items() if k in cls.__dataclass_fields__}
+        )
 
 
 # Configuration Presets

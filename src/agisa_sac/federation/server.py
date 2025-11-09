@@ -164,7 +164,9 @@ async def submit_cognitive_fragment(
         }
 
     except Exception as e:
-        logger.error(f"Error processing fragment from {node_id}: {e}", exc_info=True)
+        logger.error(
+            f"Error processing fragment from {node_id}: {e}", exc_info=True
+        )
         raise HTTPException(
             status_code=500, detail="Fragment processing failed"
         )

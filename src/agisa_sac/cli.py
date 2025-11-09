@@ -18,7 +18,7 @@ from typing import Optional
 
 from .config import PRESETS, SimulationConfig, get_preset
 from .core.orchestrator import SimulationOrchestrator
-from .utils.logger import configure_simple_logging, get_logger
+from .utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -28,7 +28,9 @@ def list_presets() -> None:
     # Use print for CLI output (user-facing, not logging)
     print("Available configuration presets:\n")
     for name, config in PRESETS.items():
-        print(f"  {name:12} - {config.num_agents:3} agents, {config.num_epochs:3} epochs")
+        print(
+            f"  {name:12} - {config.num_agents:3} agents, {config.num_epochs:3} epochs"
+        )
     print("\nUsage: agisa-sac run --preset <name>")
 
 
@@ -42,7 +44,9 @@ def run_simulation(args: argparse.Namespace) -> int:
         config_path = Path(args.config)
         if not config_path.exists():
             logger.error(f"Config file not found: {config_path}")
-            print(f"Error: Config file not found: {config_path}", file=sys.stderr)
+            print(
+                f"Error: Config file not found: {config_path}", file=sys.stderr
+            )
             return 1
 
         try:
@@ -94,12 +98,16 @@ def run_simulation(args: argparse.Namespace) -> int:
         logger.info(f"Using random seed: {args.seed}")
         print(f"Using random seed: {args.seed}")
 
-    if hasattr(args, 'log_file') and args.log_file:
+    if hasattr(args, "log_file") and args.log_file:
         logger.info(f"Logging to file: {args.log_file}")
 
     # Run simulation
-    logger.info(f"Starting simulation: {config.num_agents} agents, {config.num_epochs} epochs")
-    print(f"\nStarting simulation: {config.num_agents} agents, {config.num_epochs} epochs")
+    logger.info(
+        f"Starting simulation: {config.num_agents} agents, {config.num_epochs} epochs"
+    )
+    print(
+        f"\nStarting simulation: {config.num_agents} agents, {config.num_epochs} epochs"
+    )
     print("-" * 60)
 
     try:
@@ -119,6 +127,7 @@ def run_simulation(args: argparse.Namespace) -> int:
         print(f"\nError during simulation: {e}", file=sys.stderr)
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         return 1
 
@@ -189,7 +198,9 @@ def main() -> int:
     )
 
     # List presets command
-    list_parser = subparsers.add_parser("list-presets", help="List configuration presets")
+    subparsers.add_parser(
+        "list-presets", help="List configuration presets"
+    )
 
     # Parse arguments
     args = parser.parse_args()
@@ -197,17 +208,27 @@ def main() -> int:
     # Configure logging based on arguments
     if args.command == "run":
         log_level = None
-        if hasattr(args, 'log_level') and args.log_level:
+        if hasattr(args, "log_level") and args.log_level:
             log_level = getattr(logging, args.log_level)
-        elif hasattr(args, 'verbose') and args.verbose:
+        elif hasattr(args, "verbose") and args.verbose:
             log_level = logging.DEBUG
 
-        log_file = Path(args.log_file) if hasattr(args, 'log_file') and args.log_file else None
-        json_format = hasattr(args, 'json_logs') and args.json_logs
-        verbose = hasattr(args, 'verbose') and args.verbose
+        log_file = (
+            Path(args.log_file)
+            if hasattr(args, "log_file") and args.log_file
+            else None
+        )
+        json_format = hasattr(args, "json_logs") and args.json_logs
+        verbose = hasattr(args, "verbose") and args.verbose
 
         from .utils.logger import setup_logging
-        setup_logging(level=log_level, log_file=log_file, json_format=json_format, verbose=verbose)
+
+        setup_logging(
+            level=log_level,
+            log_file=log_file,
+            json_format=json_format,
+            verbose=verbose,
+        )
 
         return run_simulation(args)
     elif args.command == "list-presets":

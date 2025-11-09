@@ -100,7 +100,11 @@ def setup_logging(
         file_handler.setLevel(level)
 
         # Always use JSON for file logging
-        file_formatter = JsonFormatter() if json_format else logging.Formatter(DETAILED_FORMAT)
+        file_formatter = (
+            JsonFormatter()
+            if json_format
+            else logging.Formatter(DETAILED_FORMAT)
+        )
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
 

@@ -1,6 +1,9 @@
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
+
+if TYPE_CHECKING:
+    from agisa_sac.agents.agent import EnhancedAgent
 
 
 @dataclass

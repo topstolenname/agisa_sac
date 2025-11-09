@@ -484,10 +484,8 @@ class MemoryContinuumLayer:
 
     def _rebuild_indices(self):
         self.memory_indices = {"term": defaultdict(list)}
-        start_time = time.time()
         for memory_id, memory in self.memories.items():
             self._update_indices(memory_id, memory.content)
-        duration = time.time() - start_time
 
     def to_dict(self, include_embeddings: bool = False) -> Dict:
         return {
@@ -534,7 +532,6 @@ class MemoryContinuumLayer:
         instance.last_update = data.get("last_update", time.time())
         instance.memories = {}
         memories_data = data.get("memories", {})
-        corrupted_on_load = 0
         for mid, mem_data in memories_data.items():
             try:
                 mem_instance = MemoryEncapsulation.from_dict(mem_data)

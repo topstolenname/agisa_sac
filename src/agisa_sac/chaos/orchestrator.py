@@ -11,7 +11,6 @@ from __future__ import annotations
 import argparse
 import asyncio
 import sys
-from pathlib import Path
 
 
 def list_scenarios() -> None:
@@ -45,13 +44,20 @@ async def run_scenario(args: argparse.Namespace) -> int:
             print("\n" + "=" * 60)
             print("CHAOS SUITE COMPLETE")
             print("=" * 60)
-            print(f"Resilience Score: {results['overall_metrics']['system_resilience_score']:.3f}")
+            print(
+                f"Resilience Score: {results['overall_metrics']['system_resilience_score']:.3f}"
+            )
             return 0
 
         elif args.scenario:
             if args.scenario not in orchestrator.scenarios:
-                print(f"Error: Unknown scenario '{args.scenario}'", file=sys.stderr)
-                print("Use 'agisa-chaos list-scenarios' to see available scenarios")
+                print(
+                    f"Error: Unknown scenario '{args.scenario}'",
+                    file=sys.stderr,
+                )
+                print(
+                    "Use 'agisa-chaos list-scenarios' to see available scenarios"
+                )
                 return 1
 
             print(f"Running chaos scenario: {args.scenario}")
@@ -69,17 +75,24 @@ async def run_scenario(args: argparse.Namespace) -> int:
             return 0
 
         else:
-            print("Error: Must specify either --scenario or --suite", file=sys.stderr)
+            print(
+                "Error: Must specify either --scenario or --suite",
+                file=sys.stderr,
+            )
             return 1
 
     except ImportError as e:
-        print(f"Error: Missing dependencies for chaos engineering: {e}", file=sys.stderr)
+        print(
+            f"Error: Missing dependencies for chaos engineering: {e}",
+            file=sys.stderr,
+        )
         print("Install with: pip install agisa-sac[chaos]", file=sys.stderr)
         return 1
     except Exception as e:
         print(f"Error during chaos scenario: {e}", file=sys.stderr)
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         return 1
 
@@ -125,7 +138,9 @@ def main() -> int:
     )
 
     # List scenarios command
-    list_parser = subparsers.add_parser("list-scenarios", help="List chaos scenarios")
+    subparsers.add_parser(
+        "list-scenarios", help="List chaos scenarios"
+    )
 
     # Parse arguments
     args = parser.parse_args()

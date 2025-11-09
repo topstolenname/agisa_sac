@@ -82,6 +82,7 @@ VERTEX_LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")
 db = None
 storage_client = None
 
+
 # Lazy initialization of GCP clients to avoid credential errors at import time
 def _get_firestore_client():
     global db
@@ -91,6 +92,7 @@ def _get_firestore_client():
         except Exception:
             pass  # Credentials not available
     return db
+
 
 def _get_storage_client():
     global storage_client
