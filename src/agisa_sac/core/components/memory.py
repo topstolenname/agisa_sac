@@ -520,7 +520,8 @@ class MemoryContinuumLayer:
         agent_id = data["agent_id"]
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading memory v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading memory v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
         instance = cls(

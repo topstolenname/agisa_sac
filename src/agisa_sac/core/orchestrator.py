@@ -64,8 +64,10 @@ class SimulationOrchestrator:
         self.simulation_start_time = None
         self.hooks: Dict[str, List[Callable]] = defaultdict(list)
         logger.info(
-            f"SimulationOrchestrator initialized ({FRAMEWORK_VERSION}) with {self.num_agents} agents. "
-            f"TDA: {self.tda_tracker.has_tda_lib}, GPU: {self.social_graph.use_gpu}"
+            f"SimulationOrchestrator initialized ({FRAMEWORK_VERSION}) "
+            f"with {self.num_agents} agents. "
+            f"TDA: {self.tda_tracker.has_tda_lib}, "
+            f"GPU: {self.social_graph.use_gpu}"
         )
 
     def _create_agents(self) -> Dict[str, EnhancedAgent]:
@@ -198,8 +200,11 @@ class SimulationOrchestrator:
                     )
                     if transition_detected:
                         logger.warning(
-                            f"TDA Phase transition detected at Epoch {self.current_epoch+1}: "
-                            f"Dimension={comparison_dim}, Distance={distance:.3f}, Threshold={threshold}"
+                            f"TDA Phase transition detected at "
+                            f"Epoch {self.current_epoch+1}: "
+                            f"Dimension={comparison_dim}, "
+                            f"Distance={distance:.3f}, "
+                            f"Threshold={threshold}"
                         )
                         self._trigger_hooks(
                             "tda_phase_transition",
@@ -220,7 +225,8 @@ class SimulationOrchestrator:
         log_freq = self.config.get("epoch_log_frequency", 10)
         if (self.current_epoch + 1) % log_freq == 0 or self.current_epoch == 0:
             logger.info(
-                f"Epoch {self.current_epoch+1}/{self.num_epochs} completed in {epoch_duration:.2f}s"
+                f"Epoch {self.current_epoch+1}/{self.num_epochs} "
+                f"completed in {epoch_duration:.2f}s"
             )
 
     def run_simulation(
@@ -237,7 +243,8 @@ class SimulationOrchestrator:
         for epoch in range(start_epoch, start_epoch + run_epochs):
             if epoch >= self.num_epochs:
                 logger.info(
-                    f"Reached configured max epochs ({self.num_epochs}). Stopping simulation."
+                    f"Reached configured max epochs ({self.num_epochs}). "
+                    f"Stopping simulation."
                 )
                 break
             self.current_epoch = epoch
@@ -245,7 +252,8 @@ class SimulationOrchestrator:
         self.is_running = False
         total_duration = time.time() - self.simulation_start_time
         logger.info(
-            f"Simulation run complete: {run_epochs} epochs in {total_duration:.2f} seconds "
+            f"Simulation run complete: {run_epochs} epochs "
+            f"in {total_duration:.2f} seconds "
             f"({total_duration/run_epochs:.2f}s/epoch)"
         )
         self._trigger_hooks("simulation_end")
@@ -304,7 +312,8 @@ class SimulationOrchestrator:
                     modified_count += 1
                 except Exception as e:
                     logger.error(
-                        f"Failed to apply stress to agent {agent.agent_id}: {e}",
+                        f"Failed to apply stress to agent "
+                        f"{agent.agent_id}: {e}",
                         exc_info=True,
                     )
             logger.info(
@@ -409,8 +418,9 @@ class SimulationOrchestrator:
             self.chronicler = ResonanceChronicler.from_dict(
                 state.get("chronicler_state", {})
             )
+            max_dim = self.config.get("tda_max_dimension", 1)
             self.tda_tracker = PersistentHomologyTracker(
-                max_dimension=self.config.get("tda_max_dimension", 1)
+                max_dimension=max_dim
             )
             if state.get("tda_tracker_state"):
                 self.tda_tracker.load_state(state["tda_tracker_state"])

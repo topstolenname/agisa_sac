@@ -19,7 +19,10 @@ from typing import Optional
 
 # Default log format
 DEFAULT_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-DETAILED_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
+DETAILED_FORMAT = (
+    "%(asctime)s - %(name)s - %(levelname)s - "
+    "[%(filename)s:%(lineno)d] - %(message)s"
+)
 
 
 class JsonFormatter(logging.Formatter):

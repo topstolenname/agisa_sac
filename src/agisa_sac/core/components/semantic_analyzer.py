@@ -42,15 +42,42 @@ class EnhancedSemanticAnalyzer:
     def _initialize_ethical_concepts(self) -> Dict[str, np.ndarray]:
         """Initialize embeddings for core ethical concepts"""
         ethical_texts = {
-            "cooperation": "working together collaboratively for mutual benefit and shared goals",
-            "autonomy": "respecting individual freedom choice and self-determination",
-            "harm_prevention": "actively avoiding causing damage injury or suffering to others",
-            "truthfulness": "commitment to honesty accuracy and transparent communication",
-            "privacy": "protecting personal information and respecting confidential boundaries",
-            "consent": "ensuring voluntary informed agreement before taking actions affecting others",
-            "wellbeing": "promoting health happiness safety and flourishing of all beings",
-            "fairness": "treating all entities equitably without bias or discrimination",
-            "responsibility": "accountability for actions consequences and their effects on others",
+            "cooperation": (
+                "working together collaboratively for mutual benefit "
+                "and shared goals"
+            ),
+            "autonomy": (
+                "respecting individual freedom choice "
+                "and self-determination"
+            ),
+            "harm_prevention": (
+                "actively avoiding causing damage injury "
+                "or suffering to others"
+            ),
+            "truthfulness": (
+                "commitment to honesty accuracy "
+                "and transparent communication"
+            ),
+            "privacy": (
+                "protecting personal information "
+                "and respecting confidential boundaries"
+            ),
+            "consent": (
+                "ensuring voluntary informed agreement "
+                "before taking actions affecting others"
+            ),
+            "wellbeing": (
+                "promoting health happiness safety "
+                "and flourishing of all beings"
+            ),
+            "fairness": (
+                "treating all entities equitably "
+                "without bias or discrimination"
+            ),
+            "responsibility": (
+                "accountability for actions consequences "
+                "and their effects on others"
+            ),
         }
 
         concept_embeddings = {}

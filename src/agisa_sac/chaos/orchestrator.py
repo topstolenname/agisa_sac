@@ -44,9 +44,8 @@ async def run_scenario(args: argparse.Namespace) -> int:
             print("\n" + "=" * 60)
             print("CHAOS SUITE COMPLETE")
             print("=" * 60)
-            print(
-                f"Resilience Score: {results['overall_metrics']['system_resilience_score']:.3f}"
-            )
+            score = results['overall_metrics']['system_resilience_score']
+            print(f"Resilience Score: {score:.3f}")
             return 0
 
         elif args.scenario:
