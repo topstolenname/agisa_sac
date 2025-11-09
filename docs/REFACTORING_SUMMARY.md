@@ -600,7 +600,7 @@ This enables fast feedback (unit tests in ~10s) before running slower integratio
 ### Related Documentation
 
 - [REFACTORING_STRATEGY.md](./REFACTORING_STRATEGY.md) - Detailed migration process and Strangler Fig pattern implementation
-- [README.md](README.md) - Project overview and quick start guide
+- [PROJECT_README.md](PROJECT_README.md) - Project overview and quick start guide
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Developer contribution guidelines
 
 ### External Resources

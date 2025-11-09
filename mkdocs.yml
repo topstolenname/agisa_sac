@@ -54,7 +54,7 @@ extra:
 
 nav:
   - Home: index.md
-  - 'Project README': 'README.md'
+  - 'Project README': 'PROJECT_README.md'
   - 'Contributing': 'CONTRIBUTING.md'
   - 'Project TODO': 'TODO.md'
   - 'Deployment': 'deployment.md'
