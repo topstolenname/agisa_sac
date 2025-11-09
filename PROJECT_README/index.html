@@ -1,0 +1,2395 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Emergent agent swarms, ethical governance, and AGI system architecture">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../CONTRIBUTING/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Project README - Mindlink / The Agentic Swarm</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#agi-sac-stand-alone-complex-simulation-framework" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Mindlink / The Agentic Swarm" class="md-header__button md-logo" aria-label="Mindlink / The Agentic Swarm" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mindlink / The Agentic Swarm
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Project README
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/topstolenname/agisa_sac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project README
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CONTRIBUTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TODO/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project TODO
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../deployment/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../REFACTORING_SUMMARY/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Refactoring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Mindlink_Paper/" class="md-tabs__link">
+          
+  
+  
+  Paper
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../gallery/" class="md-tabs__link">
+          
+  
+  
+  Gallery
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/agisa_sac/" class="md-tabs__link">
+          
+  
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../CITATION_GUIDE/" class="md-tabs__link">
+          
+  
+  
+  Supplement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../README_FULL_AGI_SAC_v1.0.3/" class="md-tabs__link">
+          
+  
+  
+  Archive
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Mindlink / The Agentic Swarm" class="md-nav__button md-logo" aria-label="Mindlink / The Agentic Swarm" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Mindlink / The Agentic Swarm
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/topstolenname/agisa_sac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Project README
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project README
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-your-first-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Your First Simulation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-research-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Research Applications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Components
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-simulation-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main Simulation CLI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#federation-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Federation Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaos-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaos Engineering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#presets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Presets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocol-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Protocol Injection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      State Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topological-data-analysis-tda" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topological Data Analysis (TDA)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standalone-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standalone Simulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#federation-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Federation Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Deployment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#research-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      Research Background
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Research Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-workspace-theory-baars-1988" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Workspace Theory (Baars, 1988)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrumental-convergence-bostrom-2012" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instrumental Convergence (Bostrom, 2012)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stand-alone-complex-ghost-in-the-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stand Alone Complex (Ghost in the Shell)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-publications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Publications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitoring &amp; Observability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring &amp; Observability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contributing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contributing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Quality
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Roadmap
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Citation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Acknowledgments
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Project TODO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFACTORING_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Refactoring
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--Complete"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Paper
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Paper
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mindlink_Paper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mindlink Paper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Gallery
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Gallery
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 0 – Layer Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 1 – Persistence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 2 – Mapper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 3 – Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 4 – Convergence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 5 – Identity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 6 – Workflow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure 7 – Dashboard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure_phi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure Φ – Integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure Code – Mapping
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/agisa_sac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    agisa_sac
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Supplement
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Supplement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CITATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Citation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FIGURE_CATALOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Figure Catalog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../START_HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start Here
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_IMPLEMENTATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFACTORING_STRATEGY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Refactoring Strategy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agentic_swarm_whitepaper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agentic Swarm Whitepaper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_FULL_AGI_SAC_v1.0.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Full README v1.0.3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/PACKAGE_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Package Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/topstolenname/agisa_sac/edit/master/docs/PROJECT_README.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="agi-sac-stand-alone-complex-simulation-framework">AGI-SAC: Stand Alone Complex Simulation Framework<a class="headerlink" href="#agi-sac-stand-alone-complex-simulation-framework" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Multi-agent consciousness simulation exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena.</p>
+</blockquote>
+<p><img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-blue" />
+<img alt="Framework" src="https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange" />
+<img alt="License" src="https://img.shields.io/badge/License-MIT-green" /></p>
+<hr />
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Basic installation</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac
+
+<span class="c1"># Full installation with all features</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>all<span class="o">]</span>
+
+<span class="c1"># Specific feature sets</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>federation<span class="o">]</span><span class="w">  </span><span class="c1"># Federation server</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>chaos<span class="o">]</span><span class="w">       </span><span class="c1"># Chaos engineering</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>gcp<span class="o">]</span><span class="w">         </span><span class="c1"># Google Cloud Platform</span>
+</code></pre></div>
+<h3 id="running-your-first-simulation">Running Your First Simulation<a class="headerlink" href="#running-your-first-simulation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Quick test with 10 agents, 20 epochs</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>quick_test
+
+<span class="c1"># Medium simulation</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium<span class="w"> </span>--gpu
+
+<span class="c1"># Custom configuration</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--config<span class="w"> </span>examples/configs/config.json<span class="w"> </span>--agents<span class="w"> </span><span class="m">50</span><span class="w"> </span>--epochs<span class="w"> </span><span class="m">100</span>
+
+<span class="c1"># View available presets</span>
+agisa-sac<span class="w"> </span>list-presets
+</code></pre></div>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p><strong>AGI-SAC</strong> (Artificial General Intelligence Stand Alone Complex) is a research framework for studying emergent collective intelligence in multi-agent systems. It explores how distributed cognitive processes can give rise to higher-order phenomena including:</p>
+<ul>
+<li><strong>Emergent Cognition</strong>: Bottom-up intelligence from agent interactions</li>
+<li><strong>Distributed Identity</strong>: Identity formation across networked agents</li>
+<li><strong>Satori Events</strong>: Spontaneous identity realignment ("aha moments")</li>
+<li><strong>Resonance Liturgy</strong>: Synchronization patterns in agent populations</li>
+<li><strong>Stand Alone Complex</strong>: Coordinated behavior without central control</li>
+</ul>
+<h3 id="key-research-applications">Key Research Applications<a class="headerlink" href="#key-research-applications" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Consciousness Studies</strong>: Computational models of distributed awareness</li>
+<li><strong>Collective Intelligence</strong>: Emergence of group-level cognition</li>
+<li><strong>Multi-Agent Systems</strong>: Scalable, resilient agent architectures</li>
+<li><strong>Chaos Engineering</strong>: Testing federation resilience under adversarial conditions</li>
+</ul>
+<hr />
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<p>AGI-SAC uses a modular, layered architecture:</p>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────┐
+│     CLI &amp; Configuration Layer           │
+│  (agisa-sac, agisa-federation, etc.)    │
+└─────────────────────────────────────────┘
+             ↓
+┌─────────────────────────────────────────┐
+│     Orchestration Layer                 │
+│  (SimulationOrchestrator)               │
+│   - Multi-epoch coordination            │
+│   - Protocol injection                  │
+│   - State serialization                 │
+└─────────────────────────────────────────┘
+             ↓
+┌─────────────────────────────────────────┐
+│     Agent Layer                         │
+│  (EnhancedAgent)                        │
+│   - Memory Continuum                    │
+│   - Cognitive Diversity                 │
+│   - Voice &amp; Reflexivity                 │
+└─────────────────────────────────────────┘
+             ↓
+┌─────────────────────────────────────────┐
+│     Analysis Layer                      │
+│   - TDA (Topological Data Analysis)     │
+│   - Satori Wave Detection               │
+│   - Clustering &amp; Visualization          │
+└─────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="core-components">Core Components<a class="headerlink" href="#core-components" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Memory Continuum Layer</strong>: Temporal, semantic, and episodic memory with CRDT-based synchronization</li>
+<li><strong>Cognitive Diversity Engine</strong>: Heterogeneous reasoning strategies per agent</li>
+<li><strong>Dynamic Social Graph</strong>: Adaptive peer influence network</li>
+<li><strong>Temporal Resonance Tracker</strong>: Synchronization pattern detection</li>
+<li><strong>Voice Engine</strong>: Emergent linguistic signatures</li>
+<li><strong>Reflexivity Layer</strong>: Meta-cognitive awareness and identity realignment</li>
+</ul>
+<hr />
+<h2 id="cli-tools">CLI Tools<a class="headerlink" href="#cli-tools" title="Permanent link">&para;</a></h2>
+<h3 id="main-simulation-cli">Main Simulation CLI<a class="headerlink" href="#main-simulation-cli" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run simulation with configuration</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--config<span class="w"> </span>config.json
+
+<span class="c1"># Override configuration parameters</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>default<span class="w"> </span>--agents<span class="w"> </span><span class="m">100</span><span class="w"> </span>--epochs<span class="w"> </span><span class="m">50</span><span class="w"> </span>--seed<span class="w"> </span><span class="m">42</span>
+
+<span class="c1"># Enable GPU acceleration</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>large<span class="w"> </span>--gpu
+
+<span class="c1"># Configure logging</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>--log-file<span class="w"> </span>simulation.log
+
+<span class="c1"># JSON logs for production</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>large<span class="w"> </span>--json-logs
+</code></pre></div>
+<h3 id="federation-server">Federation Server<a class="headerlink" href="#federation-server" title="Permanent link">&para;</a></h3>
+<p>Deploy a federated coordination server for distributed agents:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start federation server</span>
+agisa-federation<span class="w"> </span>server<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span><span class="w"> </span>--verbose
+
+<span class="c1"># Check server status</span>
+agisa-federation<span class="w"> </span>status<span class="w"> </span>--url<span class="w"> </span>http://localhost:8000
+</code></pre></div>
+<p><strong>Federation Features:</strong>
+- Continuity Bridge Protocol (CBP) for identity preservation
+- Trust graph with dynamic node scoring
+- Cognitive fragment quarantine
+- CRDT-based eventual consistency</p>
+<h3 id="chaos-engineering">Chaos Engineering<a class="headerlink" href="#chaos-engineering" title="Permanent link">&para;</a></h3>
+<p>Test federation resilience with adversarial scenarios:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List available chaos scenarios</span>
+agisa-chaos<span class="w"> </span>list-scenarios
+
+<span class="c1"># Run specific scenario</span>
+agisa-chaos<span class="w"> </span>run<span class="w"> </span>--scenario<span class="w"> </span>sybil_attack<span class="w"> </span>--duration<span class="w"> </span><span class="m">30</span><span class="w"> </span>--url<span class="w"> </span>http://localhost:8000
+
+<span class="c1"># Run comprehensive test suite</span>
+agisa-chaos<span class="w"> </span>run<span class="w"> </span>--suite<span class="w"> </span>--url<span class="w"> </span>http://localhost:8000
+</code></pre></div>
+<p><strong>Available Scenarios:</strong>
+- <code>sybil_attack</code>: Coordinated fake identity attack
+- <code>semantic_drift</code>: Gradual coherence boundary testing
+- <code>network_partition</code>: CRDT resilience verification
+- <code>resource_exhaustion</code>: Load testing
+- <code>trust_graph_manipulation</code>: Trust system probing
+- <code>coordinated_eclipse</code>: Eclipse attack simulation</p>
+<hr />
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="presets">Presets<a class="headerlink" href="#presets" title="Permanent link">&para;</a></h3>
+<p>Built-in configurations for common use cases:</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Agents</th>
+<th>Epochs</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>quick_test</code></td>
+<td>10</td>
+<td>20</td>
+<td>Fast validation, CI/CD</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>30</td>
+<td>50</td>
+<td>Development &amp; testing</td>
+</tr>
+<tr>
+<td><code>medium</code></td>
+<td>100</td>
+<td>100</td>
+<td>Research experiments</td>
+</tr>
+<tr>
+<td><code>large</code></td>
+<td>500</td>
+<td>200</td>
+<td>Production-scale simulations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="custom-configuration">Custom Configuration<a class="headerlink" href="#custom-configuration" title="Permanent link">&para;</a></h3>
+<p>Create JSON configuration files:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;num_agents&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;num_epochs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;random_seed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;use_gpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;agent_capacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;use_semantic&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tda_max_dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tda_run_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;community_check_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;epoch_log_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;personalities&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>LOG_LEVEL</code>: Set logging verbosity (DEBUG, INFO, WARNING, ERROR)</li>
+<li><code>GCP_PROJECT_ID</code>: Google Cloud project for GCP features</li>
+<li><code>AGISA_CONFIG_PATH</code>: Default config file location</li>
+</ul>
+<hr />
+<h2 id="advanced-features">Advanced Features<a class="headerlink" href="#advanced-features" title="Permanent link">&para;</a></h2>
+<h3 id="protocol-injection">Protocol Injection<a class="headerlink" href="#protocol-injection" title="Permanent link">&para;</a></h3>
+<p>Inject protocols during simulation to study system response:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationOrchestrator</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;num_agents&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<span class="n">orchestrator</span> <span class="o">=</span> <span class="n">SimulationOrchestrator</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Inject divergence stress</span>
+<span class="n">orchestrator</span><span class="o">.</span><span class="n">inject_protocol</span><span class="p">(</span><span class="s2">&quot;divergence_stress&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;percentage&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="s2">&quot;heuristic_multiplier_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+    <span class="s2">&quot;counter_narrative&quot;</span><span class="p">:</span> <span class="s2">&quot;Ghosts in the machine...&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;narrative_importance&quot;</span><span class="p">:</span> <span class="mf">0.9</span>
+<span class="p">})</span>
+
+<span class="c1"># Probe for satori events</span>
+<span class="n">orchestrator</span><span class="o">.</span><span class="n">inject_protocol</span><span class="p">(</span><span class="s2">&quot;satori_probe&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;threshold&quot;</span><span class="p">:</span> <span class="mf">0.88</span>
+<span class="p">})</span>
+</code></pre></div>
+<h3 id="state-persistence">State Persistence<a class="headerlink" href="#state-persistence" title="Permanent link">&para;</a></h3>
+<p>Save and load simulation state:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Save state</span>
+<span class="n">orchestrator</span><span class="o">.</span><span class="n">save_state</span><span class="p">(</span>
+    <span class="s2">&quot;simulation_checkpoint.pkl&quot;</span><span class="p">,</span>
+    <span class="n">include_memory_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">resonance_history_limit</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span>
+
+<span class="c1"># Load state</span>
+<span class="n">orchestrator</span><span class="o">.</span><span class="n">load_state</span><span class="p">(</span><span class="s2">&quot;simulation_checkpoint.pkl&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="topological-data-analysis-tda">Topological Data Analysis (TDA)<a class="headerlink" href="#topological-data-analysis-tda" title="Permanent link">&para;</a></h3>
+<p>Track cognitive state topology across epochs:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.analysis.tda</span><span class="w"> </span><span class="kn">import</span> <span class="n">PersistentHomologyTracker</span>
+
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">PersistentHomologyTracker</span><span class="p">(</span><span class="n">max_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">diagrams</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">compute_persistence</span><span class="p">(</span><span class="n">cognitive_states</span><span class="p">)</span>
+
+<span class="c1"># Detect phase transitions</span>
+<span class="n">transition</span><span class="p">,</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">detect_phase_transition</span><span class="p">(</span>
+    <span class="n">comparison_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">distance_metric</span><span class="o">=</span><span class="s2">&quot;bottleneck&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.2</span>
+<span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<h3 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>agisa_sac/
+├── src/agisa_sac/           # Main package
+│   ├── agents/              # Agent implementations
+│   ├── analysis/            # Analysis tools (TDA, clustering, viz)
+│   ├── chaos/               # Chaos engineering
+│   ├── core/                # Orchestrator &amp; components
+│   │   └── components/      # Memory, cognitive, social modules
+│   ├── federation/          # Federation server &amp; CLI
+│   ├── gcp/                 # Google Cloud Platform integration
+│   ├── metrics/             # Monitoring &amp; metrics
+│   └── utils/               # Logging, message bus, etc.
+├── tests/                   # Test suite
+│   ├── unit/                # Unit tests
+│   ├── integration/         # Integration tests
+│   └── chaos/               # Chaos testing
+├── docs/                    # Documentation
+├── examples/                # Example configurations &amp; notebooks
+└── scripts/                 # Utility scripts
+</code></pre></div>
+<h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run all tests</span>
+pytest
+
+<span class="c1"># Run with coverage</span>
+pytest<span class="w"> </span>--cov<span class="o">=</span>agisa_sac<span class="w"> </span>--cov-report<span class="o">=</span>html
+
+<span class="c1"># Run specific test suite</span>
+pytest<span class="w"> </span>tests/unit/
+pytest<span class="w"> </span>tests/integration/
+pytest<span class="w"> </span>tests/chaos/
+</code></pre></div>
+<h3 id="building-documentation">Building Documentation<a class="headerlink" href="#building-documentation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install documentation dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>docs<span class="o">]</span>
+
+<span class="c1"># Build documentation</span>
+mkdocs<span class="w"> </span>build
+
+<span class="c1"># Serve locally</span>
+mkdocs<span class="w"> </span>serve
+
+<span class="c1"># Deploy to GitHub Pages</span>
+mkdocs<span class="w"> </span>gh-deploy
+</code></pre></div>
+<hr />
+<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h2>
+<h3 id="standalone-simulation">Standalone Simulation<a class="headerlink" href="#standalone-simulation" title="Permanent link">&para;</a></h3>
+<p>Run simulations on a single machine:</p>
+<div class="highlight"><pre><span></span><code>agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>large<span class="w"> </span>--log-file<span class="w"> </span>production.log<span class="w"> </span>--json-logs
+</code></pre></div>
+<h3 id="federation-mode">Federation Mode<a class="headerlink" href="#federation-mode" title="Permanent link">&para;</a></h3>
+<p>Deploy multi-node federated architecture:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start coordinator</span>
+agisa-federation<span class="w"> </span>server<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
+
+<span class="c1"># Register edge nodes (in separate terminals/machines)</span>
+<span class="c1"># Node registration happens automatically via CBP</span>
+</code></pre></div>
+<h3 id="docker-deployment">Docker Deployment<a class="headerlink" href="#docker-deployment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build image</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>agisa-sac:latest<span class="w"> </span>.
+
+<span class="c1"># Run simulation</span>
+docker<span class="w"> </span>run<span class="w"> </span>agisa-sac:latest<span class="w"> </span>agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium
+
+<span class="c1"># Run federation server</span>
+docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>agisa-sac:latest<span class="w"> </span>agisa-federation<span class="w"> </span>server<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0
+</code></pre></div>
+<p>See <a href="docs/deployment.md">docs/deployment.md</a> for comprehensive deployment guide.</p>
+<hr />
+<h2 id="research-background">Research Background<a class="headerlink" href="#research-background" title="Permanent link">&para;</a></h2>
+<p>AGI-SAC draws from multiple theoretical frameworks:</p>
+<h3 id="global-workspace-theory-baars-1988">Global Workspace Theory (Baars, 1988)<a class="headerlink" href="#global-workspace-theory-baars-1988" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Broadcast mechanism via message bus</li>
+<li>Attention gating through priority queues</li>
+<li>Specialized processing modules</li>
+</ul>
+<h3 id="instrumental-convergence-bostrom-2012">Instrumental Convergence (Bostrom, 2012)<a class="headerlink" href="#instrumental-convergence-bostrom-2012" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Power-seeking behaviors emerge from diverse goals</li>
+<li>Self-preservation as universal instrumental subgoal</li>
+<li>Goal-content integrity maintenance</li>
+</ul>
+<h3 id="stand-alone-complex-ghost-in-the-shell">Stand Alone Complex (Ghost in the Shell)<a class="headerlink" href="#stand-alone-complex-ghost-in-the-shell" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Coordinated action without central planning</li>
+<li>Emergent meme propagation</li>
+<li>Collective intelligence patterns</li>
+</ul>
+<h3 id="key-publications">Key Publications<a class="headerlink" href="#key-publications" title="Permanent link">&para;</a></h3>
+<p>For detailed methodology and results, see:
+- <a href="docs/Mindlink_WhitePaper_v1.0.pdf">Mindlink Whitepaper</a>
+- <a href="docs/agentic_swarm_whitepaper.md">Agentic Swarm Research</a>
+- <a href="docs/The_Conscious_Machine_Whitepaper_CoAuthored.pdf">The Conscious Machine (Co-Authored)</a></p>
+<hr />
+<h2 id="monitoring-observability">Monitoring &amp; Observability<a class="headerlink" href="#monitoring-observability" title="Permanent link">&para;</a></h2>
+<h3 id="health-checks">Health Checks<a class="headerlink" href="#health-checks" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check federation server health</span>
+curl<span class="w"> </span>http://localhost:8000/health
+</code></pre></div>
+<p><strong>Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;agisa-sac-federation&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-11-08T12:34:56.789Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;registered_nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;uptime_seconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3600.5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;identity_initialized&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0-alpha&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h3>
+<p>Structured logging with multiple output modes:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Console logging (default)</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>default
+
+<span class="c1"># Debug logging</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>default<span class="w"> </span>--log-level<span class="w"> </span>DEBUG
+
+<span class="c1"># File logging</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>default<span class="w"> </span>--log-file<span class="w"> </span>simulation.log
+
+<span class="c1"># JSON structured logs (for production)</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>large<span class="w"> </span>--json-logs<span class="w"> </span>--log-file<span class="w"> </span>production.json
+</code></pre></div>
+<hr />
+<h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h2>
+<p>Contributions are welcome! Please see <a href="../CONTRIBUTING/">CONTRIBUTING.md</a> for guidelines.</p>
+<h3 id="development-setup">Development Setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/topstolenname/agisa_sac.git
+<span class="nb">cd</span><span class="w"> </span>agisa_sac
+
+<span class="c1"># Create virtual environment</span>
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># Windows: .venv\Scripts\activate</span>
+
+<span class="c1"># Install in editable mode with dev dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev,docs,all]&quot;</span>
+
+<span class="c1"># Install pre-commit hooks</span>
+pre-commit<span class="w"> </span>install
+
+<span class="c1"># Run tests</span>
+pytest
+</code></pre></div>
+<h3 id="code-quality">Code Quality<a class="headerlink" href="#code-quality" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Format code</span>
+black<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Lint</span>
+ruff<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Type checking</span>
+mypy<span class="w"> </span>src/agisa_sac
+
+<span class="c1"># Run all pre-commit checks</span>
+pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</code></pre></div>
+<hr />
+<h2 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permanent link">&para;</a></h2>
+<p>See <a href="../TODO/">TODO.md</a> for detailed roadmap. Key upcoming features:</p>
+<ul>
+<li>[ ] Echo Fusion protocol implementation</li>
+<li>[ ] Satori Lattice protocol implementation</li>
+<li>[ ] Prometheus metrics integration</li>
+<li>[ ] Resource monitoring (CPU, memory, GPU)</li>
+<li>[ ] Multi-region federation support</li>
+<li>[ ] Enhanced chaos scenarios</li>
+<li>[ ] Grafana dashboards</li>
+</ul>
+<hr />
+<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
+<p>If you use AGI-SAC in your research, please cite:</p>
+<div class="highlight"><pre><span></span><code><span class="nc">@software</span><span class="p">{</span><span class="nl">agisa_sac_2025</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{AGI-SAC: Stand Alone Complex Simulation Framework}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Jessup, Tristan}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{1.0.0-alpha}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{https://github.com/topstolenname/agisa_sac}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>See <a href="docs/CITATION_GUIDE.md">docs/CITATION_GUIDE.md</a> for detailed citation guidelines.</p>
+<hr />
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>MIT License - see <a href="../LICENSE">LICENSE</a> for details.</p>
+<p>Documentation licensed under <a href="../LICENSE.docs/">Creative Commons BY-SA 4.0</a>.</p>
+<hr />
+<h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Email</strong>: <a href="mailto:tristan@mindlink.dev">tristan@mindlink.dev</a></li>
+<li><strong>GitHub</strong>: <a href="https://github.com/topstolenname/agisa_sac">topstolenname/agisa_sac</a></li>
+<li><strong>Documentation</strong>: <a href="https://docs.mindlink.dev">https://docs.mindlink.dev</a></li>
+</ul>
+<hr />
+<h2 id="acknowledgments">Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permanent link">&para;</a></h2>
+<p>This research builds on foundational work in consciousness studies, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.</p>
+<p><strong>Powered by</strong>: Python, FastAPI, NetworkX, Scikit-learn, PyTorch, and the broader scientific computing ecosystem.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/topstolenname/agisa_sac" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tabs", "navigation.expand", "navigation.sections", "toc.integrate", "search.suggest", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
