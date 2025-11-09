@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  <text x="400" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#333">
+    Figure Code — Mapping
+  </text>
+  <text x="400" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#666">
+    (Code Architecture Diagram)
+  </text>
+  <text x="400" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#999" font-style="italic">
+    This figure should be generated from docs/figs/src/figure_code_mapping.mmd
+  </text>
+  <text x="400" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#999" font-style="italic">
+    using: mmdc -i docs/figs/src/figure_code_mapping.mmd -o docs/figs/svg/figure_code_mapping.svg
+  </text>
+</svg>
