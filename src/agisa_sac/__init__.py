@@ -121,4 +121,3 @@ __all__ = [
 # Configure logging
 # Set up default logging configuration (can be overridden by applications)
 logging.getLogger(__name__).addHandler(logging.NullHandler())
-
