@@ -65,7 +65,8 @@ except ImportError as e:
     import warnings
 
     warnings.warn(
-        f"Could not import all AGI-SAC components during package initialization: {e}",
+        f"Could not import all AGI-SAC components during "
+        f"package initialization: {e}",
         ImportWarning,
     )
 

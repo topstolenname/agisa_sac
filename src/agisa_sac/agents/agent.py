@@ -228,7 +228,8 @@ class EnhancedAgent:
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading state v '{loaded_version}' vs current '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading state v '{loaded_version}' "
+                f"vs current '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
 
