@@ -419,9 +419,8 @@ async def main():
         f"chaos_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json", "w"
     ) as f:
         json.dump(results, f, indent=2)
-    print(
-        f"Chaos suite completed. Resilience score: {results['overall_metrics']['system_resilience_score']:.3f}"
-    )
+    score = results['overall_metrics']['system_resilience_score']
+    print(f"Chaos suite completed. Resilience score: {score:.3f}")
 
 
 if __name__ == "__main__":

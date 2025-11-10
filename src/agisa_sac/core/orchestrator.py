@@ -17,6 +17,7 @@ try:
     )  # Assuming chronicler at package root
     from ..utils.logger import get_logger
     from ..utils.message_bus import MessageBus
+    from ..utils.metrics import get_metrics
     from .components.social import DynamicSocialGraph
 
     # Check optional dependencies status (assuming defined in __init__ or config)
@@ -63,9 +64,16 @@ class SimulationOrchestrator:
         self.is_running = False
         self.simulation_start_time = None
         self.hooks: Dict[str, List[Callable]] = defaultdict(list)
+
+        # Initialize metrics collection
+        self.metrics = get_metrics()
+        self.metrics.update_agent_count(self.num_agents)
+
         logger.info(
-            f"SimulationOrchestrator initialized ({FRAMEWORK_VERSION}) with {self.num_agents} agents. "
-            f"TDA: {self.tda_tracker.has_tda_lib}, GPU: {self.social_graph.use_gpu}"
+            f"SimulationOrchestrator initialized ({FRAMEWORK_VERSION}) "
+            f"with {self.num_agents} agents. "
+            f"TDA: {self.tda_tracker.has_tda_lib}, "
+            f"GPU: {self.social_graph.use_gpu}"
         )
 
     def _create_agents(self) -> Dict[str, EnhancedAgent]:
@@ -162,6 +170,7 @@ class SimulationOrchestrator:
             query = f"Epoch {self.current_epoch+1} status. E:{situational_entropy:.2f}"
             agent.simulation_step(situational_entropy, peer_influence, query)
             self.chronicler.record_epoch(agent, self.current_epoch)
+            self.metrics.record_agent_interaction()
             if (
                 hasattr(agent, "cognitive")
                 and agent.cognitive.cognitive_state is not None
@@ -176,10 +185,20 @@ class SimulationOrchestrator:
             if len(cognitive_states_for_tda) > 1:
                 point_cloud = np.array(cognitive_states_for_tda)
                 max_radius = self.config.get("tda_max_radius", None)
+
+                # Measure TDA computation time
+                tda_start = time.time()
                 diagrams = self.tda_tracker.compute_persistence(
                     point_cloud, max_radius=max_radius
                 )
+                tda_duration = time.time() - tda_start
+                self.metrics.record_tda_computation(tda_duration)
+
                 if diagrams is not None:
+                    # Record TDA features
+                    for dim, diagram in enumerate(diagrams):
+                        if diagram is not None and len(diagram) > 0:
+                            self.metrics.update_tda_features(dim, len(diagram))
                     distance_metric = self.config.get(
                         "tda_distance_metric", "bottleneck"
                     )
@@ -198,8 +217,11 @@ class SimulationOrchestrator:
                     )
                     if transition_detected:
                         logger.warning(
-                            f"TDA Phase transition detected at Epoch {self.current_epoch+1}: "
-                            f"Dimension={comparison_dim}, Distance={distance:.3f}, Threshold={threshold}"
+                            f"TDA Phase transition detected at "
+                            f"Epoch {self.current_epoch+1}: "
+                            f"Dimension={comparison_dim}, "
+                            f"Distance={distance:.3f}, "
+                            f"Threshold={threshold}"
                         )
                         self._trigger_hooks(
                             "tda_phase_transition",
@@ -217,10 +239,16 @@ class SimulationOrchestrator:
             self.social_graph.detect_communities()
         self._trigger_hooks("post_epoch")
         epoch_duration = time.time() - epoch_start_time
+
+        # Record metrics
+        self.metrics.record_epoch(epoch_duration)
+        self.metrics.update_system_resources()
+
         log_freq = self.config.get("epoch_log_frequency", 10)
         if (self.current_epoch + 1) % log_freq == 0 or self.current_epoch == 0:
             logger.info(
-                f"Epoch {self.current_epoch+1}/{self.num_epochs} completed in {epoch_duration:.2f}s"
+                f"Epoch {self.current_epoch+1}/{self.num_epochs} "
+                f"completed in {epoch_duration:.2f}s"
             )
 
     def run_simulation(
@@ -237,7 +265,8 @@ class SimulationOrchestrator:
         for epoch in range(start_epoch, start_epoch + run_epochs):
             if epoch >= self.num_epochs:
                 logger.info(
-                    f"Reached configured max epochs ({self.num_epochs}). Stopping simulation."
+                    f"Reached configured max epochs ({self.num_epochs}). "
+                    f"Stopping simulation."
                 )
                 break
             self.current_epoch = epoch
@@ -245,7 +274,8 @@ class SimulationOrchestrator:
         self.is_running = False
         total_duration = time.time() - self.simulation_start_time
         logger.info(
-            f"Simulation run complete: {run_epochs} epochs in {total_duration:.2f} seconds "
+            f"Simulation run complete: {run_epochs} epochs "
+            f"in {total_duration:.2f} seconds "
             f"({total_duration/run_epochs:.2f}s/epoch)"
         )
         self._trigger_hooks("simulation_end")
@@ -304,7 +334,8 @@ class SimulationOrchestrator:
                     modified_count += 1
                 except Exception as e:
                     logger.error(
-                        f"Failed to apply stress to agent {agent.agent_id}: {e}",
+                        f"Failed to apply stress to agent "
+                        f"{agent.agent_id}: {e}",
                         exc_info=True,
                     )
             logger.info(
@@ -409,8 +440,9 @@ class SimulationOrchestrator:
             self.chronicler = ResonanceChronicler.from_dict(
                 state.get("chronicler_state", {})
             )
+            max_dim = self.config.get("tda_max_dimension", 1)
             self.tda_tracker = PersistentHomologyTracker(
-                max_dimension=self.config.get("tda_max_dimension", 1)
+                max_dimension=max_dim
             )
             if state.get("tda_tracker_state"):
                 self.tda_tracker.load_state(state["tda_tracker_state"])
