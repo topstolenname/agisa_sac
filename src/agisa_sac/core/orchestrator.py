@@ -161,7 +161,7 @@ class SimulationOrchestrator:
             query = f"Epoch {self.current_epoch+1} status. E:{situational_entropy:.2f}"
             agent.simulation_step(situational_entropy, peer_influence, query)
             self.chronicler.record_epoch(agent, self.current_epoch)
-            self.metrics.agent_interactions_total.inc()
+            self.metrics.record_agent_interaction()
             if (
                 hasattr(agent, "cognitive")
                 and agent.cognitive.cognitive_state is not None

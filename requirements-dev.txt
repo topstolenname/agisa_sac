@@ -6,5 +6,3 @@ mypy
 types-requests
 pytest
 pytest-asyncio
-prometheus-client
-psutil

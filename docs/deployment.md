@@ -95,6 +95,9 @@ agisa-chaos --help
 Install only needed features:
 
 ```bash
+# Production monitoring (Prometheus metrics + resource monitoring)
+pip install agisa-sac[monitoring]
+
 # Federation server only
 pip install agisa-sac[federation]
 
@@ -515,9 +518,17 @@ AGI-SAC includes built-in Prometheus metrics for production monitoring.
 
 **Enable Monitoring:**
 ```bash
-# Install monitoring dependencies
+# Install monitoring dependencies (prometheus-client + psutil)
 pip install agisa-sac[monitoring]
 ```
+
+!!! note "Optional Dependencies"
+    Metrics collection gracefully degrades when dependencies are unavailable:
+
+    - Without `prometheus-client`: All metrics collection is disabled
+    - Without `psutil`: System resource metrics are unavailable, other metrics continue to work
+
+    The simulation will run normally in all cases.
 
 **Available Metrics:**
 

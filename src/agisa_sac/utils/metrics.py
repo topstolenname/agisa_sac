@@ -5,10 +5,11 @@ This module provides comprehensive metrics collection for production monitoring
 of multi-agent simulations, including performance, resource usage, and system health.
 """
 
-from typing import Dict, Optional
-import time
-import psutil
+from typing import Dict, Optional, TYPE_CHECKING
 import logging
+
+if TYPE_CHECKING:
+    import psutil
 
 try:
     from prometheus_client import (
@@ -23,6 +24,12 @@ try:
     HAS_PROMETHEUS = True
 except ImportError:
     HAS_PROMETHEUS = False
+
+try:
+    import psutil
+    HAS_PSUTIL = True
+except ImportError:
+    HAS_PSUTIL = False
 
 logger = logging.getLogger(__name__)
 
@@ -44,9 +51,15 @@ class PrometheusMetrics:
             self.enabled = False
             return
 
+        if not HAS_PSUTIL:
+            logger.warning(
+                "psutil not installed. System resource metrics will be unavailable. "
+                "Install with: pip install psutil"
+            )
+
         self.enabled = True
         self.registry = registry
-        self._process = psutil.Process()
+        self._process = psutil.Process() if HAS_PSUTIL else None
 
         # Simulation metrics
         self.simulation_duration = Histogram(
@@ -247,6 +260,13 @@ class PrometheusMetrics:
 
         self.agent_count.set(count)
 
+    def record_agent_interaction(self) -> None:
+        """Record a single agent interaction."""
+        if not self.enabled:
+            return
+
+        self.agent_interactions_total.inc()
+
     def record_memory_operation(self, operation: str) -> None:
         """Record a memory operation.
 
@@ -317,7 +337,7 @@ class PrometheusMetrics:
 
     def update_system_resources(self) -> None:
         """Update system resource metrics from psutil."""
-        if not self.enabled:
+        if not self.enabled or not self._process:
             return
 
         try:
