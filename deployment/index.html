@@ -932,6 +932,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#prometheus-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prometheus Metrics
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2074,7 +2083,10 @@ agisa-chaos<span class="w"> </span>--help
 </code></pre></div>
 <h3 id="option-3-feature-specific-installation">Option 3: Feature-Specific Installation<a class="headerlink" href="#option-3-feature-specific-installation" title="Permanent link">&para;</a></h3>
 <p>Install only needed features:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Federation server only</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Production monitoring (Prometheus metrics + resource monitoring)</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>monitoring<span class="o">]</span>
+
+<span class="c1"># Federation server only</span>
 pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>federation<span class="o">]</span>
 
 <span class="c1"># Chaos engineering only</span>
@@ -2389,6 +2401,237 @@ htop<span class="w"> </span>-p<span class="w"> </span><span class="k">$(</span>p
 <p><strong>Watch System Resources:</strong>
 <div class="highlight"><pre><span></span><code>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;nvidia-smi&#39;</span><span class="w">  </span><span class="c1"># GPU monitoring</span>
 watch<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;free -h&#39;</span><span class="w">     </span><span class="c1"># Memory monitoring</span>
+</code></pre></div></p>
+<h3 id="prometheus-metrics">Prometheus Metrics<a class="headerlink" href="#prometheus-metrics" title="Permanent link">&para;</a></h3>
+<p>AGI-SAC includes built-in Prometheus metrics for production monitoring.</p>
+<p><strong>Enable Monitoring:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install monitoring dependencies (prometheus-client + psutil)</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>monitoring<span class="o">]</span>
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Optional Dependencies</p>
+<p>Metrics collection gracefully degrades when dependencies are unavailable:</p>
+<ul>
+<li>Without <code>prometheus-client</code>: All metrics collection is disabled</li>
+<li>Without <code>psutil</code>: System resource metrics are unavailable, other metrics continue to work</li>
+</ul>
+<p>The simulation will run normally in all cases.</p>
+</div>
+<p><strong>Available Metrics:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Simulation Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_simulation_duration_seconds</code></td>
+<td>Histogram</td>
+<td>Time spent per simulation epoch</td>
+</tr>
+<tr>
+<td><code>agisa_simulation_epochs_total</code></td>
+<td>Counter</td>
+<td>Total epochs completed</td>
+</tr>
+<tr>
+<td><code>agisa_simulation_errors_total</code></td>
+<td>Counter</td>
+<td>Total simulation errors by type</td>
+</tr>
+<tr>
+<td><strong>Agent Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_agent_count</code></td>
+<td>Gauge</td>
+<td>Current number of active agents</td>
+</tr>
+<tr>
+<td><code>agisa_agent_interactions_total</code></td>
+<td>Counter</td>
+<td>Total agent interactions</td>
+</tr>
+<tr>
+<td><code>agisa_agent_state_changes_total</code></td>
+<td>Counter</td>
+<td>Agent state changes by type</td>
+</tr>
+<tr>
+<td><strong>Memory Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_memory_operations_total</code></td>
+<td>Counter</td>
+<td>Memory operations by type (read/write/delete)</td>
+</tr>
+<tr>
+<td><code>agisa_memory_size_bytes</code></td>
+<td>Gauge</td>
+<td>Memory usage in bytes by type</td>
+</tr>
+<tr>
+<td><code>agisa_memory_items_count</code></td>
+<td>Gauge</td>
+<td>Number of items in memory stores by type</td>
+</tr>
+<tr>
+<td><strong>TDA Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_tda_persistence_features</code></td>
+<td>Gauge</td>
+<td>Topological features by dimension (β₀, β₁, β₂)</td>
+</tr>
+<tr>
+<td><code>agisa_tda_computation_duration_seconds</code></td>
+<td>Histogram</td>
+<td>TDA computation time</td>
+</tr>
+<tr>
+<td><strong>Social Graph Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_social_graph_edges</code></td>
+<td>Gauge</td>
+<td>Number of edges in social graph</td>
+</tr>
+<tr>
+<td><code>agisa_social_graph_density</code></td>
+<td>Gauge</td>
+<td>Density of the social graph (0-1)</td>
+</tr>
+<tr>
+<td><code>agisa_social_clustering_coefficient</code></td>
+<td>Gauge</td>
+<td>Average clustering coefficient</td>
+</tr>
+<tr>
+<td><strong>System Resource Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_system_cpu_percent</code></td>
+<td>Gauge</td>
+<td>CPU usage percentage</td>
+</tr>
+<tr>
+<td><code>agisa_system_memory_bytes</code></td>
+<td>Gauge</td>
+<td>Memory usage in bytes (rss/vms)</td>
+</tr>
+<tr>
+<td><code>agisa_system_memory_percent</code></td>
+<td>Gauge</td>
+<td>Memory usage percentage</td>
+</tr>
+<tr>
+<td><strong>Federation Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_federation_nodes_count</code></td>
+<td>Gauge</td>
+<td>Number of federation nodes</td>
+</tr>
+<tr>
+<td><code>agisa_federation_messages_total</code></td>
+<td>Counter</td>
+<td>Federation messages by type</td>
+</tr>
+<tr>
+<td><code>agisa_federation_sync_duration_seconds</code></td>
+<td>Histogram</td>
+<td>Federation synchronization time</td>
+</tr>
+<tr>
+<td><strong>Consciousness Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_consciousness_phi</code></td>
+<td>Gauge</td>
+<td>Integrated information (Φ)</td>
+</tr>
+<tr>
+<td><code>agisa_consciousness_recursive_depth</code></td>
+<td>Gauge</td>
+<td>Meta-cognitive recursion depth</td>
+</tr>
+<tr>
+<td><strong>Ethical Metrics</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>agisa_ethics_coexistence_score</code></td>
+<td>Gauge</td>
+<td>Harmony/coexistence score (0-1)</td>
+</tr>
+<tr>
+<td><code>agisa_ethics_violations_total</code></td>
+<td>Counter</td>
+<td>Ethical violations by type</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expose Metrics Endpoint:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_metrics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/metrics&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">metrics</span><span class="p">():</span>
+    <span class="n">metrics_data</span> <span class="o">=</span> <span class="n">get_metrics</span><span class="p">()</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">()</span>
+    <span class="n">content_type</span> <span class="o">=</span> <span class="n">get_metrics</span><span class="p">()</span><span class="o">.</span><span class="n">get_content_type</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">metrics_data</span><span class="p">,</span> <span class="n">media_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Prometheus Configuration:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># prometheus.yml</span>
+<span class="nt">global</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">scrape_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+<span class="w">  </span><span class="nt">evaluation_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+
+<span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;agisa-sac&#39;</span>
+<span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:8000&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">metrics_path</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/metrics&#39;</span>
+</code></pre></div></p>
+<p><strong>Grafana Dashboard:</strong></p>
+<p>Query examples for visualization:
+<div class="highlight"><pre><span></span><code><span class="c1"># Average epoch duration</span>
+<span class="kr">rate</span><span class="o">(</span><span class="nv">agisa_simulation_duration_seconds_sum</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="kr">rate</span><span class="o">(</span><span class="nv">agisa_simulation_duration_seconds_count</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)</span>
+
+<span class="c1"># Agent interactions per second</span>
+<span class="kr">rate</span><span class="o">(</span><span class="nv">agisa_agent_interactions_total</span><span class="p">[</span><span class="s">1m</span><span class="p">]</span><span class="o">)</span>
+
+<span class="c1"># TDA features over time</span>
+<span class="nv">agisa_tda_persistence_features</span>
+
+<span class="c1"># System resource usage</span>
+<span class="nv">agisa_system_cpu_percent</span>
+<span class="nv">agisa_system_memory_percent</span>
 </code></pre></div></p>
 <hr />
 <h2 id="performance-tuning">Performance Tuning<a class="headerlink" href="#performance-tuning" title="Permanent link">&para;</a></h2>
