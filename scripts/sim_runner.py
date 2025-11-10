@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 import json
+from pathlib import Path
 
 from agisa_sac import SimulationOrchestrator
 
@@ -12,7 +12,9 @@ from agisa_sac import SimulationOrchestrator
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run AGI-SAC simulation")
     parser.add_argument("config", type=Path, help="Path to JSON config file")
-    parser.add_argument("--use-gpu", action="store_true", help="Enable GPU acceleration")
+    parser.add_argument(
+        "--use-gpu", action="store_true", help="Enable GPU acceleration"
+    )
     args = parser.parse_args()
 
     config = json.loads(Path(args.config).read_text())

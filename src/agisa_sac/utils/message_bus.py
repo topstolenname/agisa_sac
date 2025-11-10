@@ -19,14 +19,17 @@ class MessageBus:
             try:
                 self._loop = asyncio.get_running_loop()
             except RuntimeError:
-                # If no loop is running, create/get one (use case might be outside async context)
+                # If no loop is running, create/get one
+                # (use case might be outside async context).
                 # This might have implications depending on how it's used.
                 # Consider warning or requiring explicit loop management.
                 warnings.warn(
                     "No running asyncio loop found. Getting/creating one.",
                     RuntimeWarning,
                 )
-                self._loop = asyncio.get_event_loop_policy().get_event_loop()
+                self._loop = (
+                    asyncio.get_event_loop_policy().get_event_loop()
+                )
         return self._loop
 
     def subscribe(self, topic: str, callback: Callable):
@@ -39,7 +42,8 @@ class MessageBus:
         """Publish a message to all subscribers registered for the topic."""
         if not isinstance(message, dict):
             warnings.warn(
-                f"Publishing non-dict message to '{topic}'. Converting to dict.",
+                f"Publishing non-dict message to '{topic}'. "
+                f"Converting to dict.",
                 RuntimeWarning,
             )
             message = {"data": message}
@@ -61,9 +65,12 @@ class MessageBus:
                             self._execute_callback(callback, message.copy())
                         )
                     else:
-                        # If loop isn't running, might need different handling or warning
+                        # If loop isn't running, might need
+                        # different handling or warning
                         warnings.warn(
-                            f"Cannot schedule async callback {callback.__name__} for '{topic}' - loop not running.",
+                            f"Cannot schedule async callback "
+                            f"{callback.__name__} for '{topic}' - "
+                            f"loop not running.",
                             RuntimeWarning,
                         )
                 else:
@@ -72,7 +79,8 @@ class MessageBus:
                     callback(message.copy())
             except Exception as e:
                 warnings.warn(
-                    f"Error executing callback {callback.__name__} for topic '{topic}': {e}",
+                    f"Error executing callback {callback.__name__} "
+                    f"for topic '{topic}': {e}",
                     RuntimeWarning,
                 )
 

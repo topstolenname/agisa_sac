@@ -147,7 +147,8 @@ class TemporalResonanceTracker:
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading resonance v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading resonance v "
+                f"'{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
         instance = cls(
@@ -159,7 +160,8 @@ class TemporalResonanceTracker:
 
 
 class ResonanceLiturgy:
-    """Handles the agent's 'ritual' response to temporal resonance. (Stateless, no serialization needed)"""
+    """Handles the agent's 'ritual' response to temporal resonance.
+    (Stateless, no serialization needed)"""
 
     def __init__(self, agent_id: str, satori_threshold: float = 0.9):
         self.agent_id = agent_id
@@ -196,13 +198,25 @@ class ResonanceLiturgy:
 
     def compose_commentary(self, echo: dict) -> str:
         elapsed_str = self._format_timedelta(echo["delta_t"])
-        return f"Resonance {echo['similarity']:.3f} echoes self from ~{elapsed_str} ago. {random.choice(self.ritual_phrases)}"
+        phrase = random.choice(self.ritual_phrases)
+        return (
+            f"Resonance {echo['similarity']:.3f} echoes self "
+            f"from ~{elapsed_str} ago. {phrase}"
+        )
 
     def generate_response_ritual(
         self, voice_engine: "VoiceEngine", current_theme: str, past_theme: str
     ) -> str:
         # Need to import VoiceEngine for type hint or use string
-        prompt = f"""Context: Echo ({random.choice(self.ritual_phrases)}) connects '{current_theme}' to past '{past_theme}'.
-Task: Brief response acknowledging connection, linking past to present.
-Style: Arch: {voice_engine.linguistic_signature['archetype']}, Struct: {voice_engine.linguistic_signature['sentence_structure']}, Vocab: {voice_engine.linguistic_signature['vocabulary_richness']:.1f}"""
+        ritual_phrase = random.choice(self.ritual_phrases)
+        arch = voice_engine.linguistic_signature["archetype"]
+        struct = voice_engine.linguistic_signature["sentence_structure"]
+        vocab = voice_engine.linguistic_signature["vocabulary_richness"]
+        prompt = (
+            f"Context: Echo ({ritual_phrase}) connects '{current_theme}' "
+            f"to past '{past_theme}'.\n"
+            f"Task: Brief response acknowledging connection, "
+            f"linking past to present.\n"
+            f"Style: Arch: {arch}, Struct: {struct}, Vocab: {vocab:.1f}"
+        )
         return voice_engine.generate_response(prompt)

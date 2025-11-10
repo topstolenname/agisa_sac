@@ -34,7 +34,8 @@ class VoiceEngine:
             self.linguistic_signature.update(initial_style)
 
     def generate_response(self, prompt: str) -> str:
-        """Generates a stylized response based on the prompt and signature. (Placeholder)"""
+        """Generates a stylized response based on the prompt
+        and signature. (Placeholder)"""
         style = self.linguistic_signature.get("archetype", "unknown")
         structure = self.linguistic_signature.get(
             "sentence_structure", "simple"
@@ -80,9 +81,12 @@ class VoiceEngine:
                 - 0.5
             ) * shift_magnitude
             self.linguistic_signature["style_vector"] += noise
-            # Optional: Normalize or clip the vector to prevent unbounded growth
-            # norm = np.linalg.norm(self.linguistic_signature["style_vector"])
-            # if norm > 1.0: self.linguistic_signature["style_vector"] /= norm
+            # Optional: Normalize or clip the vector to prevent unbounded
+            # growth
+            # norm = np.linalg.norm(
+            #     self.linguistic_signature["style_vector"])
+            # if norm > 1.0:
+            #     self.linguistic_signature["style_vector"] /= norm
 
     def to_dict(self) -> Dict:
         """Serializes the voice engine state."""
@@ -101,7 +105,8 @@ class VoiceEngine:
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading voice state v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading voice state v "
+                f"'{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
 

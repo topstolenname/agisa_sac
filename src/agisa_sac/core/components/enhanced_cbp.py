@@ -1,7 +1,10 @@
 import logging
 from typing import Dict, Optional, Tuple
 
-from agisa_sac.core.components.semantic_analyzer import EnhancedSemanticAnalyzer, SemanticProfile
+from agisa_sac.core.components.semantic_analyzer import (
+    EnhancedSemanticAnalyzer,
+    SemanticProfile,
+)
 
 
 class EnhancedContinuityBridgeProtocol:

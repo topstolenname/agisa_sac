@@ -94,7 +94,8 @@ class PersistentHomologyTracker:
         distance_metric: str = "bottleneck",
         threshold: float = 0.2,
     ) -> Tuple[bool, float]:
-        """Detects phase transitions by comparing diagrams using persim. Returns (detected, distance)."""
+        """Detects phase transitions by comparing diagrams using persim.
+        Returns (detected, distance)."""
         if not HAS_PERSIM or len(self.persistence_diagrams_history) < 2:
             return False, 0.0
         current_diagram_list = self.persistence_diagrams_history[-1]
@@ -129,7 +130,8 @@ class PersistentHomologyTracker:
                     )
                 else:
                     warnings.warn(
-                        f"Unsupported TDA metric: {distance_metric}. Using Bottleneck.",
+                        f"Unsupported TDA metric: {distance_metric}. "
+                        f"Using Bottleneck.",
                         RuntimeWarning,
                     )
                     distance, _ = persim.bottleneck(
@@ -137,7 +139,8 @@ class PersistentHomologyTracker:
                     )
             except Exception as e:
                 warnings.warn(
-                    f"TDA distance failed ({distance_metric}, dim={comparison_dimension}): {e}",
+                    f"TDA distance failed ({distance_metric}, "
+                    f"dim={comparison_dimension}): {e}",
                     RuntimeWarning,
                 )
                 return False, 0.0
@@ -185,7 +188,8 @@ class PersistentHomologyTracker:
         loaded_version = state.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Loading TDA v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"Loading TDA v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
         self.max_dimension = state.get("max_dimension", self.max_dimension)

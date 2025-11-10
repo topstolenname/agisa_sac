@@ -173,7 +173,11 @@ class EnhancedAgent:
                 resonance_memory_id, reply_memory_id, "generated_reply"
             )
         if top_echo["similarity"] >= liturgy.satori_threshold:
-            trigger_message = f"Strong echo ({top_echo['similarity']:.3f}) detected connecting theme '{current_theme}' to past self (theme: '{top_echo['previous_manifestation_theme']}')."
+            trigger_message = (
+                f"Strong echo ({top_echo['similarity']:.3f}) detected "
+                f"connecting theme '{current_theme}' to past self "
+                f"(theme: '{top_echo['previous_manifestation_theme']}')."
+            )
             self.last_reflection_trigger = trigger_message
             self.reflexivity_layer.force_deep_reflection(
                 trigger=trigger_message
@@ -224,7 +228,8 @@ class EnhancedAgent:
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading state v '{loaded_version}' vs current '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading state v '{loaded_version}' "
+                f"vs current '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
 

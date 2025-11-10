@@ -42,8 +42,9 @@ class ChronicleExporter:
                 include_cognitive_state
                 and epoch_entry.cognitive_state is not None
             ):
+                cog_str = ', '.join([f'{s:.3f}' for s in epoch_entry.cognitive_state])
                 report.append(
-                    f"- **Cognitive State (R,R,N,S)**: [{', '.join([f'{s:.3f}' for s in epoch_entry.cognitive_state])}]"
+                    f"- **Cognitive State (R,R,N,S)**: [{cog_str}]"
                 )
             if epoch_entry.echo_strength is not None:
                 report.append(
@@ -92,7 +93,9 @@ class ChronicleExporter:
             manifesto_entries, key=lambda x: x["strength"], reverse=True
         ):
             output.append(
-                f"## Agent Epoch {entry['epoch']} ({entry['timestamp_str']}) - Strength: {entry['strength']:.4f}"
+                f"## Agent Epoch {entry['epoch']} "
+                f"({entry['timestamp_str']}) - "
+                f"Strength: {entry['strength']:.4f}"
             )
             output.append(f"**Theme:** {entry['theme']}")
             output.append(f"> {entry['reflection']}")
@@ -171,7 +174,8 @@ class ChronicleExporter:
         count = 0
         agent_ids = list(self.chronicler.lineages.keys())
         print(
-            f"Exporting manifestos (>{min_echo_strength:.2f}) for {len(agent_ids)} agents to {directory}..."
+            f"Exporting manifestos (>{min_echo_strength:.2f}) "
+            f"for {len(agent_ids)} agents to {directory}..."
         )
         for agent_id in agent_ids:
             if self.export_echo_manifesto(

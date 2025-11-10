@@ -3,7 +3,9 @@ This script generates a synthetic persistence diagram for illustration.
 Replace the synthetic data with real outputs from your TDA pipeline when available.
 Requirements: matplotlib (no seaborn). This script intentionally avoids specifying colors.
 """
+
 import random
+
 import matplotlib.pyplot as plt
 
 # Generate synthetic (birth, death) pairs with birth < death
@@ -16,7 +18,7 @@ for _ in range(n_points):
     pairs.append((b, d))
 
 # Plot
-plt.figure(figsize=(5,5))
+plt.figure(figsize=(5, 5))
 plt.scatter([b for b, d in pairs], [d for b, d in pairs], s=18)
 # Diagonal reference
 plt.plot([0, 1], [0, 1])

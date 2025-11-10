@@ -4,8 +4,7 @@ A multi-agent simulation framework for exploring emergent cognition,
 distributed identity, and Stand Alone Complex phenomena.
 """
 
-__version__ = "1.0.0-alpha"
-FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
+import logging
 
 # Import configuration module
 from .config import (
@@ -16,6 +15,10 @@ from .config import (
     SimulationConfig,
     get_preset,
 )
+from .utils.logger import get_logger, setup_logging
+
+__version__ = "1.0.0-alpha"
+FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
 
 # Expose key classes for easier import from the top-level package
 try:
@@ -62,7 +65,8 @@ except ImportError as e:
     import warnings
 
     warnings.warn(
-        f"Could not import all AGI-SAC components during package initialization: {e}",
+        f"Could not import all AGI-SAC components during "
+        f"package initialization: {e}",
         ImportWarning,
     )
 
@@ -115,9 +119,5 @@ __all__ = [
 ]
 
 # Configure logging
-from .utils.logger import get_logger, setup_logging
-
 # Set up default logging configuration (can be overridden by applications)
-import logging
-
 logging.getLogger(__name__).addHandler(logging.NullHandler())

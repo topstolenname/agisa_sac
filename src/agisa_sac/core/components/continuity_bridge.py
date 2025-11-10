@@ -31,7 +31,8 @@ class IdentityAnchor:
 
 
 class ContinuityBridgeProtocol:
-    """Semantic immune system for maintaining identity coherence across distributed cognitive fragments"""
+    """Semantic immune system for maintaining identity coherence
+    across distributed cognitive fragments"""
 
     def __init__(
         self, coherence_threshold: float = 0.8, memory_window_hours: int = 24
@@ -109,7 +110,8 @@ class ContinuityBridgeProtocol:
     def _compute_semantic_coherence(
         self, fragment: CognitiveFragment
     ) -> float:
-        """Compute semantic coherence score between fragment and identity anchor"""
+        """Compute semantic coherence score between fragment
+        and identity anchor"""
         if not self.identity_anchor:
             return 0.0
 
