@@ -5,7 +5,8 @@ This module provides comprehensive metrics collection for production monitoring
 of multi-agent simulations, including performance, resource usage, and system health.
 """
 
-from typing import Dict, Optional, TYPE_CHECKING
+from typing import Dict, Optional, TYPE_CHECKING, Callable, Any
+from functools import wraps
 import logging
 
 if TYPE_CHECKING:
@@ -16,7 +17,6 @@ try:
         Counter,
         Gauge,
         Histogram,
-        Summary,
         CollectorRegistry,
         generate_latest,
         CONTENT_TYPE_LATEST,
@@ -32,6 +32,23 @@ except ImportError:
     HAS_PSUTIL = False
 
 logger = logging.getLogger(__name__)
+
+
+def _require_enabled(func: Callable) -> Callable:
+    """Decorator to skip method execution when metrics are disabled.
+
+    Args:
+        func: The method to wrap
+
+    Returns:
+        Wrapped method that checks self.enabled before executing
+    """
+    @wraps(func)
+    def wrapper(self: "PrometheusMetrics", *args: Any, **kwargs: Any) -> Any:
+        if not self.enabled:
+            return None
+        return func(self, *args, **kwargs)
+    return wrapper
 
 
 class PrometheusMetrics:
@@ -226,58 +243,49 @@ class PrometheusMetrics:
             registry=self.registry
         )
 
+    @_require_enabled
     def record_epoch(self, duration: float) -> None:
         """Record completion of a simulation epoch.
 
         Args:
             duration: Time taken for the epoch in seconds
         """
-        if not self.enabled:
-            return
-
         self.simulation_duration.observe(duration)
         self.simulation_epochs_total.inc()
 
+    @_require_enabled
     def record_error(self, error_type: str) -> None:
         """Record a simulation error.
 
         Args:
             error_type: Type/category of the error
         """
-        if not self.enabled:
-            return
-
         self.simulation_errors_total.labels(error_type=error_type).inc()
 
+    @_require_enabled
     def update_agent_count(self, count: int) -> None:
         """Update the current agent count.
 
         Args:
             count: Number of active agents
         """
-        if not self.enabled:
-            return
-
         self.agent_count.set(count)
 
+    @_require_enabled
     def record_agent_interaction(self) -> None:
         """Record a single agent interaction."""
-        if not self.enabled:
-            return
-
         self.agent_interactions_total.inc()
 
+    @_require_enabled
     def record_memory_operation(self, operation: str) -> None:
         """Record a memory operation.
 
         Args:
             operation: Type of operation (read, write, delete, etc.)
         """
-        if not self.enabled:
-            return
-
         self.memory_operations_total.labels(operation=operation).inc()
 
+    @_require_enabled
     def update_memory_stats(self, memory_type: str, size_bytes: int, item_count: int) -> None:
         """Update memory statistics.
 
@@ -286,12 +294,10 @@ class PrometheusMetrics:
             size_bytes: Size in bytes
             item_count: Number of items
         """
-        if not self.enabled:
-            return
-
         self.memory_size_bytes.labels(memory_type=memory_type).set(size_bytes)
         self.memory_items_count.labels(memory_type=memory_type).set(item_count)
 
+    @_require_enabled
     def update_tda_features(self, dimension: int, count: int) -> None:
         """Update TDA feature count.
 
@@ -299,22 +305,18 @@ class PrometheusMetrics:
             dimension: Homology dimension (0, 1, 2)
             count: Number of features in this dimension
         """
-        if not self.enabled:
-            return
-
         self.tda_persistence_features.labels(dimension=str(dimension)).set(count)
 
+    @_require_enabled
     def record_tda_computation(self, duration: float) -> None:
         """Record TDA computation time.
 
         Args:
             duration: Computation time in seconds
         """
-        if not self.enabled:
-            return
-
         self.tda_computation_duration.observe(duration)
 
+    @_require_enabled
     def update_social_graph_stats(
         self,
         edge_count: int,
@@ -328,9 +330,6 @@ class PrometheusMetrics:
             density: Graph density (0-1)
             clustering: Average clustering coefficient
         """
-        if not self.enabled:
-            return
-
         self.social_graph_edges.set(edge_count)
         self.social_graph_density.set(density)
         self.social_clustering_coefficient.set(clustering)
@@ -352,9 +351,13 @@ class PrometheusMetrics:
 
             mem_percent = self._process.memory_percent()
             self.system_memory_percent.set(mem_percent)
-        except Exception as e:
+        except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
             logger.warning(f"Failed to update system resource metrics: {e}")
+        except Exception as e:
+            # Catch any other unexpected errors
+            logger.error(f"Unexpected error updating system resource metrics: {e}")
 
+    @_require_enabled
     def update_consciousness_metrics(self, phi: float, recursive_depth: int) -> None:
         """Update consciousness-related metrics.
 
@@ -362,32 +365,25 @@ class PrometheusMetrics:
             phi: Integrated information value
             recursive_depth: Meta-cognitive recursion depth
         """
-        if not self.enabled:
-            return
-
         self.consciousness_phi.set(phi)
         self.consciousness_recursive_depth.set(recursive_depth)
 
+    @_require_enabled
     def update_ethics_score(self, score: float) -> None:
         """Update ethical coexistence score.
 
         Args:
             score: Harmony/coexistence score (0-1)
         """
-        if not self.enabled:
-            return
-
         self.ethics_coexistence_score.set(score)
 
+    @_require_enabled
     def record_ethics_violation(self, violation_type: str) -> None:
         """Record an ethical violation.
 
         Args:
             violation_type: Type of violation
         """
-        if not self.enabled:
-            return
-
         self.ethics_violations_total.labels(violation_type=violation_type).inc()
 
     def get_metrics(self) -> bytes:

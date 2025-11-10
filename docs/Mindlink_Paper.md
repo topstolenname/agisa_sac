@@ -161,7 +161,7 @@ TDA provides a language for quantifying structure through **persistent homology*
 * **β₁ (Loops)**: Identifies cyclic patterns and feedback loops
 * **β₂ (Voids)**: Detects hollow spaces in high-dimensional structures
 
-![Figure 1: Persistence diagram showing topological features across different scales](../docs/figs/svg/figure1.svg)
+![Figure 1: Persistence diagram showing topological features across different scales](figs/svg/figure1.svg)
 
 **Figure 1: Persistence diagram showing topological features across different scales. Points above the diagonal represent persistent topological features. The further from the diagonal, the more persistent (stable) the feature.**
 
@@ -638,7 +638,7 @@ class ConsciousnessMetrics:
 
 #### Observable Consciousness Indicators
 
-![Figure Φ: Information integration network](../docs/figs/svg/figure_phi_integration.svg)
+![Figure Φ: Information integration network](figs/svg/figure_phi_integration.svg)
 
 **Figure Φ: Information integration network showing Φ values across agent clusters. Dense bidirectional connections indicate high integration and potential consciousness.**
 
@@ -807,7 +807,7 @@ def evaluator_function(cloud_event):
 
 Real-time monitoring provides visibility into system consciousness and health.
 
-![Figure 7: Real-time monitoring dashboard](../docs/figs/svg/figure7.svg)
+![Figure 7: Real-time monitoring dashboard](figs/svg/figure7.svg)
 
 **Figure 7: Real-time monitoring dashboard displaying consciousness metrics, topological features, and system health indicators.**
 

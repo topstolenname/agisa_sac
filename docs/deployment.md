@@ -534,18 +534,39 @@ pip install agisa-sac[monitoring]
 
 | Metric Name | Type | Description |
 |-------------|------|-------------|
+| **Simulation Metrics** |||
 | `agisa_simulation_duration_seconds` | Histogram | Time spent per simulation epoch |
 | `agisa_simulation_epochs_total` | Counter | Total epochs completed |
+| `agisa_simulation_errors_total` | Counter | Total simulation errors by type |
+| **Agent Metrics** |||
 | `agisa_agent_count` | Gauge | Current number of active agents |
 | `agisa_agent_interactions_total` | Counter | Total agent interactions |
-| `agisa_memory_operations_total` | Counter | Memory operations by type |
-| `agisa_memory_size_bytes` | Gauge | Memory usage by type |
-| `agisa_tda_persistence_features` | Gauge | Topological features by dimension |
+| `agisa_agent_state_changes_total` | Counter | Agent state changes by type |
+| **Memory Metrics** |||
+| `agisa_memory_operations_total` | Counter | Memory operations by type (read/write/delete) |
+| `agisa_memory_size_bytes` | Gauge | Memory usage in bytes by type |
+| `agisa_memory_items_count` | Gauge | Number of items in memory stores by type |
+| **TDA Metrics** |||
+| `agisa_tda_persistence_features` | Gauge | Topological features by dimension (β₀, β₁, β₂) |
 | `agisa_tda_computation_duration_seconds` | Histogram | TDA computation time |
+| **Social Graph Metrics** |||
+| `agisa_social_graph_edges` | Gauge | Number of edges in social graph |
+| `agisa_social_graph_density` | Gauge | Density of the social graph (0-1) |
+| `agisa_social_clustering_coefficient` | Gauge | Average clustering coefficient |
+| **System Resource Metrics** |||
 | `agisa_system_cpu_percent` | Gauge | CPU usage percentage |
-| `agisa_system_memory_bytes` | Gauge | Memory usage in bytes |
+| `agisa_system_memory_bytes` | Gauge | Memory usage in bytes (rss/vms) |
+| `agisa_system_memory_percent` | Gauge | Memory usage percentage |
+| **Federation Metrics** |||
+| `agisa_federation_nodes_count` | Gauge | Number of federation nodes |
+| `agisa_federation_messages_total` | Counter | Federation messages by type |
+| `agisa_federation_sync_duration_seconds` | Histogram | Federation synchronization time |
+| **Consciousness Metrics** |||
 | `agisa_consciousness_phi` | Gauge | Integrated information (Φ) |
-| `agisa_ethics_coexistence_score` | Gauge | Harmony/coexistence score |
+| `agisa_consciousness_recursive_depth` | Gauge | Meta-cognitive recursion depth |
+| **Ethical Metrics** |||
+| `agisa_ethics_coexistence_score` | Gauge | Harmony/coexistence score (0-1) |
+| `agisa_ethics_violations_total` | Counter | Ethical violations by type |
 
 **Expose Metrics Endpoint:**
 ```python
