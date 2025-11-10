@@ -2,3 +2,9 @@ flake8
 black
 pytest-cov
 coverage
+mypy
+types-requests
+pytest
+pytest-asyncio
+prometheus-client
+psutil
