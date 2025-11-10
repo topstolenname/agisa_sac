@@ -25,6 +25,8 @@ jobs:
         run: flake8 src tests
       - name: Check formatting with black
         run: black --check src tests
+      - name: Type check with mypy
+        run: mypy src --ignore-missing-imports --no-strict-optional
 
   test:
     name: Test

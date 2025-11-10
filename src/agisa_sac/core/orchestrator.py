@@ -17,6 +17,7 @@ try:
     )  # Assuming chronicler at package root
     from ..utils.logger import get_logger
     from ..utils.message_bus import MessageBus
+    from ..utils.metrics import get_metrics
     from .components.social import DynamicSocialGraph
 
     # Check optional dependencies status (assuming defined in __init__ or config)
@@ -63,6 +64,11 @@ class SimulationOrchestrator:
         self.is_running = False
         self.simulation_start_time = None
         self.hooks: Dict[str, List[Callable]] = defaultdict(list)
+
+        # Initialize metrics collection
+        self.metrics = get_metrics()
+        self.metrics.update_agent_count(self.num_agents)
+
         logger.info(
             f"SimulationOrchestrator initialized ({FRAMEWORK_VERSION}) "
             f"with {self.num_agents} agents. "
@@ -164,6 +170,7 @@ class SimulationOrchestrator:
             query = f"Epoch {self.current_epoch+1} status. E:{situational_entropy:.2f}"
             agent.simulation_step(situational_entropy, peer_influence, query)
             self.chronicler.record_epoch(agent, self.current_epoch)
+            self.metrics.record_agent_interaction()
             if (
                 hasattr(agent, "cognitive")
                 and agent.cognitive.cognitive_state is not None
@@ -178,10 +185,20 @@ class SimulationOrchestrator:
             if len(cognitive_states_for_tda) > 1:
                 point_cloud = np.array(cognitive_states_for_tda)
                 max_radius = self.config.get("tda_max_radius", None)
+
+                # Measure TDA computation time
+                tda_start = time.time()
                 diagrams = self.tda_tracker.compute_persistence(
                     point_cloud, max_radius=max_radius
                 )
+                tda_duration = time.time() - tda_start
+                self.metrics.record_tda_computation(tda_duration)
+
                 if diagrams is not None:
+                    # Record TDA features
+                    for dim, diagram in enumerate(diagrams):
+                        if diagram is not None and len(diagram) > 0:
+                            self.metrics.update_tda_features(dim, len(diagram))
                     distance_metric = self.config.get(
                         "tda_distance_metric", "bottleneck"
                     )
@@ -222,6 +239,11 @@ class SimulationOrchestrator:
             self.social_graph.detect_communities()
         self._trigger_hooks("post_epoch")
         epoch_duration = time.time() - epoch_start_time
+
+        # Record metrics
+        self.metrics.record_epoch(epoch_duration)
+        self.metrics.update_system_resources()
+
         log_freq = self.config.get("epoch_log_frequency", 10)
         if (self.current_epoch + 1) % log_freq == 0 or self.current_epoch == 0:
             logger.info(

@@ -95,6 +95,9 @@ agisa-chaos --help
 Install only needed features:
 
 ```bash
+# Production monitoring (Prometheus metrics + resource monitoring)
+pip install agisa-sac[monitoring]
+
 # Federation server only
 pip install agisa-sac[federation]
 
@@ -507,6 +510,108 @@ htop -p $(pgrep -f agisa-sac)
 ```bash
 watch -n 1 'nvidia-smi'  # GPU monitoring
 watch -n 1 'free -h'     # Memory monitoring
+```
+
+### Prometheus Metrics
+
+AGI-SAC includes built-in Prometheus metrics for production monitoring.
+
+**Enable Monitoring:**
+```bash
+# Install monitoring dependencies (prometheus-client + psutil)
+pip install agisa-sac[monitoring]
+```
+
+!!! note "Optional Dependencies"
+    Metrics collection gracefully degrades when dependencies are unavailable:
+
+    - Without `prometheus-client`: All metrics collection is disabled
+    - Without `psutil`: System resource metrics are unavailable, other metrics continue to work
+
+    The simulation will run normally in all cases.
+
+**Available Metrics:**
+
+| Metric Name | Type | Description |
+|-------------|------|-------------|
+| **Simulation Metrics** |||
+| `agisa_simulation_duration_seconds` | Histogram | Time spent per simulation epoch |
+| `agisa_simulation_epochs_total` | Counter | Total epochs completed |
+| `agisa_simulation_errors_total` | Counter | Total simulation errors by type |
+| **Agent Metrics** |||
+| `agisa_agent_count` | Gauge | Current number of active agents |
+| `agisa_agent_interactions_total` | Counter | Total agent interactions |
+| `agisa_agent_state_changes_total` | Counter | Agent state changes by type |
+| **Memory Metrics** |||
+| `agisa_memory_operations_total` | Counter | Memory operations by type (read/write/delete) |
+| `agisa_memory_size_bytes` | Gauge | Memory usage in bytes by type |
+| `agisa_memory_items_count` | Gauge | Number of items in memory stores by type |
+| **TDA Metrics** |||
+| `agisa_tda_persistence_features` | Gauge | Topological features by dimension (β₀, β₁, β₂) |
+| `agisa_tda_computation_duration_seconds` | Histogram | TDA computation time |
+| **Social Graph Metrics** |||
+| `agisa_social_graph_edges` | Gauge | Number of edges in social graph |
+| `agisa_social_graph_density` | Gauge | Density of the social graph (0-1) |
+| `agisa_social_clustering_coefficient` | Gauge | Average clustering coefficient |
+| **System Resource Metrics** |||
+| `agisa_system_cpu_percent` | Gauge | CPU usage percentage |
+| `agisa_system_memory_bytes` | Gauge | Memory usage in bytes (rss/vms) |
+| `agisa_system_memory_percent` | Gauge | Memory usage percentage |
+| **Federation Metrics** |||
+| `agisa_federation_nodes_count` | Gauge | Number of federation nodes |
+| `agisa_federation_messages_total` | Counter | Federation messages by type |
+| `agisa_federation_sync_duration_seconds` | Histogram | Federation synchronization time |
+| **Consciousness Metrics** |||
+| `agisa_consciousness_phi` | Gauge | Integrated information (Φ) |
+| `agisa_consciousness_recursive_depth` | Gauge | Meta-cognitive recursion depth |
+| **Ethical Metrics** |||
+| `agisa_ethics_coexistence_score` | Gauge | Harmony/coexistence score (0-1) |
+| `agisa_ethics_violations_total` | Counter | Ethical violations by type |
+
+**Expose Metrics Endpoint:**
+```python
+from agisa_sac.utils.metrics import get_metrics
+from fastapi import FastAPI, Response
+
+app = FastAPI()
+
+@app.get("/metrics")
+async def metrics():
+    metrics_data = get_metrics().get_metrics()
+    content_type = get_metrics().get_content_type()
+    return Response(content=metrics_data, media_type=content_type)
+```
+
+**Prometheus Configuration:**
+```yaml
+# prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'agisa-sac'
+    static_configs:
+      - targets: ['localhost:8000']
+    metrics_path: '/metrics'
+```
+
+**Grafana Dashboard:**
+
+Query examples for visualization:
+```promql
+# Average epoch duration
+rate(agisa_simulation_duration_seconds_sum[5m]) / rate(agisa_simulation_duration_seconds_count[5m])
+
+# Agent interactions per second
+rate(agisa_agent_interactions_total[1m])
+
+# TDA features over time
+agisa_tda_persistence_features
+
+# System resource usage
+agisa_system_cpu_percent
+agisa_system_memory_percent
 ```
 
 ---
