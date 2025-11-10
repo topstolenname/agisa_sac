@@ -1,6 +1,15 @@
 """Google Cloud Platform integration utilities for AGI-SAC."""
 
 from .bigquery_client import insert_rows, query
+from .distributed_agent import (
+    Budget,
+    DistributedAgent,
+    HandoffOffer,
+    IntentionMessage,
+    LoopExit,
+    LoopResult,
+    ToolInvocation,
+)
 from .gcs_io import download_file, upload_file
 from .mindlink_gcp_helpers import (
     VertexAILLM,
@@ -30,4 +39,11 @@ __all__ = [
     "VertexAILLM",
     "log_agent_event",
     "app",
+    "DistributedAgent",
+    "Budget",
+    "LoopExit",
+    "LoopResult",
+    "IntentionMessage",
+    "ToolInvocation",
+    "HandoffOffer",
 ]
