@@ -484,10 +484,8 @@ class MemoryContinuumLayer:
 
     def _rebuild_indices(self):
         self.memory_indices = {"term": defaultdict(list)}
-        start_time = time.time()
         for memory_id, memory in self.memories.items():
             self._update_indices(memory_id, memory.content)
-        duration = time.time() - start_time
 
     def to_dict(self, include_embeddings: bool = False) -> Dict:
         return {
@@ -522,7 +520,8 @@ class MemoryContinuumLayer:
         agent_id = data["agent_id"]
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading memory v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading memory v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
         instance = cls(
@@ -534,13 +533,16 @@ class MemoryContinuumLayer:
         instance.last_update = data.get("last_update", time.time())
         instance.memories = {}
         memories_data = data.get("memories", {})
-        corrupted_on_load = 0
         for mid, mem_data in memories_data.items():
             try:
                 mem_instance = MemoryEncapsulation.from_dict(mem_data)
                 instance.memories[mid] = mem_instance
                 # Optional immediate hash check
-                # loaded_hash = mem_data.get('verification_hash'); if loaded_hash and mem_instance._generate_hash(mem_instance.content) != loaded_hash: corrupted_on_load += 1; warnings.warn(f"Mem {mid} hash mismatch.", RuntimeWarning)
+                # loaded_hash = mem_data.get('verification_hash');
+                # if loaded_hash and mem_instance._generate_hash(
+                #     mem_instance.content) != loaded_hash:
+                #     warnings.warn(
+                #         f"Mem {mid} hash mismatch.", RuntimeWarning)
             except Exception as e:
                 warnings.warn(
                     f"Failed load mem {mid} for {agent_id}: {e}",

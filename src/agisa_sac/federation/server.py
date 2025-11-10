@@ -132,7 +132,9 @@ async def register_edge_node(
     cbp.trust_graph[node_id] = initial_trust
 
     logger.info(
-        f"Registered edge node {node_id} (type={registration.node_type}) with trust={initial_trust:.3f}"
+        f"Registered edge node {node_id} "
+        f"(type={registration.node_type}) "
+        f"with trust={initial_trust:.3f}"
     )
 
     return {
@@ -164,7 +166,9 @@ async def submit_cognitive_fragment(
         }
 
     except Exception as e:
-        logger.error(f"Error processing fragment from {node_id}: {e}", exc_info=True)
+        logger.error(
+            f"Error processing fragment from {node_id}: {e}", exc_info=True
+        )
         raise HTTPException(
             status_code=500, detail="Fragment processing failed"
         )

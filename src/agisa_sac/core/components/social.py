@@ -344,7 +344,8 @@ class DynamicSocialGraph:
                 self.influence_matrix = self.influence_matrix_csr.tolil()
             except ValueError:  # Handle case where matrix_state might be empty
                 warnings.warn(
-                    "Could not reconstruct influence matrix from state (empty or invalid COO data?). Reinitializing.",
+                    "Could not reconstruct influence matrix from state "
+                    "(empty or invalid COO data?). Reinitializing.",
                     RuntimeWarning,
                 )
                 self.influence_matrix = lil_matrix(

@@ -14,7 +14,8 @@ class ChaosTestScenarios:
     """Chaos engineering test scenarios for federated AGI-SAC"""
 
     def __init__(self):
-        # A higher threshold is used in chaos tests to ensure resilience mechanisms are properly triggered.
+        # A higher threshold is used in chaos tests to ensure
+        # resilience mechanisms are properly triggered.
         CHAOS_TEST_COHERENCE_THRESHOLD = 0.4
         self.cbp = ContinuityBridgeProtocol(
             coherence_threshold=CHAOS_TEST_COHERENCE_THRESHOLD

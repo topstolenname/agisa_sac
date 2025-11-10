@@ -19,7 +19,10 @@ from typing import Optional
 
 # Default log format
 DEFAULT_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-DETAILED_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
+DETAILED_FORMAT = (
+    "%(asctime)s - %(name)s - %(levelname)s - "
+    "[%(filename)s:%(lineno)d] - %(message)s"
+)
 
 
 class JsonFormatter(logging.Formatter):
@@ -100,7 +103,11 @@ def setup_logging(
         file_handler.setLevel(level)
 
         # Always use JSON for file logging
-        file_formatter = JsonFormatter() if json_format else logging.Formatter(DETAILED_FORMAT)
+        file_formatter = (
+            JsonFormatter()
+            if json_format
+            else logging.Formatter(DETAILED_FORMAT)
+        )
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
 

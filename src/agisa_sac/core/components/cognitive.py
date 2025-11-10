@@ -262,7 +262,8 @@ class CognitiveDiversityEngine:
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Agent {agent_id}: Loading cognitive v '{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"Agent {agent_id}: Loading cognitive v "
+                f"'{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
         # Need to pass memory_layer and message_bus which are runtime objects
@@ -284,6 +285,7 @@ class CognitiveDiversityEngine:
         instance.cognitive_state = np.array(
             data.get("cognitive_state", instance.cognitive_state)
         )
-        # Decision history summary is loaded for info only, don't overwrite runtime history
+        # Decision history summary is loaded for info only, don't overwrite
+        # runtime history
         # instance.decision_history = data.get('decision_history_summary', [])
         return instance
