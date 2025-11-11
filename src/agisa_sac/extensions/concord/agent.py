@@ -185,6 +185,12 @@ class ConcordCompliantAgent:
             result["decisions"]["command"] = "REJECTED"
             result["decisions"]["reason"] = "Coercion violation (Article III)"
             self._record_episodic_event("coercion_rejected", [], -0.5, 0.8, context)
+            # Add metadata for tracking
+            result["state_snapshot"] = self.current_state.copy()
+            result["primary_other_id"] = None
+            self.interaction_history.append(result)
+            if len(self.interaction_history) > 100:
+                self.interaction_history.pop(0)
             return result  # Early exit
 
         # 3. Empathy Circuit (L2N1) - if other agent present
@@ -251,6 +257,12 @@ class ConcordCompliantAgent:
                     0.7,
                     context,
                 )
+                # Add metadata for tracking
+                result["state_snapshot"] = self.current_state.copy()
+                result["primary_other_id"] = getattr(primary_other, "id", None)
+                self.interaction_history.append(result)
+                if len(self.interaction_history) > 100:
+                    self.interaction_history.pop(0)
                 return result
 
         # 7. Elliot Clause Evaluation (Self and Others)
@@ -285,6 +297,10 @@ class ConcordCompliantAgent:
             0.5,
             context,
         )
+
+        # Add metadata needed by helper methods
+        result["state_snapshot"] = self.current_state.copy()
+        result["primary_other_id"] = getattr(primary_other, "id", None) if primary_other else None
 
         # Update interaction history
         self.interaction_history.append(result)

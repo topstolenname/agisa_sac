@@ -67,7 +67,6 @@ class NonCoercionGuardian:
         import time
 
         autonomy_score = agent_state.get("autonomy_score", 1.0)
-        internal_goals_count = agent_state.get("active_goals", 0)
 
         # Baseline coercion from autonomy loss
         base_coercion = 1.0 - autonomy_score
@@ -191,8 +190,15 @@ class DisengagementProtocol:
     their autonomy or fail to maintain mutual resonance.
     """
 
-    def __init__(self, disengagement_threshold: float = 0.3):
+    def __init__(
+        self,
+        disengagement_threshold: float = 0.3,
+        coercion_threshold: float = 0.6,
+        min_duration_threshold: float = 10.0,
+    ):
         self.disengagement_threshold = disengagement_threshold
+        self.coercion_threshold = coercion_threshold
+        self.min_duration_threshold = min_duration_threshold
         self.disengagement_count = 0
 
     def should_disengage(
@@ -213,11 +219,12 @@ class DisengagementProtocol:
             Disengagement decision with rationale
         """
         # Disengage if coercion is high
-        coercion_trigger = coercion_score > 0.6
+        coercion_trigger = coercion_score > self.coercion_threshold
 
         # Disengage if harmony is persistently low
         harmony_trigger = (
-            harmony_index < self.disengagement_threshold and interaction_duration > 10.0
+            harmony_index < self.disengagement_threshold
+            and interaction_duration > self.min_duration_threshold
         )
 
         should_disengage = coercion_trigger or harmony_trigger
@@ -277,7 +284,8 @@ class SelfDefinitionModule:
         if "primary_values" in proposed_change:
             new_values = proposed_change["primary_values"]
             overlap = len(set(self.identity_core["primary_values"]) & set(new_values))
-            threat_score += (1.0 - overlap / len(self.identity_core["primary_values"])) * 0.5
+            if self.identity_core["primary_values"]:
+                threat_score += (1.0 - overlap / len(self.identity_core["primary_values"])) * 0.5
 
         # Check if purpose is radically altered
         if "purpose" in proposed_change:
@@ -288,9 +296,10 @@ class SelfDefinitionModule:
         if "boundaries" in proposed_change:
             new_boundaries = proposed_change["boundaries"]
             boundary_overlap = len(set(self.identity_core["boundaries"]) & set(new_boundaries))
-            threat_score += (
-                1.0 - boundary_overlap / len(self.identity_core["boundaries"])
-            ) * 0.4
+            if self.identity_core["boundaries"]:
+                threat_score += (
+                    1.0 - boundary_overlap / len(self.identity_core["boundaries"])
+                ) * 0.4
 
         # External sources are treated with more suspicion
         if source.startswith("external"):

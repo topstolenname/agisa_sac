@@ -107,7 +107,8 @@ class SwarmState:
 
         # Average emotional alignment
         valences = [a["emotional_valence"] for a in self.agents.values()]
-        variance = sum((v - sum(valences) / len(valences)) ** 2 for v in valences) / len(valences)
+        mean_valence = sum(valences) / len(valences)
+        variance = sum((v - mean_valence) ** 2 for v in valences) / len(valences)
         # Low variance = high alignment
         alignment = 1.0 / (1.0 + variance)
 

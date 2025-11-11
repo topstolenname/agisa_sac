@@ -34,7 +34,17 @@ Complete observability infrastructure for monitoring Concord of Coexistence agen
 
 ## Quick Start
 
-### 1. Launch Stack
+### 1. Configure Credentials
+
+```bash
+# Copy environment template
+cp observability/.env.example observability/.env
+
+# Edit .env and set a secure password
+# GRAFANA_ADMIN_PASSWORD=your_secure_password_here
+```
+
+### 2. Launch Stack
 
 ```bash
 # From repository root
@@ -44,21 +54,21 @@ docker-compose -f docker-compose.observability.yml up -d
 docker-compose -f docker-compose.observability.yml ps
 ```
 
-### 2. Access Services
+### 3. Access Services
 
-| Service | URL | Credentials |
-|---------|-----|-------------|
-| **Grafana** | http://localhost:3000 | admin / admin |
-| **Prometheus** | http://localhost:9090 | - |
-| **Exporter** | http://localhost:8000 | - |
+| Service | URL | Authentication |
+|---------|-----|----------------|
+| **Grafana** | http://localhost:3000 | See `.env` file for credentials |
+| **Prometheus** | http://localhost:9090 | None |
+| **Exporter** | http://localhost:8000 | None |
 
-### 3. View Dashboard
+### 4. View Dashboard
 
 1. Navigate to http://localhost:3000
-2. Login with admin/admin
+2. Login with credentials from your `.env` file
 3. Go to Dashboards → "Agentic Swarm Overview"
 
-### 4. Simulate Data
+### 5. Simulate Data
 
 ```bash
 # Trigger agent interaction cycle

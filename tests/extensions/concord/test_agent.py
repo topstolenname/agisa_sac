@@ -256,8 +256,8 @@ def test_working_memory_capacity_limits(agent):
         )
         agent.memory.add_to_working(item)
 
-    # Should be limited to working_capacity (7)
-    assert len(agent.memory.working_memory) <= agent.memory.working_capacity
+    # Should be limited to exactly working_capacity (7)
+    assert len(agent.memory.working_memory) == agent.memory.working_capacity
 
 
 def test_identity_core_preservation(agent):

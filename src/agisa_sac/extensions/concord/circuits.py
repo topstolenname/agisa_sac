@@ -135,8 +135,24 @@ class TacticalHelpCircuit:
         # Factor in relationship history (reciprocity)
         reciprocity_bonus = 0.0
         if relationship_history:
-            past_helps = sum(1 for h in relationship_history if h.get("helped", False))
-            received_helps = sum(1 for h in relationship_history if h.get("received_help", False))
+            # Handle both dict and MemoryTrace objects
+            past_helps = 0
+            received_helps = 0
+            for h in relationship_history:
+                # If it's a dict (legacy format)
+                if isinstance(h, dict):
+                    if h.get("helped", False):
+                        past_helps += 1
+                    if h.get("received_help", False):
+                        received_helps += 1
+                # If it's a MemoryTrace object (dataclass)
+                else:
+                    event_type = getattr(h, "event_type", "")
+                    if event_type in ["help_provided", "assistance_given"]:
+                        past_helps += 1
+                    elif event_type in ["help_received", "assistance_received"]:
+                        received_helps += 1
+
             if len(relationship_history) > 0:
                 reciprocity_bonus = (received_helps / len(relationship_history)) * 0.2
 
