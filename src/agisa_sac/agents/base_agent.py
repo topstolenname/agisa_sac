@@ -422,6 +422,14 @@ class AGISAAgent:
                 if handoff := model_out.get("handoff_target"):
                     with tracer.start_as_current_span("handoff_offer"):
                         await self._emit_handoff_offer(model_out, context)
+
+                        # Store handoff information for topology analysis
+                        run_ref = self.db.collection("runs").document(context["run_id"])
+                        run_ref.update({
+                            "handoff_to": handoff,
+                            "handoff_reason": model_out.get("handoff_reason", ""),
+                        })
+
                         return LoopResult(
                             exit=LoopExit.HANDOFF,
                             payload={

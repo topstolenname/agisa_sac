@@ -276,21 +276,42 @@ class TopologyOrchestrationManager:
 
         # FRAGMENTATION
         if h0_count > 2:
+            # Find bridges between disconnected components using clustering
+            from sklearn.cluster import AgglomerativeClustering
+
+            # Use agglomerative clustering to identify components
+            clustering = AgglomerativeClustering(
+                n_clusters=h0_count,
+                metric="precomputed",
+                linkage="average",
+            )
+            labels = clustering.fit_predict(distance_matrix)
+
+            # Find closest pair between different clusters
             n = len(agents)
             min_cross_dist = float("inf")
             bridge_pair = None
 
             for i in range(n):
                 for j in range(i + 1, n):
-                    if distance_matrix[i, j] < min_cross_dist:
-                        min_cross_dist = distance_matrix[i, j]
-                        bridge_pair = (agents[i].name, agents[j].name)
+                    # Only consider pairs in different clusters
+                    if labels[i] != labels[j]:
+                        if distance_matrix[i, j] < min_cross_dist:
+                            min_cross_dist = distance_matrix[i, j]
+                            bridge_pair = (
+                                agents[i].name,
+                                agents[j].name,
+                                labels[i],
+                                labels[j],
+                            )
 
-            suggestions.append(
-                f"FRAGMENTATION: {h0_count} disconnected clusters. "
-                f"Consider adding cross-cluster handoffs between {bridge_pair[0]} "
-                f"and {bridge_pair[1]} (distance: {min_cross_dist:.3f})"
-            )
+            if bridge_pair:
+                suggestions.append(
+                    f"FRAGMENTATION: {h0_count} disconnected clusters detected. "
+                    f"Consider adding cross-cluster handoffs between {bridge_pair[0]} "
+                    f"(cluster {bridge_pair[2]}) and {bridge_pair[1]} "
+                    f"(cluster {bridge_pair[3]}) - distance: {min_cross_dist:.3f}"
+                )
 
         # OVERCONNECTION
         if h1_count > 10:

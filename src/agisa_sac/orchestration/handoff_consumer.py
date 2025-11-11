@@ -147,7 +147,22 @@ class HandoffConsumer:
                     # Load context and execute
                     try:
                         context = await self._load_context(offer.context_ref)
-                        await claimant.run(context.get("last_message", ""), context)
+
+                        # Store handoff_from for topology tracking before running
+                        context["handoff_from"] = offer.from_agent
+
+                        # Run the claimant agent
+                        result = await claimant.run(
+                            context.get("last_message", ""), context
+                        )
+
+                        # Update the new run document with handoff_from info
+                        if "run_id" in context:
+                            run_ref = self.db.collection("runs").document(
+                                context["run_id"]
+                            )
+                            run_ref.update({"handoff_from": offer.from_agent})
+
                     except ValueError as e:
                         # Context missing or invalid - log and ack to prevent retry loop
                         print(f"Skipping offer {offer.run_id}: {e}")
