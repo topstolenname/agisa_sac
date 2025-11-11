@@ -81,19 +81,27 @@ class HandoffConsumer:
             project_id, subscription_id
         )
 
+        # Event loop for async processing
+        self._loop = None
+
     async def start_consuming(self):
         """
         Start async consumer loop.
 
         Listens to Pub/Sub messages and processes handoff offers.
         """
+        # Store the event loop for cross-thread task submission
+        self._loop = asyncio.get_running_loop()
 
         def callback(message: pubsub_v1.subscriber.message.Message):
-            """Callback for Pub/Sub messages"""
+            """Callback for Pub/Sub messages (runs on background thread)"""
             try:
-                asyncio.create_task(self._process_offer(message))
+                # Submit coroutine to event loop from background thread
+                asyncio.run_coroutine_threadsafe(
+                    self._process_offer(message), self._loop
+                )
             except Exception as e:
-                print(f"Error processing offer: {e}")
+                print(f"Error scheduling offer processing: {e}")
                 message.nack()
 
         streaming_pull_future = self.subscriber.subscribe(
@@ -103,7 +111,9 @@ class HandoffConsumer:
         print(f"Listening for handoff offers on {self.subscription_path}")
 
         try:
-            streaming_pull_future.result()
+            # Keep the event loop running while subscriber is active
+            while True:
+                await asyncio.sleep(1)
         except KeyboardInterrupt:
             streaming_pull_future.cancel()
             streaming_pull_future.result()
@@ -135,8 +145,15 @@ class HandoffConsumer:
                     await self._publish_claim(claim)
 
                     # Load context and execute
-                    context = await self._load_context(offer.context_ref)
-                    await claimant.run(context.get("last_message", ""), context)
+                    try:
+                        context = await self._load_context(offer.context_ref)
+                        await claimant.run(context.get("last_message", ""), context)
+                    except ValueError as e:
+                        # Context missing or invalid - log and ack to prevent retry loop
+                        print(f"Skipping offer {offer.run_id}: {e}")
+                        span.set_attribute("error", "context_missing")
+                        message.ack()
+                        return
 
                 message.ack()
 
@@ -201,14 +218,22 @@ class HandoffConsumer:
 
         Returns:
             Context dictionary
+
+        Raises:
+            ValueError: If context blob doesn't exist or is invalid
         """
-        # Parse URI: gs://bucket/path
-        parts = gcs_uri.replace("gs://", "").split("/", 1)
-        bucket_name = parts[0]
-        blob_path = parts[1]
+        try:
+            # Parse URI: gs://bucket/path
+            parts = gcs_uri.replace("gs://", "").split("/", 1)
+            bucket_name = parts[0]
+            blob_path = parts[1]
 
-        bucket = self.storage.bucket(bucket_name)
-        blob = bucket.blob(blob_path)
+            bucket = self.storage.bucket(bucket_name)
+            blob = bucket.blob(blob_path)
 
-        content = blob.download_as_text()
-        return json.loads(content)
+            content = blob.download_as_text()
+            return json.loads(content)
+        except Exception as e:
+            # Log and raise - caller should handle
+            print(f"Failed to load context from {gcs_uri}: {e}")
+            raise ValueError(f"Context not found or invalid: {gcs_uri}") from e
