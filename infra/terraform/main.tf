@@ -259,7 +259,6 @@ resource "google_storage_bucket_iam_member" "orchestrator_topology_write" {
 variable "project_id" {
   description = "GCP Project ID"
   type        = string
-  default     = "agisa-sac-prod"
 }
 
 variable "region" {
