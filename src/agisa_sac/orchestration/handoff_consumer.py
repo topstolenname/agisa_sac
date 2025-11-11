@@ -169,7 +169,7 @@ class HandoffConsumer:
             match = len(required & agent_caps)
 
             if match > 0:
-                score = match / len(required)
+                score = match / len(required) if required else 1.0
                 if score > best_score:
                     best_score = score
                     best_agent = agent
