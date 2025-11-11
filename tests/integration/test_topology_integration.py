@@ -46,174 +46,187 @@ def mock_storage():
 @pytest.mark.asyncio
 async def test_fragmentation_detection(mock_firestore, mock_storage):
     """Test topology detects fragmentation in agent network"""
-    # Create 3 agents with no overlapping tools
-    agent_a = AGISAAgent(
-        agent_id="test_a",
-        name="Agent A",
-        instructions="Research agent",
-        tools=[
-            Tool(
-                "search",
-                ToolType.DATA,
-                lambda: "result",
-                "Search tool",
-                "low",
-                {},
-            )
-        ],
-        project_id="test-project",
-    )
+    # Mock GCP clients to prevent initialization errors
+    from unittest.mock import MagicMock, patch
 
-    agent_b = AGISAAgent(
-        agent_id="test_b",
-        name="Agent B",
-        instructions="Analysis agent",
-        tools=[
-            Tool(
-                "analyze",
-                ToolType.DATA,
-                lambda: "result",
-                "Analyze tool",
-                "low",
-                {},
-            )
-        ],
-        project_id="test-project",
-    )
+    with patch('agisa_sac.agents.base_agent.firestore.Client', return_value=mock_firestore), \
+         patch('agisa_sac.agents.base_agent.pubsub_v1.PublisherClient', return_value=MagicMock()), \
+         patch('agisa_sac.agents.base_agent.storage.Client', return_value=mock_storage):
 
-    agent_c = AGISAAgent(
-        agent_id="test_c",
-        name="Agent C",
-        instructions="Writing agent",
-        tools=[
-            Tool(
-                "write",
-                ToolType.ACTION,
-                lambda: "result",
-                "Write tool",
-                "low",
-                {},
-            )
-        ],
-        project_id="test-project",
-    )
+        # Create 3 agents with no overlapping tools
+        agent_a = AGISAAgent(
+            agent_id="test_a",
+            name="Agent A",
+            instructions="Research agent",
+            tools=[
+                Tool(
+                    "search",
+                    ToolType.DATA,
+                    lambda: "result",
+                    "Search tool",
+                    "low",
+                    {},
+                )
+            ],
+            project_id="test-project",
+        )
 
-    # Create topology manager
-    topo = TopologyOrchestrationManager(
-        mock_firestore, mock_storage, "test-project"
-    )
+        agent_b = AGISAAgent(
+            agent_id="test_b",
+            name="Agent B",
+            instructions="Analysis agent",
+            tools=[
+                Tool(
+                    "analyze",
+                    ToolType.DATA,
+                    lambda: "result",
+                    "Analyze tool",
+                    "low",
+                    {},
+                )
+            ],
+            project_id="test-project",
+        )
 
-    # Register agents
-    topo.register_agent(agent_a)
-    topo.register_agent(agent_b)
-    topo.register_agent(agent_c)
+        agent_c = AGISAAgent(
+            agent_id="test_c",
+            name="Agent C",
+            instructions="Writing agent",
+            tools=[
+                Tool(
+                    "write",
+                    ToolType.ACTION,
+                    lambda: "result",
+                    "Write tool",
+                    "low",
+                    {},
+                )
+            ],
+            project_id="test-project",
+        )
 
-    # Compute topology
-    result = await topo.compute_coordination_topology()
+        # Create topology manager
+        topo = TopologyOrchestrationManager(
+            mock_firestore, mock_storage, "test-project"
+        )
 
-    # Should detect fragmentation (low quality due to no tool overlap)
-    assert result["coordination_quality"] < 0.7
-    assert len(result["suggested_optimizations"]) > 0
-    # Note: Fragmentation detection depends on having actual interaction data
+        # Register agents
+        topo.register_agent(agent_a)
+        topo.register_agent(agent_b)
+        topo.register_agent(agent_c)
+
+        # Compute topology
+        result = await topo.compute_coordination_topology()
+
+        # Should detect fragmentation (low quality due to no tool overlap)
+        assert result["coordination_quality"] < 0.7
+        assert len(result["suggested_optimizations"]) > 0
+        # Note: Fragmentation detection depends on having actual interaction data
 
 
 @pytest.mark.asyncio
 async def test_agent_distance_metric(mock_firestore, mock_storage):
     """Test agent distance metric satisfies metric properties"""
-    # Create agents with some tool overlap
-    agent_a = AGISAAgent(
-        agent_id="test_a",
-        name="Agent A",
-        instructions="Multi-tool agent",
-        tools=[
-            Tool(
-                "search",
-                ToolType.DATA,
-                lambda: "result",
-                "Search",
-                "low",
-                {},
-            ),
-            Tool(
-                "analyze",
-                ToolType.DATA,
-                lambda: "result",
-                "Analyze",
-                "low",
-                {},
-            ),
-        ],
-        project_id="test-project",
-    )
+    from unittest.mock import MagicMock, patch
 
-    agent_b = AGISAAgent(
-        agent_id="test_b",
-        name="Agent B",
-        instructions="Analysis agent",
-        tools=[
-            Tool(
-                "analyze",
-                ToolType.DATA,
-                lambda: "result",
-                "Analyze",
-                "low",
-                {},
-            ),
-            Tool(
-                "write",
-                ToolType.ACTION,
-                lambda: "result",
-                "Write",
-                "low",
-                {},
-            ),
-        ],
-        project_id="test-project",
-    )
+    with patch('agisa_sac.agents.base_agent.firestore.Client', return_value=mock_firestore), \
+         patch('agisa_sac.agents.base_agent.pubsub_v1.PublisherClient', return_value=MagicMock()), \
+         patch('agisa_sac.agents.base_agent.storage.Client', return_value=mock_storage):
 
-    agent_c = AGISAAgent(
-        agent_id="test_c",
-        name="Agent C",
-        instructions="Writing agent",
-        tools=[
-            Tool(
-                "write",
-                ToolType.ACTION,
-                lambda: "result",
-                "Write",
-                "low",
-                {},
-            )
-        ],
-        project_id="test-project",
-    )
+        # Create agents with some tool overlap
+        agent_a = AGISAAgent(
+            agent_id="test_a",
+            name="Agent A",
+            instructions="Multi-tool agent",
+            tools=[
+                Tool(
+                    "search",
+                    ToolType.DATA,
+                    lambda: "result",
+                    "Search",
+                    "low",
+                    {},
+                ),
+                Tool(
+                    "analyze",
+                    ToolType.DATA,
+                    lambda: "result",
+                    "Analyze",
+                    "low",
+                    {},
+                ),
+            ],
+            project_id="test-project",
+        )
 
-    topo = TopologyOrchestrationManager(
-        mock_firestore, mock_storage, "test-project"
-    )
-    topo.register_agent(agent_a)
-    topo.register_agent(agent_b)
-    topo.register_agent(agent_c)
+        agent_b = AGISAAgent(
+            agent_id="test_b",
+            name="Agent B",
+            instructions="Analysis agent",
+            tools=[
+                Tool(
+                    "analyze",
+                    ToolType.DATA,
+                    lambda: "result",
+                    "Analyze",
+                    "low",
+                    {},
+                ),
+                Tool(
+                    "write",
+                    ToolType.ACTION,
+                    lambda: "result",
+                    "Write",
+                    "low",
+                    {},
+                ),
+            ],
+            project_id="test-project",
+        )
 
-    # Test metric properties
-    d_aa = topo.agent_distance(agent_a, agent_a)
-    d_ab = topo.agent_distance(agent_a, agent_b)
-    d_ba = topo.agent_distance(agent_b, agent_a)
-    d_bc = topo.agent_distance(agent_b, agent_c)
+        agent_c = AGISAAgent(
+            agent_id="test_c",
+            name="Agent C",
+            instructions="Writing agent",
+            tools=[
+                Tool(
+                    "write",
+                    ToolType.ACTION,
+                    lambda: "result",
+                    "Write",
+                    "low",
+                    {},
+                )
+            ],
+            project_id="test-project",
+        )
 
-    # Self-distance should be zero
-    assert d_aa == 0.0
+        topo = TopologyOrchestrationManager(
+            mock_firestore, mock_storage, "test-project"
+        )
+        topo.register_agent(agent_a)
+        topo.register_agent(agent_b)
+        topo.register_agent(agent_c)
 
-    # Symmetry: d(a,b) = d(b,a)
-    assert abs(d_ab - d_ba) < 1e-6
+        # Test metric properties
+        d_aa = topo.agent_distance(agent_a, agent_a)
+        d_ab = topo.agent_distance(agent_a, agent_b)
+        d_ba = topo.agent_distance(agent_b, agent_a)
+        d_bc = topo.agent_distance(agent_b, agent_c)
 
-    # Non-negativity: d >= 0
-    assert d_ab >= 0.0
-    assert d_bc >= 0.0
+        # Self-distance should be zero
+        assert d_aa == 0.0
 
-    # Distance should be in [0, 1]
-    assert 0.0 <= d_ab <= 1.0
-    assert 0.0 <= d_bc <= 1.0
+        # Symmetry: d(a,b) = d(b,a)
+        assert abs(d_ab - d_ba) < 1e-6
+
+        # Non-negativity: d >= 0
+        assert d_ab >= 0.0
+        assert d_bc >= 0.0
+
+        # Distance should be in [0, 1]
+        assert 0.0 <= d_ab <= 1.0
+        assert 0.0 <= d_bc <= 1.0
 
 
 @pytest.mark.asyncio

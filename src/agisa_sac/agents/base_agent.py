@@ -165,6 +165,9 @@ class AGISAAgent:
         enable_topology: bool = True,
         budget: Optional[ResourceBudget] = None,
         project_id: str = "agisa-sac-prod",
+        context_bucket: Optional[str] = None,
+        handoff_offers_topic: Optional[str] = None,
+        tool_invocations_topic: Optional[str] = None,
     ):
         """
         Initialize the AGISA agent.
@@ -179,6 +182,9 @@ class AGISAAgent:
             enable_topology: Enable topology tracking
             budget: Resource budget manager
             project_id: GCP project ID
+            context_bucket: GCS bucket for context storage (defaults to {project_id}-agisa-sac-contexts)
+            handoff_offers_topic: Pub/Sub topic for handoff offers (defaults to agents.handoff.offers.v1)
+            tool_invocations_topic: Pub/Sub topic for tool invocations (defaults to agents.tool.invocations.v1)
         """
         if not HAS_GCP:
             raise ImportError(
@@ -191,10 +197,15 @@ class AGISAAgent:
         self.instructions = instructions
         self.tools = {t.name: t for t in tools}
         self.model = model
-        self.workspace_topic = workspace_topic
+        self.workspace_topic = workspace_topic or "global-workspace.intentions.v1"
         self.enable_topology = enable_topology
         self.budget = budget or ResourceBudget()
         self.project_id = project_id
+
+        # Resource names with sensible defaults matching Terraform
+        self.context_bucket = context_bucket or f"{project_id}-agisa-sac-contexts"
+        self.handoff_offers_topic = handoff_offers_topic or "agents.handoff.offers.v1"
+        self.tool_invocations_topic = tool_invocations_topic or "agents.tool.invocations.v1"
 
         # State tracking
         self.interaction_history: List[Dict] = []
@@ -450,17 +461,19 @@ class AGISAAgent:
         )
 
         topic_path = self.publisher.topic_path(
-            self.project_id, "agents.handoff.offers.v1"
+            self.project_id, self.handoff_offers_topic
         )
 
         future = self.publisher.publish(topic_path, offer.to_pubsub())
-        await asyncio.wrap_future(future)
+        # Use run_in_executor for google.api_core.future.Future compatibility
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, future.result)
 
     async def _upload_context_to_gcs(self, context: Dict) -> str:
         """Store context in GCS for handoff"""
         import json
 
-        bucket = self.storage_client.bucket("agisa-sac-contexts")
+        bucket = self.storage_client.bucket(self.context_bucket)
         blob_name = f"runs/{context['run_id']}/context.json"
         blob = bucket.blob(blob_name)
 
@@ -468,7 +481,7 @@ class AGISAAgent:
             json.dumps(context, indent=2), content_type="application/json"
         )
 
-        return f"gs://agisa-sac-contexts/{blob_name}"
+        return f"gs://{self.context_bucket}/{blob_name}"
 
     async def _publish_to_workspace(self, result: LoopResult, context: Dict):
         """Publish to global workspace with rate limiting"""
@@ -491,11 +504,13 @@ class AGISAAgent:
         )
 
         topic_path = self.publisher.topic_path(
-            self.project_id, "global-workspace.intentions.v1"
+            self.project_id, self.workspace_topic
         )
 
         future = self.publisher.publish(topic_path, intention.to_pubsub())
-        await asyncio.wrap_future(future)
+        # Use run_in_executor for google.api_core.future.Future compatibility
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, future.result)
 
         self._broadcast_tokens -= 1
 
@@ -535,9 +550,10 @@ class AGISAAgent:
         )
 
         topic_path = self.publisher.topic_path(
-            self.project_id, "agents.tool.invocations.v1"
+            self.project_id, self.tool_invocations_topic
         )
         future = self.publisher.publish(topic_path, invocation.to_pubsub())
+        # Fire and forget - don't await for tool invocation logging
 
         try:
             result = await tool.function(**args)

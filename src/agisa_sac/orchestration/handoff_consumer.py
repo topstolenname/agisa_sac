@@ -188,7 +188,9 @@ class HandoffConsumer:
         )
 
         future = self.publisher.publish(topic_path, claim.to_pubsub())
-        await asyncio.wrap_future(future)
+        # Use run_in_executor for google.api_core.future.Future compatibility
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, future.result)
 
     async def _load_context(self, gcs_uri: str) -> Dict:
         """

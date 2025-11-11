@@ -39,7 +39,11 @@ class TopologyOrchestrationManager:
     PERSISTENCE_THRESHOLD = 0.1
 
     def __init__(
-        self, firestore_client, storage_client, project_id: str
+        self,
+        firestore_client,
+        storage_client,
+        project_id: str,
+        topology_bucket: Optional[str] = None,
     ):
         """
         Initialize the topology manager.
@@ -48,6 +52,7 @@ class TopologyOrchestrationManager:
             firestore_client: Firestore client instance
             storage_client: GCS client instance
             project_id: GCP project ID
+            topology_bucket: GCS bucket for topology snapshots (defaults to {project_id}-agisa-sac-topology)
         """
         if not HAS_DEPS:
             raise ImportError(
@@ -58,6 +63,7 @@ class TopologyOrchestrationManager:
         self.db = firestore_client
         self.storage = storage_client
         self.project_id = project_id
+        self.topology_bucket = topology_bucket or f"{project_id}-agisa-sac-topology"
         self.agent_registry: Dict = {}
         self.interaction_graph = nx.DiGraph()
 
@@ -334,12 +340,12 @@ class TopologyOrchestrationManager:
                 "coordination_quality": quality,
                 "features": features,
                 "persistence_threshold": self.PERSISTENCE_THRESHOLD,
-                "diag_uri": f"gs://agisa-sac-topology/{snapshot_id}/diagrams.npz",
+                "diag_uri": f"gs://{self.topology_bucket}/{snapshot_id}/diagrams.npz",
             }
         )
 
         # Store diagrams in GCS
-        bucket = self.storage.bucket("agisa-sac-topology")
+        bucket = self.storage.bucket(self.topology_bucket)
         blob = bucket.blob(f"{snapshot_id}/diagrams.npz")
 
         # Save to temporary file then upload
