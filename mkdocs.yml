@@ -75,6 +75,15 @@ nav:
       - "Figure Code – Mapping": gallery/figure_code.md
   - API:
       - agisa_sac: api/agisa_sac.md
+  - Concord Framework:
+      - Overview: concord/index.md
+      - Architecture: concord/architecture.md
+      - Neural Circuits: concord/circuits.md
+      - Ethics Guardians: concord/ethics.md
+      - Empathy & CMNI: concord/empathy.md
+      - Elliot Clause: concord/elliot_clause.md
+      - Observability: concord/observability.md
+      - Integration Guide: concord/integration.md
   - Supplement:
       - Citation Guide: CITATION_GUIDE.md
       - Figure Catalog: FIGURE_CATALOG.md
