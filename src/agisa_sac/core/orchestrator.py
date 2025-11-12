@@ -1,5 +1,4 @@
-import pickle
-import random
+import json
 import time
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
@@ -40,9 +39,7 @@ class SimulationOrchestrator:
         self.num_agents = config.get("num_agents", 100)
         self.num_epochs = config.get("num_epochs", 50)
         seed = config.get("random_seed")
-        if seed is not None:
-            random.seed(seed)
-            np.random.seed(seed)
+        self.rng = np.random.default_rng(seed)
 
         self.message_bus = MessageBus()
         self.agent_ids = [f"agent_{i}" for i in range(self.num_agents)]
@@ -87,10 +84,10 @@ class SimulationOrchestrator:
             )
             personalities = [
                 {
-                    "openness": random.uniform(0.3, 0.7),
-                    "consistency": random.uniform(0.4, 0.6),
-                    "conformity": random.uniform(0.2, 0.8),
-                    "curiosity": random.uniform(0.4, 0.9),
+                    "openness": self.rng.uniform(0.3, 0.7),
+                    "consistency": self.rng.uniform(0.4, 0.6),
+                    "conformity": self.rng.uniform(0.2, 0.8),
+                    "curiosity": self.rng.uniform(0.4, 0.9),
                 }
                 for _ in range(self.num_agents)
             ]
@@ -153,11 +150,11 @@ class SimulationOrchestrator:
             )
             return
 
-        epoch_start_time = time.time()
+        epoch_start_time = time.perf_counter()
         self._trigger_hooks("pre_epoch")
-        situational_entropy = random.uniform(0.1, 0.7)
+        situational_entropy = self.rng.uniform(0.1, 0.7)
         agent_order = list(self.agents.keys())
-        random.shuffle(agent_order)
+        self.rng.shuffle(agent_order)
         cognitive_states_for_tda = []
         for agent_id in agent_order:
             agent = self.agents.get(agent_id)
@@ -187,11 +184,11 @@ class SimulationOrchestrator:
                 max_radius = self.config.get("tda_max_radius", None)
 
                 # Measure TDA computation time
-                tda_start = time.time()
+                tda_start = time.perf_counter()
                 diagrams = self.tda_tracker.compute_persistence(
                     point_cloud, max_radius=max_radius
                 )
-                tda_duration = time.time() - tda_start
+                tda_duration = time.perf_counter() - tda_start
                 self.metrics.record_tda_computation(tda_duration)
 
                 if diagrams is not None:
@@ -238,7 +235,7 @@ class SimulationOrchestrator:
         if (self.current_epoch + 1) % community_check_freq == 0:
             self.social_graph.detect_communities()
         self._trigger_hooks("post_epoch")
-        epoch_duration = time.time() - epoch_start_time
+        epoch_duration = time.perf_counter() - epoch_start_time
 
         # Record metrics
         self.metrics.record_epoch(epoch_duration)
@@ -260,7 +257,7 @@ class SimulationOrchestrator:
             return
         logger.info(f"Starting simulation run with {run_epochs} epochs")
         self.is_running = True
-        self.simulation_start_time = time.time()
+        self.simulation_start_time = time.perf_counter()
         start_epoch = self.current_epoch
         for epoch in range(start_epoch, start_epoch + run_epochs):
             if epoch >= self.num_epochs:
@@ -272,7 +269,7 @@ class SimulationOrchestrator:
             self.current_epoch = epoch
             self.run_epoch()
         self.is_running = False
-        total_duration = time.time() - self.simulation_start_time
+        total_duration = time.perf_counter() - self.simulation_start_time
         logger.info(
             f"Simulation run complete: {run_epochs} epochs "
             f"in {total_duration:.2f} seconds "
@@ -313,7 +310,7 @@ class SimulationOrchestrator:
             modified_count = 0
             for agent in target_agents:
                 try:
-                    multiplier = random.uniform(*heuristic_mult_range)
+                    multiplier = self.rng.uniform(*heuristic_mult_range)
                     agent.cognitive.heuristics *= multiplier
                     agent.cognitive.heuristics = 1 / (
                         1 + np.exp(-agent.cognitive.heuristics)
@@ -384,7 +381,7 @@ class SimulationOrchestrator:
         include_memory_embeddings: bool = False,
         resonance_history_limit: Optional[int] = 100,
     ) -> bool:
-        """Serialize orchestrator state to disk."""
+        """Serialize orchestrator state to disk using JSON."""
         if self.is_running:
             logger.warning("Saving state while simulation is running")
         try:
@@ -405,11 +402,11 @@ class SimulationOrchestrator:
                 "tda_tracker_state": (
                     self.tda_tracker.to_dict() if self.tda_tracker else None
                 ),
-                "random_state": random.getstate(),
-                "numpy_random_state": np.random.get_state(),
+                # Note: Random states not saved for security (JSON format)
+                # Re-seed manually if deterministic replay is needed
             }
-            with open(filepath, "wb") as f:
-                pickle.dump(state, f)
+            with open(filepath, "w") as f:
+                json.dump(state, f, indent=2)
             logger.info(f"State saved successfully to {filepath}")
             return True
         except Exception as e:
@@ -419,13 +416,13 @@ class SimulationOrchestrator:
             return False
 
     def load_state(self, filepath: str) -> bool:
-        """Load orchestrator state from disk."""
+        """Load orchestrator state from disk using JSON."""
         if self.is_running:
             logger.warning("Loading state while simulation is running")
         try:
             logger.info(f"Loading simulation state from {filepath}")
-            with open(filepath, "rb") as f:
-                state = pickle.load(f)
+            with open(filepath, "r") as f:
+                state = json.load(f)
             self.current_epoch = state.get("current_epoch", 0)
             self.agents = {
                 aid: EnhancedAgent.from_dict(a, self.message_bus)
@@ -475,7 +472,7 @@ class SimulationOrchestrator:
             logger.debug(
                 f"Selecting {selected_count} agents ({percentage*100:.1f}%) for protocol"
             )
-            return random.sample(agent_list, selected_count)
+            return self.rng.choice(agent_list, size=selected_count, replace=False).tolist()
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."
         )

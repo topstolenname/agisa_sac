@@ -16,11 +16,11 @@ classifiers = [
 ]
 
 dependencies = [
-    "numpy>=1.21.0",
-    "scipy>=1.7.0",
+    "numpy>=1.26.0",
+    "scipy>=1.11.0",
     "networkx>=2.6",
     "fastapi>=0.100.0",
-    "sentence-transformers>=2.2.0",
+    "sentence-transformers>=3.1.0",
     "scikit-learn>=1.1.0",
     "torch>=2.0.0",
     "pydantic>=2.0.0",
