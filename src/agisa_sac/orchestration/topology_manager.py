@@ -7,7 +7,7 @@ using persistent homology to detect fragmentation, overconnection, and coverage 
 
 import tempfile
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import networkx as nx
 import numpy as np

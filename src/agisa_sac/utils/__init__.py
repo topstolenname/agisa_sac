@@ -21,6 +21,7 @@ def get_metrics():
             # Create a no-op module if prometheus-client/psutil not available
             class NoOpMetrics:
                 enabled = False
+
                 def get_metrics(self):
                     return lambda: type('obj', (object,), {'enabled': False})()
             _metrics_module = NoOpMetrics()
@@ -32,7 +33,6 @@ def get_metrics():
 
 def reset_metrics():
     """Reset the metrics module (if available)."""
-    global _metrics_module
     if _metrics_module is not None and hasattr(_metrics_module, 'reset_metrics'):
         _metrics_module.reset_metrics()
 
