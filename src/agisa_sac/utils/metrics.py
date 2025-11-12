@@ -5,12 +5,9 @@ This module provides comprehensive metrics collection for production monitoring
 of multi-agent simulations, including performance, resource usage, and system health.
 """
 
-from typing import Dict, Optional, TYPE_CHECKING, Callable, Any
+from typing import Optional, Callable, Any
 from functools import wraps
 import logging
-
-if TYPE_CHECKING:
-    import psutil
 
 try:
     from prometheus_client import (
