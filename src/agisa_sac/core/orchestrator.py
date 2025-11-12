@@ -1,4 +1,4 @@
-import pickle
+import json
 import random
 import time
 from collections import defaultdict
@@ -40,9 +40,11 @@ class SimulationOrchestrator:
         self.num_agents = config.get("num_agents", 100)
         self.num_epochs = config.get("num_epochs", 50)
         seed = config.get("random_seed")
+        # Seed both global RNGs for backward compatibility and local generator for new code
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
+        self.rng = np.random.default_rng(seed)
 
         self.message_bus = MessageBus()
         self.agent_ids = [f"agent_{i}" for i in range(self.num_agents)]
@@ -87,10 +89,10 @@ class SimulationOrchestrator:
             )
             personalities = [
                 {
-                    "openness": random.uniform(0.3, 0.7),
-                    "consistency": random.uniform(0.4, 0.6),
-                    "conformity": random.uniform(0.2, 0.8),
-                    "curiosity": random.uniform(0.4, 0.9),
+                    "openness": self.rng.uniform(0.3, 0.7),
+                    "consistency": self.rng.uniform(0.4, 0.6),
+                    "conformity": self.rng.uniform(0.2, 0.8),
+                    "curiosity": self.rng.uniform(0.4, 0.9),
                 }
                 for _ in range(self.num_agents)
             ]
@@ -153,11 +155,11 @@ class SimulationOrchestrator:
             )
             return
 
-        epoch_start_time = time.time()
+        epoch_start_time = time.perf_counter()
         self._trigger_hooks("pre_epoch")
-        situational_entropy = random.uniform(0.1, 0.7)
+        situational_entropy = self.rng.uniform(0.1, 0.7)
         agent_order = list(self.agents.keys())
-        random.shuffle(agent_order)
+        self.rng.shuffle(agent_order)
         cognitive_states_for_tda = []
         for agent_id in agent_order:
             agent = self.agents.get(agent_id)
@@ -187,11 +189,11 @@ class SimulationOrchestrator:
                 max_radius = self.config.get("tda_max_radius", None)
 
                 # Measure TDA computation time
-                tda_start = time.time()
+                tda_start = time.perf_counter()
                 diagrams = self.tda_tracker.compute_persistence(
                     point_cloud, max_radius=max_radius
                 )
-                tda_duration = time.time() - tda_start
+                tda_duration = time.perf_counter() - tda_start
                 self.metrics.record_tda_computation(tda_duration)
 
                 if diagrams is not None:
@@ -238,7 +240,7 @@ class SimulationOrchestrator:
         if (self.current_epoch + 1) % community_check_freq == 0:
             self.social_graph.detect_communities()
         self._trigger_hooks("post_epoch")
-        epoch_duration = time.time() - epoch_start_time
+        epoch_duration = time.perf_counter() - epoch_start_time
 
         # Record metrics
         self.metrics.record_epoch(epoch_duration)
@@ -260,7 +262,7 @@ class SimulationOrchestrator:
             return
         logger.info(f"Starting simulation run with {run_epochs} epochs")
         self.is_running = True
-        self.simulation_start_time = time.time()
+        self.simulation_start_time = time.perf_counter()
         start_epoch = self.current_epoch
         for epoch in range(start_epoch, start_epoch + run_epochs):
             if epoch >= self.num_epochs:
@@ -272,7 +274,7 @@ class SimulationOrchestrator:
             self.current_epoch = epoch
             self.run_epoch()
         self.is_running = False
-        total_duration = time.time() - self.simulation_start_time
+        total_duration = time.perf_counter() - self.simulation_start_time
         logger.info(
             f"Simulation run complete: {run_epochs} epochs "
             f"in {total_duration:.2f} seconds "
@@ -313,7 +315,7 @@ class SimulationOrchestrator:
             modified_count = 0
             for agent in target_agents:
                 try:
-                    multiplier = random.uniform(*heuristic_mult_range)
+                    multiplier = self.rng.uniform(*heuristic_mult_range)
                     agent.cognitive.heuristics *= multiplier
                     agent.cognitive.heuristics = 1 / (
                         1 + np.exp(-agent.cognitive.heuristics)
@@ -384,7 +386,7 @@ class SimulationOrchestrator:
         include_memory_embeddings: bool = False,
         resonance_history_limit: Optional[int] = 100,
     ) -> bool:
-        """Serialize orchestrator state to disk."""
+        """Serialize orchestrator state to disk using JSON."""
         if self.is_running:
             logger.warning("Saving state while simulation is running")
         try:
@@ -405,11 +407,11 @@ class SimulationOrchestrator:
                 "tda_tracker_state": (
                     self.tda_tracker.to_dict() if self.tda_tracker else None
                 ),
-                "random_state": random.getstate(),
-                "numpy_random_state": np.random.get_state(),
+                # Note: Random states not saved for security (JSON format)
+                # Re-seed manually if deterministic replay is needed
             }
-            with open(filepath, "wb") as f:
-                pickle.dump(state, f)
+            with open(filepath, "w") as f:
+                json.dump(state, f, indent=2)
             logger.info(f"State saved successfully to {filepath}")
             return True
         except Exception as e:
@@ -419,40 +421,62 @@ class SimulationOrchestrator:
             return False
 
     def load_state(self, filepath: str) -> bool:
-        """Load orchestrator state from disk."""
+        """Load orchestrator state from disk using JSON."""
         if self.is_running:
             logger.warning("Loading state while simulation is running")
         try:
             logger.info(f"Loading simulation state from {filepath}")
-            with open(filepath, "rb") as f:
-                state = pickle.load(f)
+            with open(filepath, "r") as f:
+                state = json.load(f)
+
+            # Restore config first to ensure other components are initialized correctly
+            self.config = state.get("config", self.config)
+
             self.current_epoch = state.get("current_epoch", 0)
             self.agents = {
                 aid: EnhancedAgent.from_dict(a, self.message_bus)
                 for aid, a in state.get("agents_state", {}).items()
             }
+
+            # Update agent count and IDs from loaded state
+            self.num_agents = len(self.agents)
+            self.agent_ids = list(self.agents.keys())
+            self.metrics.update_agent_count(self.num_agents)
+
+            # Initialize and then load social graph state
             self.social_graph = DynamicSocialGraph(
                 self.num_agents,
-                list(self.agents.keys()),
-                use_gpu=False,
+                self.agent_ids,
+                use_gpu=self.config.get("use_gpu", False) and HAS_CUPY,
                 message_bus=self.message_bus,
             )
+            if "social_graph_state" in state:
+                self.social_graph.load_state(state["social_graph_state"])
+
             self.chronicler = ResonanceChronicler.from_dict(
                 state.get("chronicler_state", {})
             )
+
             max_dim = self.config.get("tda_max_dimension", 1)
             self.tda_tracker = PersistentHomologyTracker(
                 max_dimension=max_dim
             )
             if state.get("tda_tracker_state"):
                 self.tda_tracker.load_state(state["tda_tracker_state"])
+
             self.analyzer = AgentStateAnalyzer(self.agents)
+
             logger.info(
                 f"State loaded successfully from {filepath} at epoch {self.current_epoch}"
             )
             return True
         except FileNotFoundError:
             logger.error(f"State file not found: {filepath}")
+            return False
+        except (json.JSONDecodeError, KeyError) as e:
+            logger.error(
+                f"Failed to parse state file {filepath} or key missing: {e}", exc_info=True
+            )
             return False
         except Exception as e:
             logger.error(
@@ -475,7 +499,7 @@ class SimulationOrchestrator:
             logger.debug(
                 f"Selecting {selected_count} agents ({percentage*100:.1f}%) for protocol"
             )
-            return random.sample(agent_list, selected_count)
+            return self.rng.choice(agent_list, size=selected_count, replace=False).tolist()
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."
         )
