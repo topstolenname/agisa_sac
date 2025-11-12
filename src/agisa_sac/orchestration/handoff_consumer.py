@@ -7,7 +7,7 @@ and claims them with the best-suited agent.
 
 import asyncio
 import json
-from typing import Dict, Optional
+from typing import Dict
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
@@ -152,7 +152,7 @@ class HandoffConsumer:
                         context["handoff_from"] = offer.from_agent
 
                         # Run the claimant agent
-                        result = await claimant.run(
+                        _ = await claimant.run(
                             context.get("last_message", ""), context
                         )
 

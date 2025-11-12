@@ -630,7 +630,7 @@ class DistributedAgent:
         bucket_name = f"{self.project_id}-agent-context"
         bucket = self.storage_client.bucket(bucket_name)
         blob_id = hashlib.sha256(str(ctx).encode("utf-8")).hexdigest()[:32]
-        blob = bucket.blob(f"runs/{ctx.get('run_id','unknown')}/{blob_id}.json")
+        blob = bucket.blob(f"runs/{ctx.get('run_id', 'unknown')}/{blob_id}.json")
 
         import json
 

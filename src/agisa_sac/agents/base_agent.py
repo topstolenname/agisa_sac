@@ -10,7 +10,6 @@ This module implements a production-ready agent system with:
 """
 
 import asyncio
-import hashlib
 import uuid
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
@@ -560,7 +559,7 @@ class AGISAAgent:
         topic_path = self.publisher.topic_path(
             self.project_id, self.tool_invocations_topic
         )
-        future = self.publisher.publish(topic_path, invocation.to_pubsub())
+        _ = self.publisher.publish(topic_path, invocation.to_pubsub())
         # Fire and forget - don't await for tool invocation logging
 
         try:

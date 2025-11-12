@@ -14,9 +14,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from typing import Any, Deque, Dict, List, Optional
 
-import numpy as np
-
-from .circuits import EmpathyCircuit, SelfPreservationCircuit, TacticalHelpCircuit
+from .circuits import SelfPreservationCircuit, TacticalHelpCircuit
 from .empathy import EmpathyModule
 from .ethics import (
     DisengagementProtocol,
