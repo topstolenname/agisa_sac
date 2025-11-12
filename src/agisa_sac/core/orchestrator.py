@@ -1,4 +1,5 @@
 import json
+import random
 import time
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
@@ -39,6 +40,10 @@ class SimulationOrchestrator:
         self.num_agents = config.get("num_agents", 100)
         self.num_epochs = config.get("num_epochs", 50)
         seed = config.get("random_seed")
+        # Seed both global RNGs for backward compatibility and local generator for new code
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
         self.rng = np.random.default_rng(seed)
 
         self.message_bus = MessageBus()
@@ -423,33 +428,55 @@ class SimulationOrchestrator:
             logger.info(f"Loading simulation state from {filepath}")
             with open(filepath, "r") as f:
                 state = json.load(f)
+
+            # Restore config first to ensure other components are initialized correctly
+            self.config = state.get("config", self.config)
+
             self.current_epoch = state.get("current_epoch", 0)
             self.agents = {
                 aid: EnhancedAgent.from_dict(a, self.message_bus)
                 for aid, a in state.get("agents_state", {}).items()
             }
+
+            # Update agent count and IDs from loaded state
+            self.num_agents = len(self.agents)
+            self.agent_ids = list(self.agents.keys())
+            self.metrics.update_agent_count(self.num_agents)
+
+            # Initialize and then load social graph state
             self.social_graph = DynamicSocialGraph(
                 self.num_agents,
-                list(self.agents.keys()),
-                use_gpu=False,
+                self.agent_ids,
+                use_gpu=self.config.get("use_gpu", False) and HAS_CUPY,
                 message_bus=self.message_bus,
             )
+            if "social_graph_state" in state:
+                self.social_graph.load_state(state["social_graph_state"])
+
             self.chronicler = ResonanceChronicler.from_dict(
                 state.get("chronicler_state", {})
             )
+
             max_dim = self.config.get("tda_max_dimension", 1)
             self.tda_tracker = PersistentHomologyTracker(
                 max_dimension=max_dim
             )
             if state.get("tda_tracker_state"):
                 self.tda_tracker.load_state(state["tda_tracker_state"])
+
             self.analyzer = AgentStateAnalyzer(self.agents)
+
             logger.info(
                 f"State loaded successfully from {filepath} at epoch {self.current_epoch}"
             )
             return True
         except FileNotFoundError:
             logger.error(f"State file not found: {filepath}")
+            return False
+        except (json.JSONDecodeError, KeyError) as e:
+            logger.error(
+                f"Failed to parse state file {filepath} or key missing: {e}", exc_info=True
+            )
             return False
         except Exception as e:
             logger.error(

@@ -48,11 +48,10 @@ class VertexAgent:
             if self.model.startswith("gemini"):
                 # Gemini models use generate_content
                 response = self.endpoint.generate_content(prompt, **params)
-                return response.text
             else:
                 # Legacy text-bison models use predict
                 response = self.endpoint.predict(prompt, **params)
-                return response.text
+            return response.text
         except Exception as e:
             raise RuntimeError(
                 f"Failed to generate text with model {self.model}: {e}"
