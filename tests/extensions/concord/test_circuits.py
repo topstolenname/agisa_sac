@@ -1,7 +1,5 @@
 """Tests for mirror neuron circuits."""
 
-import pytest
-
 from agisa_sac.extensions.concord.circuits import (
     EmpathyCircuit,
     SelfPreservationCircuit,
