@@ -21,6 +21,20 @@ from ..core.components.resonance import (
 )
 from ..core.components.voice import VoiceEngine
 from ..utils.message_bus import MessageBus  # Assuming message_bus is in utils
+from ..utils.logger import get_logger
+
+# Import for cognitive profile hot-swapping
+try:
+    from cognee.memory.hierarchical.config import MemoryGenome
+    from cognee.memory.hierarchical.core import HierarchicalMemory
+
+    HAS_COGNEE = True
+except ImportError:
+    HAS_COGNEE = False
+    MemoryGenome = None
+    HierarchicalMemory = None
+
+logger = get_logger(__name__)
 
 
 class EnhancedAgent:
@@ -364,3 +378,39 @@ class EnhancedAgent:
             raise ValueError(error_message)
         elif errors:
             warnings.warn(error_message, RuntimeWarning)
+
+    async def load_cognitive_profile(self, genome: "MemoryGenome"):
+        """
+        Hot-swap the agent's memory architecture with a new cognitive genome.
+
+        This method safely stops the current memory system's background tasks
+        and replaces it with a new HierarchicalMemory instance configured
+        according to the provided genome.
+
+        Args:
+            genome: A MemoryGenome instance with validated cognitive parameters
+
+        Raises:
+            ImportError: If cognee library is not available
+        """
+        if not HAS_COGNEE:
+            raise ImportError(
+                "cognee library required for cognitive profile hot-swapping. "
+                "Install with: pip install cognee"
+            )
+
+        logger.info(f"Agent {self.agent_id}: Receiving new cognitive genome")
+
+        # Stop old memory's background tasks if it exists and supports it
+        if hasattr(self, "memory") and self.memory and hasattr(self.memory, "stop"):
+            logger.debug(f"Agent {self.agent_id}: Stopping old memory system")
+            await self.memory.stop()
+
+        # Create new hierarchical memory with optimized genome
+        self.memory = HierarchicalMemory(genome)
+        await self.memory.start()
+
+        logger.info(
+            f"Agent {self.agent_id} cognitive genome updated: "
+            f"{genome.model_dump(exclude={'version'})}"
+        )
