@@ -173,8 +173,6 @@ def test_memory_recording(agent, other_agent):
 
 def test_cmni_tracking_across_interactions(agent, other_agent):
     """Test CMNI updates across multiple interactions."""
-    initial_cmni = agent.empathy_module.cmni_tracker.current_cmni
-
     context = {
         "primary_other": other_agent,
         "emotional_context": {"shared_attention": 0.8, "salience": 0.7},
