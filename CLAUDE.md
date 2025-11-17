@@ -126,19 +126,19 @@ agisa_sac/
 └── .pre-commit-config.yaml     # Pre-commit hooks
 ```
 
-### Key File Paths (Relative to `/home/user/agisa_sac/src/agisa_sac/`)
+### Key File Paths (Relative to project root)
 
 | Path | Purpose |
 |------|---------|
-| `__init__.py` | Public API exports (`FRAMEWORK_VERSION`, main classes) |
-| `cli.py` | Main simulation CLI (`agisa-sac` command) |
-| `config.py` | Configuration dataclasses & presets |
-| `core/orchestrator.py` | Simulation orchestration & protocol injection |
-| `agents/agent.py` | EnhancedAgent with memory, cognition, voice |
-| `core/components/*.py` | Modular agent components |
-| `utils/logger.py` | Structured logging setup |
-| `utils/message_bus.py` | Event-driven pub/sub system |
-| `types/contracts.py` | Type definitions (Tool, LoopExit, etc.) |
+| `src/agisa_sac/__init__.py` | Public API exports (`FRAMEWORK_VERSION`, main classes) |
+| `src/agisa_sac/cli.py` | Main simulation CLI (`agisa-sac` command) |
+| `src/agisa_sac/config.py` | Configuration dataclasses & presets |
+| `src/agisa_sac/core/orchestrator.py` | Simulation orchestration & protocol injection |
+| `src/agisa_sac/agents/agent.py` | EnhancedAgent with memory, cognition, voice |
+| `src/agisa_sac/core/components/*.py` | Modular agent components |
+| `src/agisa_sac/utils/logger.py` | Structured logging setup |
+| `src/agisa_sac/utils/message_bus.py` | Event-driven pub/sub system |
+| `src/agisa_sac/types/contracts.py` | Type definitions (Tool, LoopExit, etc.) |
 
 ---
 
@@ -351,7 +351,12 @@ class MyComponent:
 **Use pub/sub for cross-component communication:**
 
 ```python
+import time
+from typing import Dict, Any
 from agisa_sac.utils.message_bus import MessageBus
+from agisa_sac.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Publisher
 self.message_bus.publish("agent_resonance_detected", {
@@ -362,7 +367,7 @@ self.message_bus.publish("agent_resonance_detected", {
 
 # Subscriber
 def on_resonance(event_data: Dict[str, Any]):
-    print(f"Agent {event_data['agent_id']} resonated!")
+    logger.info("Agent %s resonated!", event_data['agent_id'])
 
 message_bus.subscribe("agent_resonance_detected", on_resonance)
 ```
@@ -449,6 +454,9 @@ orchestrator.register_hook("pre_epoch", my_hook)
 **Always check for GPU availability:**
 
 ```python
+import warnings
+import numpy as np
+
 try:
     import cupy as cp
     HAS_CUPY = True
@@ -495,6 +503,8 @@ def from_dict(cls, data: Dict[str, Any]) -> "MyClass":
 **Implement validation with strict/non-strict modes:**
 
 ```python
+import warnings
+
 def _validate_state(self, strict: bool = True) -> None:
     """Validate internal state."""
     errors = []
@@ -671,7 +681,7 @@ pytest -v --strict-markers --strict-config
 **Jobs:**
 
 1. **Lint & Format** (Python 3.12)
-   - `flake8` - Linting
+   - `ruff` - Linting and formatting
    - `black --check` - Formatting check
    - `mypy` - Type checking
    - `pip-audit` - Security audit (non-blocking)
@@ -699,9 +709,21 @@ pytest -v --strict-markers --strict-config
 ```yaml
 repos:
   - repo: https://github.com/psf/black
+    rev: 24.4.2
     hooks:
       - id: black
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.5.0
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports]
   - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
@@ -1003,6 +1025,11 @@ def create_agent(
 ### Observer Pattern (MessageBus)
 
 ```python
+import logging
+from typing import Any, Callable, Dict, List
+
+logger = logging.getLogger(__name__)
+
 class MessageBus:
     """Simple pub/sub message bus."""
 
@@ -1091,8 +1118,8 @@ class CognitiveDiversityEngine:
 # Install in editable mode
 pip install -e .
 
-# Or add src to PYTHONPATH
-export PYTHONPATH="${PYTHONPATH}:/home/user/agisa_sac/src"
+# Or add src to PYTHONPATH (from project root)
+export PYTHONPATH="${PYTHONPATH}:$(pwd)/src"
 ```
 
 #### 2. Missing Optional Dependencies
@@ -1213,7 +1240,7 @@ config = {
 
 ### Documentation
 
-- **Main README**: `/home/user/agisa_sac/README.md`
+- **Main README**: `README.md`
 - **GEMINI.md**: AI-generated project overview
 - **CONTRIBUTING.md**: Contribution guidelines
 - **TODO.md**: Roadmap and unimplemented features
@@ -1285,7 +1312,7 @@ agisa-chaos run --scenario sybil_attack --url http://localhost:8000
 ### Important Paths
 
 ```
-/home/user/agisa_sac/
+.
 ├── src/agisa_sac/           # Package source
 ├── tests/                   # Test suite
 ├── docs/                    # Documentation
