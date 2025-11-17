@@ -92,11 +92,11 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
-line-length = 100
+line-length = 88
 target-version = ['py39']
 
 [tool.ruff]
-line-length = 100
+line-length = 88
 target-version = "py39"
 select = ["E", "F", "W", "C90", "I", "N", "UP", "S", "B", "A", "C4", "ICN", "PIE", "T20", "Q"]
 

@@ -40,7 +40,7 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          flake8 src tests --count --show-source --statistics
+          flake8 --config .flake8 src tests --count --show-source --statistics
 
       - name: Check formatting with black
         run: |
