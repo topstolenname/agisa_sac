@@ -1,5 +1,6 @@
 # In tests/agisa_sac/test_cge_optimizer.py
 import pytest
+from unittest.mock import patch, AsyncMock
 from agisa_sac.cognition.cge.optimizer import CognitiveGradientEngine
 from cognee.memory.hierarchical.config import MemoryGenome
 
@@ -31,11 +32,23 @@ async def test_optimizer_returns_valid_genome():
 
 @pytest.mark.asyncio
 async def test_optimizer_persists_profile():
-    """Test that CGE calls the persistence layer"""
+    """Test that CGE calls the persistence layer via _save_profile"""
     cge = CognitiveGradientEngine(agent_id="test_agent_B", max_evals=1)
 
-    # This will print mock firestore output
-    genome = await cge.optimize()
+    # Mock the _save_profile method to verify it's called
+    with patch.object(
+        CognitiveGradientEngine, "_save_profile", new_callable=AsyncMock
+    ) as mock_save:
+        genome = await cge.optimize()
 
-    # If we got a genome back, persistence was called (in mock mode)
+        # Verify _save_profile was called exactly once
+        mock_save.assert_called_once()
+
+        # Verify it was called with a MemoryGenome instance
+        call_args = mock_save.call_args
+        assert call_args is not None
+        saved_genome = call_args[0][0]  # First positional argument
+        assert isinstance(saved_genome, MemoryGenome)
+
+    # Verify the returned genome is valid
     assert isinstance(genome, MemoryGenome)

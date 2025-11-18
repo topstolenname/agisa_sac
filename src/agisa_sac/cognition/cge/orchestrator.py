@@ -1,13 +1,16 @@
 # In agisa_sac/cognition/cge/orchestrator.py
 import asyncio
-from typing import List
+from typing import List, TYPE_CHECKING
 from agisa_sac.cognition.cge.optimizer import CognitiveGradientEngine
 from agisa_sac.utils.logger import get_logger
+
+if TYPE_CHECKING:
+    from agisa_sac.agents.agent import EnhancedAgent
 
 logger = get_logger(__name__)
 
 
-async def evolve_pool(agent_pool: List):
+async def evolve_pool(agent_pool: List["EnhancedAgent"]):
     """
     Run a cognitive evolution cycle for all agents in the pool.
 
@@ -15,14 +18,14 @@ async def evolve_pool(agent_pool: List):
     agents concurrently, using gather to run optimizations in parallel.
 
     Args:
-        agent_pool: List of agents to evolve
+        agent_pool: List of EnhancedAgent instances to evolve
     """
     logger.info(f"CGE cycle starting for {len(agent_pool)} agents")
     await asyncio.gather(*[evolve_agent(agent) for agent in agent_pool])
     logger.info(f"CGE cycle complete for {len(agent_pool)} agents")
 
 
-async def evolve_agent(agent):
+async def evolve_agent(agent: "EnhancedAgent"):
     """
     Evolve a single agent's cognitive genome.
 
@@ -32,7 +35,7 @@ async def evolve_agent(agent):
     3. Hot-swaps the agent's memory with the optimized profile
 
     Args:
-        agent: The agent to evolve (must have 'id' or 'agent_id' attribute)
+        agent: The EnhancedAgent instance to evolve (must have load_cognitive_profile method)
     """
     # Get agent ID (support both 'id' and 'agent_id' attributes)
     agent_id = getattr(agent, "id", None) or getattr(agent, "agent_id", "unknown")

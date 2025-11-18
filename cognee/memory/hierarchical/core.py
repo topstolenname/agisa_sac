@@ -1,5 +1,6 @@
 # In cognee/memory/hierarchical/core.py
 import asyncio
+from collections import deque
 from datetime import datetime
 from typing import Optional, Dict, Any
 from cognee.memory.hierarchical.config import MemoryGenome
@@ -7,11 +8,11 @@ from cognee.memory.hierarchical.decay import MemoryDecayModel
 
 
 class CircularBuffer:
-    """Async-safe circular buffer for sensory input."""
+    """Async-safe circular buffer for sensory input using deque."""
 
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.buffer = []
+        self.buffer = deque(maxlen=capacity)
         self.lock = asyncio.Lock()
 
     async def add(self, item: Dict[str, Any]):
@@ -19,8 +20,6 @@ class CircularBuffer:
             self.buffer.append(
                 {"timestamp": datetime.utcnow(), "access_count": 0, **item}
             )
-            if len(self.buffer) > self.capacity:
-                self.buffer.pop(0)
 
 
 class TemporalGraph:

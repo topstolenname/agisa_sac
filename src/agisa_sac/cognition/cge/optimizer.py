@@ -43,7 +43,7 @@ class CognitiveGradientEngine:
         Returns:
             An optimized MemoryGenome instance
         """
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
 
         def objective(params):
             """Objective function compatible with hyperopt (synchronous)"""
@@ -51,15 +51,19 @@ class CognitiveGradientEngine:
                 evaluate_memory_system(self.agent_id, params), loop
             ).result()
 
-        # Run optimization
-        best_params = fmin(
-            fn=objective,
-            space=self.space,
-            algo=tpe.suggest,
-            max_evals=self.max_evals,
-            trials=self.trials,
-            show_progressbar=False,
-        )
+        def run_fmin():
+            """Run fmin in a separate thread to avoid blocking the event loop"""
+            return fmin(
+                fn=objective,
+                space=self.space,
+                algo=tpe.suggest,
+                max_evals=self.max_evals,
+                trials=self.trials,
+                show_progressbar=False,
+            )
+
+        # Run optimization in a thread executor to avoid deadlocks
+        best_params = await asyncio.to_thread(run_fmin)
 
         # Evaluate the space to get actual values
         evaluated_params = space_eval(self.space, best_params)
