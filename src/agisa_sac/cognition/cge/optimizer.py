@@ -68,6 +68,12 @@ class CognitiveGradientEngine:
         # Evaluate the space to get actual values
         evaluated_params = space_eval(self.space, best_params)
 
+        # Convert quniform float results to appropriate types
+        evaluated_params["sensory_buffer_capacity"] = int(
+            evaluated_params["sensory_buffer_capacity"]
+        )
+        evaluated_params["decay_constant"] = float(evaluated_params["decay_constant"])
+
         # Merge with defaults for any unoptimized parameters
         base_genome = MemoryGenome().model_dump()
         final_params = {**base_genome, **evaluated_params}

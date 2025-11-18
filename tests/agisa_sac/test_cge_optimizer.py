@@ -29,6 +29,14 @@ async def test_optimizer_returns_valid_genome():
     assert 1.0 <= genome.emotional_weight_multiplier <= 5.0
     assert 0.05 <= genome.usage_reinforcement_gain <= 0.3
 
+    # Verify explicit type conversions for quniform parameters
+    assert isinstance(
+        genome.sensory_buffer_capacity, int
+    ), "sensory_buffer_capacity should be explicitly converted to int"
+    assert isinstance(
+        genome.decay_constant, float
+    ), "decay_constant should remain as float"
+
 
 @pytest.mark.asyncio
 async def test_optimizer_persists_profile():
