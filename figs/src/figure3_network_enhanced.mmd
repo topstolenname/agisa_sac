@@ -1,0 +1,35 @@
+%% Figure 3 â€" Enhanced Decentralized Agent Network (Global Workspace Architecture)
+%% This version includes the comprehensive styling and annotations from the full visual strategy
+
+flowchart TD
+    subgraph GW["Global Workspace (Pub/Sub)"]
+        style GW fill:#e7f5ff,stroke:#1c7ed6,stroke-width:2px
+        T1((planner-tasks)):::topic
+        T2((agent-results)):::topic
+        T3((evaluation-events)):::topic
+    end
+    
+    P[Planner Function]:::module --> T1
+    T1 --> Aα[Agent Cluster α]:::module
+    T1 --> Aβ[Agent Cluster β]:::module
+    Aα --> T2
+    Aβ --> T2
+    T2 --> E[Evaluator Function]:::module
+    E -->|Write| M[(Firestore\nMemory & Identity)]:::storage
+    E --> T3
+    T3 --> P
+    
+    %% Annotations for consciousness theory mapping
+    note1["Broadcast Mechanism:\nInformation globally available\nto all modules"]:::annotation
+    note2["Specialized Modules:\nExecutive function, perception,\nevaluation"]:::annotation
+    note3["Attention Gating:\nCloud Tasks priority queues\nfocus resources"]:::annotation
+    
+    GW -.-> note1
+    P -.-> note2
+    M -.-> note3
+    
+    %% Style definitions
+    classDef topic fill:#f3f8ff,stroke:#5b8def,stroke-width:2px
+    classDef module fill:#f8f9fa,stroke:#495057,stroke-width:1.5px
+    classDef storage fill:#fff4e6,stroke:#e8590c,stroke-width:2px
+    classDef annotation fill:#f0f0f0,stroke:#888,stroke-dasharray:3,font-size:10px
