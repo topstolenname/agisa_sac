@@ -1268,7 +1268,7 @@ config = {
 ### Development Tools
 
 - **Code Formatter**: `black` (line length 100)
-- **Linter**: `ruff` + `flake8`
+- **Linter**: `ruff`
 - **Type Checker**: `mypy` (Python 3.9+)
 - **Test Framework**: `pytest` with coverage
 - **Documentation**: `mkdocs` with Material theme

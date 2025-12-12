@@ -77,6 +77,8 @@ nav:
       - "Figure 7 – Dashboard": gallery/figure7.md
       - "Figure Φ – Integration": gallery/figure_phi.md
       - "Figure Code – Mapping": gallery/figure_code.md
+  # TODO: Uncomment API and Concord sections once package installation is handled in the docs build process.
+  # These sections are temporarily disabled because they require the agisa_sac package to be installed.
   # - API:
   #     - agisa_sac: api/agisa_sac.md
   # - Concord Framework:
