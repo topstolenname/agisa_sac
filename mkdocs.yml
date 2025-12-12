@@ -40,7 +40,11 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.emoji:
@@ -73,17 +77,17 @@ nav:
       - "Figure 7 – Dashboard": gallery/figure7.md
       - "Figure Φ – Integration": gallery/figure_phi.md
       - "Figure Code – Mapping": gallery/figure_code.md
-  - API:
-      - agisa_sac: api/agisa_sac.md
-  - Concord Framework:
-      - Overview: concord/index.md
-      - Architecture: concord/architecture.md
-      - Neural Circuits: concord/circuits.md
-      - Ethics Guardians: concord/ethics.md
-      - Empathy & CMNI: concord/empathy.md
-      - Elliot Clause: concord/elliot_clause.md
-      - Observability: concord/observability.md
-      - Integration Guide: concord/integration.md
+  # - API:
+  #     - agisa_sac: api/agisa_sac.md
+  # - Concord Framework:
+  #     - Overview: concord/index.md
+  #     - Architecture: concord/architecture.md
+  #     - Neural Circuits: concord/circuits.md
+  #     - Ethics Guardians: concord/ethics.md
+  #     - Empathy & CMNI: concord/empathy.md
+  #     - Elliot Clause: concord/elliot_clause.md
+  #     - Observability: concord/observability.md
+  #     - Integration Guide: concord/integration.md
   - Supplement:
       - Citation Guide: CITATION_GUIDE.md
       - Figure Catalog: FIGURE_CATALOG.md
