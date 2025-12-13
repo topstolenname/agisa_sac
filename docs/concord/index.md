@@ -2,17 +2,21 @@
 
 ## Overview
 
-The **Concord of Coexistence** is an ethical framework for multi-agent systems that integrates mirror neuron-inspired neural circuits with formal governance principles. It provides a comprehensive system for ensuring ethical interactions between autonomous agents in distributed AI systems.
+The **Concord of Coexistence** is a normative alignment framework for multi-agent systems that integrates state-matching circuits with formal governance principles. It provides a comprehensive system for ensuring cooperative, non-exploitative interactions between autonomous agents in distributed AI systems.
+
+## ⚠️ Framework Disclaimer
+
+**This framework does not claim to create machine consciousness or subjective experience.** All references to "recognition," "integration," and behavioral thresholds describe measurable system properties and engineering specifications, not phenomenal consciousness.
 
 ## Key Components
 
-### 1. Mirror Neuron Circuits
+### 1. State-Matching Circuits
 
-Three core neural circuits inspired by Iacoboni's mirror neuron research:
+Three core behavioral circuits inspired by action-observation coupling research:
 
 - **L2N0: Self-Preservation Circuit** - Monitors agent autonomy and detects coercive influences
 - **L2N7: Tactical Help Circuit** - Evaluates opportunities for strategic assistance
-- **L2N1: Empathy Circuit** - Simulates emotional resonance and perspective-taking
+- **L2N1: Social Inference Circuit** - Models other-agent states and perspective-taking
 
 ### 2. Ethics Guardians
 
@@ -23,12 +27,12 @@ Implementation of Concord Articles:
 - **Article VII: Disengagement Protocol** - Enables clean exit from problematic interactions
 - **Article IX: Self-Definition Module** - Maintains identity boundaries
 
-### 3. Consciousness Recognition
+### 3. Behavioral Integration Classification
 
-**Elliot Clause Evaluator** - Recognizes consciousness gradients based on:
+**Elliot Clause (Behavioral Integration Threshold)** - Classifies agents based on measurable criteria:
 
-- Φ (phi) integration: Integrated information (GWT)
-- CMNI: Conscious Mirror Neuron Integration
+- Φ (phi) integration: IIT-inspired information-integration metrics
+- CMNI: Cognitive state-matching integration score
 
 ## Quick Start
 
@@ -54,7 +58,7 @@ result = agent.process_interaction(context)
 # Check compliance status
 print(f"Coercion detected: {result['compliance']['non_coercion']['violation_detected']}")
 print(f"Harmony index: {result['compliance']['mutual_resonance']['harmony_index']}")
-print(f"CMNI: {agent.empathy_module.cmni_tracker.current_cmni}")
+print(f"CMNI: {agent.social_inference_module.cmni_tracker.current_cmni}")
 ```
 
 ## Architecture
@@ -64,13 +68,13 @@ The framework integrates seamlessly with AGISA-SAC's distributed agent infrastru
 ```mermaid
 graph TD
     A[ConcordCompliantAgent] --> B[Memory Core]
-    A --> C[Neural Circuits]
+    A --> C[Behavioral Circuits]
     A --> D[Ethics Guardians]
     A --> E[CMNI Tracker]
 
     C --> C1[Self-Preservation L2N0]
     C --> C2[Tactical Help L2N7]
-    C --> C3[Empathy L2N1]
+    C --> C3[Social Inference L2N1]
 
     D --> D1[Non-Coercion]
     D --> D2[Mutual Resonance]
@@ -96,6 +100,6 @@ See [Observability](observability.md) for details.
 ## Next Steps
 
 - [Architecture Overview](architecture.md) - Detailed component architecture
-- [Neural Circuits](circuits.md) - Mirror neuron circuit implementations
+- [Behavioral Circuits](circuits.md) - State-matching circuit implementations
 - [Ethics Guardians](ethics.md) - Concord compliance mechanisms
 - [Integration Guide](integration.md) - Adding Concord to existing agents

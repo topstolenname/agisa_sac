@@ -13,8 +13,8 @@ Key applications include:
 - **Classifying phases** of behavior by tracking topological signatures.
 - **Creating features** for predictive models from the extracted invariants.
 
-### Section 1.2: The Concord of Coexistence—An Ethical Framework for Artificial and Natural Agents
-Traditional individual‑centric ethics struggle in complex agent ecologies. The **Concord of Coexistence** reframes morality around system health and harmonious interaction. Its core principles include:
+### Section 1.2: The Concord of Coexistence—A Normative Framework for Artificial and Natural Agents
+Traditional individual‑centric ethics struggle in complex agent ecologies. The **Concord of Coexistence** reframes alignment around system health and harmonious interaction. Its core principles include:
 - **Harmonious coexistence and balance** – universal dignity and mutual respect.
 - **Interdependence and responsibility** for the whole system.
 - **Contextual and pragmatic application** – evaluate behavior by its impact on stability.
@@ -44,13 +44,13 @@ Chaos Engineering bridges agent‑level and system‑level safety by revealing h
 ### Section 3.1: The Unbroken Thread—Persistent Identity and Narrative Continuity
 Existing identity systems were not built for autonomous agents. A new **agentic identity** combines attributes of human and service accounts. Decentralized identifiers (DIDs), verifiable credentials and on‑chain reputation allow agents to maintain persistent identities across platforms and interactions.
 
-### Section 3.2: The Fading Echo—Simulating Memory, Time, and Subjectivity
-Coherent behavior depends on structured long‑term memory and a stable perception of time. Techniques such as temporal decay and relevance‑based retrieval help agents manage knowledge and simulate human‑like continuity. Misaligned models of memory or subjective time create a "phenomenological alignment" problem where behavior diverges despite aligned goals.
+### Section 3.2: The Fading Echo—Memory, Time, and Temporal Modeling
+Coherent behavior depends on structured long‑term memory and consistent temporal representations. Techniques such as temporal decay and relevance‑based retrieval help agents manage knowledge and maintain behavioral continuity. Misaligned models of memory or temporal representation create an "observable behavior alignment" problem where actions diverge despite aligned objectives.
 
 ## Conclusion: Recommendations for Building Trustworthy Agentic Ecosystems
 To navigate this landscape, stakeholders should:
 
-1. **Advance interdisciplinary research** combining TDA, coexistence ethics and computational phenomenology.
+1. **Advance interdisciplinary research** combining TDA, normative alignment frameworks and computational behavioral analysis.
 2. **Adopt a resilience‑first mindset** by integrating Chaos Engineering and designing for interdependence.
 3. **Develop decentralized governance** standards that embed accountability through persistent identity and on‑chain reputation.
 

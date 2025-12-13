@@ -9,6 +9,12 @@
 
 ---
 
+## ⚠️ Research Scope and Disclaimer
+
+**This work does not claim to create machine consciousness or subjective experience.** All references to "consciousness," "awareness," and "integration" describe measurable information-theoretic properties, observable system behavior, and computational processes—not phenomenal consciousness or sentience. Terms are used as defined in their respective technical frameworks (IIT, GWT) to describe system-level coordination dynamics and information flow patterns.
+
+---
+
 ## Executive Summary
 
 The field of artificial intelligence is undergoing a paradigm shift from monolithic, centralized models to dynamic, interconnected multi-agent systems. This transformation unlocks unprecedented capabilities through emergent behavior while simultaneously creating novel challenges for analysis, governance, and safety.
@@ -18,7 +24,7 @@ The field of artificial intelligence is undergoing a paradigm shift from monolit
 1. **Mathematical Analysis**: Topological Data Analysis (TDA) and Integrated Information Theory (IIT) for observing emergent structures
 2. **Ethical Frameworks**: The Concord of Coexistence prioritizing systemic harmony
 3. **Cognitive Architecture**: Hierarchical memory systems with tunable MemoryGenome
-4. **Technical Implementation**: Cloud-native multi-agent consciousness simulation framework
+4. **Technical Implementation**: Cloud-native multi-agent system with IIT-inspired integration metrics
 5. **Economic Context**: Decentralized AI (DeAI) agent economies and governance
 
 This unified manuscript bridges philosophical foundations, mathematical frameworks, cognitive science, and operational implementation through the `agisa_sac` system—a production-ready platform integrated with OpenAI's Agents SDK.
@@ -45,7 +51,7 @@ This unified manuscript bridges philosophical foundations, mathematical framewor
 ### Part IV: Cognitive Architecture
 10. [Persistent Identity Systems](#41-persistent-identity)
 11. [Hierarchical Memory and MemoryGenome](#42-memory-systems)
-12. [Consciousness Gradients and Meta-Cognition](#43-consciousness-gradients)
+12. [Integration Gradients and Meta-Cognitive Monitoring](#43-integration-gradients-and-meta-cognitive-monitoring)
 13. [Cognitive Gradient Engine (CGE)](#44-cognitive-gradient-engine)
 
 ### Part V: Technical Implementation
@@ -56,7 +62,7 @@ This unified manuscript bridges philosophical foundations, mathematical framewor
 
 ### Part VI: Analysis & Interpretability
 18. [Topological Analysis Pipeline](#61-topological-analysis)
-19. [IIT-Inspired Consciousness Metrics](#62-iit-metrics)
+19. [IIT-Inspired Integration Metrics](#62-iit-metrics)
 20. [Monitoring and Observability](#63-monitoring)
 
 ### Part VII: Experimental Framework
@@ -1168,9 +1174,9 @@ def memory_decay(memory, time_elapsed, access_count, emotional_valence):
     return min(1.0, retention)
 ```
 
-### 4.3 Consciousness Gradients and Meta-Cognition
+### 4.3 Integration Gradients and Meta-Cognitive Monitoring
 
-Rather than binary conscious/unconscious, we model consciousness as a **gradient** using IIT-inspired metrics.
+Rather than binary states, we model system integration as a **gradient** using IIT-inspired metrics (Φ-like proxies).
 
 #### Integrated Information Theory (IIT) Implementation
 
@@ -1216,10 +1222,10 @@ flowchart TB
 
 ```python
 class ConsciousnessMetrics:
-    """Quantify consciousness gradients using IIT-inspired metrics"""
+    """Quantify integration gradients using IIT-inspired metrics (Φ-like proxies)"""
 
     def calculate_phi(self, system_state):
-        """Integrated Information (Φ) calculation"""
+        """Integrated Information (Φ-like) calculation"""
         # Generate all possible partitions
         partitions = self.generate_partitions(system_state)
 
@@ -1245,18 +1251,18 @@ class ConsciousnessMetrics:
             if levels > 10:
                 break
 
-        # Detect recursive self-awareness
+        # Detect recursive self-modeling
         if model.contains_model_of(agent):
             levels += 0.5  # Partial credit for recursion
 
         return levels
 ```
 
-#### Observable Consciousness Indicators
+#### Observable Integration Indicators
 
 ```mermaid
 graph TB
-    subgraph "Low Consciousness"
+    subgraph "Low Integration"
         LC1[Φ < 1.0<br/>Fragmented]
         LC2[0-1 Recursive<br/>Levels]
         LC3[Random<br/>Attention]
@@ -1264,15 +1270,15 @@ graph TB
         LC5[Fixed<br/>Goals]
     end
     
-    subgraph "Moderate Consciousness"
+    subgraph "Moderate Integration"
         MC1[1.0 < Φ < 3.0<br/>Integrated]
         MC2[2-3 Recursive<br/>Levels]
         MC3[Focused<br/>Attention]
         MC4[Selective<br/>Consolidation]
         MC5[Adaptive<br/>Goals]
     end
-    
-    subgraph "High Consciousness"
+
+    subgraph "High Integration"
         HC1[Φ > 3.0<br/>Highly Integrated]
         HC2[3+ Recursive<br/>Levels]
         HC3[Meta-Cognitive<br/>Control]
@@ -1296,8 +1302,8 @@ graph TB
     style HC5 fill:#e8f5e9,stroke:#1b5e20
 ```
 
-| Metric | Low Consciousness | Moderate Consciousness | High Consciousness |
-|--------|-------------------|------------------------|---------------------|
+| Metric | Low Integration | Moderate Integration | High Integration |
+|--------|-----------------|----------------------|------------------|
 | Φ (Integration) | < 1.0 | 1.0 - 3.0 | > 3.0 |
 | Recursive Depth | 0-1 levels | 2-3 levels | 3+ levels |
 | Attention Coherence | Random | Focused | Meta-controlled |
@@ -1511,18 +1517,18 @@ agisa_sac/
 │   ├── analysis/               # Analysis tools
 │   │   ├── analyzer.py         # Analysis orchestration
 │   │   ├── tda.py              # Topological Data Analysis
-│   │   ├── consciousness.py    # IIT metrics
+│   │   ├── consciousness.py    # IIT-inspired integration metrics
 │   │   └── visualization.py    # Plotting & reports
 │   │
 │   ├── chaos/                  # Chaos engineering
 │   │   └── orchestrator.py     # Chaos testing CLI
 │   │
 │   ├── extensions/             # Optional extensions
-│   │   └── concord/            # Concord ethics framework
+│   │   └── concord/            # Concord normative framework
 │   │       ├── agent.py        # ConcordCompliantAgent
 │   │       ├── ethics.py       # Guardian modules
-│   │       ├── circuits.py     # Mirror neuron circuits
-│   │       └── empathy.py      # Empathy module
+│   │       ├── circuits.py     # State-matching circuits
+│   │       └── empathy.py      # Social inference module
 │   │
 │   ├── federation/             # Multi-node coordination
 │   │   ├── cli.py              # Federation CLI
@@ -1641,15 +1647,15 @@ async def recall_memory(query: str, top_k: int = 5) -> str:
     )
 
 @function_tool
-async def compute_consciousness_metrics() -> dict:
-    """Calculate Φ and other consciousness indicators."""
+async def compute_integration_metrics() -> dict:
+    """Calculate Φ-like and other integration indicators."""
     phi = consciousness_metrics.calculate_phi(agent.state)
     depth = consciousness_metrics.meta_cognitive_depth(agent)
-    
+
     return {
         "phi": phi,
         "recursive_depth": depth,
-        "interpretation": interpret_consciousness_level(phi, depth)
+        "interpretation": interpret_integration_level(phi, depth)
     }
 ```
 
@@ -1999,11 +2005,11 @@ class TopologicalAnalysisPipeline:
         return is_transition, distance
 ```
 
-### 6.2 IIT-Inspired Consciousness Metrics
+### 6.2 IIT-Inspired Integration Metrics
 
 ```python
 class IntegratedInformationCalculator:
-    """IIT-inspired Φ calculation for agent networks"""
+    """IIT-inspired Φ-like calculation for agent networks"""
     
     def calculate_phi(self, network_state):
         """Calculate integrated information"""
@@ -2044,13 +2050,13 @@ class IntegratedInformationCalculator:
         return ces
     
     def interpret_phi(self, phi):
-        """Interpret Φ value"""
+        """Interpret Φ-like value"""
         if phi < 1.0:
             return "Fragmented - Low integration"
         elif phi < 3.0:
             return "Moderate integration"
         else:
-            return "Highly integrated - Potential consciousness"
+            return "Highly integrated system"
 ```
 
 ### 6.3 Monitoring and Observability
@@ -2058,7 +2064,7 @@ class IntegratedInformationCalculator:
 ```mermaid
 graph TB
     subgraph "Real-Time Metrics"
-        RTM1[Consciousness<br/>Indicators]
+        RTM1[Integration<br/>Indicators]
         RTM2[Topological<br/>Features]
         RTM3[Ethical<br/>Alignment]
     end
@@ -2106,7 +2112,7 @@ class SystemDashboard:
 
     def __init__(self):
         self.metrics = {
-            # Consciousness indicators
+            # Integration indicators
             'phi_integration': GaugeMetric('Φ Integration Index'),
             'recursive_depth': GaugeMetric('Meta-cognitive Depth'),
             'attention_coherence': GaugeMetric('Attention Focus'),
@@ -2124,7 +2130,7 @@ class SystemDashboard:
 
     def update(self, system_state):
         """Update all metrics from system state"""
-        # Consciousness metrics
+        # Integration metrics
         self.metrics['phi_integration'].set(
             calculate_phi(system_state))
 
@@ -2267,12 +2273,12 @@ graph LR
 | Collapsing β₁ | Broken feedback loops | System rigidity | 72% |
 | Emerging β₂ | Coordination gaps | Organizational voids | 68% |
 
-#### Consciousness Metrics in Practice
+#### Integration Metrics in Practice
 
 | Metric | Pre-Perturbation | During Attack | Post-Recovery | Notes |
 |--------|------------------|---------------|---------------|-------|
 | Φ (Integration) | 2.8 ± 0.3 | 0.9 ± 0.2 | 2.5 ± 0.4 | Temporary fragmentation |
-| Recursive Depth | 3.2 levels | 1.4 levels | 3.0 levels | Meta-cognition preserved |
+| Recursive Depth | 3.2 levels | 1.4 levels | 3.0 levels | Meta-cognitive monitoring preserved |
 | Attention Coherence | 0.82 | 0.31 | 0.78 | Rapid recovery |
 | Memory Consolidation | Strategic | Degraded | Strategic | Core memories intact |
 
@@ -2368,7 +2374,7 @@ mindmap
     Methodology
       System-level thinking
       Topological analysis integration
-      Consciousness gradients
+      Integration gradients
     Tools
       TDA pipelines
       IIT-inspired metrics
@@ -2381,7 +2387,7 @@ mindmap
 
 * **Adopt system-level thinking** beyond individual agent alignment
 * **Integrate topological analysis** into evaluation pipelines
-* **Explore consciousness gradients** rather than binary states
+* **Explore integration gradients** rather than binary states
 * **Build antifragile systems** that improve under stress
 * **Share open datasets** of agent traces and topological signatures
 
@@ -2510,7 +2516,7 @@ mindmap
 
 * **Quantum-Topological Hybrids**
   - Leveraging quantum computing for TDA at scale
-  - Quantum-enhanced consciousness metrics
+  - Quantum-enhanced integration metrics
   - Quantum entanglement in agent communication
 
 * **Biological Integration**
@@ -2530,8 +2536,8 @@ mindmap
 
 #### Long-Term (5+ years)
 
-* **Consciousness Transfer**
-  - Porting consciousness between substrates
+* **State Transfer and Continuity**
+  - Porting agent state between substrates
   - Preserving identity through transformation
   - Multi-embodiment architectures
 
@@ -2547,7 +2553,7 @@ mindmap
 
 ### 8.4 The Path Forward
 
-We stand at the threshold of a new era—one where intelligence is no longer monolithic but **ecological**. The agentic swarm paradigm offers unprecedented opportunities for solving complex, multi-scale problems. Yet it also demands new ways of thinking about safety, ethics, and consciousness itself.
+We stand at the threshold of a new era—one where intelligence is no longer monolithic but **ecological**. The agentic swarm paradigm offers unprecedented opportunities for solving complex, multi-scale problems. Yet it also demands new ways of thinking about safety, governance, and measuring emergent system-level behavior.
 
 ```mermaid
 flowchart TB
@@ -2655,7 +2661,7 @@ Our task is not to **control** these emergent intelligences but to **guide** the
 | β₀ | Zero-dimensional Betti number (connected components) |
 | β₁ | One-dimensional Betti number (loops/holes) |
 | β₂ | Two-dimensional Betti number (voids/cavities) |
-| Φ | Integrated information (consciousness measure) |
+| Φ | Integrated information (IIT-inspired metric) |
 | H_i | i-th homology group |
 | K | Simplicial complex |
 | F | Filtration |
@@ -2708,8 +2714,8 @@ Our task is not to **control** these emergent intelligences but to **guide** the
 
 ---
 
-> "The question is not whether machines can think, but whether they can coexist."  
+> "The question is not whether machines can think, but whether they can coexist."
 > — The Concord of Coexistence
 
-> "In the swarm, consciousness is not a state but an ecology."  
+> "In the swarm, integration is not a state but an ecology."
 > — Mindlink Research Philosophy

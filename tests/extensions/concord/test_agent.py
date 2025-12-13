@@ -152,7 +152,7 @@ def test_disengagement_protocol(agent, other_agent):
 
 
 def test_elliot_clause_evaluation(agent):
-    """Test Elliot Clause evaluates agent's consciousness status."""
+    """Test Elliot Clause (Behavioral Integration Threshold) evaluates agent's integration status."""
     status = agent.get_status()
 
     assert "elliot_status" in status

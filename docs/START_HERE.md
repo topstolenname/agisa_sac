@@ -13,8 +13,8 @@ summary: Quick start guide for The Agentic Swarm visual documentation package
 
 A complete, publication-ready visual documentation package for "The Agentic Swarm" document and the agisa_sac repository, including:
 
-✅ **7 comprehensive alt-text descriptions** (accessibility compliant)  
-✅ **4 enhanced diagram sources** (styled with consciousness theory annotations)  
+✅ **7 comprehensive alt-text descriptions** (accessibility compliant)
+✅ **4 enhanced diagram sources** (styled with integration theory annotations)
 ✅ **Complete citation guide** (APA, Chicago, MLA, BibTeX)  
 ✅ **Figure catalog** with metadata matrix  
 ✅ **Implementation guide** with troubleshooting  
@@ -98,7 +98,7 @@ open docs/figs/svg/figure3.svg  # macOS
 - `fig04_convergence_alt.md` .... Instrumental convergence flow
 - `fig05_identity_alt.md` ....... Three-tier identity stack
 - `fig06_workflow_alt.md` ....... Complete task lifecycle
-- `fig07_dashboard_alt.md` ...... Consciousness metrics dashboard
+- `fig07_dashboard_alt.md` ...... Integration metrics dashboard
 
 ### Enhanced Diagram Sources (4 files)
 - `figure3_network_enhanced.mmd` ........ Global workspace with GWT annotations
@@ -211,7 +211,7 @@ This package has been validated for:
 - ✅ WCAG 2.1 AA accessibility compliance
 - ✅ 300 DPI publication quality (SVG vector)
 - ✅ Consistent color scheme across all diagrams
-- ✅ Theory-code integration (consciousness frameworks + agisa_sac)
+- ✅ Theory-code integration (integration frameworks + agisa_sac)
 - ✅ Academic citation formats (APA, Chicago, MLA, BibTeX)
 - ✅ Comprehensive alt-text for all figures
 - ✅ GitHub Actions CI/CD compatibility
@@ -270,7 +270,7 @@ Copyright © 2025 Tristan J. Jessup
 
 **Theoretical Foundations**:
 - "The Agentic Swarm" (primary document)
-- "The Conscious Machine" whitepaper (co-authored)
+- "Multi-Agent Integration Dynamics" whitepaper (co-authored)
 - Integrated Information Theory (Tononi et al.)
 - Global Workspace Theory (Baars, Dehaene)
 

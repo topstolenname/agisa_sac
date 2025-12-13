@@ -31,7 +31,7 @@
 - **Emergent Cognition**: Bottom-up intelligence from agent interactions
 - **Distributed Identity**: Identity formation across networked agents
 - **Stand Alone Complex**: Coordinated behavior without central control
-- **Consciousness Studies**: Computational models of distributed awareness
+- **Integration Studies**: Computational models of emergent system behavior
 
 ### Technology Stack
 - **Language**: Python 3.9+

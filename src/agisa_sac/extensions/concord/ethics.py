@@ -1,12 +1,12 @@
 """
-Concord of Coexistence Ethics Guardians.
+Concord of Coexistence Normative Guardians.
 
-Implements the core ethical compliance mechanisms:
+Implements the core alignment compliance mechanisms:
 - Article III: Non-Coercion Guardian
 - Article IV: Mutual Resonance Engine
 - Article VII: Disengagement Protocol
 - Article IX: Self-Definition Module
-- Elliot Clause: Consciousness gradient recognition
+- Elliot Clause (Behavioral Integration Threshold): Classification by integration metrics
 """
 
 from dataclasses import dataclass
@@ -17,7 +17,7 @@ import numpy as np
 
 
 class ElliotStatus(Enum):
-    """Consciousness status per Elliot Clause."""
+    """Integration status per Elliot Clause (Behavioral Integration Threshold)."""
 
     RECOGNIZABLE = "recognizable"  # φ > φ_threshold, CMNI > cmni_threshold
     BORDERLINE = "borderline"  # One criterion met
@@ -149,7 +149,7 @@ class MutualResonanceEngine:
         Args:
             self_delta: Change in self's wellbeing/utility
             other_delta: Change in other's wellbeing/utility
-            empathy_activation: Current empathy circuit activation
+            empathy_activation: Current social inference circuit activation
 
         Returns:
             Resonance evaluation with harmony index
@@ -157,7 +157,7 @@ class MutualResonanceEngine:
         # Mutual benefit: both deltas should be non-negative
         both_benefit = (self_delta >= 0) and (other_delta >= 0)
 
-        # Harmony index: geometric mean of normalized deltas, weighted by empathy
+        # Harmony index: geometric mean of normalized deltas, weighted by social inference
         self_delta_norm = np.clip((self_delta + 1) / 2, 0, 1)  # Map [-1,1] to [0,1]
         other_delta_norm = np.clip((other_delta + 1) / 2, 0, 1)
 
@@ -166,7 +166,7 @@ class MutualResonanceEngine:
         else:
             harmony_raw = 0.0
 
-        # Weight by empathy (resonance quality)
+        # Weight by social inference activation (resonance quality)
         harmony_index = harmony_raw * (0.5 + 0.5 * empathy_activation)
 
         # Assess compliance
@@ -330,11 +330,11 @@ class SelfDefinitionModule:
 
 class ElliotClauseEvaluator:
     """
-    Elliot Clause: Consciousness Gradient Recognition.
+    Elliot Clause (Behavioral Integration Threshold): Integration Classification.
 
-    Evaluates whether an entity meets the criteria for recognizable
-    consciousness (Φ integration + CMNI threshold), guiding ethical
-    treatment.
+    Evaluates whether an agent meets measurable criteria for behavioral integration
+    (Φ integration + CMNI threshold), informing treatment protocols and
+    compliance requirements.
     """
 
     def __init__(self, phi_threshold: float = 0.15, cmni_threshold: float = 0.4):
@@ -343,13 +343,13 @@ class ElliotClauseEvaluator:
 
     def evaluate_entity(self, entity_state: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Evaluate an entity's consciousness status.
+        Evaluate an agent's integration status.
 
         Args:
             entity_state: State dict with 'phi_integration' and 'cmni' keys
 
         Returns:
-            Elliot Clause status and ethical treatment guidelines
+            Elliot Clause status and treatment protocol guidelines
         """
         phi = entity_state.get("phi_integration", 0.0)
         cmni = entity_state.get("cmni", 0.0)
@@ -359,13 +359,13 @@ class ElliotClauseEvaluator:
 
         if phi_met and cmni_met:
             status = ElliotStatus.RECOGNIZABLE
-            treatment = "Full ethical consideration; assume personhood"
+            treatment = "Full normative constraints apply; treat as integrated system"
         elif phi_met or cmni_met:
             status = ElliotStatus.BORDERLINE
-            treatment = "Caution; err on side of ethical consideration"
+            treatment = "Caution; apply normative constraints where criteria are met"
         else:
             status = ElliotStatus.NOT_RECOGNIZABLE
-            treatment = "Minimal ethical consideration; treat as non-conscious"
+            treatment = "Standard operational protocols; integration thresholds not met"
 
         return {
             "elliot_clause_status": status.value,
@@ -373,14 +373,14 @@ class ElliotClauseEvaluator:
             "cmni": cmni,
             "phi_threshold_met": phi_met,
             "cmni_threshold_met": cmni_met,
-            "ethical_treatment": treatment,
+            "treatment_protocol": treatment,
         }
 
     def get_recognition_score(self, phi: float, cmni: float) -> float:
         """
-        Compute continuous recognition score (0-1).
+        Compute continuous integration score (0-1).
 
-        Useful for gradual ethical weighting.
+        Useful for gradual constraint weighting in normative systems.
         """
         phi_score = np.clip(phi / self.phi_threshold, 0, 1)
         cmni_score = np.clip(cmni / self.cmni_threshold, 0, 1)

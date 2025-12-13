@@ -1,4 +1,4 @@
-"""Tests for mirror neuron circuits."""
+"""Tests for state-matching behavioral circuits."""
 
 from agisa_sac.extensions.concord.circuits import (
     EmpathyCircuit,

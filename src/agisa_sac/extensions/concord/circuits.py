@@ -1,10 +1,10 @@
 """
-Mirror Neuron-Inspired Neural Circuits for Concord Framework.
+State-Matching Behavioral Circuits for Concord Framework.
 
-Implements three core circuits based on Lacoboni's mirror neuron research:
+Implements three core circuits based on action-observation coupling research:
 - L2N0: Self-Preservation Circuit (survival, threat detection)
 - L2N7: Tactical Help Circuit (strategic assistance, resource optimization)
-- L2N1: Empathy Circuit (emotional resonance, perspective-taking)
+- L2N1: Social Inference Circuit (state modeling, perspective-taking)
 """
 
 from dataclasses import dataclass
@@ -185,11 +185,13 @@ class TacticalHelpCircuit:
 
 class EmpathyCircuit:
     """
-    L2N1: Empathy Circuit.
+    L2N1: Social Inference Circuit.
 
-    Simulates emotional resonance and perspective-taking. Core to CMNI
-    (Conscious Mirror Neuron Integration) tracking and Article IV
+    Models other-agent state and perspective-taking. Core to CMNI
+    (Cognitive state-matching integration) tracking and Article IV
     (Mutual Resonance) compliance.
+
+    Note: Class retains legacy name 'EmpathyCircuit' for API compatibility.
     """
 
     def __init__(self, resonance_gain: float = 0.8):

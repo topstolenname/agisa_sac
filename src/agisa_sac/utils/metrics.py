@@ -213,16 +213,17 @@ class PrometheusMetrics:
             registry=self.registry
         )
 
-        # Consciousness metrics (IIT-inspired)
+        # Integration metrics (IIT-inspired)
+        # Note: Metric names retained for monitoring API compatibility
         self.consciousness_phi = Gauge(
             'agisa_consciousness_phi',
-            'Integrated information (Φ) metric',
+            'IIT-inspired integration (Φ-like) metric',
             registry=self.registry
         )
 
         self.consciousness_recursive_depth = Gauge(
             'agisa_consciousness_recursive_depth',
-            'Meta-cognitive depth level',
+            'Meta-cognitive monitoring depth level',
             registry=self.registry
         )
 
@@ -356,11 +357,13 @@ class PrometheusMetrics:
 
     @_require_enabled
     def update_consciousness_metrics(self, phi: float, recursive_depth: int) -> None:
-        """Update consciousness-related metrics.
+        """Update integration-related metrics (IIT-inspired Φ and meta-cognitive depth).
+
+        Note: Function name retained for monitoring API compatibility.
 
         Args:
-            phi: Integrated information value
-            recursive_depth: Meta-cognitive recursion depth
+            phi: IIT-inspired integration metric (Φ-like)
+            recursive_depth: Meta-cognitive monitoring depth
         """
         self.consciousness_phi.set(phi)
         self.consciousness_recursive_depth.set(recursive_depth)
