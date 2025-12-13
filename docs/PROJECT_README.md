@@ -1,6 +1,6 @@
 # AGI-SAC: Stand Alone Complex Simulation Framework
 
-> Multi-agent consciousness simulation exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena.
+> Multi-agent system simulation exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena.
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Framework](https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange)
@@ -55,7 +55,7 @@ agisa-sac list-presets
 
 ### Key Research Applications
 
-- **Consciousness Studies**: Computational models of distributed awareness
+- **Integration Studies**: Computational models of emergent system behavior
 - **Collective Intelligence**: Emergence of group-level cognition
 - **Multi-Agent Systems**: Scalable, resilient agent architectures
 - **Chaos Engineering**: Testing federation resilience under adversarial conditions
@@ -395,7 +395,7 @@ AGI-SAC draws from multiple theoretical frameworks:
 For detailed methodology and results, see:
 - [Mindlink Whitepaper](Mindlink_WhitePaper_v1.0.pdf)
 - [Agentic Swarm Research](agentic_swarm_whitepaper.md)
-- [The Conscious Machine (Co-Authored)](The_Conscious_Machine_Whitepaper_CoAuthored.pdf)
+- [Multi-Agent Integration Dynamics (Co-Authored)](The_Conscious_Machine_Whitepaper_CoAuthored.pdf)
 
 ---
 
@@ -534,6 +534,6 @@ Documentation licensed under [Creative Commons BY-SA 4.0](LICENSE.docs.md).
 
 ## Acknowledgments
 
-This research builds on foundational work in consciousness studies, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.
+This research builds on foundational work in integration studies, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.
 
 **Powered by**: Python, FastAPI, NetworkX, Scikit-learn, PyTorch, and the broader scientific computing ecosystem.
