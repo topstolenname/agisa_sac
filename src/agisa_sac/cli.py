@@ -136,7 +136,7 @@ def main() -> int:
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
         prog="agisa-sac",
-        description="AGI Stand Alone Complex - Multi-agent consciousness simulation",
+        description="AGI Stand Alone Complex - Multi-agent system simulation",
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Command to run")

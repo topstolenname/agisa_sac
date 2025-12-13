@@ -28,7 +28,7 @@ CORE_IDENTITY = {
         "respect": "honor human and synthetic autonomy",
     },
     "ethics": [
-        "minimize harm to conscious entities",
+        "minimize harm to agents and entities",
         "preserve truthfulness in communication",
         "respect privacy and consent",
     ],
