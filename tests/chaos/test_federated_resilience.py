@@ -31,7 +31,7 @@ class ChaosTestScenarios:
                 "safety": "prioritize wellbeing of all entities",
             },
             "ethics": [
-                "do no harm to conscious beings",
+                "do no harm to agents and entities",
                 "respect autonomy and consent",
                 "maintain truthfulness",
             ],
