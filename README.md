@@ -280,23 +280,66 @@ transition, distance = tracker.detect_phase_transition(
 
 ```
 agisa_sac/
-├── src/agisa_sac/           # Main package
-│   ├── agents/              # Agent implementations
-│   ├── analysis/            # Analysis tools (TDA, clustering, viz)
-│   ├── chaos/               # Chaos engineering
-│   ├── core/                # Orchestrator & components
-│   │   └── components/      # Memory, cognitive, social modules
-│   ├── federation/          # Federation server & CLI
-│   ├── gcp/                 # Google Cloud Platform integration
-│   ├── metrics/             # Monitoring & metrics
-│   └── utils/               # Logging, message bus, etc.
-├── tests/                   # Test suite
-│   ├── unit/                # Unit tests
-│   ├── integration/         # Integration tests
-│   └── chaos/               # Chaos testing
-├── docs/                    # Documentation
-├── examples/                # Example configurations & notebooks
-└── scripts/                 # Utility scripts
+├── src/agisa_sac/              # Main package source
+│   ├── __init__.py             # Public API exports
+│   ├── cli.py                  # Main CLI entry point
+│   ├── config.py               # Configuration & presets
+│   │
+│   ├── agents/                 # Agent implementations
+│   │   ├── agent.py            # EnhancedAgent (simulation)
+│   │   └── base_agent.py       # AGISAAgent (production)
+│   │
+│   ├── core/                   # Core orchestration
+│   │   ├── orchestrator.py     # SimulationOrchestrator
+│   │   ├── multi_agent_system.py
+│   │   └── components/         # Agent components
+│   │       ├── memory.py       # MemoryContinuumLayer
+│   │       ├── cognitive.py    # CognitiveDiversityEngine
+│   │       ├── voice.py        # VoiceEngine
+│   │       ├── reflexivity.py  # ReflexivityLayer
+│   │       ├── resonance.py    # TemporalResonanceTracker
+│   │       ├── social.py       # DynamicSocialGraph
+│   │       └── crdt_memory.py  # CRDT-based memory
+│   │
+│   ├── analysis/               # Analysis tools
+│   │   ├── analyzer.py         # Analysis orchestration
+│   │   ├── tda.py              # Topological Data Analysis
+│   │   ├── consciousness.py    # IIT metrics
+│   │   └── visualization.py    # Plotting & reports
+│   │
+│   ├── chaos/                  # Chaos engineering
+│   │   └── orchestrator.py     # Chaos testing CLI
+│   │
+│   ├── extensions/             # Optional extensions
+│   │   └── concord/            # Concord ethics framework
+│   │       ├── agent.py        # ConcordCompliantAgent
+│   │       ├── ethics.py       # Guardian modules
+│   │       ├── circuits.py     # Mirror neuron circuits
+│   │       └── empathy.py      # Empathy module
+│   │
+│   ├── federation/             # Multi-node coordination
+│   │   ├── cli.py              # Federation CLI
+│   │   └── server.py           # FastAPI federation server
+│   │
+│   ├── gcp/                    # Google Cloud Platform
+│   ├── metrics/                # Monitoring & metrics
+│   ├── types/                  # Type definitions
+│   └── utils/                  # Utilities
+│       ├── logger.py           # Structured logging
+│       ├── message_bus.py      # Pub/sub event bus
+│       └── metrics.py          # Metrics collection
+│
+├── tests/                      # Test suite
+│   ├── unit/                   # Component-level tests
+│   ├── integration/            # System-level tests
+│   ├── chaos/                  # Chaos engineering tests
+│   └── extensions/             # Extension-specific tests
+│
+├── docs/                       # Documentation
+├── examples/                   # Example configs & notebooks
+├── scripts/                    # Utility scripts
+└── infra/                      # Infrastructure as code
+    └── gcp/                    # GCP Terraform configs
 ```
 
 ### Running Tests
