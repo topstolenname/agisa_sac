@@ -1,6 +1,6 @@
 # AGI-SAC: Stand Alone Complex Simulation Framework
 
-> Multi-agent consciousness simulation exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena.
+> Multi-agent system exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena through integrated information flow patterns.
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Framework](https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange)
@@ -43,6 +43,12 @@ agisa-sac list-presets
 
 ---
 
+## ⚠️ Research Disclaimer
+
+**This project does not claim to create machine consciousness or subjective experience.** All language in this documentation describes observable system behavior, measurable information-theoretic properties, and emergent multi-agent dynamics. Terms like "awareness," "reflexivity," and "integration" refer strictly to computational processes and information flow patterns, not phenomenal consciousness.
+
+---
+
 ## Overview
 
 **AGI-SAC** (Artificial General Intelligence Stand Alone Complex) is a research framework for studying emergent collective intelligence in multi-agent systems. It explores how distributed cognitive processes can give rise to higher-order phenomena including:
@@ -55,7 +61,7 @@ agisa-sac list-presets
 
 ### Key Research Applications
 
-- **Consciousness Studies**: Computational models of distributed awareness
+- **Integrated System Behavior**: Information-integration metrics and system-level coordination dynamics
 - **Collective Intelligence**: Emergence of group-level cognition
 - **Multi-Agent Systems**: Scalable, resilient agent architectures
 - **Chaos Engineering**: Testing federation resilience under adversarial conditions
@@ -103,7 +109,7 @@ AGI-SAC uses a modular, layered architecture:
 - **Dynamic Social Graph**: Adaptive peer influence network
 - **Temporal Resonance Tracker**: Synchronization pattern detection
 - **Voice Engine**: Emergent linguistic signatures
-- **Reflexivity Layer**: Meta-cognitive awareness and identity realignment
+- **Reflexivity Layer**: Meta-cognitive monitoring and identity realignment
 
 ---
 
@@ -304,18 +310,18 @@ agisa_sac/
 │   ├── analysis/               # Analysis tools
 │   │   ├── analyzer.py         # Analysis orchestration
 │   │   ├── tda.py              # Topological Data Analysis
-│   │   ├── consciousness.py    # IIT metrics
+│   │   ├── consciousness.py    # IIT-inspired integration metrics
 │   │   └── visualization.py    # Plotting & reports
 │   │
 │   ├── chaos/                  # Chaos engineering
 │   │   └── orchestrator.py     # Chaos testing CLI
 │   │
 │   ├── extensions/             # Optional extensions
-│   │   └── concord/            # Concord ethics framework
+│   │   └── concord/            # Concord normative framework
 │   │       ├── agent.py        # ConcordCompliantAgent
 │   │       ├── ethics.py       # Guardian modules
-│   │       ├── circuits.py     # Mirror neuron circuits
-│   │       └── empathy.py      # Empathy module
+│   │       ├── circuits.py     # State-matching circuits
+│   │       └── empathy.py      # Social inference module
 │   │
 │   ├── federation/             # Multi-node coordination
 │   │   ├── cli.py              # Federation CLI
@@ -438,7 +444,7 @@ AGI-SAC draws from multiple theoretical frameworks:
 For detailed methodology and results, see:
 - [Mindlink Whitepaper](docs/Mindlink_WhitePaper_v1.0.pdf)
 - [Agentic Swarm Research](docs/agentic_swarm_whitepaper.md)
-- [The Conscious Machine (Co-Authored)](docs/The_Conscious_Machine_Whitepaper_CoAuthored.pdf)
+- [Multi-Agent Integration Dynamics (Co-Authored)](docs/The_Conscious_Machine_Whitepaper_CoAuthored.pdf)
 
 ---
 
@@ -577,6 +583,6 @@ Documentation licensed under [Creative Commons BY-SA 4.0](LICENSE.docs.md).
 
 ## Acknowledgments
 
-This research builds on foundational work in consciousness studies, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.
+This research builds on foundational work in information theory, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.
 
 **Powered by**: Python, FastAPI, NetworkX, Scikit-learn, PyTorch, and the broader scientific computing ecosystem.
