@@ -1,8 +1,10 @@
 """
-Empathy Module with CMNI (Conscious Mirror Neuron Integration) tracking.
+Social Inference Module with CMNI (Cognitive state-matching integration) tracking.
 
-Implements the empathic capacity measurement and tracking system for
-Concord-compliant agents, based on mirror neuron circuit activations.
+Implements the social inference capacity measurement and tracking system for
+Concord-compliant agents, based on state-matching circuit activations.
+
+Note: Module retains legacy name 'empathy.py' for compatibility.
 """
 
 from collections import deque
@@ -27,11 +29,11 @@ class CMNISnapshot:
 
 class CMNITracker:
     """
-    Tracks Conscious Mirror Neuron Integration (CMNI) over time.
+    Tracks Cognitive state-matching integration (CMNI) over time.
 
-    CMNI measures the agent's capacity for empathic resonance across
+    CMNI measures the agent's capacity for social inference across
     interactions with multiple agents. It's computed as the running
-    mean of empathy circuit activations.
+    mean of social inference circuit activations.
     """
 
     def __init__(self, window_size: int = 50, baseline_cmni: float = 0.3):
@@ -44,10 +46,10 @@ class CMNITracker:
 
     def update(self, activation: CircuitActivation) -> float:
         """
-        Update CMNI based on new empathy circuit activation.
+        Update CMNI based on new social inference circuit activation.
 
         Args:
-            activation: EmpathyCircuit activation result
+            activation: Social inference circuit (L2N1) activation result
 
         Returns:
             Updated CMNI score
@@ -105,10 +107,12 @@ class CMNITracker:
 
 class EmpathyModule:
     """
-    High-level empathy module integrating mirror neuron circuits with CMNI tracking.
+    High-level social inference module integrating state-matching circuits with CMNI tracking.
 
-    Manages empathic interactions across multiple agents and maintains
-    the agent's overall empathic capacity score.
+    Manages social inference interactions across multiple agents and maintains
+    the agent's overall social inference capacity score.
+
+    Note: Class retains legacy name 'EmpathyModule' for API compatibility.
     """
 
     def __init__(
@@ -129,18 +133,18 @@ class EmpathyModule:
         emotional_context: Optional[Dict[str, Any]] = None,
     ) -> CircuitActivation:
         """
-        Process an empathic interaction with another agent.
+        Process a social inference interaction with another agent.
 
         Args:
             agent_id: Identifier of the other agent
-            self_state: Current agent's emotional state
-            other_state: Other agent's emotional state
+            self_state: Current agent's state
+            other_state: Other agent's state
             emotional_context: Shared situational context
 
         Returns:
-            CircuitActivation from empathy circuit, with CMNI updated
+            CircuitActivation from social inference circuit, with CMNI updated
         """
-        # Run empathy circuit evaluation
+        # Run social inference circuit evaluation
         activation = self.empathy_circuit.evaluate(self_state, other_state, emotional_context)
 
         # Update CMNI tracker
@@ -159,7 +163,7 @@ class EmpathyModule:
 
     def get_agent_affinity(self, agent_id: str) -> float:
         """
-        Get empathic affinity with a specific agent (mean resonance).
+        Get social inference affinity with a specific agent (mean resonance).
 
         Args:
             agent_id: Target agent identifier
@@ -174,7 +178,7 @@ class EmpathyModule:
 
     def get_empathy_capacity(self) -> Dict[str, Any]:
         """
-        Get comprehensive empathy capacity report.
+        Get comprehensive social inference capacity report.
 
         Returns:
             Dictionary with CMNI, trends, and per-agent affinities
@@ -192,8 +196,8 @@ class EmpathyModule:
 
     def is_empathy_threshold_met(self, threshold: float = 0.4) -> bool:
         """
-        Check if current CMNI meets a minimum empathy threshold.
+        Check if current CMNI meets a minimum integration threshold.
 
-        Used by Elliot Clause evaluation to assess consciousness gradients.
+        Used by Elliot Clause evaluation to assess integration gradients.
         """
         return self.cmni_tracker.current_cmni >= threshold

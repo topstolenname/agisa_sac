@@ -1,16 +1,16 @@
 """
 Concord of Coexistence Extension for AGISA-SAC.
 
-This extension integrates the Concord of Coexistence ethical framework
-with mirror neuron-inspired neural circuits, providing a comprehensive
-system for ethical multi-agent interactions.
+This extension integrates the Concord of Coexistence normative framework
+with state-matching behavioral circuits, providing a comprehensive
+system for normative multi-agent interactions.
 
 Key Components:
 - ConcordCompliantAgent: Main agent implementation
-- Mirror neuron circuits: L2N0 (Self-Preservation), L2N7 (Tactical Help), L2N1 (Empathy)
+- State-matching circuits: L2N0 (Self-Preservation), L2N7 (Tactical Help), L2N1 (Social Inference)
 - Ethics guardians: Non-Coercion, Mutual Resonance, Disengagement, Self-Definition
-- Elliot Clause: Consciousness gradient recognition
-- CMNI: Conscious Mirror Neuron Integration tracking
+- Elliot Clause (Behavioral Integration Threshold): Integration classification
+- CMNI: Cognitive state-matching integration tracking
 
 Example:
     ```python
@@ -51,7 +51,7 @@ __all__ = [
     "SelfPreservationCircuit",
     "TacticalHelpCircuit",
     "EmpathyCircuit",
-    # Empathy
+    # Social Inference (legacy name: EmpathyModule)
     "EmpathyModule",
     "CMNITracker",
     "CMNISnapshot",

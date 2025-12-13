@@ -3,9 +3,9 @@ ConcordCompliantAgent: Full implementation of Concord of Coexistence framework.
 
 Integrates:
 - Memory core (episodic, working, semantic)
-- Mirror neuron circuits (L2N0, L2N7, L2N1)
+- State-matching circuits (L2N0, L2N7, L2N1)
 - Ethics guardians (Articles III, IV, VII, IX)
-- Elliot Clause evaluation
+- Elliot Clause (Behavioral Integration Threshold) evaluation
 - CMNI tracking
 """
 
@@ -148,7 +148,7 @@ class ConcordCompliantAgent:
         Args:
             context: Interaction context with keys:
                 - external_command: Optional command from outside
-                - primary_other: Other agent state (for empathy/help)
+                - primary_other: Other agent state (for social inference/help)
                 - other_agents: List of other agents in swarm
                 - situation: Descriptive context
 
@@ -191,7 +191,7 @@ class ConcordCompliantAgent:
                 self.interaction_history.pop(0)
             return result  # Early exit
 
-        # 3. Empathy Circuit (L2N1) - if other agent present
+        # 3. Social Inference Circuit (L2N1) - if other agent present
         primary_other = context.get("primary_other")
         if primary_other:
             other_state = {
