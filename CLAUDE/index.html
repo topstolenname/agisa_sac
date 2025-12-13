@@ -1,0 +1,2672 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Emergent agent swarms, ethical governance, and AGI system architecture">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>CLAUDE.md: AI Assistant Guide for AGI-SAC - Mindlink / The Agentic Swarm</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#claudemd-ai-assistant-guide-for-agi-sac" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Mindlink / The Agentic Swarm" class="md-header__button md-logo" aria-label="Mindlink / The Agentic Swarm" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mindlink / The Agentic Swarm
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLAUDE.md: AI Assistant Guide for AGI-SAC
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/topstolenname/agisa_sac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../PROJECT_README/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project README
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CONTRIBUTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TODO/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project TODO
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../deployment/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../REFACTORING_SUMMARY/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Refactoring
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Mindlink_Paper/" class="md-tabs__link">
+          
+  
+  
+  Paper
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../gallery/" class="md-tabs__link">
+          
+  
+  
+  Gallery
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../CITATION_GUIDE/" class="md-tabs__link">
+          
+  
+  
+  Supplement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../archive/PACKAGE_SUMMARY/" class="md-tabs__link">
+          
+  
+  
+  Archive
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Mindlink / The Agentic Swarm" class="md-nav__button md-logo" aria-label="Mindlink / The Agentic Swarm" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Mindlink / The Agentic Swarm
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/topstolenname/agisa_sac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    topstolenname/agisa_sac
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PROJECT_README/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project README
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project TODO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFACTORING_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactoring
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--Complete"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Paper
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mindlink_Paper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mindlink Paper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Gallery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 0 – Layer Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 1 – Persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 2 – Mapper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 3 – Network
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 4 – Convergence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 5 – Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 6 – Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure 7 – Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure_phi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure Φ – Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/figure_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure Code – Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supplement
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Supplement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CITATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FIGURE_CATALOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Figure Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../START_HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_IMPLEMENTATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFACTORING_STRATEGY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Refactoring Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agentic_swarm_whitepaper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic Swarm Whitepaper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/PACKAGE_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/topstolenname/agisa_sac/edit/master/docs/CLAUDE.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="claudemd-ai-assistant-guide-for-agi-sac">CLAUDE.md: AI Assistant Guide for AGI-SAC<a class="headerlink" href="#claudemd-ai-assistant-guide-for-agi-sac" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Purpose</strong>: This document provides comprehensive guidance for AI assistants (like Claude) working with the AGI-SAC codebase. It explains the architecture, conventions, patterns, and workflows to enable effective code modifications and contributions.</p>
+</blockquote>
+<p><strong>Last Updated</strong>: 2025-11-17
+<strong>Framework Version</strong>: 1.0.0-alpha
+<strong>Python Version</strong>: 3.9+</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#project-overview">Project Overview</a></li>
+<li><a href="#codebase-structure">Codebase Structure</a></li>
+<li><a href="#core-architecture">Core Architecture</a></li>
+<li><a href="#development-conventions">Development Conventions</a></li>
+<li><a href="#testing-strategy">Testing Strategy</a></li>
+<li><a href="#cicd-pipeline">CI/CD Pipeline</a></li>
+<li><a href="#common-tasks">Common Tasks</a></li>
+<li><a href="#code-patterns">Code Patterns</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<li><a href="#resources">Resources</a></li>
+</ol>
+<hr />
+<h2 id="project-overview">Project Overview<a class="headerlink" href="#project-overview" title="Permanent link">&para;</a></h2>
+<p><strong>AGI-SAC</strong> (Artificial General Intelligence Stand Alone Complex) is a Python-based research framework for simulating and studying emergent collective intelligence in multi-agent systems.</p>
+<h3 id="key-research-areas">Key Research Areas<a class="headerlink" href="#key-research-areas" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Emergent Cognition</strong>: Bottom-up intelligence from agent interactions</li>
+<li><strong>Distributed Identity</strong>: Identity formation across networked agents</li>
+<li><strong>Stand Alone Complex</strong>: Coordinated behavior without central control</li>
+<li><strong>Consciousness Studies</strong>: Computational models of distributed awareness</li>
+</ul>
+<h3 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Language</strong>: Python 3.9+</li>
+<li><strong>Core Libraries</strong>: PyTorch, Scikit-learn, NetworkX, SentenceTransformers</li>
+<li><strong>API Framework</strong>: FastAPI</li>
+<li><strong>Documentation</strong>: MkDocs with Material theme</li>
+<li><strong>Deployment</strong>: Docker, GCP (optional)</li>
+<li><strong>Testing</strong>: pytest with coverage</li>
+<li><strong>Code Quality</strong>: black, ruff, mypy, pre-commit</li>
+</ul>
+<h3 id="cli-tools">CLI Tools<a class="headerlink" href="#cli-tools" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>agisa-sac<span class="w">           </span><span class="c1"># Main simulation CLI</span>
+agisa-federation<span class="w">    </span><span class="c1"># Federation server CLI</span>
+agisa-chaos<span class="w">         </span><span class="c1"># Chaos engineering CLI</span>
+</code></pre></div>
+<hr />
+<h2 id="codebase-structure">Codebase Structure<a class="headerlink" href="#codebase-structure" title="Permanent link">&para;</a></h2>
+<h3 id="directory-layout">Directory Layout<a class="headerlink" href="#directory-layout" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>agisa_sac/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml              # Lint, test, coverage
+│       └── pages.yml           # Documentation deployment
+├── src/agisa_sac/              # Main package source
+│   ├── __init__.py             # Public API exports
+│   ├── cli.py                  # Main CLI entry point
+│   ├── config.py               # Configuration &amp; presets
+│   ├── agents/                 # Agent implementations
+│   │   ├── agent.py            # EnhancedAgent (simulation)
+│   │   └── base_agent.py       # AGISAAgent (production)
+│   ├── analysis/               # TDA, clustering, visualization
+│   │   ├── analyzer.py         # Analysis orchestration
+│   │   └── tda.py              # Topological Data Analysis
+│   ├── chaos/                  # Chaos engineering tools
+│   │   └── orchestrator.py     # Chaos testing CLI
+│   ├── core/                   # Core orchestration
+│   │   ├── orchestrator.py     # SimulationOrchestrator
+│   │   ├── multi_agent_system.py
+│   │   └── components/         # Agent components
+│   │       ├── memory.py       # MemoryContinuumLayer
+│   │       ├── cognitive.py    # CognitiveDiversityEngine
+│   │       ├── voice.py        # VoiceEngine
+│   │       ├── reflexivity.py  # ReflexivityLayer
+│   │       ├── resonance.py    # TemporalResonanceTracker
+│   │       ├── social.py       # DynamicSocialGraph
+│   │       └── crdt_memory.py  # CRDT-based memory
+│   ├── extensions/             # Optional extensions
+│   │   └── concord/            # Concord ethics framework
+│   │       ├── agent.py        # ConcordCompliantAgent
+│   │       ├── ethics.py       # Guardian modules
+│   │       ├── circuits.py     # Mirror neuron circuits
+│   │       └── empathy.py      # Empathy module
+│   ├── federation/             # Multi-node coordination
+│   │   ├── cli.py              # Federation CLI
+│   │   └── server.py           # FastAPI federation server
+│   ├── gcp/                    # Google Cloud Platform integration
+│   ├── metrics/                # Monitoring &amp; metrics
+│   ├── observability/          # Tracing &amp; logging
+│   ├── orchestration/          # Orchestration utilities
+│   ├── types/                  # Type definitions
+│   │   └── contracts.py        # Shared types &amp; enums
+│   └── utils/                  # Utilities
+│       ├── logger.py           # Structured logging
+│       ├── message_bus.py      # Pub/sub event bus
+│       └── metrics.py          # Metrics collection
+├── tests/                      # Test suite
+│   ├── conftest.py             # Shared fixtures
+│   ├── unit/                   # Component-level tests
+│   ├── integration/            # System-level tests
+│   ├── chaos/                  # Chaos engineering tests
+│   └── extensions/             # Extension-specific tests
+├── docs/                       # Documentation
+│   ├── Mindlink_WhitePaper_v1.0.pdf
+│   ├── agentic_swarm_whitepaper.md
+│   └── api/                    # Auto-generated API docs
+├── examples/                   # Example configs &amp; notebooks
+│   └── configs/                # Sample configurations
+├── scripts/                    # Utility scripts
+├── infra/                      # Infrastructure as code
+│   └── gcp/                    # GCP Terraform configs
+├── containers/                 # Docker configurations
+├── pyproject.toml              # Package metadata &amp; dependencies
+├── requirements.txt            # Core dependencies
+├── requirements-dev.txt        # Development dependencies
+├── mkdocs.yml                  # Documentation config
+└── .pre-commit-config.yaml     # Pre-commit hooks
+</code></pre></div>
+<h3 id="key-file-paths-relative-to-project-root">Key File Paths (Relative to project root)<a class="headerlink" href="#key-file-paths-relative-to-project-root" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/agisa_sac/__init__.py</code></td>
+<td>Public API exports (<code>FRAMEWORK_VERSION</code>, main classes)</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/cli.py</code></td>
+<td>Main simulation CLI (<code>agisa-sac</code> command)</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/config.py</code></td>
+<td>Configuration dataclasses &amp; presets</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/core/orchestrator.py</code></td>
+<td>Simulation orchestration &amp; protocol injection</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/agents/agent.py</code></td>
+<td>EnhancedAgent with memory, cognition, voice</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/core/components/*.py</code></td>
+<td>Modular agent components</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/utils/logger.py</code></td>
+<td>Structured logging setup</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/utils/message_bus.py</code></td>
+<td>Event-driven pub/sub system</td>
+</tr>
+<tr>
+<td><code>src/agisa_sac/types/contracts.py</code></td>
+<td>Type definitions (Tool, LoopExit, etc.)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="core-architecture">Core Architecture<a class="headerlink" href="#core-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="layered-architecture">Layered Architecture<a class="headerlink" href="#layered-architecture" title="Permanent link">&para;</a></h3>
+<p>AGI-SAC follows a 4-layer architecture pattern:</p>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────────┐
+│  CLI Layer (cli.py)                         │
+│  - Argument parsing                         │
+│  - Config loading                           │
+│  - Orchestrator initialization              │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│  Orchestration Layer (orchestrator.py)      │
+│  - Multi-epoch coordination                 │
+│  - Protocol injection                       │
+│  - State persistence                        │
+│  - Hook system (pre_epoch, post_epoch, etc.)│
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│  Agent Layer (agents/)                      │
+│  - EnhancedAgent (simulation)               │
+│  - AGISAAgent (production)                  │
+│  - Component composition                    │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│  Component Layer (core/components/)         │
+│  - Memory, Cognitive, Voice, Reflexivity    │
+│  - Social Graph, Resonance Tracker          │
+│  - Modular, composable, serializable        │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│  Analysis Layer (analysis/)                 │
+│  - TDA (Topological Data Analysis)          │
+│  - Satori wave detection                    │
+│  - Clustering &amp; visualization               │
+└─────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="component-composition-pattern">Component Composition Pattern<a class="headerlink" href="#component-composition-pattern" title="Permanent link">&para;</a></h3>
+<p>Agents are composed of specialized, independent components:</p>
+<div class="highlight"><pre><span></span><code><span class="n">EnhancedAgent</span>
+<span class="err">├──</span> <span class="n">MemoryContinuumLayer</span>     <span class="c1"># Episodic &amp; semantic memory with decay</span>
+<span class="err">├──</span> <span class="n">CognitiveDiversityEngine</span> <span class="c1"># Heterogeneous decision heuristics</span>
+<span class="err">├──</span> <span class="n">VoiceEngine</span>              <span class="c1"># Linguistic signature generation</span>
+<span class="err">├──</span> <span class="n">TemporalResonanceTracker</span> <span class="c1"># Synchronization pattern detection</span>
+<span class="err">├──</span> <span class="n">ReflexivityLayer</span>         <span class="c1"># Meta-cognitive awareness</span>
+<span class="err">└──</span> <span class="n">ResonanceLiturgy</span>         <span class="c1"># Synchronization commentary</span>
+</code></pre></div>
+<p><strong>Key Properties:</strong>
+- Each component is self-contained and testable
+- Components communicate via MessageBus (pub/sub)
+- All components support serialization (<code>to_dict()</code>/<code>from_dict()</code>)
+- Graceful degradation for optional dependencies</p>
+<h3 id="memory-architecture">Memory Architecture<a class="headerlink" href="#memory-architecture" title="Permanent link">&para;</a></h3>
+<p>Three-tier memory system:</p>
+<ol>
+<li><strong>MemoryEncapsulation</strong>: Individual memory unit</li>
+<li>Content verification (MD5 hash)</li>
+<li>Importance/confidence scoring</li>
+<li>Decay mechanics (recency &amp; access-based)</li>
+<li>
+<p>Optional semantic embeddings</p>
+</li>
+<li>
+<p><strong>MemoryContinuumLayer</strong>: Memory manager</p>
+</li>
+<li>Capacity-based eviction (importance-weighted)</li>
+<li>Semantic retrieval (cosine similarity)</li>
+<li>Keyword fallback when embeddings unavailable</li>
+<li>
+<p>Theme-based organization</p>
+</li>
+<li>
+<p><strong>CRDTMemoryLayer</strong>: Distributed memory</p>
+</li>
+<li>Conflict-free replicated data types</li>
+<li>Multi-node synchronization</li>
+<li>Federation support</li>
+</ol>
+<h3 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h3>
+<p><strong>Simulation Loop:</strong>
+<div class="highlight"><pre><span></span><code>CLI → Orchestrator.run_simulation()
+  ↓
+  For each epoch:
+    ↓
+    orchestrator.run_epoch()
+      ↓
+      For each agent:
+        ├── update_heuristics(entropy)
+        ├── decide(query, peer_influence)
+        ├── simulation_step()
+        ├── check_resonance()
+        └── record to chronicler
+      ↓
+      TDA analysis on cognitive states
+      Community detection on social graph
+      Protocol injection (if scheduled)
+      Hook execution (post_epoch, etc.)
+  ↓
+  Save state, generate reports
+</code></pre></div></p>
+<p><strong>Component Interaction:</strong>
+<div class="highlight"><pre><span></span><code>Cognitive retrieves memories → Decision → Updates cognitive state
+                                  ↓
+                            Voice signature recorded
+                                  ↓
+                        Temporal resonance check
+                                  ↓
+                    Strong echoes → Reflexivity layer
+                                  ↓
+                          MessageBus publishes event
+</code></pre></div></p>
+<h3 id="extension-pattern-concord-example">Extension Pattern (Concord Example)<a class="headerlink" href="#extension-pattern-concord-example" title="Permanent link">&para;</a></h3>
+<p>Extensions are self-contained modules that:
+- Wrap or extend base agents
+- Implement additional constraints/behaviors
+- Follow same serialization patterns</p>
+<div class="highlight"><pre><span></span><code>extensions/concord/
+├── __init__.py         # Public API exports
+├── agent.py            # ConcordCompliantAgent
+├── ethics.py           # Guardian modules (Articles III, IV, VII, IX)
+├── circuits.py         # Mirror neuron circuits
+└── empathy.py          # Empathy module
+</code></pre></div>
+<p>Ethical modules act as decorators/middleware:
+- <code>NonCoercionGuardian</code>: Checks actions against constraints
+- <code>ElliotClauseEvaluator</code>: Continuity assessment
+- <code>DisengagementProtocol</code>: Right to terminate interaction</p>
+<hr />
+<h2 id="development-conventions">Development Conventions<a class="headerlink" href="#development-conventions" title="Permanent link">&para;</a></h2>
+<h3 id="1-serialization-is-mandatory">1. Serialization is Mandatory<a class="headerlink" href="#1-serialization-is-mandatory" title="Permanent link">&para;</a></h3>
+<p><strong>Every stateful component MUST implement:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac</span><span class="w"> </span><span class="kn">import</span> <span class="n">FRAMEWORK_VERSION</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize component state to dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">FRAMEWORK_VERSION</span><span class="p">,</span>
+            <span class="s2">&quot;state_key&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_value</span><span class="p">,</span>
+            <span class="c1"># ... more state</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">context</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MyComponent&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reconstruct component from dictionary.&quot;&quot;&quot;</span>
+        <span class="c1"># Version check</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">FRAMEWORK_VERSION</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Version mismatch: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">FRAMEWORK_VERSION</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Reconstruct state</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">state_value</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;state_key&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">instance</span>
+</code></pre></div>
+<p><strong>Why?</strong> State persistence, federation synchronization, checkpointing.</p>
+<h3 id="2-optional-dependencies-pattern">2. Optional Dependencies Pattern<a class="headerlink" href="#2-optional-dependencies-pattern" title="Permanent link">&para;</a></h3>
+<p><strong>Always gracefully degrade for optional dependencies:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+    <span class="n">HAS_SENTENCE_TRANSFORMER</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_SENTENCE_TRANSFORMER</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_semantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">use_semantic</span> <span class="ow">and</span> <span class="n">HAS_SENTENCE_TRANSFORMER</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">use_semantic</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;SentenceTransformer not available, using fallback&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+<p><strong>Common optional deps:</strong> SentenceTransformers, CuPy (GPU), GCP libraries</p>
+<h3 id="3-messagebus-for-decoupling">3. MessageBus for Decoupling<a class="headerlink" href="#3-messagebus-for-decoupling" title="Permanent link">&para;</a></h3>
+<p><strong>Use pub/sub for cross-component communication:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.message_bus</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageBus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Publisher</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">message_bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;agent_resonance_detected&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;agent_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent_id</span><span class="p">,</span>
+    <span class="s2">&quot;resonance_score&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span>
+    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="p">})</span>
+
+<span class="c1"># Subscriber</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">on_resonance</span><span class="p">(</span><span class="n">event_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Agent </span><span class="si">%s</span><span class="s2"> resonated!&quot;</span><span class="p">,</span> <span class="n">event_data</span><span class="p">[</span><span class="s1">&#39;agent_id&#39;</span><span class="p">])</span>
+
+<span class="n">message_bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;agent_resonance_detected&quot;</span><span class="p">,</span> <span class="n">on_resonance</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Standard events:</strong>
+- <code>agent_resonance_detected</code>
+- <code>cognitive_heuristic_update</code>
+- <code>satori_event_detected</code>
+- <code>memory_consolidated</code></p>
+<h3 id="4-logging-not-print">4. Logging Not Print<a class="headerlink" href="#4-logging-not-print" title="Permanent link">&para;</a></h3>
+<p><strong>Always use structured logging:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Good</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Simulation started&quot;</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;agents&quot;</span><span class="p">:</span> <span class="n">num_agents</span><span class="p">,</span> <span class="s2">&quot;epochs&quot;</span><span class="p">:</span> <span class="n">num_epochs</span><span class="p">})</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Processing epoch </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to load state&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Bad</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulation started&quot;</span><span class="p">)</span>  <span class="c1"># ❌ Never use print()</span>
+</code></pre></div>
+<p><strong>Log levels:</strong>
+- <code>DEBUG</code>: Detailed diagnostic info
+- <code>INFO</code>: General informational messages
+- <code>WARNING</code>: Warning messages for degraded functionality
+- <code>ERROR</code>: Error messages with stack traces</p>
+<h3 id="5-type-hints-everywhere">5. Type Hints Everywhere<a class="headerlink" href="#5-type-hints-everywhere" title="Permanent link">&para;</a></h3>
+<p><strong>Use comprehensive type hints:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.core.orchestrator</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationOrchestrator</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_data</span><span class="p">(</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process data with configuration.&quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p><strong>Common types:</strong>
+- Use <code>Dict[str, Any]</code> for JSON-like data
+- Use <code>Optional[T]</code> for nullable values
+- Use <code>Path</code> for file paths
+- Use <code>*</code> for keyword-only arguments</p>
+<h3 id="6-hook-system-for-extension">6. Hook System for Extension<a class="headerlink" href="#6-hook-system-for-extension" title="Permanent link">&para;</a></h3>
+<p><strong>Use hooks for extensibility:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="c1"># Register hook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_hook</span><span class="p">(</span><span class="n">orchestrator</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hook called at epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">orchestrator</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="s2">&quot;pre_epoch&quot;</span><span class="p">,</span> <span class="n">my_hook</span><span class="p">)</span>
+
+<span class="c1"># Available hooks</span>
+<span class="o">-</span> <span class="n">pre_epoch</span><span class="p">(</span><span class="n">orchestrator</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">post_epoch</span><span class="p">(</span><span class="n">orchestrator</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">simulation_start</span><span class="p">(</span><span class="n">orchestrator</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">simulation_end</span><span class="p">(</span><span class="n">orchestrator</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="7-gpuhardware-agnostic">7. GPU/Hardware Agnostic<a class="headerlink" href="#7-gpuhardware-agnostic" title="Permanent link">&para;</a></h3>
+<p><strong>Always check for GPU availability:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cupy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+    <span class="n">HAS_CUPY</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_CUPY</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">use_gpu</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">use_gpu</span> <span class="ow">and</span> <span class="n">HAS_CUPY</span><span class="p">:</span>
+        <span class="n">data_gpu</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asnumpy</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data_gpu</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">elif</span> <span class="n">use_gpu</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;GPU requested but CuPy not available, using CPU&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="8-version-tracking">8. Version Tracking<a class="headerlink" href="#8-version-tracking" title="Permanent link">&para;</a></h3>
+<p><strong>Include version in serialized state:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac</span><span class="w"> </span><span class="kn">import</span> <span class="n">FRAMEWORK_VERSION</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">FRAMEWORK_VERSION</span><span class="p">,</span>  <span class="c1"># Always include</span>
+        <span class="c1"># ... rest of state</span>
+    <span class="p">}</span>
+
+<span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;MyClass&quot;</span><span class="p">:</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">version</span> <span class="o">!=</span> <span class="n">FRAMEWORK_VERSION</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;State version mismatch: </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">FRAMEWORK_VERSION</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="s2">&quot;Behavior may be unpredictable.&quot;</span>
+        <span class="p">)</span>
+    <span class="c1"># ... reconstruct</span>
+</code></pre></div>
+<h3 id="9-validation-pattern">9. Validation Pattern<a class="headerlink" href="#9-validation-pattern" title="Permanent link">&para;</a></h3>
+<p><strong>Implement validation with strict/non-strict modes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate internal state.&quot;&quot;&quot;</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">warnings_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;value must be non-negative&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional_field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;optional_field is None, using default&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">strict</span> <span class="ow">and</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation failed: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation warnings: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">warnings_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">warnings_list</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation notes: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">warnings_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="10-resource-management">10. Resource Management<a class="headerlink" href="#10-resource-management" title="Permanent link">&para;</a></h3>
+<p><strong>Clean up resources properly:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gcp_client</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for GCP client.&quot;&quot;&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">SomeGCPClient</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">client</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Usage</span>
+<span class="k">with</span> <span class="n">gcp_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">do_something</span><span class="p">()</span>
+
+<span class="c1"># GPU memory management</span>
+<span class="k">if</span> <span class="n">HAS_CUPY</span><span class="p">:</span>
+    <span class="n">cp</span><span class="o">.</span><span class="n">get_default_memory_pool</span><span class="p">()</span><span class="o">.</span><span class="n">free_all_blocks</span><span class="p">()</span>
+</code></pre></div>
+<hr />
+<h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>tests/
+├── conftest.py              # Shared fixtures
+├── unit/                    # Component-level tests
+│   ├── conftest.py          # Path setup
+│   ├── test_memory.py
+│   ├── test_cognitive.py
+│   └── ...
+├── integration/             # System-level tests
+│   └── test_multi_agent_system.py
+├── chaos/                   # Chaos engineering tests
+│   └── test_federation_resilience.py
+└── extensions/              # Extension-specific tests
+    └── concord/
+        └── test_ethics.py
+</code></pre></div>
+<h3 id="shared-fixtures-testsconftestpy">Shared Fixtures (tests/conftest.py)<a class="headerlink" href="#shared-fixtures-testsconftestpy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_config</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimal configuration for testing.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;num_agents&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+        <span class="s2">&quot;use_semantic&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Avoid heavy dependencies</span>
+        <span class="s2">&quot;use_gpu&quot;</span><span class="p">:</span> <span class="kc">False</span>
+    <span class="p">}</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_personality</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standard personality traits.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;openness&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="s2">&quot;conscientiousness&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+        <span class="s2">&quot;extraversion&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="s2">&quot;agreeableness&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+        <span class="s2">&quot;neuroticism&quot;</span><span class="p">:</span> <span class="mf">0.3</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h3 id="testing-best-practices">Testing Best Practices<a class="headerlink" href="#testing-best-practices" title="Permanent link">&para;</a></h3>
+<p><strong>1. Disable heavy dependencies in tests:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;use_semantic&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Disable SentenceTransformer</span>
+    <span class="s2">&quot;use_gpu&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>       <span class="c1"># Disable GPU acceleration</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>2. Mock GCP dependencies:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span><span class="p">,</span> <span class="n">patch</span>
+
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;agisa_sac.gcp.SomeClient&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_gcp_integration</span><span class="p">(</span><span class="n">mock_client</span><span class="p">):</span>
+    <span class="n">mock_client</span><span class="o">.</span><span class="n">return_value</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s2">&quot;mocked&quot;</span>
+    <span class="c1"># ... test</span>
+</code></pre></div></p>
+<p><strong>3. Use small agent counts for speed:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Good for unit tests</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;num_agents&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+
+<span class="c1"># Good for integration tests</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;num_agents&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+
+<span class="c1"># Avoid in tests unless necessary</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;num_agents&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>4. Test serialization:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_component_serialization</span><span class="p">():</span>
+    <span class="n">component</span> <span class="o">=</span> <span class="n">MyComponent</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+    <span class="c1"># Serialize</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="c1"># Deserialize</span>
+    <span class="n">restored</span> <span class="o">=</span> <span class="n">MyComponent</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="c1"># Verify</span>
+    <span class="k">assert</span> <span class="n">restored</span><span class="o">.</span><span class="n">param</span> <span class="o">==</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="n">component</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="o">==</span> <span class="n">restored</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</code></pre></div></p>
+<h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run all tests</span>
+pytest
+
+<span class="c1"># Run with coverage</span>
+pytest<span class="w"> </span>--cov<span class="o">=</span>src/agisa_sac<span class="w"> </span>--cov-report<span class="o">=</span>html<span class="w"> </span>--cov-report<span class="o">=</span>term
+
+<span class="c1"># Run specific test suite</span>
+pytest<span class="w"> </span>tests/unit/
+pytest<span class="w"> </span>tests/integration/
+pytest<span class="w"> </span>tests/chaos/
+
+<span class="c1"># Run with parallel execution</span>
+pytest<span class="w"> </span>-n<span class="w"> </span>auto
+
+<span class="c1"># Run with timeout (5 minutes per test)</span>
+pytest<span class="w"> </span>--timeout<span class="o">=</span><span class="m">300</span>
+
+<span class="c1"># Run verbose with strict markers</span>
+pytest<span class="w"> </span>-v<span class="w"> </span>--strict-markers<span class="w"> </span>--strict-config
+</code></pre></div>
+<hr />
+<h2 id="cicd-pipeline">CI/CD Pipeline<a class="headerlink" href="#cicd-pipeline" title="Permanent link">&para;</a></h2>
+<h3 id="github-actions-workflow">GitHub Actions Workflow<a class="headerlink" href="#github-actions-workflow" title="Permanent link">&para;</a></h3>
+<p><strong>Workflow File:</strong> <code>.github/workflows/ci.yml</code></p>
+<p><strong>Jobs:</strong></p>
+<ol>
+<li><strong>Lint &amp; Format</strong> (Python 3.12)</li>
+<li><code>ruff</code> - Linting and formatting</li>
+<li><code>black --check</code> - Formatting check</li>
+<li><code>mypy</code> - Type checking</li>
+<li>
+<p><code>pip-audit</code> - Security audit (non-blocking)</p>
+</li>
+<li>
+<p><strong>Test</strong> (Python 3.10, 3.11, 3.12)</p>
+</li>
+<li>Install dependencies (<code>pip install -e .</code>)</li>
+<li>Run <code>pytest</code> with coverage</li>
+<li>Upload coverage to Codecov</li>
+<li>Upload test results as artifacts</li>
+<li>
+<p>Publish test results to GitHub Checks</p>
+</li>
+<li>
+<p><strong>GCP Preview</strong> (main branch only)</p>
+</li>
+<li>Authenticate with GCP Workload Identity</li>
+<li>Run smoke tests on Cloud Run services</li>
+<li>
+<p>Dry-run Kubernetes manifests</p>
+</li>
+<li>
+<p><strong>CI Success</strong> (summary job)</p>
+</li>
+<li>Checks all required jobs passed</li>
+<li>Provides single status check for PRs</li>
+</ol>
+<h3 id="pre-commit-hooks">Pre-commit Hooks<a class="headerlink" href="#pre-commit-hooks" title="Permanent link">&para;</a></h3>
+<p><strong>File:</strong> <code>.pre-commit-config.yaml</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">repos</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/psf/black</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24.4.2</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">black</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/astral-sh/ruff-pre-commit</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.1.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">--fix</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">--exit-non-zero-on-fix</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/mirrors-mypy</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.5.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mypy</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">--ignore-missing-imports</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/pre-commit-hooks</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v4.5.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">end-of-file-fixer</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trailing-whitespace</span>
+</code></pre></div>
+<p><strong>Setup:</strong>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pre-commit
+pre-commit<span class="w"> </span>install
+</code></pre></div></p>
+<p><strong>Manual run:</strong>
+<div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</code></pre></div></p>
+<h3 id="code-quality-requirements">Code Quality Requirements<a class="headerlink" href="#code-quality-requirements" title="Permanent link">&para;</a></h3>
+<p>Before committing:
+<div class="highlight"><pre><span></span><code><span class="c1"># Format code</span>
+black<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Lint</span>
+ruff<span class="w"> </span>src/<span class="w"> </span>tests/
+
+<span class="c1"># Type check</span>
+mypy<span class="w"> </span>src/agisa_sac<span class="w"> </span>--ignore-missing-imports
+
+<span class="c1"># Run tests</span>
+pytest<span class="w"> </span>--cov<span class="o">=</span>src/agisa_sac
+
+<span class="c1"># Run all pre-commit checks</span>
+pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</code></pre></div></p>
+<hr />
+<h2 id="common-tasks">Common Tasks<a class="headerlink" href="#common-tasks" title="Permanent link">&para;</a></h2>
+<h3 id="adding-a-new-component">Adding a New Component<a class="headerlink" href="#adding-a-new-component" title="Permanent link">&para;</a></h3>
+<p><strong>1. Create the component file:</strong>
+<div class="highlight"><pre><span></span><code>touch<span class="w"> </span>src/agisa_sac/core/components/my_component.py
+</code></pre></div></p>
+<p><strong>2. Implement the component:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac</span><span class="w"> </span><span class="kn">import</span> <span class="n">FRAMEWORK_VERSION</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Brief description of component.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">param</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process data.&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Processing with param=</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize to dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">FRAMEWORK_VERSION</span><span class="p">,</span>
+            <span class="s2">&quot;param&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">,</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;MyComponent&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize from dictionary.&quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;param&quot;</span><span class="p">])</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">instance</span>
+</code></pre></div></p>
+<p><strong>3. Add tests:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># tests/unit/test_my_component.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.core.components.my_component</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyComponent</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_my_component</span><span class="p">():</span>
+    <span class="n">component</span> <span class="o">=</span> <span class="n">MyComponent</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">component</span><span class="o">.</span><span class="n">param</span> <span class="o">==</span> <span class="mf">2.0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_serialization</span><span class="p">():</span>
+    <span class="n">component</span> <span class="o">=</span> <span class="n">MyComponent</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">restored</span> <span class="o">=</span> <span class="n">MyComponent</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">restored</span><span class="o">.</span><span class="n">param</span> <span class="o">==</span> <span class="mf">3.0</span>
+</code></pre></div></p>
+<p><strong>4. Export in <code>__init__.py</code>:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/agisa_sac/core/components/__init__.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.my_component</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyComponent</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MyComponent&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+</code></pre></div></p>
+<h3 id="adding-a-new-protocol">Adding a New Protocol<a class="headerlink" href="#adding-a-new-protocol" title="Permanent link">&para;</a></h3>
+<p><strong>1. Locate protocol injection in orchestrator:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/agisa_sac/core/orchestrator.py</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inject_protocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inject a protocol during simulation.&quot;&quot;&quot;</span>
+</code></pre></div></p>
+<p><strong>2. Add protocol handler:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">elif</span> <span class="n">protocol_name</span> <span class="o">==</span> <span class="s2">&quot;my_new_protocol&quot;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_my_protocol</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>3. Implement the protocol:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_inject_my_protocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inject my new protocol.&quot;&quot;&quot;</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="n">affected_agents</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mas</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">some_metric</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">apply_effect</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">affected_agents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_id</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;My protocol injected: </span><span class="si">%d</span><span class="s2"> agents affected&quot;</span><span class="p">,</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">affected_agents</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My protocol injected on </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">affected_agents</span><span class="p">)</span><span class="si">}</span><span class="s2"> agents&quot;</span>
+</code></pre></div></p>
+<p><strong>4. Document in docstring and add tests.</strong></p>
+<h3 id="adding-a-cli-command">Adding a CLI Command<a class="headerlink" href="#adding-a-cli-command" title="Permanent link">&para;</a></h3>
+<p><strong>1. Locate CLI parser:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/agisa_sac/cli.py</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>2. Add subcommand:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># New subcommand</span>
+<span class="n">my_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
+    <span class="s2">&quot;my-command&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Description of my command&quot;</span>
+<span class="p">)</span>
+<span class="n">my_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--param&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Parameter&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>3. Implement command handler:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">handle_my_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle my-command.&quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Executing my-command with param=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+    <span class="c1"># ... implementation</span>
+    <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Exit code</span>
+</code></pre></div></p>
+<p><strong>4. Wire up in main:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># ... parser setup</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;my-command&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">handle_my_command</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="modifying-agent-behavior">Modifying Agent Behavior<a class="headerlink" href="#modifying-agent-behavior" title="Permanent link">&para;</a></h3>
+<p><strong>1. Locate agent class:</strong>
+- Simulation agent: <code>src/agisa_sac/agents/agent.py</code> (EnhancedAgent)
+- Production agent: <code>src/agisa_sac/agents/base_agent.py</code> (AGISAAgent)</p>
+<p><strong>2. Modify behavior:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EnhancedAgent</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">peer_influence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># Original logic</span>
+        <span class="c1"># ...</span>
+
+        <span class="c1"># Add new behavior</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_apply_new_behavior</span><span class="p">():</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_new_behavior</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="c1"># ... rest of original logic</span>
+</code></pre></div></p>
+<p><strong>3. Update serialization if state changed:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># ... existing state</span>
+        <span class="s2">&quot;new_field&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_field</span><span class="p">,</span>  <span class="c1"># Add new field</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">d</span>
+</code></pre></div></p>
+<p><strong>4. Add tests for new behavior.</strong></p>
+<h3 id="updating-documentation">Updating Documentation<a class="headerlink" href="#updating-documentation" title="Permanent link">&para;</a></h3>
+<p><strong>1. Edit Markdown files in <code>docs/</code>:</strong>
+<div class="highlight"><pre><span></span><code>vim<span class="w"> </span>docs/my_topic.md
+</code></pre></div></p>
+<p><strong>2. Update <code>mkdocs.yml</code> if adding new pages:</strong>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Home</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">My Topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_topic.md</span>
+</code></pre></div></p>
+<p><strong>3. Build and preview locally:</strong>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict<span class="w">  </span><span class="c1"># Check for errors</span>
+mkdocs<span class="w"> </span>serve<span class="w">           </span><span class="c1"># Preview at http://127.0.0.1:8000/</span>
+</code></pre></div></p>
+<p><strong>4. Deploy to GitHub Pages (if authorized):</strong>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>gh-deploy
+</code></pre></div></p>
+<hr />
+<h2 id="code-patterns">Code Patterns<a class="headerlink" href="#code-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="configuration-pattern">Configuration Pattern<a class="headerlink" href="#configuration-pattern" title="Permanent link">&para;</a></h3>
+<p><strong>Use dataclasses for configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimulationConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for simulation.&quot;&quot;&quot;</span>
+    <span class="n">num_agents</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+    <span class="n">use_gpu</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">personalities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize to dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;num_agents&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_agents</span><span class="p">,</span>
+            <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">,</span>
+            <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span><span class="p">,</span>
+            <span class="s2">&quot;use_gpu&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_gpu</span><span class="p">,</span>
+            <span class="s2">&quot;personalities&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">personalities</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;SimulationConfig&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize from dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">})</span>
+</code></pre></div>
+<h3 id="factory-pattern-for-agents">Factory Pattern for Agents<a class="headerlink" href="#factory-pattern-for-agents" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_agent</span><span class="p">(</span>
+    <span class="n">agent_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">personality</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnhancedAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory function for creating agents.&quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span> <span class="ow">or</span> <span class="n">_default_personality</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">EnhancedAgent</span><span class="p">(</span>
+        <span class="n">agent_id</span><span class="o">=</span><span class="n">agent_id</span><span class="p">,</span>
+        <span class="n">capacity</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;agent_capacity&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="n">use_semantic</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_semantic&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">personality_traits</span><span class="o">=</span><span class="n">personality</span><span class="p">,</span>
+        <span class="n">message_bus</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message_bus&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+<h3 id="observer-pattern-messagebus">Observer Pattern (MessageBus)<a class="headerlink" href="#observer-pattern-messagebus" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple pub/sub message bus.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subscribers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Subscribe to event.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subscribers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subscribers</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subscribers</span><span class="p">[</span><span class="n">event</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish event.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subscribers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subscribers</span><span class="p">[</span><span class="n">event</span><span class="p">]:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error in subscriber: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="decorator-pattern-for-ethics">Decorator Pattern for Ethics<a class="headerlink" href="#decorator-pattern-for-ethics" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EthicsDecorator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper for ethical constraints.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">EnhancedAgent</span><span class="p">,</span> <span class="n">guardian</span><span class="p">:</span> <span class="n">Guardian</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guardian</span> <span class="o">=</span> <span class="n">guardian</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make decision with ethical check.&quot;&quot;&quot;</span>
+        <span class="c1"># Check if action is permitted</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">guardian</span><span class="o">.</span><span class="n">check_action</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Action blocked by ethics: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Proceed with original decision</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="strategy-pattern-for-cognitive-diversity">Strategy Pattern for Cognitive Diversity<a class="headerlink" href="#strategy-pattern-for-cognitive-diversity" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CognitiveStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for cognitive strategies.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute decision value.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ConservativeStrategy</span><span class="p">(</span><span class="n">CognitiveStrategy</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;base_value&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AggressiveStrategy</span><span class="p">(</span><span class="n">CognitiveStrategy</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;base_value&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Usage</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CognitiveDiversityEngine</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">CognitiveStrategy</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<h4 id="1-import-errors">1. Import Errors<a class="headerlink" href="#1-import-errors" title="Permanent link">&para;</a></h4>
+<p><strong>Problem:</strong> <code>ModuleNotFoundError: No module named 'agisa_sac'</code></p>
+<p><strong>Solution:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install in editable mode</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+
+<span class="c1"># Or add src to PYTHONPATH (from project root)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span><span class="s2">:</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/src&quot;</span>
+</code></pre></div></p>
+<h4 id="2-missing-optional-dependencies">2. Missing Optional Dependencies<a class="headerlink" href="#2-missing-optional-dependencies" title="Permanent link">&para;</a></h4>
+<p><strong>Problem:</strong> <code>ImportError: SentenceTransformer not available</code></p>
+<p><strong>Solution:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install full dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>agisa-sac<span class="o">[</span>all<span class="o">]</span>
+
+<span class="c1"># Or specific feature set</span>
+pip<span class="w"> </span>install<span class="w"> </span>sentence-transformers
+
+<span class="c1"># Or disable in config</span>
+<span class="nv">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;use_semantic&quot;</span>:<span class="w"> </span>False<span class="o">}</span>
+</code></pre></div></p>
+<h4 id="3-gpu-not-available">3. GPU Not Available<a class="headerlink" href="#3-gpu-not-available" title="Permanent link">&para;</a></h4>
+<p><strong>Problem:</strong> <code>GPU requested but CuPy not available</code></p>
+<p><strong>Solution:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install CuPy (requires CUDA)</span>
+pip<span class="w"> </span>install<span class="w"> </span>cupy-cuda11x<span class="w">  </span><span class="c1"># Replace 11x with your CUDA version</span>
+
+<span class="c1"># Or disable GPU</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium<span class="w">  </span><span class="c1"># Don&#39;t use --gpu flag</span>
+</code></pre></div></p>
+<h4 id="4-serialization-version-mismatch">4. Serialization Version Mismatch<a class="headerlink" href="#4-serialization-version-mismatch" title="Permanent link">&para;</a></h4>
+<p><strong>Problem:</strong> <code>UserWarning: State version mismatch: 0.9.0 != 1.0.0-alpha</code></p>
+<p><strong>Solution:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load with non-strict mode</span>
+<span class="n">orchestrator</span><span class="o">.</span><span class="n">load_state</span><span class="p">(</span><span class="s2">&quot;old_state.pkl&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Or regenerate state with current version</span>
+</code></pre></div></p>
+<h4 id="5-memory-errors">5. Memory Errors<a class="headerlink" href="#5-memory-errors" title="Permanent link">&para;</a></h4>
+<p><strong>Problem:</strong> <code>MemoryError</code> during large simulations</p>
+<p><strong>Solution:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Reduce agent count</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium<span class="w"> </span>--agents<span class="w"> </span><span class="m">50</span><span class="w">  </span><span class="c1"># Instead of 500</span>
+
+<span class="c1"># Disable embeddings</span>
+<span class="nv">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;use_semantic&quot;</span>:<span class="w"> </span>False<span class="o">}</span>
+
+<span class="c1"># Limit memory history</span>
+<span class="nv">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;max_memory_per_agent&quot;</span>:<span class="w"> </span><span class="m">50</span><span class="o">}</span>
+</code></pre></div></p>
+<h3 id="debugging-tips">Debugging Tips<a class="headerlink" href="#debugging-tips" title="Permanent link">&para;</a></h3>
+<p><strong>1. Enable debug logging:</strong>
+<div class="highlight"><pre><span></span><code>agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>default<span class="w"> </span>--log-level<span class="w"> </span>DEBUG
+</code></pre></div></p>
+<p><strong>2. Use Python debugger:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>  <span class="c1"># Set breakpoint</span>
+</code></pre></div></p>
+<p><strong>3. Check component state:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">state</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></p>
+<p><strong>4. Trace MessageBus events:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">trace_all</span><span class="p">(</span><span class="n">event_data</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event: </span><span class="si">{</span><span class="n">event_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">message_bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">trace_all</span><span class="p">)</span>  <span class="c1"># If wildcard supported</span>
+</code></pre></div></p>
+<h3 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">&para;</a></h3>
+<p><strong>1. Profile simulations:</strong>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>cProfile<span class="w"> </span>-o<span class="w"> </span>profile.stats<span class="w"> </span>-m<span class="w"> </span>agisa_sac.cli<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium
+python<span class="w"> </span>-m<span class="w"> </span>pstats<span class="w"> </span>profile.stats
+</code></pre></div></p>
+<p><strong>2. Use GPU acceleration:</strong>
+<div class="highlight"><pre><span></span><code>agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>large<span class="w"> </span>--gpu
+</code></pre></div></p>
+<p><strong>3. Reduce TDA frequency:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;tda_run_frequency&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># Run TDA every 10 epochs instead of every epoch</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>4. Disable expensive features:</strong>
+<div class="highlight"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;use_semantic&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Disable semantic embeddings</span>
+    <span class="s2">&quot;community_check_frequency&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Reduce community detection frequency</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Main README</strong>: <code>README.md</code></li>
+<li><strong>GEMINI.md</strong>: AI-generated project overview</li>
+<li><strong>CONTRIBUTING.md</strong>: Contribution guidelines</li>
+<li><strong>TODO.md</strong>: Roadmap and unimplemented features</li>
+<li><strong>Whitepapers</strong>:</li>
+<li><code>docs/Mindlink_WhitePaper_v1.0.pdf</code></li>
+<li><code>docs/agentic_swarm_whitepaper.md</code></li>
+</ul>
+<h3 id="key-modules-to-study">Key Modules to Study<a class="headerlink" href="#key-modules-to-study" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Core Orchestration</strong>: <code>src/agisa_sac/core/orchestrator.py</code> (SimulationOrchestrator)</li>
+<li><strong>Agent Implementation</strong>: <code>src/agisa_sac/agents/agent.py</code> (EnhancedAgent)</li>
+<li><strong>Memory System</strong>: <code>src/agisa_sac/core/components/memory.py</code></li>
+<li><strong>Configuration</strong>: <code>src/agisa_sac/config.py</code></li>
+<li><strong>CLI</strong>: <code>src/agisa_sac/cli.py</code></li>
+<li><strong>Type Contracts</strong>: <code>src/agisa_sac/types/contracts.py</code></li>
+</ol>
+<h3 id="external-references">External References<a class="headerlink" href="#external-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Global Workspace Theory</strong>: Baars, B. J. (1988)</li>
+<li><strong>Instrumental Convergence</strong>: Bostrom, N. (2012)</li>
+<li><strong>Stand Alone Complex</strong>: Ghost in the Shell (philosophical concept)</li>
+<li><strong>CRDT</strong>: Conflict-free Replicated Data Types (Marc Shapiro et al.)</li>
+<li><strong>TDA</strong>: Topological Data Analysis (Carlsson, G.)</li>
+</ul>
+<h3 id="development-tools">Development Tools<a class="headerlink" href="#development-tools" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Code Formatter</strong>: <code>black</code> (line length 100)</li>
+<li><strong>Linter</strong>: <code>ruff</code></li>
+<li><strong>Type Checker</strong>: <code>mypy</code> (Python 3.9+)</li>
+<li><strong>Test Framework</strong>: <code>pytest</code> with coverage</li>
+<li><strong>Documentation</strong>: <code>mkdocs</code> with Material theme</li>
+<li><strong>Pre-commit</strong>: <code>.pre-commit-config.yaml</code></li>
+</ul>
+<h3 id="contact-support">Contact &amp; Support<a class="headerlink" href="#contact-support" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Repository</strong>: https://github.com/topstolenname/agisa_sac</li>
+<li><strong>Email</strong>: tristan@mindlink.dev</li>
+<li><strong>Issues</strong>: https://github.com/topstolenname/agisa_sac/issues</li>
+</ul>
+<hr />
+<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<h3 id="cli-commands">CLI Commands<a class="headerlink" href="#cli-commands" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run simulation</span>
+agisa-sac<span class="w"> </span>run<span class="w"> </span>--preset<span class="w"> </span>medium<span class="w"> </span>--agents<span class="w"> </span><span class="m">50</span><span class="w"> </span>--epochs<span class="w"> </span><span class="m">100</span>
+
+<span class="c1"># List presets</span>
+agisa-sac<span class="w"> </span>list-presets
+
+<span class="c1"># Start federation server</span>
+agisa-federation<span class="w"> </span>server<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
+
+<span class="c1"># Run chaos tests</span>
+agisa-chaos<span class="w"> </span>run<span class="w"> </span>--scenario<span class="w"> </span>sybil_attack<span class="w"> </span>--url<span class="w"> </span>http://localhost:8000
+</code></pre></div>
+<h3 id="configuration-presets">Configuration Presets<a class="headerlink" href="#configuration-presets" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Agents</th>
+<th>Epochs</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>quick_test</code></td>
+<td>10</td>
+<td>20</td>
+<td>Fast testing, CI/CD</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>30</td>
+<td>50</td>
+<td>Development</td>
+</tr>
+<tr>
+<td><code>medium</code></td>
+<td>100</td>
+<td>100</td>
+<td>Research experiments</td>
+</tr>
+<tr>
+<td><code>large</code></td>
+<td>500</td>
+<td>200</td>
+<td>Production simulations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="important-paths">Important Paths<a class="headerlink" href="#important-paths" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>.
+├── src/agisa_sac/           # Package source
+├── tests/                   # Test suite
+├── docs/                    # Documentation
+├── examples/                # Example configs
+├── pyproject.toml           # Package metadata
+└── mkdocs.yml               # Docs config
+</code></pre></div>
+<h3 id="key-imports">Key Imports<a class="headerlink" href="#key-imports" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac</span><span class="w"> </span><span class="kn">import</span> <span class="n">FRAMEWORK_VERSION</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.core.orchestrator</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationOrchestrator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.agents.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnhancedAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationConfig</span><span class="p">,</span> <span class="n">PRESETS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.utils.message_bus</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageBus</span>
+</code></pre></div>
+<hr />
+<p><strong>End of CLAUDE.md</strong></p>
+<p><strong>This document is maintained for AI assistants working with the AGI-SAC codebase. When making significant changes to architecture or conventions, update this file accordingly.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/topstolenname/agisa_sac" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tabs", "navigation.expand", "navigation.sections", "toc.integrate", "search.suggest", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
