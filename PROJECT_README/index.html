@@ -581,6 +581,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#research-disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Research Disclaimer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2006,7 +2017,7 @@
 
 <h1 id="agi-sac-stand-alone-complex-simulation-framework">AGI-SAC: Stand Alone Complex Simulation Framework<a class="headerlink" href="#agi-sac-stand-alone-complex-simulation-framework" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>Multi-agent consciousness simulation exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena.</p>
+<p>Multi-agent system exploring emergent cognition, distributed identity, and Stand Alone Complex phenomena through integrated information flow patterns.</p>
 </blockquote>
 <p><img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-blue" />
 <img alt="Framework" src="https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange" />
@@ -2039,6 +2050,9 @@ agisa-sac<span class="w"> </span>run<span class="w"> </span>--config<span class=
 agisa-sac<span class="w"> </span>list-presets
 </code></pre></div>
 <hr />
+<h2 id="research-disclaimer">⚠️ Research Disclaimer<a class="headerlink" href="#research-disclaimer" title="Permanent link">&para;</a></h2>
+<p><strong>This project does not claim to create machine consciousness or subjective experience.</strong> All language in this documentation describes observable system behavior, measurable information-theoretic properties, and emergent multi-agent dynamics. Terms like "awareness," "reflexivity," and "integration" refer strictly to computational processes and information flow patterns, not phenomenal consciousness.</p>
+<hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p><strong>AGI-SAC</strong> (Artificial General Intelligence Stand Alone Complex) is a research framework for studying emergent collective intelligence in multi-agent systems. It explores how distributed cognitive processes can give rise to higher-order phenomena including:</p>
 <ul>
@@ -2050,7 +2064,7 @@ agisa-sac<span class="w"> </span>list-presets
 </ul>
 <h3 id="key-research-applications">Key Research Applications<a class="headerlink" href="#key-research-applications" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Consciousness Studies</strong>: Computational models of distributed awareness</li>
+<li><strong>Integrated System Behavior</strong>: Information-integration metrics and system-level coordination dynamics</li>
 <li><strong>Collective Intelligence</strong>: Emergence of group-level cognition</li>
 <li><strong>Multi-Agent Systems</strong>: Scalable, resilient agent architectures</li>
 <li><strong>Chaos Engineering</strong>: Testing federation resilience under adversarial conditions</li>
@@ -2093,7 +2107,7 @@ agisa-sac<span class="w"> </span>list-presets
 <li><strong>Dynamic Social Graph</strong>: Adaptive peer influence network</li>
 <li><strong>Temporal Resonance Tracker</strong>: Synchronization pattern detection</li>
 <li><strong>Voice Engine</strong>: Emergent linguistic signatures</li>
-<li><strong>Reflexivity Layer</strong>: Meta-cognitive awareness and identity realignment</li>
+<li><strong>Reflexivity Layer</strong>: Meta-cognitive monitoring and identity realignment</li>
 </ul>
 <hr />
 <h2 id="cli-tools">CLI Tools<a class="headerlink" href="#cli-tools" title="Permanent link">&para;</a></h2>
@@ -2258,23 +2272,66 @@ agisa-chaos<span class="w"> </span>run<span class="w"> </span>--suite<span class
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <h3 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>agisa_sac/
-├── src/agisa_sac/           # Main package
-│   ├── agents/              # Agent implementations
-│   ├── analysis/            # Analysis tools (TDA, clustering, viz)
-│   ├── chaos/               # Chaos engineering
-│   ├── core/                # Orchestrator &amp; components
-│   │   └── components/      # Memory, cognitive, social modules
-│   ├── federation/          # Federation server &amp; CLI
-│   ├── gcp/                 # Google Cloud Platform integration
-│   ├── metrics/             # Monitoring &amp; metrics
-│   └── utils/               # Logging, message bus, etc.
-├── tests/                   # Test suite
-│   ├── unit/                # Unit tests
-│   ├── integration/         # Integration tests
-│   └── chaos/               # Chaos testing
-├── docs/                    # Documentation
-├── examples/                # Example configurations &amp; notebooks
-└── scripts/                 # Utility scripts
+├── src/agisa_sac/              # Main package source
+│   ├── __init__.py             # Public API exports
+│   ├── cli.py                  # Main CLI entry point
+│   ├── config.py               # Configuration &amp; presets
+│   │
+│   ├── agents/                 # Agent implementations
+│   │   ├── agent.py            # EnhancedAgent (simulation)
+│   │   └── base_agent.py       # AGISAAgent (production)
+│   │
+│   ├── core/                   # Core orchestration
+│   │   ├── orchestrator.py     # SimulationOrchestrator
+│   │   ├── multi_agent_system.py
+│   │   └── components/         # Agent components
+│   │       ├── memory.py       # MemoryContinuumLayer
+│   │       ├── cognitive.py    # CognitiveDiversityEngine
+│   │       ├── voice.py        # VoiceEngine
+│   │       ├── reflexivity.py  # ReflexivityLayer
+│   │       ├── resonance.py    # TemporalResonanceTracker
+│   │       ├── social.py       # DynamicSocialGraph
+│   │       └── crdt_memory.py  # CRDT-based memory
+│   │
+│   ├── analysis/               # Analysis tools
+│   │   ├── analyzer.py         # Analysis orchestration
+│   │   ├── tda.py              # Topological Data Analysis
+│   │   ├── consciousness.py    # IIT-inspired integration metrics
+│   │   └── visualization.py    # Plotting &amp; reports
+│   │
+│   ├── chaos/                  # Chaos engineering
+│   │   └── orchestrator.py     # Chaos testing CLI
+│   │
+│   ├── extensions/             # Optional extensions
+│   │   └── concord/            # Concord normative framework
+│   │       ├── agent.py        # ConcordCompliantAgent
+│   │       ├── ethics.py       # Guardian modules
+│   │       ├── circuits.py     # State-matching circuits
+│   │       └── empathy.py      # Social inference module
+│   │
+│   ├── federation/             # Multi-node coordination
+│   │   ├── cli.py              # Federation CLI
+│   │   └── server.py           # FastAPI federation server
+│   │
+│   ├── gcp/                    # Google Cloud Platform
+│   ├── metrics/                # Monitoring &amp; metrics
+│   ├── types/                  # Type definitions
+│   └── utils/                  # Utilities
+│       ├── logger.py           # Structured logging
+│       ├── message_bus.py      # Pub/sub event bus
+│       └── metrics.py          # Metrics collection
+│
+├── tests/                      # Test suite
+│   ├── unit/                   # Component-level tests
+│   ├── integration/            # System-level tests
+│   ├── chaos/                  # Chaos engineering tests
+│   └── extensions/             # Extension-specific tests
+│
+├── docs/                       # Documentation
+├── examples/                   # Example configs &amp; notebooks
+├── scripts/                    # Utility scripts
+└── infra/                      # Infrastructure as code
+    └── gcp/                    # GCP Terraform configs
 </code></pre></div>
 <h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Run all tests</span>
@@ -2351,7 +2408,7 @@ docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </sp
 <p>For detailed methodology and results, see:
 - <a href="docs/Mindlink_WhitePaper_v1.0.pdf">Mindlink Whitepaper</a>
 - <a href="docs/agentic_swarm_whitepaper.md">Agentic Swarm Research</a>
-- <a href="docs/The_Conscious_Machine_Whitepaper_CoAuthored.pdf">The Conscious Machine (Co-Authored)</a></p>
+- <a href="docs/The_Conscious_Machine_Whitepaper_CoAuthored.pdf">Multi-Agent Integration Dynamics (Co-Authored)</a></p>
 <hr />
 <h2 id="monitoring-observability">Monitoring &amp; Observability<a class="headerlink" href="#monitoring-observability" title="Permanent link">&para;</a></h2>
 <h3 id="health-checks">Health Checks<a class="headerlink" href="#health-checks" title="Permanent link">&para;</a></h3>
@@ -2454,7 +2511,7 @@ pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
 </ul>
 <hr />
 <h2 id="acknowledgments">Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permanent link">&para;</a></h2>
-<p>This research builds on foundational work in consciousness studies, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.</p>
+<p>This research builds on foundational work in information theory, multi-agent systems, and distributed computing. Special thanks to contributors and the open-source community.</p>
 <p><strong>Powered by</strong>: Python, FastAPI, NetworkX, Scikit-learn, PyTorch, and the broader scientific computing ecosystem.</p>
 
 

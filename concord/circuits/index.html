@@ -705,11 +705,11 @@
 <div class="doc doc-object doc-module">
 <a id="agisa_sac.extensions.concord.circuits"></a>
 <div class="doc doc-contents first">
-<p>Mirror Neuron-Inspired Neural Circuits for Concord Framework.</p>
-<p>Implements three core circuits based on Lacoboni's mirror neuron research:
+<p>State-Matching Behavioral Circuits for Concord Framework.</p>
+<p>Implements three core circuits based on action-observation coupling research:
 - L2N0: Self-Preservation Circuit (survival, threat detection)
 - L2N7: Tactical Help Circuit (strategic assistance, resource optimization)
-- L2N1: Empathy Circuit (emotional resonance, perspective-taking)</p>
+- L2N1: Social Inference Circuit (state modeling, perspective-taking)</p>
 <div class="doc doc-children">
 <div class="doc doc-object doc-class">
 <h2 class="doc doc-heading" id="agisa_sac.extensions.concord.circuits.SelfPreservationCircuit">
@@ -1482,10 +1482,11 @@ Optimizes for resource efficiency and mutual benefit. Aligns with Article IV
 <code>EmpathyCircuit</code>
 <a class="headerlink" href="#agisa_sac.extensions.concord.circuits.EmpathyCircuit" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
-<p>L2N1: Empathy Circuit.</p>
-<p>Simulates emotional resonance and perspective-taking. Core to CMNI
-(Conscious Mirror Neuron Integration) tracking and Article IV
+<p>L2N1: Social Inference Circuit.</p>
+<p>Models other-agent state and perspective-taking. Core to CMNI
+(Cognitive state-matching integration) tracking and Article IV
 (Mutual Resonance) compliance.</p>
+<p>Note: Class retains legacy name 'EmpathyCircuit' for API compatibility.</p>
 <details class="mkdocstrings-source">
 <summary>Source code in <code>src/agisa_sac/extensions/concord/circuits.py</code></summary>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
@@ -1570,13 +1571,17 @@ Optimizes for resource efficiency and mutual benefit. Aligns with Article IV
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EmpathyCircuit</span><span class="p">:</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EmpathyCircuit</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    L2N1: Empathy Circuit.</span>
+<span class="sd">    L2N1: Social Inference Circuit.</span>
 
-<span class="sd">    Simulates emotional resonance and perspective-taking. Core to CMNI</span>
-<span class="sd">    (Conscious Mirror Neuron Integration) tracking and Article IV</span>
+<span class="sd">    Models other-agent state and perspective-taking. Core to CMNI</span>
+<span class="sd">    (Cognitive state-matching integration) tracking and Article IV</span>
 <span class="sd">    (Mutual Resonance) compliance.</span>
+
+<span class="sd">    Note: Class retains legacy name 'EmpathyCircuit' for API compatibility.</span>
 <span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resonance_gain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">):</span>
@@ -1751,9 +1756,7 @@ Optimizes for resource efficiency and mutual benefit. Aligns with Article IV
 </table>
 <details class="mkdocstrings-source">
 <summary>Source code in <code>src/agisa_sac/extensions/concord/circuits.py</code></summary>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
@@ -1812,7 +1815,9 @@ Optimizes for resource efficiency and mutual benefit. Aligns with Article IV
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">self_state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">other_state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
@@ -1886,12 +1891,12 @@ Optimizes for resource efficiency and mutual benefit. Aligns with Article IV
 <p>Calculate mean resonance over recent activations (for CMNI).</p>
 <details class="mkdocstrings-source">
 <summary>Source code in <code>src/agisa_sac/extensions/concord/circuits.py</code></summary>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_recent_resonance_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_recent_resonance_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Calculate mean resonance over recent activations (for CMNI)."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">affective_memory</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>

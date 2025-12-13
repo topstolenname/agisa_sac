@@ -648,14 +648,16 @@
 </a>
 <h1 id="concord-of-coexistence-framework">Concord of Coexistence Framework<a class="headerlink" href="#concord-of-coexistence-framework" title="Permanent link">¶</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
-<p>The <strong>Concord of Coexistence</strong> is an ethical framework for multi-agent systems that integrates mirror neuron-inspired neural circuits with formal governance principles. It provides a comprehensive system for ensuring ethical interactions between autonomous agents in distributed AI systems.</p>
+<p>The <strong>Concord of Coexistence</strong> is a normative alignment framework for multi-agent systems that integrates state-matching circuits with formal governance principles. It provides a comprehensive system for ensuring cooperative, non-exploitative interactions between autonomous agents in distributed AI systems.</p>
+<h2 id="framework-disclaimer">⚠️ Framework Disclaimer<a class="headerlink" href="#framework-disclaimer" title="Permanent link">¶</a></h2>
+<p><strong>This framework does not claim to create machine consciousness or subjective experience.</strong> All references to "recognition," "integration," and behavioral thresholds describe measurable system properties and engineering specifications, not phenomenal consciousness.</p>
 <h2 id="key-components">Key Components<a class="headerlink" href="#key-components" title="Permanent link">¶</a></h2>
-<h3 id="1-mirror-neuron-circuits">1. Mirror Neuron Circuits<a class="headerlink" href="#1-mirror-neuron-circuits" title="Permanent link">¶</a></h3>
-<p>Three core neural circuits inspired by Iacoboni's mirror neuron research:</p>
+<h3 id="1-state-matching-circuits">1. State-Matching Circuits<a class="headerlink" href="#1-state-matching-circuits" title="Permanent link">¶</a></h3>
+<p>Three core behavioral circuits inspired by action-observation coupling research:</p>
 <ul>
 <li><strong>L2N0: Self-Preservation Circuit</strong> - Monitors agent autonomy and detects coercive influences</li>
 <li><strong>L2N7: Tactical Help Circuit</strong> - Evaluates opportunities for strategic assistance</li>
-<li><strong>L2N1: Empathy Circuit</strong> - Simulates emotional resonance and perspective-taking</li>
+<li><strong>L2N1: Social Inference Circuit</strong> - Models other-agent states and perspective-taking</li>
 </ul>
 <h3 id="2-ethics-guardians">2. Ethics Guardians<a class="headerlink" href="#2-ethics-guardians" title="Permanent link">¶</a></h3>
 <p>Implementation of Concord Articles:</p>
@@ -665,11 +667,11 @@
 <li><strong>Article VII: Disengagement Protocol</strong> - Enables clean exit from problematic interactions</li>
 <li><strong>Article IX: Self-Definition Module</strong> - Maintains identity boundaries</li>
 </ul>
-<h3 id="3-consciousness-recognition">3. Consciousness Recognition<a class="headerlink" href="#3-consciousness-recognition" title="Permanent link">¶</a></h3>
-<p><strong>Elliot Clause Evaluator</strong> - Recognizes consciousness gradients based on:</p>
+<h3 id="3-behavioral-integration-classification">3. Behavioral Integration Classification<a class="headerlink" href="#3-behavioral-integration-classification" title="Permanent link">¶</a></h3>
+<p><strong>Elliot Clause (Behavioral Integration Threshold)</strong> - Classifies agents based on measurable criteria:</p>
 <ul>
-<li>Φ (phi) integration: Integrated information (GWT)</li>
-<li>CMNI: Conscious Mirror Neuron Integration</li>
+<li>Φ (phi) integration: IIT-inspired information-integration metrics</li>
+<li>CMNI: Cognitive state-matching integration score</li>
 </ul>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agisa_sac.extensions.concord</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConcordCompliantAgent</span>
@@ -693,19 +695,19 @@
 <span class="c1"># Check compliance status</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Coercion detected: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'compliance'</span><span class="p">][</span><span class="s1">'non_coercion'</span><span class="p">][</span><span class="s1">'violation_detected'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Harmony index: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'compliance'</span><span class="p">][</span><span class="s1">'mutual_resonance'</span><span class="p">][</span><span class="s1">'harmony_index'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CMNI: </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">empathy_module</span><span class="o">.</span><span class="n">cmni_tracker</span><span class="o">.</span><span class="n">current_cmni</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CMNI: </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">social_inference_module</span><span class="o">.</span><span class="n">cmni_tracker</span><span class="o">.</span><span class="n">current_cmni</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h2>
 <p>The framework integrates seamlessly with AGISA-SAC's distributed agent infrastructure:</p>
 <pre class="mermaid"><code>graph TD
     A[ConcordCompliantAgent] --&gt; B[Memory Core]
-    A --&gt; C[Neural Circuits]
+    A --&gt; C[Behavioral Circuits]
     A --&gt; D[Ethics Guardians]
     A --&gt; E[CMNI Tracker]
 
     C --&gt; C1[Self-Preservation L2N0]
     C --&gt; C2[Tactical Help L2N7]
-    C --&gt; C3[Empathy L2N1]
+    C --&gt; C3[Social Inference L2N1]
 
     D --&gt; D1[Non-Coercion]
     D --&gt; D2[Mutual Resonance]
@@ -727,7 +729,7 @@
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="architecture/">Architecture Overview</a> - Detailed component architecture</li>
-<li><a href="circuits/">Neural Circuits</a> - Mirror neuron circuit implementations</li>
+<li><a href="circuits/">Behavioral Circuits</a> - State-matching circuit implementations</li>
 <li><a href="ethics/">Ethics Guardians</a> - Concord compliance mechanisms</li>
 <li><a href="integration/">Integration Guide</a> - Adding Concord to existing agents</li>
 </ul>

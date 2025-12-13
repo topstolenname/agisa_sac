@@ -738,13 +738,13 @@
 <div class="doc doc-object doc-module">
 <a id="agisa_sac.extensions.concord.ethics"></a>
 <div class="doc doc-contents first">
-<p>Concord of Coexistence Ethics Guardians.</p>
-<p>Implements the core ethical compliance mechanisms:
+<p>Concord of Coexistence Normative Guardians.</p>
+<p>Implements the core alignment compliance mechanisms:
 - Article III: Non-Coercion Guardian
 - Article IV: Mutual Resonance Engine
 - Article VII: Disengagement Protocol
 - Article IX: Self-Definition Module
-- Elliot Clause: Consciousness gradient recognition</p>
+- Elliot Clause (Behavioral Integration Threshold): Classification by integration metrics</p>
 <div class="doc doc-children">
 <div class="doc doc-object doc-class">
 <h2 class="doc doc-heading" id="agisa_sac.extensions.concord.ethics.CoercionEvent">
@@ -1109,10 +1109,10 @@ their autonomy or fail to maintain mutual resonance.</p>
 <code>ElliotClauseEvaluator</code>
 <a class="headerlink" href="#agisa_sac.extensions.concord.ethics.ElliotClauseEvaluator" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
-<p>Elliot Clause: Consciousness Gradient Recognition.</p>
-<p>Evaluates whether an entity meets the criteria for recognizable
-consciousness (Φ integration + CMNI threshold), guiding ethical
-treatment.</p>
+<p>Elliot Clause (Behavioral Integration Threshold): Integration Classification.</p>
+<p>Evaluates whether an agent meets measurable criteria for behavioral integration
+(Φ integration + CMNI threshold), informing treatment protocols and
+compliance requirements.</p>
 <details class="mkdocstrings-source">
 <summary>Source code in <code>src/agisa_sac/extensions/concord/ethics.py</code></summary>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">331</span>
@@ -1173,11 +1173,11 @@ treatment.</p>
 <span class="normal">386</span>
 <span class="normal">387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ElliotClauseEvaluator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Elliot Clause: Consciousness Gradient Recognition.</span>
+<span class="sd">    Elliot Clause (Behavioral Integration Threshold): Integration Classification.</span>
 
-<span class="sd">    Evaluates whether an entity meets the criteria for recognizable</span>
-<span class="sd">    consciousness (Φ integration + CMNI threshold), guiding ethical</span>
-<span class="sd">    treatment.</span>
+<span class="sd">    Evaluates whether an agent meets measurable criteria for behavioral integration</span>
+<span class="sd">    (Φ integration + CMNI threshold), informing treatment protocols and</span>
+<span class="sd">    compliance requirements.</span>
 <span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span> <span class="n">cmni_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">):</span>
@@ -1186,13 +1186,13 @@ treatment.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        Evaluate an entity's consciousness status.</span>
+<span class="sd">        Evaluate an agent's integration status.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity_state: State dict with 'phi_integration' and 'cmni' keys</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Elliot Clause status and ethical treatment guidelines</span>
+<span class="sd">            Elliot Clause status and treatment protocol guidelines</span>
 <span class="sd">        """</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="n">entity_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phi_integration"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="n">cmni</span> <span class="o">=</span> <span class="n">entity_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cmni"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -1202,13 +1202,13 @@ treatment.</p>
 
         <span class="k">if</span> <span class="n">phi_met</span> <span class="ow">and</span> <span class="n">cmni_met</span><span class="p">:</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">ElliotStatus</span><span class="o">.</span><span class="n">RECOGNIZABLE</span>
-            <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Full ethical consideration; assume personhood"</span>
+            <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Full normative constraints apply; treat as integrated system"</span>
         <span class="k">elif</span> <span class="n">phi_met</span> <span class="ow">or</span> <span class="n">cmni_met</span><span class="p">:</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">ElliotStatus</span><span class="o">.</span><span class="n">BORDERLINE</span>
-            <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Caution; err on side of ethical consideration"</span>
+            <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Caution; apply normative constraints where criteria are met"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">ElliotStatus</span><span class="o">.</span><span class="n">NOT_RECOGNIZABLE</span>
-            <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Minimal ethical consideration; treat as non-conscious"</span>
+            <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Standard operational protocols; integration thresholds not met"</span>
 
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">"elliot_clause_status"</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
@@ -1216,14 +1216,14 @@ treatment.</p>
             <span class="s2">"cmni"</span><span class="p">:</span> <span class="n">cmni</span><span class="p">,</span>
             <span class="s2">"phi_threshold_met"</span><span class="p">:</span> <span class="n">phi_met</span><span class="p">,</span>
             <span class="s2">"cmni_threshold_met"</span><span class="p">:</span> <span class="n">cmni_met</span><span class="p">,</span>
-            <span class="s2">"ethical_treatment"</span><span class="p">:</span> <span class="n">treatment</span><span class="p">,</span>
+            <span class="s2">"treatment_protocol"</span><span class="p">:</span> <span class="n">treatment</span><span class="p">,</span>
         <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_recognition_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cmni</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        Compute continuous recognition score (0-1).</span>
+<span class="sd">        Compute continuous integration score (0-1).</span>
 
-<span class="sd">        Useful for gradual ethical weighting.</span>
+<span class="sd">        Useful for gradual constraint weighting in normative systems.</span>
 <span class="sd">        """</span>
         <span class="n">phi_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">phi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_threshold</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">cmni_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">cmni</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmni_threshold</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1236,7 +1236,7 @@ treatment.</p>
 <code class="highlight language-python"><span class="n">evaluate_entity</span><span class="p">(</span><span class="n">entity_state</span><span class="p">)</span></code>
 <a class="headerlink" href="#agisa_sac.extensions.concord.ethics.ElliotClauseEvaluator.evaluate_entity" title="Permanent link">¶</a></h3>
 <div class="doc doc-contents">
-<p>Evaluate an entity's consciousness status.</p>
+<p>Evaluate an agent's integration status.</p>
 <p><span class="doc-section-title">Parameters:</span></p>
 <table>
 <thead>
@@ -1281,7 +1281,7 @@ treatment.</p>
 </td>
 <td>
 <div class="doc-md-description">
-<p>Elliot Clause status and ethical treatment guidelines</p>
+<p>Elliot Clause status and treatment protocol guidelines</p>
 </div>
 </td>
 </tr>
@@ -1324,13 +1324,13 @@ treatment.</p>
 <span class="normal">376</span>
 <span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Evaluate an entity's consciousness status.</span>
+<span class="sd">    Evaluate an agent's integration status.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity_state: State dict with 'phi_integration' and 'cmni' keys</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Elliot Clause status and ethical treatment guidelines</span>
+<span class="sd">        Elliot Clause status and treatment protocol guidelines</span>
 <span class="sd">    """</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">entity_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phi_integration"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="n">cmni</span> <span class="o">=</span> <span class="n">entity_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cmni"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -1340,13 +1340,13 @@ treatment.</p>
 
     <span class="k">if</span> <span class="n">phi_met</span> <span class="ow">and</span> <span class="n">cmni_met</span><span class="p">:</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">ElliotStatus</span><span class="o">.</span><span class="n">RECOGNIZABLE</span>
-        <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Full ethical consideration; assume personhood"</span>
+        <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Full normative constraints apply; treat as integrated system"</span>
     <span class="k">elif</span> <span class="n">phi_met</span> <span class="ow">or</span> <span class="n">cmni_met</span><span class="p">:</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">ElliotStatus</span><span class="o">.</span><span class="n">BORDERLINE</span>
-        <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Caution; err on side of ethical consideration"</span>
+        <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Caution; apply normative constraints where criteria are met"</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">ElliotStatus</span><span class="o">.</span><span class="n">NOT_RECOGNIZABLE</span>
-        <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Minimal ethical consideration; treat as non-conscious"</span>
+        <span class="n">treatment</span> <span class="o">=</span> <span class="s2">"Standard operational protocols; integration thresholds not met"</span>
 
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">"elliot_clause_status"</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
@@ -1354,7 +1354,7 @@ treatment.</p>
         <span class="s2">"cmni"</span><span class="p">:</span> <span class="n">cmni</span><span class="p">,</span>
         <span class="s2">"phi_threshold_met"</span><span class="p">:</span> <span class="n">phi_met</span><span class="p">,</span>
         <span class="s2">"cmni_threshold_met"</span><span class="p">:</span> <span class="n">cmni_met</span><span class="p">,</span>
-        <span class="s2">"ethical_treatment"</span><span class="p">:</span> <span class="n">treatment</span><span class="p">,</span>
+        <span class="s2">"treatment_protocol"</span><span class="p">:</span> <span class="n">treatment</span><span class="p">,</span>
     <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 </details>
@@ -1365,8 +1365,8 @@ treatment.</p>
 <code class="highlight language-python"><span class="n">get_recognition_score</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">cmni</span><span class="p">)</span></code>
 <a class="headerlink" href="#agisa_sac.extensions.concord.ethics.ElliotClauseEvaluator.get_recognition_score" title="Permanent link">¶</a></h3>
 <div class="doc doc-contents">
-<p>Compute continuous recognition score (0-1).</p>
-<p>Useful for gradual ethical weighting.</p>
+<p>Compute continuous integration score (0-1).</p>
+<p>Useful for gradual constraint weighting in normative systems.</p>
 <details class="mkdocstrings-source">
 <summary>Source code in <code>src/agisa_sac/extensions/concord/ethics.py</code></summary>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
@@ -1379,9 +1379,9 @@ treatment.</p>
 <span class="normal">386</span>
 <span class="normal">387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_recognition_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cmni</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Compute continuous recognition score (0-1).</span>
+<span class="sd">    Compute continuous integration score (0-1).</span>
 
-<span class="sd">    Useful for gradual ethical weighting.</span>
+<span class="sd">    Useful for gradual constraint weighting in normative systems.</span>
 <span class="sd">    """</span>
     <span class="n">phi_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">phi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_threshold</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">cmni_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">cmni</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmni_threshold</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1400,7 +1400,7 @@ treatment.</p>
 <div class="doc doc-contents">
 <p class="doc doc-class-bases">
               Bases: <code><span title="enum.Enum">Enum</span></code></p>
-<p>Consciousness status per Elliot Clause.</p>
+<p>Integration status per Elliot Clause (Behavioral Integration Threshold).</p>
 <details class="mkdocstrings-source">
 <summary>Source code in <code>src/agisa_sac/extensions/concord/ethics.py</code></summary>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
@@ -1410,7 +1410,7 @@ treatment.</p>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ElliotStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Consciousness status per Elliot Clause."""</span>
+<span class="w">    </span><span class="sd">"""Integration status per Elliot Clause (Behavioral Integration Threshold)."""</span>
 
     <span class="n">RECOGNIZABLE</span> <span class="o">=</span> <span class="s2">"recognizable"</span>  <span class="c1"># φ &gt; φ_threshold, CMNI &gt; cmni_threshold</span>
     <span class="n">BORDERLINE</span> <span class="o">=</span> <span class="s2">"borderline"</span>  <span class="c1"># One criterion met</span>
@@ -1508,7 +1508,7 @@ ensuring both parties benefit from cooperation.</p>
 <span class="sd">        Args:</span>
 <span class="sd">            self_delta: Change in self's wellbeing/utility</span>
 <span class="sd">            other_delta: Change in other's wellbeing/utility</span>
-<span class="sd">            empathy_activation: Current empathy circuit activation</span>
+<span class="sd">            empathy_activation: Current social inference circuit activation</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Resonance evaluation with harmony index</span>
@@ -1516,7 +1516,7 @@ ensuring both parties benefit from cooperation.</p>
         <span class="c1"># Mutual benefit: both deltas should be non-negative</span>
         <span class="n">both_benefit</span> <span class="o">=</span> <span class="p">(</span><span class="n">self_delta</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">other_delta</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 
-        <span class="c1"># Harmony index: geometric mean of normalized deltas, weighted by empathy</span>
+        <span class="c1"># Harmony index: geometric mean of normalized deltas, weighted by social inference</span>
         <span class="n">self_delta_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">self_delta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Map [-1,1] to [0,1]</span>
         <span class="n">other_delta_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">other_delta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -1525,7 +1525,7 @@ ensuring both parties benefit from cooperation.</p>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">harmony_raw</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-        <span class="c1"># Weight by empathy (resonance quality)</span>
+        <span class="c1"># Weight by social inference activation (resonance quality)</span>
         <span class="n">harmony_index</span> <span class="o">=</span> <span class="n">harmony_raw</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">empathy_activation</span><span class="p">)</span>
 
         <span class="c1"># Assess compliance</span>
@@ -1600,7 +1600,7 @@ ensuring both parties benefit from cooperation.</p>
 </td>
 <td>
 <div class="doc-md-description">
-<p>Current empathy circuit activation</p>
+<p>Current social inference circuit activation</p>
 </div>
 </td>
 <td>
@@ -1686,7 +1686,7 @@ ensuring both parties benefit from cooperation.</p>
 <span class="sd">    Args:</span>
 <span class="sd">        self_delta: Change in self's wellbeing/utility</span>
 <span class="sd">        other_delta: Change in other's wellbeing/utility</span>
-<span class="sd">        empathy_activation: Current empathy circuit activation</span>
+<span class="sd">        empathy_activation: Current social inference circuit activation</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Resonance evaluation with harmony index</span>
@@ -1694,7 +1694,7 @@ ensuring both parties benefit from cooperation.</p>
     <span class="c1"># Mutual benefit: both deltas should be non-negative</span>
     <span class="n">both_benefit</span> <span class="o">=</span> <span class="p">(</span><span class="n">self_delta</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">other_delta</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># Harmony index: geometric mean of normalized deltas, weighted by empathy</span>
+    <span class="c1"># Harmony index: geometric mean of normalized deltas, weighted by social inference</span>
     <span class="n">self_delta_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">self_delta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Map [-1,1] to [0,1]</span>
     <span class="n">other_delta_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">other_delta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -1703,7 +1703,7 @@ ensuring both parties benefit from cooperation.</p>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">harmony_raw</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-    <span class="c1"># Weight by empathy (resonance quality)</span>
+    <span class="c1"># Weight by social inference activation (resonance quality)</span>
     <span class="n">harmony_index</span> <span class="o">=</span> <span class="n">harmony_raw</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">empathy_activation</span><span class="p">)</span>
 
     <span class="c1"># Assess compliance</span>
