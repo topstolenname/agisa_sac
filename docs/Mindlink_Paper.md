@@ -51,7 +51,7 @@ This unified manuscript bridges philosophical foundations, mathematical framewor
 ### Part IV: Cognitive Architecture
 10. [Persistent Identity Systems](#41-persistent-identity)
 11. [Hierarchical Memory and MemoryGenome](#42-memory-systems)
-12. [Integration Gradients and Meta-Cognitive Monitoring](#43-consciousness-gradients)
+12. [Integration Gradients and Meta-Cognitive Monitoring](#43-integration-gradients-and-meta-cognitive-monitoring)
 13. [Cognitive Gradient Engine (CGE)](#44-cognitive-gradient-engine)
 
 ### Part V: Technical Implementation
