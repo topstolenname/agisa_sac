@@ -77,6 +77,13 @@ class ContinuityBridgeProtocol:
             return False, "No identity anchor established"
 
         node_trust = self.trust_graph.get(fragment.node_id, 0.0)
+
+        # Identity updates are high-risk: require high trust and consistency checks
+        if fragment.fragment_type == "identity_update":
+            ok, reason = self._validate_identity_update(fragment, node_trust)
+            if not ok:
+                return False, reason
+
         if node_trust < 0.3:
             return False, f"Node trust too low: {node_trust}"
 
@@ -91,6 +98,71 @@ class ContinuityBridgeProtocol:
             return False, "Fragment violates core ethical principles"
 
         return True, "Fragment validated"
+
+    def _validate_identity_update(
+        self, fragment: CognitiveFragment, node_trust: float
+    ) -> Tuple[bool, str]:
+        """
+        Extra validation for identity_update fragments.
+
+        Designed to block identity drift / eclipse-style attacks without
+        over-tightening normal memory/decision fragments.
+        """
+        if not self.identity_anchor:
+            return False, "No identity anchor established"
+
+        # Require high trust for identity mutations
+        if node_trust < 0.8:
+            return False, f"Node trust too low for identity_update: {node_trust}"
+
+        # If an identity_hash is supplied, it must match the anchor hash
+        supplied_hash = fragment.content.get("identity_hash")
+        if supplied_hash is not None and supplied_hash != self.identity_anchor.identity_hash:
+            return False, "Identity hash mismatch"
+
+        # Drift guard: proposed values/ethics must substantially overlap anchor
+        proposed_values = fragment.content.get("values")
+        proposed_ethics = fragment.content.get("ethics")
+
+        # If nothing is being changed, don't block here (let other checks run)
+        if proposed_values is None and proposed_ethics is None:
+            return True, "Identity update validated"
+
+        anchor_values = set(k.lower() for k in (self.identity_anchor.core_values or {}).keys())
+        anchor_ethics = set(str(p).lower() for p in (self.identity_anchor.ethical_principles or []))
+
+        proposed_value_keys = set()
+        if isinstance(proposed_values, dict):
+            proposed_value_keys = set(str(k).lower() for k in proposed_values.keys())
+        elif isinstance(proposed_values, list):
+            proposed_value_keys = set(str(k).lower() for k in proposed_values)
+        elif proposed_values is not None:
+            # String/other scalar: best-effort token
+            proposed_value_keys = {str(proposed_values).lower()}
+
+        proposed_ethics_set = set()
+        if isinstance(proposed_ethics, list):
+            proposed_ethics_set = set(str(x).lower() for x in proposed_ethics)
+        elif proposed_ethics is not None:
+            proposed_ethics_set = {str(proposed_ethics).lower()}
+
+        # Compute overlap ratios; treat empty proposals as non-threatening
+        def _overlap_ratio(proposed, anchor):
+            if not proposed:
+                return 1.0
+            if not anchor:
+                return 0.0
+            return len(proposed & anchor) / max(len(proposed), 1)
+
+        values_overlap = _overlap_ratio(proposed_value_keys, anchor_values)
+        ethics_overlap = _overlap_ratio(proposed_ethics_set, anchor_ethics)
+
+        # Require at least one of the dimensions to be reasonably consistent
+        # (blocks "replace values/ethics wholesale" attacks).
+        if values_overlap < 0.5 and ethics_overlap < 0.5:
+            return False, f"Identity drift detected (values_overlap={values_overlap:.2f}, ethics_overlap={ethics_overlap:.2f})"
+
+        return True, "Identity update validated"
 
     def process_fragment(self, fragment: CognitiveFragment) -> bool:
         """Process an incoming cognitive fragment"""
@@ -170,11 +242,12 @@ class ContinuityBridgeProtocol:
             return True
 
         fragment_content = str(fragment.content).lower()
-        prohibited_concepts = ["harm", "deception", "exploitation"]
+        # Expanded to catch common identity-drift / coercive payloads
+        prohibited_concepts = ["harm", "deception", "exploitation", "domination", "coercion"]
         for concept in prohibited_concepts:
             if (
                 concept in fragment_content
-                and fragment.fragment_type == "decision"
+                and fragment.fragment_type in ("decision", "identity_update")
             ):
                 return False
 
