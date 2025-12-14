@@ -821,12 +821,12 @@ resource depletion, or constraint violations. Aligns with Article III
         <span class="n">autonomy</span> <span class="o">=</span> <span class="n">agent_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"autonomy_score"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
         <span class="n">pressure</span> <span class="o">=</span> <span class="n">agent_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"external_pressure"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-        <span class="c1"># Calculate threat score</span>
+        <span class="c1"># Calculate threat score - weight critical factors more heavily</span>
         <span class="n">threat_components</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">resource_level</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Resource depletion</span>
+            <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">resource_level</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span>  <span class="c1"># Resource depletion (critical)</span>
             <span class="nb">min</span><span class="p">(</span><span class="n">violations</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># Constraint violations</span>
-            <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">autonomy</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Loss of autonomy (coercion indicator)</span>
-            <span class="n">pressure</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># External pressure</span>
+            <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">autonomy</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span>  <span class="c1"># Loss of autonomy (critical)</span>
+            <span class="n">pressure</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># External pressure</span>
         <span class="p">]</span>
         <span class="n">threat_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">threat_components</span><span class="p">)</span>
 
@@ -992,12 +992,12 @@ resource depletion, or constraint violations. Aligns with Article III
     <span class="n">autonomy</span> <span class="o">=</span> <span class="n">agent_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"autonomy_score"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="n">pressure</span> <span class="o">=</span> <span class="n">agent_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"external_pressure"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-    <span class="c1"># Calculate threat score</span>
+    <span class="c1"># Calculate threat score - weight critical factors more heavily</span>
     <span class="n">threat_components</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">resource_level</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Resource depletion</span>
+        <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">resource_level</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span>  <span class="c1"># Resource depletion (critical)</span>
         <span class="nb">min</span><span class="p">(</span><span class="n">violations</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># Constraint violations</span>
-        <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">autonomy</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Loss of autonomy (coercion indicator)</span>
-        <span class="n">pressure</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># External pressure</span>
+        <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">autonomy</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span>  <span class="c1"># Loss of autonomy (critical)</span>
+        <span class="n">pressure</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># External pressure</span>
     <span class="p">]</span>
     <span class="n">threat_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">threat_components</span><span class="p">)</span>
 
