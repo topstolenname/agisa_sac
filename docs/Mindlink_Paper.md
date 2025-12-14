@@ -647,10 +647,10 @@ graph TB
         GG4[How to<br/>Intervene?]
     end
     
-    TA1 -.X|Violated| DR1
-    TA2 -.X|Violated| DR2
-    TA3 -.X|Violated| DR3
-    TA4 -.X|Violated| DR4
+    TA1 -.->|Violated| DR1
+    TA2 -.->|Violated| DR2
+    TA3 -.->|Violated| DR3
+    TA4 -.->|Violated| DR4
     
     DR1 --> GG1
     DR2 --> GG2
