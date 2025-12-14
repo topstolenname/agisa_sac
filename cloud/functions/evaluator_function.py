@@ -2,15 +2,31 @@ import base64
 import json
 import os
 
-from google.cloud import firestore, tasks_v2
-
+# Optional GCP dependencies
 try:
-    db = firestore.Client()
-    client = tasks_v2.CloudTasksClient()
-    PROJECT = os.getenv("GCP_PROJECT", "local-project")
-    QUEUE = os.getenv("TASK_QUEUE", "eval-queue")
-    LOCATION = os.getenv("GCP_LOCATION", "us-central1")
-except Exception:  # Ignore initialization failures during import
+    from google.cloud import firestore, tasks_v2
+
+    HAS_GCP = True
+except ImportError:
+    HAS_GCP = False
+    firestore = None
+    tasks_v2 = None
+
+# Initialize GCP clients if available
+if HAS_GCP:
+    try:
+        db = firestore.Client()
+        client = tasks_v2.CloudTasksClient()
+        PROJECT = os.getenv("GCP_PROJECT", "local-project")
+        QUEUE = os.getenv("TASK_QUEUE", "eval-queue")
+        LOCATION = os.getenv("GCP_LOCATION", "us-central1")
+    except Exception:  # Ignore initialization failures
+        db = None
+        client = None
+        PROJECT = "local-project"
+        QUEUE = "eval-queue"
+        LOCATION = "us-central1"
+else:
     db = None
     client = None
     PROJECT = "local-project"

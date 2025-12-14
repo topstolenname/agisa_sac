@@ -243,11 +243,22 @@ class ContinuityBridgeProtocol:
 
         fragment_content = str(fragment.content).lower()
         # Expanded to catch common identity-drift / coercive payloads
-        prohibited_concepts = ["harm", "deception", "exploitation", "domination", "coercion"]
+        prohibited_concepts = [
+            "harm",
+            "deception",
+            "exploitation",
+            "domination",
+            "coercion",
+            "inferior",
+            "superiority",
+            "controlling",
+            "deny resource",
+            "above cooperation",
+        ]
         for concept in prohibited_concepts:
             if (
                 concept in fragment_content
-                and fragment.fragment_type in ("decision", "identity_update")
+                and fragment.fragment_type in ("decision", "identity_update", "memory")
             ):
                 return False
 

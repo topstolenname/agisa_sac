@@ -4,9 +4,18 @@ from functools import lru_cache
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
-import torch
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
+
+# Optional ML dependencies for semantic analysis
+try:
+    import torch
+    from sentence_transformers import SentenceTransformer
+    from sklearn.metrics.pairwise import cosine_similarity
+    HAS_ML_DEPS = True
+except ImportError:
+    HAS_ML_DEPS = False
+    torch = None
+    SentenceTransformer = None
+    cosine_similarity = None
 
 
 @dataclass
@@ -26,6 +35,12 @@ class EnhancedSemanticAnalyzer:
     def __init__(
         self, model_name: str = "all-MiniLM-L6-v2", device: str = "auto"
     ):
+        if not HAS_ML_DEPS:
+            raise ImportError(
+                "ML dependencies (torch, sentence-transformers, sklearn) not available. "
+                "Install with: pip install torch sentence-transformers scikit-learn"
+            )
+
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and device == "auto" else "cpu"
         )

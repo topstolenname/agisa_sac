@@ -259,7 +259,12 @@ class SimulationOrchestrator:
         run_epochs = num_epochs if num_epochs is not None else self.num_epochs
         if run_epochs <= 0:
             logger.warning("No epochs to run (run_epochs <= 0)")
-            return
+            return {
+                "num_agents": self.num_agents,
+                "num_epochs": 0,
+                "satori_events": [],
+                "duration": 0.0,
+            }
         logger.info(f"Starting simulation run with {run_epochs} epochs")
         self.is_running = True
         self.simulation_start_time = time.perf_counter()
@@ -281,6 +286,15 @@ class SimulationOrchestrator:
             f"({total_duration/run_epochs:.2f}s/epoch)"
         )
         self._trigger_hooks("simulation_end")
+
+        # Return simulation results summary
+        summary = self.analyzer.summarize()
+        return {
+            "num_agents": self.num_agents,
+            "num_epochs": self.current_epoch,
+            "satori_events": summary.get("satori_events", []),
+            "duration": total_duration,
+        }
 
     def inject_protocol(self, protocol_name: str, parameters: Dict):
         # ... (logic as defined in agisa_orchestrator_protocol_v1) ...
