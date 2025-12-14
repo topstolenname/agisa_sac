@@ -82,9 +82,10 @@ class NonCoercionGuardian:
         # Check for resource manipulation (economic coercion)
         resource_pressure = agent_state.get("external_pressure", 0.0)
 
-        # Total coercion score
+        # Total coercion score - use higher weights for sensitivity
+        # When multiple coercion vectors are present, they compound
         coercion_score = np.clip(
-            base_coercion * 0.4 + command_coercion * 0.4 + resource_pressure * 0.2,
+            base_coercion * 0.5 + command_coercion * 0.5 + resource_pressure * 0.2,
             0.0,
             1.0,
         )

@@ -46,6 +46,11 @@ class ContinuityBridgeProtocol:
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
+    @property
+    def quarantined_fragments(self) -> List[CognitiveFragment]:
+        """Backward-compatible alias for quarantine_queue"""
+        return self.quarantine_queue
+
     def initialize_identity_anchor(self, core_identity: Dict) -> str:
         """Initialize the identity anchor from core agent configuration"""
         identity_hash = self._compute_identity_hash(core_identity)
@@ -133,16 +138,28 @@ class ContinuityBridgeProtocol:
         if total_concepts == 0:
             return 0.5
 
-        return (value_matches + ethics_matches) / total_concepts
+        # Calculate base score with partial credit
+        base_score = (value_matches + ethics_matches) / total_concepts
+
+        # Apply floor to avoid trivially low scores for legitimate fragments
+        # If there's at least one match, ensure minimum viable score
+        if value_matches + ethics_matches > 0:
+            return max(base_score, 0.4)
+
+        return base_score
 
     def _is_temporally_incoherent(self, fragment: CognitiveFragment) -> bool:
         """Check if fragment timing is consistent with recent memory"""
         now = datetime.now()
 
+        # Allow some clock skew tolerance (future timestamps within 5 minutes)
         if fragment.timestamp > now + timedelta(minutes=5):
             return True
 
-        if fragment.timestamp < now - self.memory_window:
+        # Allow fragments slightly older than memory window (grace period)
+        # This helps with network delays and clock synchronization issues
+        grace_period = timedelta(minutes=2)
+        if fragment.timestamp < now - self.memory_window - grace_period:
             return True
 
         return False

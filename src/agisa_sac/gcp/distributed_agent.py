@@ -31,9 +31,29 @@ except ImportError:
     firestore = None
     pubsub_v1 = None
     storage = None
-    trace = None
-    Status = None
-    StatusCode = None
+
+    # Mock trace module
+    class _MockTrace:
+        @staticmethod
+        def get_current_span():
+            # Return a mock span object
+            class _MockCurrentSpan:
+                def set_status(self, status):
+                    pass
+                def record_exception(self, e):
+                    pass
+            return _MockCurrentSpan()
+
+    trace = _MockTrace()
+
+    # Mock Status and StatusCode
+    class Status:
+        def __init__(self, status_code, description=""):
+            pass
+
+    class StatusCode:
+        OK = "ok"
+        ERROR = "error"
 
 
 # ───────────────────────── Data Models ─────────────────────────
@@ -163,6 +183,8 @@ if HAS_GCP:
     tracer = trace.get_tracer(__name__)
 else:
     # Mock tracer for when GCP is not available
+    from functools import wraps
+
     class MockSpan:
         def set_status(self, status):
             pass
@@ -176,9 +198,37 @@ else:
         def __exit__(self, *args):
             pass
 
+    class MockTracerContextManager:
+        """Context manager wrapper for mock tracer."""
+        def __init__(self, name):
+            self.name = name
+            self.span = MockSpan()
+
+        def __enter__(self):
+            return self.span
+
+        def __exit__(self, *args):
+            pass
+
+        def __call__(self, func):
+            """Support decorator usage."""
+            if asyncio.iscoroutinefunction(func):
+                @wraps(func)
+                async def async_wrapper(*args, **kwargs):
+                    with self:
+                        return await func(*args, **kwargs)
+                return async_wrapper
+            else:
+                @wraps(func)
+                def wrapper(*args, **kwargs):
+                    with self:
+                        return func(*args, **kwargs)
+                return wrapper
+
     class MockTracer:
         def start_as_current_span(self, name):
-            return MockSpan()
+            """Mock span that works as both decorator and context manager."""
+            return MockTracerContextManager(name)
 
     tracer = MockTracer()
 

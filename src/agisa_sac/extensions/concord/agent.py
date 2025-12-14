@@ -281,6 +281,9 @@ class ConcordCompliantAgent:
 
         # 8. Final decision synthesis
         result["decisions"]["interaction"] = "CONTINUE"
+        # Set default command decision if not already set by coercion check
+        if "command" not in result["decisions"]:
+            result["decisions"]["command"] = "ALLOW"
         if primary_other and result["activations"]["tactical_help"]["should_help"]:
             result["decisions"]["action"] = "PROVIDE_HELP"
         else:
