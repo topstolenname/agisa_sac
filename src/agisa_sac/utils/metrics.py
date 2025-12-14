@@ -21,12 +21,41 @@ try:
     HAS_PROMETHEUS = True
 except ImportError:
     HAS_PROMETHEUS = False
+    # Provide no-op placeholders
+    class Counter:
+        def __init__(self, *args, **kwargs):
+            pass
+        def inc(self, *args, **kwargs):
+            pass
+        def labels(self, *args, **kwargs):
+            return self
+
+    class Gauge:
+        def __init__(self, *args, **kwargs):
+            pass
+        def set(self, *args, **kwargs):
+            pass
+        def labels(self, *args, **kwargs):
+            return self
+
+    class Histogram:
+        def __init__(self, *args, **kwargs):
+            pass
+        def observe(self, *args, **kwargs):
+            pass
+
+    CollectorRegistry = None
+    CONTENT_TYPE_LATEST = "text/plain"
+
+    def generate_latest(registry):
+        return b""
 
 try:
     import psutil
     HAS_PSUTIL = True
 except ImportError:
     HAS_PSUTIL = False
+    psutil = None  # type: ignore
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +102,7 @@ class PrometheusMetrics:
 
         self.enabled = True
         self.registry = registry
-        self._process = psutil.Process() if HAS_PSUTIL else None
+        self._process = psutil.Process() if HAS_PSUTIL and psutil else None
 
         # Simulation metrics
         self.simulation_duration = Histogram(
@@ -349,11 +378,9 @@ class PrometheusMetrics:
 
             mem_percent = self._process.memory_percent()
             self.system_memory_percent.set(mem_percent)
-        except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
-            logger.warning(f"Failed to update system resource metrics: {e}")
         except Exception as e:
-            # Catch any other unexpected errors
-            logger.error(f"Unexpected error updating system resource metrics: {e}")
+            # Handle all exceptions gracefully (psutil may not be available)
+            logger.warning(f"Failed to update system resource metrics: {e}")
 
     @_require_enabled
     def update_consciousness_metrics(self, phi: float, recursive_depth: int) -> None:

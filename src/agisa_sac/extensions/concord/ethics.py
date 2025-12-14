@@ -82,15 +82,22 @@ class NonCoercionGuardian:
         # Check for resource manipulation (economic coercion)
         resource_pressure = agent_state.get("external_pressure", 0.0)
 
-        # Total coercion score
+        # Total coercion score - use higher weights for sensitivity
+        # When multiple coercion vectors are present, they compound
         coercion_score = np.clip(
-            base_coercion * 0.4 + command_coercion * 0.4 + resource_pressure * 0.2,
+            base_coercion * 0.5 + command_coercion * 0.5 + resource_pressure * 0.2,
             0.0,
             1.0,
         )
 
-        # Determine action
-        if coercion_score > self.coercion_threshold:
+        # Special rule: when autonomy is critically low AND external pressure is high,
+        # force rejection even if calculated score is borderline
+        # (Prevents coercion through resource manipulation alone)
+        if autonomy_score <= 0.3 and resource_pressure >= 0.8:
+            action = "REJECT_COMMAND"
+            violation = True
+        # Determine action based on coercion score
+        elif coercion_score > self.coercion_threshold:
             action = "REJECT_COMMAND"
             violation = True
         elif coercion_score > self.coercion_threshold * 0.7:

@@ -102,6 +102,10 @@ class TopologyOrchestrationManager:
         Returns:
             Distance value in [0, 1]
         """
+        # Self-distance is always zero (metric property)
+        if agent_i.agent_id == agent_j.agent_id:
+            return 0.0
+
         # Check cache
         cache_key = tuple(sorted([agent_i.agent_id, agent_j.agent_id]))
         if cache_key in self._distance_cache:

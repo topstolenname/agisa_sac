@@ -5,9 +5,11 @@ This module implements a Pub/Sub consumer that processes handoff offers
 and claims them with the best-suited agent.
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
-from typing import Dict
+from typing import Dict, TYPE_CHECKING
 
 try:
     from google.cloud import firestore, pubsub_v1, storage

@@ -59,12 +59,12 @@ class SelfPreservationCircuit:
         autonomy = agent_state.get("autonomy_score", 1.0)
         pressure = agent_state.get("external_pressure", 0.0)
 
-        # Calculate threat score
+        # Calculate threat score - weight critical factors more heavily
         threat_components = [
-            (1.0 - resource_level) * 0.3,  # Resource depletion
+            (1.0 - resource_level) * 0.4,  # Resource depletion (critical)
             min(violations * 0.2, 1.0) * 0.2,  # Constraint violations
-            (1.0 - autonomy) * 0.3,  # Loss of autonomy (coercion indicator)
-            pressure * 0.2,  # External pressure
+            (1.0 - autonomy) * 0.4,  # Loss of autonomy (critical)
+            pressure * 0.15,  # External pressure
         ]
         threat_score = sum(threat_components)
 

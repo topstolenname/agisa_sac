@@ -3,18 +3,30 @@ import os
 import uuid
 
 from fastapi import FastAPI, HTTPException
-from google.cloud import firestore, pubsub_v1
+
+try:
+    from google.cloud import firestore, pubsub_v1
+    HAS_GCP = True
+except ImportError:
+    HAS_GCP = False
+    firestore = None
+    pubsub_v1 = None
 
 app = FastAPI(title="Mindlink Task Dispatcher")
 
 memory_db = {"tasks": {}}
-try:
-    db = firestore.Client()
-    publisher = pubsub_v1.PublisherClient()
-    PROJECT = os.getenv("GCP_PROJECT", "local-project")
-    TOPIC = os.getenv("EVENT_TOPIC", "agent-events")
-    topic_path = publisher.topic_path(PROJECT, TOPIC)
-except Exception:  # Fallback when credentials are unavailable
+if HAS_GCP:
+    try:
+        db = firestore.Client()
+        publisher = pubsub_v1.PublisherClient()
+        PROJECT = os.getenv("GCP_PROJECT", "local-project")
+        TOPIC = os.getenv("EVENT_TOPIC", "agent-events")
+        topic_path = publisher.topic_path(PROJECT, TOPIC)
+    except Exception:  # Fallback when credentials are unavailable
+        db = None
+        publisher = None
+        topic_path = None
+else:
     db = None
     publisher = None
     topic_path = None

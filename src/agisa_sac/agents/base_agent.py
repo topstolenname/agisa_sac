@@ -22,12 +22,41 @@ try:
     HAS_GCP = True
 except ImportError:
     HAS_GCP = False
-    firestore = None
     pubsub_v1 = None
     storage = None
-    trace = None
-    Status = None
-    StatusCode = None
+
+    # Create stub for firestore module to enable test patching
+    # Tests need to patch firestore.Client even when google-cloud libs aren't installed
+    class _FirestoreStub:
+        """Stub firestore module for test patching compatibility."""
+        class Client:
+            """Stub Client class for patching."""
+            def __init__(self, *args, **kwargs):
+                pass
+
+    firestore = _FirestoreStub()
+
+    # Mock trace module
+    class _MockTrace:
+        @staticmethod
+        def get_current_span():
+            class _MockCurrentSpan:
+                def set_status(self, status):
+                    pass
+                def record_exception(self, e):
+                    pass
+            return _MockCurrentSpan()
+
+    trace = _MockTrace()
+
+    # Mock Status and StatusCode
+    class Status:
+        def __init__(self, status_code, description=""):
+            pass
+
+    class StatusCode:
+        OK = "ok"
+        ERROR = "error"
 
 from ..types.contracts import (
     HandoffOffer,
