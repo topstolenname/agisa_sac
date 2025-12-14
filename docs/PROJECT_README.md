@@ -380,23 +380,73 @@ agisa-sac run --preset large --json-logs --log-file production.json
 
 ```
 agisa_sac/
-├── src/agisa_sac/           # Main package
-│   ├── agents/              # Agent implementations
-│   ├── analysis/            # Analysis tools (TDA, clustering, viz)
-│   ├── chaos/               # Chaos engineering
-│   ├── core/                # Orchestrator & components
-│   │   └── components/      # Memory, policy, social modules
-│   ├── federation/          # Federation server & CLI
-│   ├── gcp/                 # Google Cloud Platform integration
-│   ├── metrics/             # Monitoring & metrics
-│   └── utils/               # Logging, message bus, etc.
-├── tests/                   # Test suite
-│   ├── unit/                # Unit tests
-│   ├── integration/         # Integration tests
-│   └── chaos/               # Chaos testing
-├── docs/                    # Documentation
-├── examples/                # Example configurations & notebooks
-└── scripts/                 # Utility scripts
+├── .github/
+│   └── workflows/
+│       ├── ci.yml              # Lint, test, coverage
+│       └── pages.yml           # Documentation deployment
+├── src/agisa_sac/              # Main package source
+│   ├── __init__.py             # Public API exports
+│   ├── cli.py                  # Main CLI entry point
+│   ├── config.py               # Configuration & presets
+│   ├── agents/                 # Agent implementations
+│   │   ├── agent.py            # EnhancedAgent (simulation)
+│   │   └── base_agent.py       # AGISAAgent (production)
+│   ├── analysis/               # TDA, clustering, visualization
+│   │   ├── analyzer.py         # Analysis orchestration
+│   │   └── tda.py              # Topological Data Analysis
+│   ├── chaos/                  # Chaos engineering tools
+│   │   └── orchestrator.py     # Chaos testing CLI
+│   ├── core/                   # Core orchestration
+│   │   ├── orchestrator.py     # SimulationOrchestrator
+│   │   ├── multi_agent_system.py
+│   │   └── components/         # Agent components
+│   │       ├── memory.py       # MemoryContinuumLayer
+│   │       ├── cognitive.py    # CognitiveDiversityEngine
+│   │       ├── voice.py        # VoiceEngine
+│   │       ├── reflexivity.py  # ReflexivityLayer
+│   │       ├── resonance.py    # TemporalResonanceTracker
+│   │       ├── social.py       # DynamicSocialGraph
+│   │       └── crdt_memory.py  # CRDT-based memory
+│   ├── extensions/             # Optional extensions
+│   │   └── concord/            # Concord ethics framework
+│   │       ├── agent.py        # ConcordCompliantAgent
+│   │       ├── ethics.py       # Guardian modules
+│   │       ├── circuits.py     # Mirror neuron circuits
+│   │       └── empathy.py      # Empathy module
+│   ├── federation/             # Multi-node coordination
+│   │   ├── cli.py              # Federation CLI
+│   │   └── server.py           # FastAPI federation server
+│   ├── gcp/                    # Google Cloud Platform integration
+│   ├── metrics/                # Monitoring & metrics
+│   ├── observability/          # Tracing & logging
+│   ├── orchestration/          # Orchestration utilities
+│   ├── types/                  # Type definitions
+│   │   └── contracts.py        # Shared types & enums
+│   └── utils/                  # Utilities
+│       ├── logger.py           # Structured logging
+│       ├── message_bus.py      # Pub/sub event bus
+│       └── metrics.py          # Metrics collection
+├── tests/                      # Test suite
+│   ├── conftest.py             # Shared fixtures
+│   ├── unit/                   # Component-level tests
+│   ├── integration/            # System-level tests
+│   ├── chaos/                  # Chaos engineering tests
+│   └── extensions/             # Extension-specific tests
+├── docs/                       # Documentation
+│   ├── Mindlink_WhitePaper_v1.0.pdf
+│   ├── agentic_swarm_whitepaper.md
+│   └── api/                    # Auto-generated API docs
+├── examples/                   # Example configs & notebooks
+│   └── configs/                # Sample configurations
+├── scripts/                    # Utility scripts
+├── infra/                      # Infrastructure as code
+│   └── gcp/                    # GCP Terraform configs
+├── containers/                 # Docker configurations
+├── pyproject.toml              # Package metadata & dependencies
+├── requirements.txt            # Core dependencies
+├── requirements-dev.txt        # Development dependencies
+├── mkdocs.yml                  # Documentation config
+└── .pre-commit-config.yaml     # Pre-commit hooks
 ```
 
 ### Running Tests
