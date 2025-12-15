@@ -1,0 +1,11 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build','-t','us-central1-docker.pkg.dev/$PROJECT_ID/agisa-repo/agent:latest','-f','containers/Dockerfile','.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push','us-central1-docker.pkg.dev/$PROJECT_ID/agisa-repo/agent:latest']
+  - name: 'hashicorp/terraform'
+    entrypoint: 'sh'
+    args: ['-c','terraform init -backend-config="bucket=$PROJECT_ID-tf-state" -backend-config="prefix=agisa" && terraform apply -auto-approve -var="project_id=$PROJECT_ID"']
+    dir: 'infra/$PROJECT_ID'
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/agisa-repo/agent:latest'

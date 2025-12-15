@@ -4,7 +4,7 @@ services:
   pcp-coordinator:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: containers/Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -24,7 +24,7 @@ services:
   smartphone-node-1:
     build:
       context: .
-      dockerfile: Dockerfile.edge
+      dockerfile: containers/Dockerfile.edge
     environment:
       - NODE_TYPE=smartphone
       - NODE_ID=smartphone_primary_alice
@@ -39,7 +39,7 @@ services:
   smartphone-node-2:
     build:
       context: .
-      dockerfile: Dockerfile.edge
+      dockerfile: containers/Dockerfile.edge
     environment:
       - NODE_TYPE=smartphone
       - NODE_ID=smartphone_primary_bob
@@ -54,7 +54,7 @@ services:
   smart-hub-1:
     build:
       context: .
-      dockerfile: Dockerfile.edge
+      dockerfile: containers/Dockerfile.edge
     environment:
       - NODE_TYPE=smart_hub
       - NODE_ID=home_hub_living_room
@@ -69,7 +69,7 @@ services:
   smart-hub-2:
     build:
       context: .
-      dockerfile: Dockerfile.edge
+      dockerfile: containers/Dockerfile.edge
     environment:
       - NODE_TYPE=smart_hub
       - NODE_ID=home_hub_kitchen
@@ -84,7 +84,7 @@ services:
   server-node-1:
     build:
       context: .
-      dockerfile: Dockerfile.edge
+      dockerfile: containers/Dockerfile.edge
     environment:
       - NODE_TYPE=server
       - NODE_ID=cloud_server_us_east
@@ -99,7 +99,7 @@ services:
   server-node-2:
     build:
       context: .
-      dockerfile: Dockerfile.edge
+      dockerfile: containers/Dockerfile.edge
     environment:
       - NODE_TYPE=server
       - NODE_ID=cloud_server_eu_west
@@ -114,7 +114,7 @@ services:
   chaos-node:
     build:
       context: .
-      dockerfile: Dockerfile.chaos
+      dockerfile: containers/Dockerfile.chaos
     environment:
       - NODE_TYPE=desktop
       - NODE_ID=chaos_testing_node

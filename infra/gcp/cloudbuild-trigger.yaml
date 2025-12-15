@@ -6,4 +6,4 @@ github:
   push:
     branch: '^main$'
 build:
-  filename: cloudbuild.yaml
+  filename: infra/gcp/cloudbuild.yaml

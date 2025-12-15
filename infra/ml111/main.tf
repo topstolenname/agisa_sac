@@ -6,9 +6,13 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "ml111-tf-state"
+    bucket = "PROJECT_ID-tf-state"
     prefix = "agisa"
   }
+}
+
+locals {
+  agent_image = coalesce(var.agent_image, "us-central1-docker.pkg.dev/${var.project_id}/agisa-repo/agent:latest")
 }
 
 provider "google" {
@@ -29,7 +33,7 @@ resource "google_cloud_run_service" "agisa_transmitter" {
   template {
     spec {
       containers {
-        image = var.agent_image
+        image = local.agent_image
         ports {
           container_port = 8765
         }
@@ -44,7 +48,7 @@ resource "google_cloud_run_service" "agisa_receiver" {
   template {
     spec {
       containers {
-        image = var.agent_image
+        image = local.agent_image
         ports {
           container_port = 8765
         }
