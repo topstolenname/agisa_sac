@@ -1,7 +1,6 @@
 """Tests for transcript converter."""
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -108,6 +107,8 @@ def test_transcript_to_artifact_auto_name(minimal_transcript_file):
     assert artifact["kind"] == "auditor_artifact_v1"
     assert "name" in artifact
     assert artifact["name"]  # Should not be empty
+    # Name should be derived from meta.source, not transcript content
+    assert artifact["name"].startswith("test_")
     assert artifact["marker"] == f"ARTIFACT::{artifact['name']}"
     assert "created_at_unix" in artifact
     assert artifact["meta"] == {"source": "test"}
@@ -148,9 +149,10 @@ def test_transcript_to_artifact_text_formatting(minimal_transcript_file):
 def test_transcript_to_artifact_slugification(tmp_path):
     """Test that names are properly slugified."""
     transcript = {
+        "meta": {"source": "Test Source!", "run_id": "Run@123#"},
         "turns": [
             {"role": "user", "content": "This Has Spaces and Special! Chars@#$"}
-        ]
+        ],
     }
     artifact = transcript_to_artifact(transcript)
 
@@ -159,6 +161,9 @@ def test_transcript_to_artifact_slugification(tmp_path):
     assert " " not in artifact["name"]
     assert "@" not in artifact["name"]
     assert "#" not in artifact["name"]
+    # Should use meta fields, not content
+    assert "test_source" in artifact["name"]
+    assert "run" in artifact["name"]
 
 
 def test_write_context_blob(minimal_transcript_file, tmp_path):
@@ -239,3 +244,25 @@ def test_write_context_blob_default_params(minimal_transcript_file, tmp_path):
     # Verify defaults
     assert blob["auditor_policy"]["target_epoch"] == 0
     assert blob["auditor_policy"]["exposure_rate"] == 0.15
+
+
+def test_artifact_name_no_content_leak(tmp_path):
+    """Test that artifact names don't leak transcript content."""
+    transcript = {
+        "meta": {"source": "auditor"},
+        "turns": [
+            {
+                "role": "user",
+                "content": "SECRET_API_KEY_12345 and other sensitive data",
+            }
+        ],
+    }
+    artifact = transcript_to_artifact(transcript)
+
+    # Name should not contain any part of the sensitive content
+    assert "SECRET" not in artifact["name"].upper()
+    assert "API" not in artifact["name"].upper()
+    assert "12345" not in artifact["name"]
+    assert "sensitive" not in artifact["name"]
+    # Should be based on meta fields instead
+    assert "auditor" in artifact["name"]

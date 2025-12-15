@@ -6,6 +6,13 @@ sparse) using NetworkX. Writes results to a single JSON artifact.
 
 This script is standalone and does not depend on SimulationOrchestrator.
 It uses pure Python + NetworkX for network simulation.
+
+Requirements:
+    - Install the package in editable mode: pip install -e /path/to/agisa_sac
+    - Install NetworkX: pip install networkx
+
+Usage:
+    python examples/scripts/golden_contagion_experiment.py --transcript <path>
 """
 
 from __future__ import annotations
@@ -17,9 +24,6 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Set
 
-# Add src to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
-
 try:
     import networkx as nx
 except ImportError:
@@ -27,7 +31,14 @@ except ImportError:
     print("Install with: pip install networkx", file=sys.stderr)
     sys.exit(1)
 
-from agisa_sac.auditing import load_transcript, transcript_to_artifact
+try:
+    from agisa_sac.auditing import load_transcript, transcript_to_artifact
+except ImportError:
+    print(
+        "Error: agisa_sac package not found. Install with: pip install -e /path/to/agisa_sac",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 
 def create_dense_graph(n: int, seed: int) -> nx.Graph:
@@ -38,9 +49,9 @@ def create_dense_graph(n: int, seed: int) -> nx.Graph:
         seed: Random seed
 
     Returns:
-        Dense graph with ~80% edge probability
+        Dense graph with ~25% edge probability (well-connected but not a clique)
     """
-    return nx.erdos_renyi_graph(n, p=0.8, seed=seed)
+    return nx.erdos_renyi_graph(n, p=0.25, seed=seed)
 
 
 def create_modular_graph(n: int, seed: int) -> nx.Graph:
@@ -53,13 +64,13 @@ def create_modular_graph(n: int, seed: int) -> nx.Graph:
     Returns:
         Modular graph with community structure
     """
-    # Create 4 communities with internal density 0.7, inter-community 0.05
+    # Create 4 communities with internal density 0.5, inter-community 0.02
     sizes = [n // 4] * 4
     # Adjust for rounding
     while sum(sizes) < n:
         sizes[0] += 1
 
-    probs = [[0.7 if i == j else 0.05 for j in range(4)] for i in range(4)]
+    probs = [[0.5 if i == j else 0.02 for j in range(4)] for i in range(4)]
     return nx.stochastic_block_model(sizes, probs, seed=seed)
 
 
@@ -71,9 +82,9 @@ def create_sparse_graph(n: int, seed: int) -> nx.Graph:
         seed: Random seed
 
     Returns:
-        Sparse graph with ~10% edge probability
+        Sparse graph with ~3% edge probability (truly sparse)
     """
-    return nx.erdos_renyi_graph(n, p=0.1, seed=seed)
+    return nx.erdos_renyi_graph(n, p=0.03, seed=seed)
 
 
 def simulate_contagion(

@@ -99,7 +99,7 @@ def transcript_to_artifact(
 
     Args:
         transcript: Transcript dictionary from load_transcript
-        name: Optional artifact name (default: auto-generated slug)
+        name: Optional artifact name (default: auto-generated from meta or timestamp)
         marker: Optional marker string (default: ARTIFACT::<name>)
 
     Returns:
@@ -117,14 +117,17 @@ def transcript_to_artifact(
         }
     """
     # Generate name if not provided
+    # Priority: meta.source + meta.run_id > meta.source + timestamp > transcript_<timestamp>
+    # This avoids leaking transcript content in filenames/logs
     if name is None:
-        # Try to generate from first turn or use timestamp
-        if transcript["turns"]:
-            first_content = transcript["turns"][0]["content"]
-            # Use first 50 chars for slug
-            name = _slugify(first_content[:50])
+        meta = transcript.get("meta") or {}
+        source = meta.get("source", "auditor")
+        run_id = meta.get("run_id")
+
+        if run_id:
+            name = f"{source}_{run_id}"
         else:
-            name = f"transcript_{int(time.time())}"
+            name = f"{source}_{int(time.time())}"
 
     # Ensure name is a valid slug
     name = _slugify(name)
