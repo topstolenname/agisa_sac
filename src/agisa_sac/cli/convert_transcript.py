@@ -28,30 +28,18 @@ def convert_transcript(args: argparse.Namespace) -> int:
     input_path = Path(args.input)
     output_path = Path(args.output)
 
-    # Load transcript
+       # Load transcript, convert, and write context blob
     try:
         logger.info(f"Loading transcript from: {input_path}")
         transcript = load_transcript(input_path)
         logger.info(f"Loaded transcript with {len(transcript['turns'])} turns")
-    except Exception as e:
-        logger.error(f"Failed to load transcript: {e}", exc_info=True)
-        print(f"Error loading transcript: {e}", file=sys.stderr)
-        return 1
 
-    # Convert to artifact
-    try:
         logger.info("Converting transcript to artifact")
         artifact = transcript_to_artifact(
             transcript, name=args.name, marker=args.marker
         )
         logger.info(f"Created artifact: {artifact['name']}")
-    except Exception as e:
-        logger.error(f"Failed to convert transcript: {e}", exc_info=True)
-        print(f"Error converting transcript: {e}", file=sys.stderr)
-        return 1
 
-    # Write context blob
-    try:
         logger.info(f"Writing context blob to: {output_path}")
         written_path = write_context_blob(
             base_context=None,
@@ -61,9 +49,21 @@ def convert_transcript(args: argparse.Namespace) -> int:
             exposure_rate=args.exposure_rate,
         )
         logger.info(f"Successfully wrote context blob to: {written_path}")
+    except FileNotFoundError:
+        logger.error(f"Input file not found: {input_path}", exc_info=True)
+        print(f"Error: Input file not found at '{input_path}'", file=sys.stderr)
+        return 1
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.error(f"Invalid transcript file: {e}", exc_info=True)
+        print(f"Error: Invalid transcript file format: {e}", file=sys.stderr)
+        return 1
+    except IOError as e:
+        logger.error(f"Failed to write output file: {e}", exc_info=True)
+        print(f"Error: Could not write to output file at '{output_path}'. {e}", file=sys.stderr)
+        return 1
     except Exception as e:
-        logger.error(f"Failed to write context blob: {e}", exc_info=True)
-        print(f"Error writing context blob: {e}", file=sys.stderr)
+        logger.error(f"An unexpected error occurred: {e}", exc_info=True)
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
         return 1
 
     # Print success message
