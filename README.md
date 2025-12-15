@@ -35,6 +35,12 @@ AGI-SAC is a **research instrument** designed to:
 
 All theoretical frameworks (Global Workspace Theory, Instrumental Convergence) are **operational analogies only** — they structure the system architecture but make no ontological claims about machine minds.
 
+### Reviewer Orientation
+
+**For reviewers and collaborators:**
+
+AGI-SAC is a research framework for studying multi-agent dynamics, robustness, and behavioral propagation under controlled conditions. It makes no claims about consciousness, sentience, or general intelligence. All metrics are operational proxies used for system-level analysis only.
+
 ---
 
 ## Quick Start
