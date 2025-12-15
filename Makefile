@@ -1,12 +1,5 @@
-.PHONY: paper html pdf site
+# Redirect Makefile targets to scripts/Makefile to preserve root DX
 
-paper: html pdf
-
-html:
-	bash scripts/build_paper.sh >/dev/null || true
-
-pdf:
-	bash scripts/build_paper.sh >/dev/null || true
-
-site:
-	mkdocs build
+.PHONY: %
+%:
+	$(MAKE) -f scripts/Makefile $@
