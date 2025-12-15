@@ -6,17 +6,13 @@
 ![Framework](https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+**For deterministic guarantees vs emergent behavior, see [Behavioral Contracts](docs/BEHAVIORAL_CONTRACTS.md).**
+
 ---
-
-## Core Thesis
-
-**AGI-SAC studies alignment as a property of integrated groups within a system architecture, rather than as a property of individual agents.**
-
-Here, "AGI" refers to Aligned Group Integration, not artificial general intelligence.
 
 ## Overview
 
-**AGI-SAC** (Aligned Group Integration — System Architecture Coexistence) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
+**AGI-SAC** (Artificial General Intelligence Stand Alone Complex) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
 
 ### What This Is
 
@@ -120,167 +116,151 @@ AGI-SAC uses a modular, layered architecture optimized for observability and ins
 - **Eclipse attacks**: Coordinated network isolation
 - **Resource exhaustion**: Load testing and DoS resistance
 
-# Test Files Manifest for PR
+### 3. Change-Point & Transition Detection
 
-This document lists the test files that need to be created for the Research Substrate Readiness PR.
+- **Topological Data Analysis (TDA)**: Persistent homology tracking
+- **Resonance analysis**: Coordination pattern emergence
+- **Community detection**: Dynamic clustering of agent strategies
 
-## Test Files to Create
+### 4. Coordination Without Hierarchy
 
-### 1. tests/unit/test_orchestrator_boundaries.py
-**Size:** ~500 lines
-**Tests:** 20
-**Coverage Target:** `src/agisa_sac/core/orchestrator.py` (0% → 85%)
+- **Stand Alone Complex**: Coordinated behavior without central control
+- **Information cascades**: Meme propagation dynamics
+- **Emergent norms**: Bottom-up constraint formation
+- **Collective decision-making**: Aggregation mechanisms at scale
 
-**Test Classes:**
-- `TestOrchestrationStateTransitions` (6 tests)
-- `TestAgentHandoffCoordination` (3 tests)
-- `TestEpochBoundariesAndTermination` (4 tests)
-- `TestStatePersistence` (3 tests)
-- `TestOrchestrationErrorHandling` (2 tests)
+---
 
-**Key Tests:**
-- `test_orchestrator_runs_exact_epoch_count`
-- `test_epoch_ordering_is_sequential`
-- `test_successful_agent_handoff_preserves_state`
-- `test_orchestrator_state_round_trips_without_loss`
+## Relationship to Automated Auditing & Red-Teaming Tools
 
-### 2. tests/unit/test_topology_fragmentation.py
-**Size:** ~550 lines
-**Tests:** 20
-**Coverage Target:** `src/agisa_sac/orchestration/topology_manager.py` (80% → 90%)
+AGI-SAC is designed to **complement automated auditing frameworks** (agent-driven red-teaming / probing systems) by providing a *system-level model organism* in which discovered behaviors can be contextualized, replayed, and stress-tested over time.
 
-**Test Classes:**
-- `TestFragmentationDetection` (7 tests)
-- `TestResonancePropagation` (4 tests)
-- `TestTopologyRecovery` (3 tests)
-- `TestTopologyDataAnalysis` (2 tests, skipif no ripser)
-- `TestTopologyInvariants` (3 tests)
+**Where automated auditors excel at:**
+- Rapidly eliciting rare or concerning behaviors through adversarial probing
+- Exploring behavioral space via parallel multi-turn interactions
+- Surfacing transcripts that warrant human review and deeper analysis
 
-**Key Tests:**
-- `test_fragmentation_detection_is_deterministic`
-- `test_resonance_propagation_is_deterministic`
-- `test_resonance_blocked_by_fragmentation`
+**AGI-SAC focuses on:**
+- **Dynamics**: how behaviors emerge, stabilize, spread, or self-correct across populations
+- **Context**: how memory, coordination, and network structure shape outcomes
+- **Trajectories**: brittle artifacts vs. robust system-level attractors
+- **Instrumentation**: phase transitions and early warning signals, not one-off anecdotes
 
-### 3. tests/integration/test_message_bus_invariants.py
-**Size:** ~600 lines
-**Tests:** 18
-**Coverage Target:** `src/agisa_sac/utils/message_bus.py` (18% → 75%)
+This separation mirrors the distinction between **unit tests and systems biology**:
+auditors surface signals; AGI-SAC characterizes the organism.
 
-**Test Classes:**
-- `TestMessageDeliveryBasics` (4 tests)
-- `TestMessageOrderingInvariants` (3 tests)
-- `TestBackpressureAndResourceExhaustion` (3 tests)
-- `TestMessageBusIsolation` (2 tests)
-- `TestMessageBusStateSafety` (2 tests)
-- `TestMessageBusDocumentedBehavior` (3 tests - documentation)
+---
 
-**Key Tests:**
-- `test_message_ordering_not_guaranteed_across_subscribers` ⚠️
-- `test_message_bus_has_no_backpressure_mechanism` ⚠️
-- `test_rapid_publishing_does_not_drop_messages`
+## Auditing Integration (In Progress)
 
-**Safety Notes:** Tests explicitly document undefined behavior (ordering, backpressure)
+AGI-SAC is adding first-class tooling to ingest generic auditor outputs (e.g., JSON transcripts) into repeatable experiments.
 
-### 4. tests/unit/test_cognitive_thresholds.py
-**Size:** ~450 lines
-**Tests:** 12
-**Coverage Target:** `src/agisa_sac/agents/base_agent.py`, cognitive components (24% → 70%)
+**Current Tooling:**
+- **`agisa-sac convert-transcript`**: Convert auditor transcript JSON to AGI-SAC context blob
+  - Generates artifact with privacy-preserving names (no content leakage)
+  - Configurable injection policy (target epoch, exposure rate)
+- **Golden experiment script** (`examples/scripts/golden_contagion_experiment.py`):
+  - Simulates contagion spread across 3 network topologies (dense, modular, sparse)
+  - Standalone NetworkX-based simulation (no orchestrator dependency)
+  - Outputs JSON with time series data for analysis
 
-**Test Classes:**
-- `TestPhaseTransitionThresholdComputation` (5 tests) - renamed from Satori
-- `TestReflectionTriggerConditions` (4 tests)
-- `TestVoiceComponentActivation` (3 tests, skipif no voice)
-- `TestCognitiveStateConsistency` (3 tests)
-- `TestDecisionBoundaryConditions` (3 tests)
+**Planned:**
+- Orchestration integration for distributed artifact ingestion
+- Handoff consumer support for context blob loading
+- Policy-driven injection at specified epochs
 
-**Key Tests:**
-- `test_phase_transition_threshold_is_deterministic`
-- `test_decision_determinism_with_fixed_inputs` (documents non-determinism) ⚠️
+---
 
-**Updated Terminology:** "Phase transition" instead of "satori" in test names/docs
+## Project Structure (Current)
 
-### 5. tests/unit/test_memory_degradation.py
-**Size:** ~500 lines
-**Tests:** 12
-**Coverage Target:** `src/agisa_sac/core/components/memory.py` (39% → 70%)
+Key packages include:
 
-**Test Classes:**
-- `TestMemoryCapacityEnforcement` (5 tests)
-- `TestCRDTMergeSemantics` (5 tests) - **strengthened with ID comparison**
-- `TestMemoryRetrievalOrdering` (4 tests)
-- `TestMemorySerializationRoundTrip` (4 tests)
-- `TestMemoryEvictionPolicy` (3 tests)
+- `agents/` — agent implementations
+- `core/` — core simulation loop (multi-agent system + orchestrator)
+- `analysis/` — TDA, clustering, visualization, analyzers
+- `chaos/` — chaos engine + adversarial scenario orchestration
+- `cognition/` + `cge/` — cognitive evaluation/optimization components
+- `extensions/concord/` — ethical/constraint and "Concord" extensions
+- `federation/` — federation components (experimental / evolving)
+- `gcp/` — GCS/Vertex helpers and distributed agent utilities
+- `orchestration/` — integration layer (handoff consumer + topology manager)
+- `persistence/` — storage abstractions (e.g., Firestore)
+- `utils/`, `types/`, `observability/`, `metrics/`, `chronicler.py` — supporting infrastructure
 
-**Key Tests:**
-- `test_merge_is_commutative` (strengthened: compares memory ID sets)
-- `test_merging_identical_memories_is_idempotent` (strengthened: checks no duplicate IDs)
-- `test_capacity_is_hard_limit`
+---
 
-**Important:** CRDT tests use memory ID sets for stronger guarantees (not just counts)
+## Intended Audience
 
-## Creation Instructions
+AGI-SAC is designed for:
 
-The full test file content is available in the conversation history above. Each file should be created with:
+- **AI safety researchers** studying alignment-relevant failure modes
+- **Multi-agent systems researchers** investigating coordination dynamics
+- **Chaos engineers** testing distributed system resilience
+- **Oversight & auditing researchers** developing diagnostic and red-teaming tools
 
-1. **Proper imports:**
-```python
-import pytest
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+**Not intended for:**
+- Philosophical debates about machine consciousness
+- Claims of achieving AGI or human-level intelligence
+- Ethical arguments for AI rights or moral standing
+
+---
+
+## Citation
+
+If you use AGI-SAC in your research, please cite:
+
+```bibtex
+@software{agisa_sac_2025,
+  title = {AGI-SAC: Model Organism Simulation Framework for Alignment and Robustness Research},
+  author = {Jessup, Tristan},
+  year = {2025},
+  version = {1.0.0-alpha},
+  url = {https://github.com/topstolenname/agisa_sac},
+  note = {Model organism framework for studying alignment-relevant failure modes in multi-agent systems. No claims of consciousness, sentience, or general intelligence.}
+}
 ```
 
-2. **Fixtures:** Each file has 3-5 pytest fixtures for test setup
+---
 
-3. **Docstrings:** All tests have Given/When/Then docstrings
+## Research Ethics & Disclaimers
 
-4. **Safety notes:** Tests documenting undefined behavior include SAFETY NOTE comments
+### Scope Limitations
 
-## Quick Creation Script
+AGI-SAC is a **model organism** — findings are:
+- **Not predictive** of real AGI systems
+- **Not evidence** of machine consciousness or sentience
+- **Not generalizable** beyond the experimental design
+- **Mechanistic insights only** within a controlled simulation environment
 
-```bash
-# From PR root directory
-source venv/bin/activate
+AGI-SAC is intended to support and extend empirical findings from automated auditing, not replace them.
 
-# Create test files (copy content from conversation)
-# tests/unit/test_orchestrator_boundaries.py
-# tests/unit/test_topology_fragmentation.py
-# tests/integration/test_message_bus_invariants.py
-# tests/unit/test_cognitive_thresholds.py
-# tests/unit/test_memory_degradation.py
+### No Claims Of
 
-# Verify tests run
-pytest tests/unit/test_orchestrator_boundaries.py -v
-pytest tests/unit/test_topology_fragmentation.py -v
-pytest tests/integration/test_message_bus_invariants.py -v
-pytest tests/unit/test_cognitive_thresholds.py -v
-pytest tests/unit/test_memory_degradation.py -v
+- ❌ Machine consciousness, awareness, or subjective experience
+- ❌ General intelligence or human-equivalent reasoning
+- ❌ Moral agency, rights, or ethical standing
+- ❌ Sentience, qualia, or phenomenal experience
+- ❌ Sapience or self-awareness
 
-# Check coverage
-pytest --cov=src/agisa_sac --cov-report=term | grep -E "orchestr|topology|message_bus|agent|memory"
-```
+### What Is Claimed
 
-## Verification Checklist
+- ✅ Observable system-level behavioral dynamics
+- ✅ Diagnostic signals for alignment-relevant phenomena
+- ✅ Instrumented failure mode testing under adversarial stress
+- ✅ Coordination patterns in multi-agent systems
+- ✅ Empirical data on distributed system robustness
 
-After creating test files:
+---
 
-- [ ] All imports resolve correctly
-- [ ] All fixtures work
-- [ ] Tests run without errors (some may need skipif for optional deps)
-- [ ] Coverage increased for target modules
-- [ ] Safety-critical tests document undefined behavior
-- [ ] CRDT tests use memory ID comparison (strengthened)
-- [ ] Decision tests document non-determinism
-- [ ] MessageBus tests document no ordering guarantee
+## License
 
-## Expected Test Results
+MIT License — see [LICENSE](LICENSE) for details.
 
-**Initial Run (before fixing issues):**
-- Some tests may fail (documenting current bugs)
-- Some tests skipped (optional dependencies: ripser, voice component)
-- Coverage should increase significantly
+All code and documentation in this repository are licensed under the MIT License unless otherwise noted.
 
-**After addressing documented issues:**
-- All non-skipped tests should pass
-- Coverage targets achieved
-- Safety unknowns tracked as GitHub issues
+---
+
+## Contact
+
+- **Email**: [tristan@mindlink.dev](mailto:tristan@mindlink.dev)
+- **GitHub**: [topstolenname/agisa_sac](https://github.com/topstolenname/agisa_sac)
