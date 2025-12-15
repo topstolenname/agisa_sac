@@ -15,6 +15,37 @@
 
 ---
 
+## 📋 Documentation Contract
+
+**This file is the authoritative execution contract for AI assistants working with AGI-SAC.**
+
+### Contract Terms
+
+1. **This document must remain accurate** - Any changes to architecture, CLI commands, core workflows, or development conventions REQUIRE updating this file
+2. **Code is the source of truth** - If this document conflicts with the actual codebase, the codebase is correct and this document must be updated
+3. **No undocumented features** - Features, CLI commands, or APIs not described here or in the codebase should be treated as non-existent until properly documented
+4. **Accuracy over aspirations** - Describe what exists, not what is planned. Use clear language ("planned", "in progress", "experimental") for non-shipped features
+
+### Update Triggers
+
+Update CLAUDE.md when:
+- Adding, removing, or modifying CLI commands
+- Changing core architectural patterns
+- Introducing new development conventions
+- Modifying testing strategies
+- Updating CI/CD workflows
+- Adding or removing major components
+
+### Validation
+
+Before relying on information in this document:
+1. Verify CLI commands exist in `src/agisa_sac/cli.py` or equivalent
+2. Confirm file paths match actual repository structure
+3. Check that described patterns appear in the codebase
+4. Test commands work as documented
+
+---
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
@@ -309,7 +340,7 @@ extensions/concord/
 
 Ethical modules act as decorators/middleware:
 - `NonCoercionGuardian`: Checks actions against constraints
-- `ElliotClauseEvaluator`: Continuity assessment
+- `ContinuityEvaluator`: Behavioral continuity assessment (operational metrics, NOT consciousness)
 - `DisengagementProtocol`: Right to terminate interaction
 
 ---

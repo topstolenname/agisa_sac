@@ -36,7 +36,7 @@ graph TB
         D2[Mutual Resonance]
         D3[Disengagement]
         D4[Self-Definition]
-        D5[Elliot Clause]
+        D5[Continuity Thresholds]
         D --> D1
         D --> D2
         D --> D3
@@ -46,7 +46,7 @@ graph TB
 
     subgraph "Measurement Layer"
         E[CMNI Tracker]
-        F[Consciousness Metrics]
+        F[Integration Metrics]
     end
 
     A --> B
@@ -63,7 +63,7 @@ For detailed information on each component:
 - [Neural Circuits](circuits.md)
 - [Ethics Guardians](ethics.md)
 - [Empathy & CMNI](empathy.md)
-- [Elliot Clause](elliot_clause.md)
+- [Continuity Thresholds](continuity_thresholds.md)
 
 ## Data Flow
 
