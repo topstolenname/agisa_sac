@@ -8,9 +8,15 @@
 
 ---
 
+## Core Thesis
+
+**AGI-SAC studies alignment as a property of integrated groups within a system architecture, rather than as a property of individual agents.**
+
+Here, "AGI" refers to Aligned Group Integration, not artificial general intelligence.
+
 ## Overview
 
-**AGI-SAC** (Artificial General Intelligence Stand Alone Complex) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
+**AGI-SAC** (Aligned Group Integration — System Architecture Coexistence) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
 
 ### What This Is
 
