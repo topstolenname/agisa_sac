@@ -17,8 +17,8 @@ from agisa_sac.extensions.concord import ConcordCompliantAgent
 
 agent = ConcordCompliantAgent(
     agent_id="agent-001",
-    phi_integration=0.20,  # GWT consciousness measure
-    baseline_cmni=0.30,    # Initial empathy capacity
+    phi_integration=0.20,  # Information integration proxy (NOT consciousness)
+    baseline_cmni=0.30,    # Initial coordination capacity (NOT empathy)
 )
 ```
 
@@ -62,9 +62,9 @@ if coercion["violation_detected"]:
 resonance = result["compliance"]["mutual_resonance"]
 print(f"Harmony index: {resonance['harmony_index']}")
 
-# Check consciousness status
-elliot_status = result["compliance"]["self_elliot_status"]
-print(f"Elliot Clause status: {elliot_status}")
+# Check continuity status (operational metric, NOT consciousness)
+continuity_status = result["compliance"]["self_continuity_status"]
+print(f"Continuity status: {continuity_status}")
 ```
 
 ## Advanced Usage

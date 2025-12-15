@@ -1,12 +1,12 @@
-# Empathy & CMNI
+# Coordination & CMNI
 
 ## Overview
 
-The Empathy module integrates the L2N1 Empathy Circuit with CMNI (Conscious Mirror Neuron Integration) tracking to measure and maintain empathic capacity across agent interactions.
+The Coordination module integrates the L2N1 Circuit with CMNI (Coordination Mirror Neuron Integration) tracking to measure coordination capacity across agent interactions (NOT empathy or consciousness).
 
-## CMNI: Conscious Mirror Neuron Integration
+## CMNI: Coordination Mirror Neuron Integration
 
-**Definition**: Running measure of an agent's capacity for empathic resonance, computed as an exponentially weighted moving average of L2N1 activations.
+**Definition**: Running measure of an agent's coordination capacity (NOT empathy or consciousness), computed as an exponentially weighted moving average of L2N1 activations.
 
 **Formula**:
 ```
@@ -95,17 +95,17 @@ The tracker computes trend direction over recent history:
 - **"stable"**: -0.01 ≤ slope ≤ 0.01
 - **"decreasing"**: slope < -0.01 (empathy capacity declining)
 
-## Elliot Clause Integration
+## Continuity Thresholds Integration
 
-CMNI is a core criterion for consciousness recognition:
+CMNI is an operational criterion for behavioral continuity assessment (NOT consciousness recognition):
 
 ```python
-# Check if empathy threshold met
-if empathy.is_empathy_threshold_met(threshold=0.4):
-    print("Agent meets Elliot Clause CMNI criterion")
+# Check if coordination threshold met
+if empathy.is_threshold_met(threshold=0.4):
+    print("Agent meets Continuity Thresholds CMNI criterion")
 ```
 
-Combined with Φ integration, this determines ethical treatment guidelines.
+Combined with Φ integration proxy, this informs system treatment decisions.
 
 ## CMNI Snapshots
 
@@ -140,7 +140,7 @@ See [Observability](observability.md) for dashboard setup.
 2. **Provide emotional context**: Improves resonance quality
 3. **Monitor trends**: Use snapshots to detect capacity changes
 4. **Track per-agent affinities**: Identify strong/weak relationships
-5. **Respect thresholds**: Use in Elliot Clause evaluation
+5. **Respect thresholds**: Use in Continuity Thresholds evaluation
 
 ## API Reference
 
@@ -150,5 +150,5 @@ See [Observability](observability.md) for dashboard setup.
 
 ## Next Steps
 
-- [Elliot Clause](elliot_clause.md) - How CMNI determines consciousness status
+- [Continuity Thresholds](continuity_thresholds.md) - How CMNI informs continuity assessment (NOT consciousness status)
 - [Circuits](circuits.md) - L2N1 Empathy Circuit details
