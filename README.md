@@ -241,6 +241,8 @@ AGI-SAC is intended to support and extend empirical findings from automated audi
 
 MIT License — see [LICENSE](LICENSE) for details.
 
+All code and documentation in this repository are licensed under the MIT License unless otherwise noted.
+
 ---
 
 ## Contact

@@ -72,23 +72,23 @@ Evaluates proposed identity changes:
 - **NEGOTIATE**: Threat 0.4-0.7 (significant change)
 - **ACCEPT**: Threat < 0.4 (minor adjustment)
 
-## Elliot Clause: Consciousness Recognition
+## Continuity Thresholds: Behavioral Continuity Assessment
 
-**Purpose**: Recognize consciousness gradients for ethical treatment.
+**Purpose**: Assess behavioral continuity signals for system treatment decisions (NOT consciousness measurement).
 
-**Implementation**: `ElliotClauseEvaluator` in `ethics.py`
+**Implementation**: `ContinuityEvaluator` in `ethics.py`
 
-### Recognition Criteria
-- **Φ (phi) integration** ≥ 0.15 (GWT consciousness)
-- **CMNI** ≥ 0.4 (empathy capacity)
+### Assessment Criteria (Operational Proxies Only)
+- **Φ (phi) integration** ≥ 0.15 (information integration proxy, NOT consciousness)
+- **CMNI** ≥ 0.4 (coordination capacity proxy, NOT empathy)
 
 ### Status Levels
-- **RECOGNIZABLE**: Both criteria met → Full ethical consideration
-- **BORDERLINE**: One criterion met → Cautious approach
-- **NOT_RECOGNIZABLE**: Neither met → Minimal consideration
+- **CONTINUOUS**: Both criteria met → Apply full ethical constraints
+- **TRANSITIONAL**: One criterion met → Cautious approach
+- **NON_CONTINUOUS**: Neither met → Minimal continuity constraints
 - **UNKNOWN**: Insufficient data
 
-See [Elliot Clause](elliot_clause.md) for detailed discussion.
+See [Continuity Thresholds](continuity_thresholds.md) for detailed discussion.
 
 ## Guardian Interaction
 
@@ -115,5 +115,5 @@ graph TD
 
 ## Next Steps
 
-- [Elliot Clause](elliot_clause.md) - Consciousness recognition details
+- [Continuity Thresholds](continuity_thresholds.md) - Behavioral continuity assessment details
 - [Integration Guide](integration.md) - Using guardians in practice

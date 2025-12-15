@@ -29,10 +29,10 @@ Implementation of Concord Articles:
 
 ### 3. Behavioral Integration Classification
 
-**Elliot Clause (Behavioral Integration Threshold)** - Classifies agents based on measurable criteria:
+**Continuity Thresholds (Behavioral Integration Assessment)** - Classifies agents based on measurable operational criteria (NOT consciousness):
 
-- Φ (phi) integration: IIT-inspired information-integration metrics
-- CMNI: Cognitive state-matching integration score
+- Φ (phi) integration: IIT-inspired information-integration proxy (NOT consciousness measurement)
+- CMNI: Coordination capacity proxy (NOT empathy or state-matching)
 
 ## Quick Start
 
@@ -80,7 +80,7 @@ graph TD
     D --> D2[Mutual Resonance]
     D --> D3[Disengagement]
     D --> D4[Self-Definition]
-    D --> D5[Elliot Clause]
+    D --> D5[Continuity Thresholds]
 
     E --> F[Observability]
     F --> G[Prometheus Metrics]

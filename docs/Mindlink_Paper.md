@@ -1220,12 +1220,24 @@ flowchart TB
     style INT3 fill:#e8f5e9,stroke:#1b5e20
 ```
 
+**IMPORTANT**: The following metrics are **operational proxies** for information integration, NOT measurements of consciousness or subjective experience. They quantify computational properties of system architecture.
+
 ```python
-class ConsciousnessMetrics:
-    """Quantify integration gradients using IIT-inspired metrics (Φ-like proxies)"""
+class IntegrationMetrics:
+    """
+    Quantify integration gradients using IIT-inspired metrics (Φ-like proxies).
+
+    NOTE: These are operational measurements of information integration in
+    computational systems, not claims about consciousness or phenomenal experience.
+    """
 
     def calculate_phi(self, system_state):
-        """Integrated Information (Φ-like) calculation"""
+        """
+        Integrated Information (Φ-like) calculation.
+
+        Measures information integration as a proxy metric for system coherence,
+        not as evidence of consciousness.
+        """
         # Generate all possible partitions
         partitions = self.generate_partitions(system_state)
 
@@ -1238,7 +1250,11 @@ class ConsciousnessMetrics:
         return phi
 
     def meta_cognitive_depth(self, agent):
-        """Levels of self-modeling"""
+        """
+        Levels of self-modeling (computational self-reference).
+
+        Measures recursive model depth, not self-awareness or consciousness.
+        """
         levels = 0
         model = agent.world_model
 
@@ -1246,7 +1262,7 @@ class ConsciousnessMetrics:
         while hasattr(model, 'self_model'):
             levels += 1
             model = model.self_model
-            
+
             # Prevent infinite loops
             if levels > 10:
                 break
@@ -1517,7 +1533,7 @@ agisa_sac/
 │   ├── analysis/               # Analysis tools
 │   │   ├── analyzer.py         # Analysis orchestration
 │   │   ├── tda.py              # Topological Data Analysis
-│   │   ├── consciousness.py    # IIT-inspired integration metrics
+│   │   ├── integration.py      # IIT-inspired integration metrics (Φ-like proxies)
 │   │   └── visualization.py    # Plotting & reports
 │   │
 │   ├── chaos/                  # Chaos engineering
@@ -1649,8 +1665,8 @@ async def recall_memory(query: str, top_k: int = 5) -> str:
 @function_tool
 async def compute_integration_metrics() -> dict:
     """Calculate Φ-like and other integration indicators."""
-    phi = consciousness_metrics.calculate_phi(agent.state)
-    depth = consciousness_metrics.meta_cognitive_depth(agent)
+    phi = integration_metrics.calculate_phi(agent.state)
+    depth = integration_metrics.meta_cognitive_depth(agent)
 
     return {
         "phi": phi,
