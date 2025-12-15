@@ -2545,3 +2545,4 @@ site/
 /node_modules/victory-vendor/package.json
 /node_modules/victory-vendor/README.md
 /node_modules/.package-lock.json
+examples/results/
