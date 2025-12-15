@@ -6,17 +6,13 @@
 ![Framework](https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+**For deterministic guarantees vs emergent behavior, see [Behavioral Contracts](docs/BEHAVIORAL_CONTRACTS.md).**
+
 ---
-
-## Core Thesis
-
-**AGI-SAC studies alignment as a property of integrated groups within a system architecture, rather than as a property of individual agents.**
-
-Here, "AGI" refers to Aligned Group Integration, not artificial general intelligence.
 
 ## Overview
 
-**AGI-SAC** (Aligned Group Integration — System Architecture Coexistence) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
+**AGI-SAC** (Artificial General Intelligence Stand Alone Complex) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
 
 ### What This Is
 
@@ -150,7 +146,7 @@ AGI-SAC is designed to **complement automated auditing frameworks** (agent-drive
 - **Trajectories**: brittle artifacts vs. robust system-level attractors
 - **Instrumentation**: phase transitions and early warning signals, not one-off anecdotes
 
-This separation mirrors the distinction between **unit tests and systems biology**:  
+This separation mirrors the distinction between **unit tests and systems biology**:
 auditors surface signals; AGI-SAC characterizes the organism.
 
 ---

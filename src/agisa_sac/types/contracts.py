@@ -3,12 +3,19 @@ Core Types and Contracts for AGISA-SAC
 
 This module defines the core data structures and contracts for the distributed agent system,
 including tools, messages, loop results, and guardrail structures.
+
+Terminology Notes:
+- "Phase transition" / "integration event": Cognitive threshold crossing (internal: "satori")
+- "Reflection event": Agent self-evaluation triggered by entropy/conflict
+- "Fragmentation": Network partition into disconnected components
 """
 
 import json
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional, Protocol, TypedDict, AsyncIterator, Dict
+import numpy as np
+import numpy.typing as npt
 
 
 class ToolType(Enum):
@@ -58,7 +65,7 @@ class Tool:
     function: Callable[..., Any]
     description: str
     risk_level: str  # "low", "medium", "high"
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
 
     def _py_to_json_type(self, py_type: Any) -> str:
         """Map Python types to JSON Schema types"""
@@ -74,7 +81,7 @@ class Tool:
             return py_type
         return type_map.get(py_type, "string")
 
-    def to_mcp_format(self) -> Dict[str, Any]:
+    def to_mcp_format(self) -> dict[str, Any]:
         """
         Convert to valid MCP/JSON Schema tool definition.
 
@@ -122,8 +129,8 @@ class GuardrailResult:
     passed: bool
     reason: Optional[str] = None
     risk_level: str = "low"
-    violations: List[Dict] = field(default_factory=list)
-    metadata: Dict = field(default_factory=dict)
+    violations: list[dict] = field(default_factory=list)
+    metadata: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -141,11 +148,11 @@ class LoopResult:
     """
 
     exit: LoopExit
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     iterations: int
     total_tokens: int = 0
     tool_calls: int = 0
-    errors: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -167,7 +174,7 @@ class IntentionMessage:
     source_agent: str = ""
     timestamp: str = ""
     attention_weight: float = 0.0
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
 
     def to_pubsub(self) -> bytes:
         """Serialize to Pub/Sub message format"""
@@ -192,8 +199,8 @@ class HandoffOffer:
     msg_type: str = "HandoffOffer"
     run_id: str = ""
     from_agent: str = ""
-    to_capabilities: List[str] = field(default_factory=list)
-    task_signature: Dict[str, Any] = field(default_factory=dict)
+    to_capabilities: list[str] = field(default_factory=list)
+    task_signature: dict[str, Any] = field(default_factory=dict)
     context_ref: str = ""  # GCS URI
     expires_at: str = ""
 
@@ -244,9 +251,99 @@ class ToolInvocation:
     run_id: str = ""
     agent_id: str = ""
     tool: str = ""
-    args: Dict[str, Any] = field(default_factory=dict)
+    args: dict[str, Any] = field(default_factory=dict)
     risk_level: str = "low"
 
     def to_pubsub(self) -> bytes:
         """Serialize to Pub/Sub message format"""
         return json.dumps(self.__dict__).encode("utf-8")
+
+
+# ============================================================================
+# Orchestration and System Boundary Types
+# ============================================================================
+
+
+class SimulationConfig(TypedDict, total=False):
+    """Configuration for simulation orchestration."""
+
+    num_agents: int
+    num_epochs: int
+    random_seed: int
+    use_semantic: bool
+    use_gpu: bool
+    satori_threshold: float
+    reflection_threshold: float
+
+
+class SimulationResult(TypedDict):
+    """Deterministic result contract from orchestration."""
+
+    simulation_completed: bool
+    num_epochs: int
+    num_agents: int
+    final_satori_count: int
+
+
+class FragmentationReport(TypedDict):
+    """Deterministic topology analysis result."""
+
+    num_components: int
+    is_fragmented: bool
+    component_sizes: list[int]
+    largest_component_size: int
+
+
+class Message(TypedDict, total=False):
+    """Message structure for bus communication."""
+
+    type: str
+    content: Any
+    sender_id: Optional[str]
+    timestamp: Optional[float]
+
+
+class MessageBusProtocol(Protocol):
+    """Protocol defining MessageBus contract."""
+
+    def publish(self, topic: str, message: Message) -> None:
+        """
+        Publish message to topic (fire-and-forget, no delivery guarantee).
+
+        Safety note: No backpressure mechanism exists.
+        """
+        ...
+
+    def subscribe(self, topic: str, handler: Any) -> str:
+        """
+        Subscribe to topic with handler callback.
+
+        Returns: subscription_id for later unsubscribe
+
+        Safety note: Message ordering NOT guaranteed.
+        """
+        ...
+
+    def unsubscribe(self, topic: str, subscription_id: str) -> None:
+        """
+        Unsubscribe from topic.
+
+        Safety note: In-flight messages may be lost.
+        """
+        ...
+
+
+class SerializedState(TypedDict, total=False):
+    """Component serialization contract."""
+
+    version: str
+    component_type: str
+    state: Dict[str, Any]
+
+
+class Decision(TypedDict, total=False):
+    """Agent decision structure."""
+
+    action: str
+    confidence: float
+    reasoning: Optional[str]
