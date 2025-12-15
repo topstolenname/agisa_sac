@@ -2,7 +2,14 @@
 
 > **Purpose**: This document provides comprehensive guidance for AI assistants (like Claude) working with the AGI-SAC codebase. It explains the architecture, conventions, patterns, and workflows to enable effective code modifications and contributions.
 
-**Last Updated**: 2025-11-17
+> **Documentation Contract**
+> This file is a living internal guide for AI assistants working on AGI-SAC.
+> It must reflect the current state of the codebase.
+> When new CLI commands, modules, or workflows are added, this document
+> MUST be updated in the same change to avoid documentation drift.
+> Experimental or planned features should be labeled explicitly.
+
+**Last Updated**: 2025-12-15
 **Framework Version**: 1.0.0-alpha
 **Python Version**: 3.9+
 
@@ -49,6 +56,13 @@ agisa-federation    # Federation server CLI
 agisa-chaos         # Chaos engineering CLI
 ```
 
+### Current CLI Commands
+```bash
+agisa-sac run              # Run a simulation
+agisa-sac list-presets     # List configuration presets
+agisa-sac convert-transcript  # Convert auditor transcript to context blob
+```
+
 ---
 
 ## Codebase Structure
@@ -68,11 +82,17 @@ agisa_sac/
 │   ├── agents/                 # Agent implementations
 │   │   ├── agent.py            # EnhancedAgent (simulation)
 │   │   └── base_agent.py       # AGISAAgent (production)
+│   ├── auditing/               # Auditing integration (NEW)
+│   │   ├── __init__.py         # Public exports
+│   │   └── transcript_converter.py  # Transcript to context blob conversion
 │   ├── analysis/               # TDA, clustering, visualization
 │   │   ├── analyzer.py         # Analysis orchestration
 │   │   └── tda.py              # Topological Data Analysis
 │   ├── chaos/                  # Chaos engineering tools
 │   │   └── orchestrator.py     # Chaos testing CLI
+│   ├── cli/                    # CLI command handlers (NEW)
+│   │   ├── __init__.py         # CLI exports
+│   │   └── convert_transcript.py  # convert-transcript handler
 │   ├── core/                   # Core orchestration
 │   │   ├── orchestrator.py     # SimulationOrchestrator
 │   │   ├── multi_agent_system.py
@@ -114,7 +134,10 @@ agisa_sac/
 │   ├── agentic_swarm_whitepaper.md
 │   └── api/                    # Auto-generated API docs
 ├── examples/                   # Example configs & notebooks
-│   └── configs/                # Sample configurations
+│   ├── configs/                # Sample configurations
+│   ├── scripts/                # Example scripts (NEW)
+│   │   └── golden_contagion_experiment.py  # Network contagion simulation
+│   └── results/                # Output directory for examples (NEW)
 ├── scripts/                    # Utility scripts
 ├── infra/                      # Infrastructure as code
 │   └── gcp/                    # GCP Terraform configs
@@ -139,6 +162,9 @@ agisa_sac/
 | `src/agisa_sac/utils/logger.py` | Structured logging setup |
 | `src/agisa_sac/utils/message_bus.py` | Event-driven pub/sub system |
 | `src/agisa_sac/types/contracts.py` | Type definitions (Tool, LoopExit, etc.) |
+| `src/agisa_sac/auditing/transcript_converter.py` | Transcript conversion utilities |
+| `src/agisa_sac/cli/convert_transcript.py` | convert-transcript command handler |
+| `examples/scripts/golden_contagion_experiment.py` | Standalone contagion simulation |
 
 ---
 
@@ -1293,11 +1319,17 @@ agisa-sac run --preset medium --agents 50 --epochs 100
 # List presets
 agisa-sac list-presets
 
+# Convert auditor transcript to context blob
+agisa-sac convert-transcript --input transcript.json --output context.json
+
 # Start federation server
 agisa-federation server --host 0.0.0.0 --port 8000
 
 # Run chaos tests
 agisa-chaos run --scenario sybil_attack --url http://localhost:8000
+
+# Run golden contagion experiment (requires networkx)
+python examples/scripts/golden_contagion_experiment.py --transcript transcript.json
 ```
 
 ### Configuration Presets

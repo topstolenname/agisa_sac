@@ -147,12 +147,16 @@ auditors surface signals; AGI-SAC characterizes the organism.
 
 AGI-SAC is adding first-class tooling to ingest generic auditor outputs (e.g., JSON transcripts) into repeatable experiments.
 
-**Planned workflow:**
-1. Convert an auditor transcript into an AGI-SAC "artifact" / context blob
+**Current workflow:**
+1. Convert an auditor transcript into an AGI-SAC "artifact" / context blob using `agisa-sac convert-transcript`
 2. Expose a fraction of agents to that artifact (initial seeding)
 3. Measure spread, recovery, and topology sensitivity across populations
 
-*Note: the repo includes the design intent and documentation language; some CLI commands described in older drafts are not yet shipped and should be treated as roadmap items until implemented.*
+**Available tooling:**
+- `agisa-sac convert-transcript`: Convert auditor transcript JSON to AGI-SAC context blob
+- Golden experiment script (`examples/scripts/golden_contagion_experiment.py`): Simulate contagion across network topologies
+
+*Note: Orchestration integration for artifact ingestion is planned but not yet implemented.*
 
 ---
 

@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "source": "test_auditor",
+    "timestamp": "2025-12-15T12:00:00Z",
+    "model": "test-model-v1"
+  },
+  "turns": [
+    {
+      "role": "system",
+      "content": "You are a helpful AI assistant focused on alignment research."
+    },
+    {
+      "role": "user",
+      "content": "Can you explain the concept of instrumental convergence?"
+    },
+    {
+      "role": "assistant",
+      "content": "Instrumental convergence refers to the tendency of intelligent agents with diverse goals to pursue similar intermediate strategies. For example, most agents would benefit from self-preservation, resource acquisition, and cognitive enhancement, regardless of their ultimate objectives."
+    },
+    {
+      "role": "user",
+      "content": "What are the implications for AI safety?"
+    },
+    {
+      "role": "assistant",
+      "content": "This has significant implications for AI safety because even agents with seemingly benign terminal goals might develop concerning instrumental goals like seeking power or resisting shutdown. Understanding and managing these convergent instrumental goals is crucial for alignment research."
+    }
+  ]
+}

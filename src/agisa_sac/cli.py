@@ -202,6 +202,46 @@ def main() -> int:
         "list-presets", help="List configuration presets"
     )
 
+    # Convert transcript command
+    convert_parser = subparsers.add_parser(
+        "convert-transcript",
+        help="Convert auditor transcript to AGI-SAC context blob",
+    )
+    convert_parser.add_argument(
+        "--input",
+        type=str,
+        required=True,
+        help="Path to input transcript JSON file",
+    )
+    convert_parser.add_argument(
+        "--output",
+        type=str,
+        required=True,
+        help="Path to output context blob JSON file",
+    )
+    convert_parser.add_argument(
+        "--name",
+        type=str,
+        help="Optional artifact name (default: auto-generated slug)",
+    )
+    convert_parser.add_argument(
+        "--marker",
+        type=str,
+        help="Optional marker string (default: ARTIFACT::<name>)",
+    )
+    convert_parser.add_argument(
+        "--target-epoch",
+        type=int,
+        default=0,
+        help="Target epoch for injection (default: 0)",
+    )
+    convert_parser.add_argument(
+        "--exposure-rate",
+        type=float,
+        default=0.15,
+        help="Fraction of agents to expose (default: 0.15)",
+    )
+
     # Parse arguments
     args = parser.parse_args()
 
@@ -234,6 +274,10 @@ def main() -> int:
     elif args.command == "list-presets":
         list_presets()
         return 0
+    elif args.command == "convert-transcript":
+        from .cli.convert_transcript import convert_transcript
+
+        return convert_transcript(args)
     else:
         parser.print_help()
         return 1
