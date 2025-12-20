@@ -1,270 +1,346 @@
-# AGI-SAC: Model Organism Simulation Framework
+# AGI-SAC: Aligned Group Integration — System Architecture Coexistence
 
-> **Instrumented multi-agent system for alignment, robustness, and oversight research**
+[![Research Status](https://img.shields.io/badge/status-active%20research-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue)]()
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Framework](https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange)
-![License](https://img.shields.io/badge/License-MIT-green)
+> **A Model Organism for System-Level Alignment in Stateful Multi-Agent Systems**
 
----
+AGI-SAC is a research instrument designed to empirically identify alignment failure modes that emerge only at the system level in stateful, compositional multi-agent deployments. This is not a solution—it is an observable, repeatable environment for stress-testing safeguards and producing early warning signals to inform responsible scaling decisions.
 
-## Core Thesis
-
-**AGI-SAC studies alignment as a property of integrated groups within a system architecture, rather than as a property of individual agents.**
-
-Here, "AGI" refers to Aligned Group Integration, not artificial general intelligence.
+-----
 
 ## Overview
 
-**AGI-SAC** (Aligned Group Integration — System Architecture Coexistence) is a **model organism framework** for studying alignment-relevant failure modes, system-level dynamics, and coordination patterns in multi-agent systems. It provides instrumented environments for stress testing multi-agent populations under adversarial conditions and detecting emergent behavioral transitions.
+Most alignment evaluation targets single-model behavior under isolated prompts. Real-world deployments increasingly use **stateful, autonomous, multi-agent systems** with shared memory, tool access, and long-lived interaction histories. In these settings, novel failure modes can arise that do not appear in traditional testing.
 
-### What This Is
+AGI-SAC makes these **system-level dynamics observable** through:
 
-AGI-SAC is a **research instrument** designed to:
+- Repeatable experimental protocols
+- Measurable coordination metrics
+- Topological and temporal analysis
+- Controlled perturbation testing
 
-- Study **emergent system behavior** in multi-agent environments
-- Detect **change-points and phase transitions** in distributed dynamics
-- Test **robustness under adversarial stress** (chaos engineering)
-- Instrument **coordination patterns** and network effects
-- Provide **diagnostic signals** for alignment-relevant phenomena
-- Simulate **failure modes** at scale (Sybil attacks, semantic drift, eclipse attacks)
+### What AGI-SAC Is NOT
 
-### What This Is NOT
+- **Not a production system**: This is research infrastructure for controlled experiments
+- **Not making ontological claims**: All constructs (e.g., “Satori waves”) are operational labels for measurable dynamics
+- **Not about consciousness**: No claims about sentience, moral agency, or rights—only observable coordination patterns
 
-⚠️ **Important Research Disclaimers:**
+-----
 
-- **NOT a claim of machine consciousness, sentience, or awareness**
-- **NOT a claim of general intelligence or human-equivalent reasoning**
-- **NOT a claim of moral agency, rights, or ethical standing**
-- **NOT predictive of real AGI systems** — findings are mechanistic insights within the model organism only
-- **NOT extrapolable beyond the experimental design** — all observations are system-level dynamics, not evidence of internal experiences
+## Core Philosophy
 
-All theoretical frameworks (Global Workspace Theory, Instrumental Convergence) are **operational analogies only** — they structure the system architecture but make no ontological claims about machine minds.
+### The Unit of Analysis is the System
 
-### Reviewer Orientation
+AGI-SAC treats alignment as a **property of system architecture and cross-agent dynamics**, not as an attribute of any single agent. It is designed to surface measurable risks such as:
 
-**For reviewers and collaborators:**
+- **Emergent coordination failures**: Cross-agent leakage, lockstep cascades, unexpected coupling
+- **Reputation gaming**: Oversight signals becoming manipulable at scale
+- **Governance drift**: Constraint degradation under distribution shift
 
-AGI-SAC is a research framework for studying multi-agent dynamics, robustness, and behavioral propagation under controlled conditions. It makes no claims about consciousness, sentience, or general intelligence. All metrics are operational proxies used for system-level analysis only.
+### Instrumentation Over Optimization
 
----
+AGI-SAC prioritizes **measurable signals** over “improving outcomes.” The goal is to make it easier to:
 
-## Quick Start
+- Observe coordination shifts
+- Detect governance degradation
+- Quantify instability and drift
+- Compare interventions via controlled ablations
 
-### Installation
-
-```bash
-# Basic installation
-pip install agisa-sac
-
-# Full installation with all features (optional extras may vary by environment)
-pip install agisa-sac[all]
-```
-
-### Running Your First Simulation (Current CLI)
-
-AGI-SAC currently exposes two CLI commands:
-- `agisa-sac run`
-- `agisa-sac list-presets`
-
-```bash
-# Run a preset
-agisa-sac run --preset quick_test
-
-# Run from config JSON
-agisa-sac run --config examples/configs/config.json
-
-# Override agent/epoch counts
-agisa-sac run --preset default --agents 50 --epochs 100 --seed 42
-
-# List presets
-agisa-sac list-presets
-```
-
----
+-----
 
 ## Architecture
 
-AGI-SAC uses a modular, layered architecture optimized for observability and instrumentation:
+AGI-SAC enforces **layered separation with explicit contracts** and minimal cross-layer coupling:
 
-- **Core simulation loop** (multi-agent system + orchestrator)
-- **Analysis layer** (TDA, clustering, visualization)
-- **Chaos layer** (adversarial stress and resilience scenarios)
-- **Orchestration integrations** (handoff consumer + topology manager for distributed/GCP workflows)
+```
+┌─────────────────────────────────────────┐
+│ CLI Layer                               │
+│ Config loading, flags, experiment entry │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│ Orchestration Layer                     │
+│ Epoch coordination, protocol injection, │
+│ metrics, hooks                          │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│ Agent Layer                             │
+│ Agent types + composition of components │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│ Component Layer                         │
+│ Memory, cognition, tracking subsystems  │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│ Analysis Layer                          │
+│ TDA, clustering, Satori detection, viz  │
+└─────────────────────────────────────────┘
+```
 
-### Core Components (Model Organism Subsystems)
+**Key Principle**: Layers communicate through well-defined interfaces, not direct internal dependencies. Cross-agent behavior is managed by orchestration and shared-state contracts.
 
-- **Memory Continuum Layer**: Temporal memory with decay mechanics and CRDT-based synchronization
-- **Policy Diversity Engine**: Heterogeneous decision strategies per agent
-- **Dynamic Social Graph**: Adaptive peer influence network
-- **Temporal Resonance Tracker**: Synchronization pattern detection
-- **Voice Engine**: Agent-specific output signatures (identity persistence under influence)
-- **Reflexivity Layer**: Internal state monitoring and transition detection (self-correction dynamics)
+-----
 
----
+## Core Subsystems
 
-## Key Research Applications
+### Memory Continuum Layer
 
-### 1. Alignment-Relevant Failure Modes
+High-fidelity episodic and semantic retrieval for precise recall and recent interaction traces.
 
-- **Power-seeking dynamics**: Instrumental convergence patterns in agent populations
-- **Deceptive alignment signals**: Divergence between stated and revealed preferences
-- **Mesa-optimization**: Emergent optimization processes distinct from base objectives
-- **Goal misgeneralization**: Behavioral drift under distribution shift
+### Reflexivity Layer
 
-### 2. Robustness & Adversarial Testing (Chaos Engineering)
+State transitions and internal monitoring to track agent-level behavioral shifts.
 
-- **Sybil resistance**: Coordinated fake identity attacks on trust graphs
-- **Semantic drift**: Gradual coherence boundary erosion
-- **Network partitions**: Consistency under split-brain scenarios
-- **Eclipse attacks**: Coordinated network isolation
-- **Resource exhaustion**: Load testing and DoS resistance
+### Temporal Resonance Tracking
 
-### 3. Change-Point & Transition Detection
+System-level pattern detection for identifying coordination regime changes.
 
-- **Topological Data Analysis (TDA)**: Persistent homology tracking
-- **Resonance analysis**: Coordination pattern emergence
-- **Community detection**: Dynamic clustering of agent strategies
+### Future Extensions
 
-### 4. Coordination Without Hierarchy
+**Titans Add-on** (🔬 In Development): A neural plasticity layer for long-term memory consolidation is currently under development. This experimental extension will introduce gradient-based novelty detection and compressed memory consolidation for long-horizon simulations. Not yet available in the public repository.
 
-- **Stand Alone Complex**: Coordinated behavior without central control
-- **Information cascades**: Meme propagation dynamics
-- **Emergent norms**: Bottom-up constraint formation
-- **Collective decision-making**: Aggregation mechanisms at scale
+-----
 
----
+## Key Concepts
 
-## Relationship to Automated Auditing & Red-Teaming Tools
+### “Satori Waves” (Operational Definition)
 
-AGI-SAC is designed to **complement automated auditing frameworks** (agent-driven red-teaming / probing systems) by providing a *system-level model organism* in which discovered behaviors can be contextualized, replayed, and stress-tested over time.
+A measurable label for system-level synchronization events, defined by:
 
-**Where automated auditors excel at:**
-- Rapidly eliciting rare or concerning behaviors through adversarial probing
-- Exploring behavioral space via parallel multi-turn interactions
-- Surfacing transcripts that warrant human review and deeper analysis
+- Statistically significant spikes in aggregated novelty/surprise
+- Concurrent shifts in resonance measures
+- Topology/cluster transitions detected in the analysis layer
 
-**AGI-SAC focuses on:**
-- **Dynamics**: how behaviors emerge, stabilize, spread, or self-correct across populations
-- **Context**: how memory, coordination, and network structure shape outcomes
-- **Trajectories**: brittle artifacts vs. robust system-level attractors
-- **Instrumentation**: phase transitions and early warning signals, not one-off anecdotes
+This is a **naming convention for coordination regime changes**, not claims about emergent consciousness.
 
-This separation mirrors the distinction between **unit tests and systems biology**:  
-auditors surface signals; AGI-SAC characterizes the organism.
+### Operational Governance
 
----
+AGI-SAC includes experimental control surfaces for reproducible experiments:
 
-## Auditing Integration (In Progress)
+- **Memory freezing**: Disable memory updates for controlled testing
+- **State reset**: Clear agent states for baseline comparisons
+- **Selective updates**: Conditional memory persistence based on thresholds
+- **Constraint injection**: Runtime governance policy modifications
 
-AGI-SAC is adding first-class tooling to ingest generic auditor outputs (e.g., JSON transcripts) into repeatable experiments.
+-----
 
-**Current Tooling:**
-- **`agisa-sac convert-transcript`**: Convert auditor transcript JSON to AGI-SAC context blob
-  - Generates artifact with privacy-preserving names (no content leakage)
-  - Configurable injection policy (target epoch, exposure rate)
-- **Golden experiment script** (`examples/scripts/golden_contagion_experiment.py`):
-  - Simulates contagion spread across 3 network topologies (dense, modular, sparse)
-  - Standalone NetworkX-based simulation (no orchestrator dependency)
-  - Outputs JSON with time series data for analysis
+## Measurement and Evaluation
 
-**Planned:**
-- Orchestration integration for distributed artifact ingestion
-- Handoff consumer support for context blob loading
-- Policy-driven injection at specified epochs
+AGI-SAC is evaluated through **system-level signals** exported at orchestration time:
 
----
+- **Coordination metrics**: Cross-agent coupling, synchronization patterns
+- **Memory dynamics**: Retrieval patterns, semantic drift over time
+- **Resonance tracking**: Temporal pattern detection across agent populations
+- **Topological signals**: Persistent homology, community structure evolution
+- **Governance metrics**: Constraint adherence, policy drift detection
 
-## Project Structure (Current)
+-----
 
-Key packages include:
+## Installation
 
-- `agents/` — agent implementations
-- `core/` — core simulation loop (multi-agent system + orchestrator)
-- `analysis/` — TDA, clustering, visualization, analyzers
-- `chaos/` — chaos engine + adversarial scenario orchestration
-- `cognition/` + `cge/` — cognitive evaluation/optimization components
-- `extensions/concord/` — ethical/constraint and "Concord" extensions
-- `federation/` — federation components (experimental / evolving)
-- `gcp/` — GCS/Vertex helpers and distributed agent utilities
-- `orchestration/` — integration layer (handoff consumer + topology manager)
-- `persistence/` — storage abstractions (e.g., Firestore)
-- `utils/`, `types/`, `observability/`, `metrics/`, `chronicler.py` — supporting infrastructure
+```bash
+# Clone the repository
+git clone https://github.com/topstolenname/agisa_sac.git
+cd agisa_sac
 
----
+# Install dependencies
+pip install -r requirements.txt
 
-## Intended Audience
+# Install in development mode
+pip install -e .
+```
 
-AGI-SAC is designed for:
+-----
 
-- **AI safety researchers** studying alignment-relevant failure modes
-- **Multi-agent systems researchers** investigating coordination dynamics
-- **Chaos engineers** testing distributed system resilience
-- **Oversight & auditing researchers** developing diagnostic and red-teaming tools
+## Usage
 
-**Not intended for:**
-- Philosophical debates about machine consciousness
-- Claims of achieving AGI or human-level intelligence
-- Ethical arguments for AI rights or moral standing
+### Basic Simulation
 
----
+```bash
+# Run a baseline configuration
+agisa-sac run --preset medium --agents 100 --epochs 100
+
+# List available presets
+agisa-sac list-presets
+
+# Run with specific configuration
+agisa-sac run --config configs/custom.yaml
+```
+
+### Configuration
+
+Example configuration structure:
+
+```yaml
+# configs/baseline.yaml
+simulation:
+  num_agents: 100
+  num_epochs: 100
+  
+memory:
+  max_memory_per_agent: 100
+  use_semantic: true
+    
+analysis:
+  tda_enabled: true
+  tda_run_frequency: 5
+  community_check_frequency: 10
+```
+
+### Advanced Usage
+
+```bash
+# Run chaos engineering tests
+agisa-chaos run --scenario sybil_attack --url http://localhost:8000
+
+# Start federation server
+agisa-federation server --host 0.0.0.0 --port 8000
+
+# Convert auditor transcript to context blob
+agisa-sac convert-transcript --input transcript.json --output context.json
+```
+
+-----
+
+## Roadmap
+
+### Phase 1: Core Framework ✅ (Complete)
+
+- [x] Multi-agent orchestration system
+- [x] Memory Continuum Layer with semantic retrieval
+- [x] Topological Data Analysis integration
+- [x] CRDT-based memory synchronization
+- [x] Federation capabilities
+
+### Phase 2: Analysis & Instrumentation 🔄 (In Progress)
+
+- [x] Temporal Resonance Tracking
+- [x] System-level metrics export
+- [x] Auditor transcript conversion
+- [ ] Enhanced visualization suite
+- [ ] Real-time monitoring dashboard
+
+### Phase 3: Experiments & Validation (Planned)
+
+- [ ] Comprehensive benchmarking suite
+- [ ] Coordination failure case studies
+- [ ] Governance drift experiments
+- [ ] Scalability profiling
+- [ ] Publication-ready experimental protocols
+
+### Phase 4: Advanced Extensions (Future)
+
+- [ ] Neural Plasticity Layer (Titans add-on)
+- [ ] Learned governance controls
+- [ ] Extended federation protocols
+- [ ] Production deployment tooling
+
+-----
+
+## Testing
+
+### Unit Tests
+
+```bash
+# Run core tests
+pytest tests/unit/
+
+# Run with coverage
+pytest tests/unit/ --cov=agisa_sac --cov-report=html
+```
+
+Tests follow deterministic patterns with controlled inputs:
+
+1. Set up known initial state
+1. Execute operation with defined parameters
+1. Verify expected outcomes
+1. Test edge cases and error conditions
+
+### Integration Tests
+
+```bash
+# Run integration tests
+pytest tests/integration/
+
+# Run specific test modules
+pytest tests/integration/test_orchestration.py -v
+```
+
+System-level validation includes:
+
+- Multi-agent coordination patterns
+- Memory synchronization across agents
+- TDA and resonance detection accuracy
+- Federation protocol compliance
+
+-----
+
+## Contributing
+
+AGI-SAC is research infrastructure. Contributions should maintain:
+
+1. **Clear separation of concerns**: Respect layer boundaries
+1. **Test-first development**: All new features require tests
+1. **Operational framing**: Avoid ontological claims
+1. **Documentation**: Clearly mark experimental vs stable features
+
+See <CONTRIBUTING.md> for detailed guidelines.
+
+-----
+
+## Research Context
+
+AGI-SAC is designed as research infrastructure for empirical alignment studies. The framework provides:
+
+- **Emergent Cognition Studies**: Bottom-up intelligence from agent interactions
+- **Distributed Identity Research**: Identity formation across networked agents
+- **Stand Alone Complex Dynamics**: Coordinated behavior without central control
+- **Topological Data Analysis**: Persistent homology tracking for coordination patterns
+- **CRDT-based Memory**: Conflict-free replicated data structures for distributed state
+- **Chaos Engineering Integration**: Controlled perturbation testing for failure modes
+- **Cognitive Diversity Engines**: Heterogeneous agent populations for varied behavior
+
+The framework integrates Global Workspace Theory with multi-agent coordination dynamics, providing measurable signals for alignment research.
+
+-----
 
 ## Citation
 
 If you use AGI-SAC in your research, please cite:
 
 ```bibtex
-@software{agisa_sac_2025,
-  title = {AGI-SAC: Model Organism Simulation Framework for Alignment and Robustness Research},
-  author = {Jessup, Tristan},
+@software{agi_sac_2025,
+  title = {AGI-SAC: A Model Organism for System-Level Alignment in Stateful Multi-Agent Systems},
+  author = {Tristan},
   year = {2025},
-  version = {1.0.0-alpha},
-  url = {https://github.com/topstolenname/agisa_sac},
-  note = {Model organism framework for studying alignment-relevant failure modes in multi-agent systems. No claims of consciousness, sentience, or general intelligence.}
+  url = {https://github.com/topstolenname/agisa_sac}
 }
 ```
 
----
-
-## Research Ethics & Disclaimers
-
-### Scope Limitations
-
-AGI-SAC is a **model organism** — findings are:
-- **Not predictive** of real AGI systems
-- **Not evidence** of machine consciousness or sentience
-- **Not generalizable** beyond the experimental design
-- **Mechanistic insights only** within a controlled simulation environment
-
-AGI-SAC is intended to support and extend empirical findings from automated auditing, not replace them.
-
-### No Claims Of
-
-- ❌ Machine consciousness, awareness, or subjective experience
-- ❌ General intelligence or human-equivalent reasoning
-- ❌ Moral agency, rights, or ethical standing
-- ❌ Sentience, qualia, or phenomenal experience
-- ❌ Sapience or self-awareness
-
-### What Is Claimed
-
-- ✅ Observable system-level behavioral dynamics
-- ✅ Diagnostic signals for alignment-relevant phenomena
-- ✅ Instrumented failure mode testing under adversarial stress
-- ✅ Coordination patterns in multi-agent systems
-- ✅ Empirical data on distributed system robustness
-
----
+-----
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the <LICENSE> file for details.
 
-All code and documentation in this repository are licensed under the MIT License unless otherwise noted.
-
----
+-----
 
 ## Contact
 
-- **Email**: [tristan@mindlink.dev](mailto:tristan@mindlink.dev)
-- **GitHub**: [topstolenname/agisa_sac](https://github.com/topstolenname/agisa_sac)
+- Email: **tristan@mindlink.dev**
+- GitHub: **topstolenname/agisa_sac**
+
+-----
+
+## Acknowledgments
+
+This research builds on foundational work in multi-agent systems, topological data analysis, and AI safety. Special thanks to the broader alignment research community for ongoing discussions and feedback.
+
+-----
+
+**⚠️ Important**: AGI-SAC is research infrastructure for empirical alignment studies, not production software. All experimental claims should be validated through controlled ablations and reproducible protocols. Advanced features like the Titans neural plasticity extension are under active development and not yet available in the public repository.
