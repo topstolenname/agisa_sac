@@ -275,7 +275,7 @@ def main() -> int:
         list_presets()
         return 0
     elif args.command == "convert-transcript":
-        from .cli.convert_transcript import convert_transcript
+        from .cli_commands.convert_transcript import convert_transcript
 
         return convert_transcript(args)
     else:

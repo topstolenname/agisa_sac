@@ -49,15 +49,16 @@ Before relying on information in this document:
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
-2. [Codebase Structure](#codebase-structure)
-3. [Core Architecture](#core-architecture)
-4. [Development Conventions](#development-conventions)
-5. [Testing Strategy](#testing-strategy)
-6. [CI/CD Pipeline](#cicd-pipeline)
-7. [Common Tasks](#common-tasks)
-8. [Code Patterns](#code-patterns)
-9. [Troubleshooting](#troubleshooting)
-10. [Resources](#resources)
+2. [Research Mandate](#research-mandate-system-level-alignment-fellowship-plan)
+3. [Codebase Structure](#codebase-structure)
+4. [Core Architecture](#core-architecture)
+5. [Development Conventions](#development-conventions)
+6. [Testing Strategy](#testing-strategy)
+7. [CI/CD Pipeline](#cicd-pipeline)
+8. [Common Tasks](#common-tasks)
+9. [Code Patterns](#code-patterns)
+10. [Troubleshooting](#troubleshooting)
+11. [Resources](#resources)
 
 ---
 
@@ -93,6 +94,45 @@ agisa-sac run              # Run a simulation
 agisa-sac list-presets     # List configuration presets
 agisa-sac convert-transcript  # Convert auditor transcript to context blob
 ```
+
+---
+
+## Research Mandate: System-Level Alignment (Fellowship Plan)
+
+> **Context**: This section outlines the specific research goals, failure modes, and evaluation metrics for the current development cycle. All code contributions should prioritize identifying these specific signals.
+
+### Objective
+To empirically identify and measure alignment failure modes that emerge only in **integrated, stateful multi-agent systems**. The focus is on **early warning signals** and **stress tests** for Responsible Scaling, specifically regarding emergent coordination, reputation gaming, and governance drift.
+
+### Instrumentation Readiness (Feasibility)
+Current capabilities validated for this research plan:
+- **Multi-agent orchestration**: Technically tractable with shared memory.
+- **Cross-agent metrics**: Token distributions and constraint logs can be collected without modifying base models.
+- **System-level analysis**: Signals can be analyzed independently of single-instance monitors.
+
+### Measurement & Evaluation Protocols
+Each research aim is paired with explicit, pre-registered metrics that must be implemented in the `analysis/` and `observability/` modules.
+
+#### Aim 1: Emergent Coordination Under Shared State
+* **Cross-agent information leakage**: Calculate **KL divergence** between token distributions of model instances with vs. without shared memory (control for task variance).
+* **Local vs. Global Violation**: Track the fraction of episodes where individual logs satisfy constraints, but the **system-level outcome** violates the objective.
+
+#### Aim 2: Reputation Gaming Thresholds
+* **Reputation Instability**: Implement **Changepoint detection (CUSUM)** on the correlation between reputation scores and task assignment.
+* **Entropy Tracking**: Measure **Shannon entropy** of reputation distributions across instances over time.
+
+#### Aim 3: Governance Drift Under Distribution Shift
+* **Governance Drift Metric**: Measure **Time-series entropy** of constitutional constraint satisfaction.
+* **Logging Requirement**: Constraint violations must be logged as explicit, pre-defined rule checks evaluated per episode.
+
+### Logic & Pivot Conditions
+* **Primary Focus**: Aim 1 (Emergent Coordination).
+* **Pivot Protocol**: If Aim 1 does not exhibit measurable coordination effects by **Week 6**, development priority shifts immediately to **Aim 3 (Governance Drift)** to study constraint degradation.
+
+### Expected Artifacts
+1.  **Empirical Paper**: Reporting system-level failure modes.
+2.  **Reproducible Harness**: Evaluation protocols must be repeatable via CLI (e.g., `agisa-sac run --preset research-aim-1`).
+3.  **Open Artifacts**: Reusable tools for the safety community.
 
 ---
 

@@ -1,0 +1,167 @@
+[project]
+name = "agisa-sac"
+version = "1.0.0-alpha"
+description = "AGI Stand Alone Complex: Distributed Consciousness Simulation Framework"
+authors = [{name = "Tristan Jessup", email = "your-email@domain.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    "numpy>=1.26.0",
+    "scipy>=1.11.0",
+    "networkx>=2.6",
+    "fastapi>=0.100.0",
+    "sentence-transformers>=3.1.0",
+    "scikit-learn>=1.1.0",
+    "torch>=2.0.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+    "hyperopt==0.2.7",
+    "anthropic>=0.18.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "coverage>=7.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.0.0",
+    "types-requests>=2.31.0",
+]
+monitoring = [
+    "prometheus-client>=0.19.0",
+    "psutil>=5.9.0",
+    "uvicorn[standard]>=0.23.0",
+]
+docs = [
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.24.0",
+    "mkdocs-mermaid2-plugin>=1.1.0",
+    "pygments>=2.16.0",
+    "pymdown-extensions>=10.0",
+]
+visualization = [
+    "matplotlib>=3.5.0",
+]
+federation = [
+    "docker>=6.0.0",
+    "kubernetes>=27.0.0",
+]
+gcp = [
+    "google-cloud-storage>=2.10.0",
+    "google-cloud-pubsub>=2.18.0",
+    "google-cloud-vertex-ai>=1.38.0",
+    "google-cloud-firestore>=2.13.0",
+    "google-cloud-tasks>=2.14.0",
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
+    "opentelemetry-exporter-gcp-trace>=1.6.0",
+]
+topology = [
+    "ripser>=0.6.0",
+    "persim>=0.3.0",
+    "scikit-learn>=1.1.0",  # For clustering in fragmentation detection
+]
+chaos = [
+    "locust>=2.17.0",
+    "chaos-toolkit>=1.16.0",
+]
+tracing = [
+    "anthropic>=0.18.0",
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
+]
+all = [
+    "agisa-sac[dev,docs,visualization,federation,gcp,chaos,monitoring,topology,tracing]",
+]
+
+[project.scripts]
+agisa-sac = "agisa_sac.cli:main"
+agisa-federation = "agisa_sac.federation.cli:main"
+agisa-chaos = "agisa_sac.chaos.orchestrator:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90", "I", "N", "UP", "S", "B", "A", "C4", "ICN", "PIE", "T20", "Q"]
+ignore = ["B028"]  # Ignore stacklevel warnings
+
+[tool.ruff.lint.per-file-ignores]
+# Tests - allow assert and test naming
+"tests/**/*.py" = ["S101", "N802", "N803", "N806"]
+
+# Heuristic code - relax formatting
+"src/agisa_sac/cognition/**/*.py" = ["E501", "N803", "N806"]
+"src/agisa_sac/core/components/semantic_analyzer.py" = ["E501", "N806"]
+
+# Visualization - relax line length
+"src/agisa_sac/analysis/visualization.py" = ["E501"]
+"src/agisa_sac/analysis/exporter.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Relaxed globally
+check_untyped_defs = true
+
+# Enforce typing at system boundaries
+[[tool.mypy.overrides]]
+module = "agisa_sac.core.orchestrator"
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "agisa_sac.orchestration.*"
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "agisa_sac.utils.message_bus"
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "agisa_sac.agents.base_agent"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+# Exclude heuristic internals
+[[tool.mypy.overrides]]
+module = "agisa_sac.cognition.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "agisa_sac.analysis.visualization"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "agisa_sac.core.components.semantic_analyzer"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"

@@ -81,10 +81,11 @@ class SimulationOrchestrator:
     def _create_agents(self) -> Dict[str, EnhancedAgent]:
         agents = {}
         personalities = self.config.get("personalities", [])
-        if len(personalities) != self.num_agents:
+        if personalities is None or len(personalities) != self.num_agents:
+            personality_count = len(personalities) if personalities else 0
             logger.warning(
                 f"Personality count mismatch: expected "
-                f"{self.num_agents}, got {len(personalities)}. "
+                f"{self.num_agents}, got {personality_count}. "
                 f"Generating random personalities."
             )
             personalities = [

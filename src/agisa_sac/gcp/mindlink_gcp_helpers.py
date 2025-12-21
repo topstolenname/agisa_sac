@@ -215,6 +215,7 @@ class VertexAILLM:
         project: str = PROJECT_ID,
         location: str = VERTEX_LOCATION,
         model: str = "text-bison",
+        tracer: Any = None,
     ) -> None:
         if not HAS_VERTEX:
             raise ImportError(
@@ -223,12 +224,39 @@ class VertexAILLM:
         self.project = project
         self.location = location
         self.model = model
+        self.tracer = tracer
         aiplatform.init(project=project, location=location)
         self.endpoint = aiplatform.TextGenerationModel.from_pretrained(model)
 
     def query(
         self, prompt: str, *, temperature: float = 0.7, max_tokens: int = 256
     ) -> str:
+        # Add Docent tracing if tracer is available
+        if self.tracer:
+            try:
+                with self.tracer.trace_llm_call(
+                    "vertex_ai_llm_query",
+                    model=self.model,
+                    prompt_length=len(prompt),
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                ) as call:
+                    response = self.endpoint.predict(
+                        prompt, temperature=temperature, max_output_tokens=max_tokens
+                    )
+                    logger.info("Queried Vertex AI model %s", self.model)
+
+                    result_text = response.text
+                    call.record_result(
+                        response_content=result_text,
+                        model=self.model,
+                    )
+                    return result_text
+            except AttributeError:
+                # Tracer doesn't have trace_llm_call method, fall back
+                pass
+
+        # No tracing or fallback
         response = self.endpoint.predict(
             prompt, temperature=temperature, max_output_tokens=max_tokens
         )

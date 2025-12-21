@@ -55,6 +55,14 @@ except ImportError:
         OK = "ok"
         ERROR = "error"
 
+# Optional: Docent tracing for LLM calls
+try:
+    from agisa_sac.observability.docent_tracing import DocentTracer
+    HAS_DOCENT_TRACING = True
+except ImportError:
+    HAS_DOCENT_TRACING = False
+    DocentTracer = None  # type: ignore
+
 
 # ───────────────────────── Data Models ─────────────────────────
 
@@ -605,7 +613,37 @@ class DistributedAgent:
         """
         tool_defs = [self.tools[t].to_mcp_format() for t in self.tools]
         req = {"model": self.model, "messages": ctx["messages"], "tools": tool_defs}
-        return await llm_client(req)
+
+        # Add Docent tracing if tracer is available in context
+        tracer = ctx.get("docent_tracer")
+        if tracer and HAS_DOCENT_TRACING:
+            with tracer.trace_llm_call(
+                "distributed_agent_model_call",
+                agent_id=self.agent_id,
+                run_id=ctx.get("run_id", ""),
+                model=self.model,
+                num_tools=len(tool_defs),
+                num_messages=len(ctx["messages"]),
+            ) as call:
+                result = await llm_client(req)
+
+                # Record usage and result
+                usage = result.get("usage", {})
+                call.record_result(
+                    tokens_used=usage.get("total_tokens"),
+                    model=self.model,
+                    tool_calls_count=len(result.get("tool_calls", [])),
+                )
+
+                # Record research metadata if available in context
+                research_ctx = ctx.get("research_context", {})
+                if research_ctx:
+                    call.record_research_metadata(**research_ctx)
+
+                return result
+        else:
+            # No tracing available, just call directly
+            return await llm_client(req)
 
     async def _execute_tools(self, tool_calls: List[Dict[str, Any]], context: Dict[str, Any]):
         results = []
