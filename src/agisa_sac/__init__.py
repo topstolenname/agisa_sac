@@ -17,6 +17,8 @@ from .config import (
 )
 from .utils.logger import get_logger, setup_logging
 
+
+
 __version__ = "1.0.0-alpha"
 FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
 
@@ -121,3 +123,15 @@ __all__ = [
 # Configure logging
 # Set up default logging configuration (can be overridden by applications)
 logging.getLogger(__name__).addHandler(logging.NullHandler())
+
+
+def get_cli_main():
+    """Get the CLI main function (avoids circular imports)."""
+    from .cli import main
+    return main
+
+
+def get_cli_list_presets():
+    """Get the CLI list_presets function (avoids circular imports)."""
+    from .cli import list_presets
+    return list_presets
