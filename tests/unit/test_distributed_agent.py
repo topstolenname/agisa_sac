@@ -26,7 +26,9 @@ class TestBudget:
     """Tests for Budget class"""
 
     def test_budget_initialization(self):
-        budget = Budget(max_tokens_per_run=1000, max_tools_per_minute=10, max_daily_cost=50.0)
+        budget = Budget(
+            max_tokens_per_run=1000, max_tools_per_minute=10, max_daily_cost=50.0
+        )
         assert budget.max_tokens_per_run == 1000
         assert budget.max_tools_per_minute == 10
         assert budget.max_daily_cost == 50.0
@@ -294,7 +296,11 @@ class TestDistributedAgent:
                 "usage": {"total_tokens": 50},
             }
 
-        context = {"llm_client": mock_llm_client, "max_iterations": 5, "run_id": "test-run"}
+        context = {
+            "llm_client": mock_llm_client,
+            "max_iterations": 5,
+            "run_id": "test-run",
+        }
         result = await agent._execute_loop("What is the answer?", context)
 
         assert result.exit == LoopExit.SATISFIED
@@ -314,7 +320,11 @@ class TestDistributedAgent:
                 "usage": {"total_tokens": 10},
             }
 
-        context = {"llm_client": mock_llm_client, "max_iterations": 3, "run_id": "test-run"}
+        context = {
+            "llm_client": mock_llm_client,
+            "max_iterations": 3,
+            "run_id": "test-run",
+        }
         result = await agent._execute_loop("test", context)
 
         assert result.exit == LoopExit.MAX_ITERS

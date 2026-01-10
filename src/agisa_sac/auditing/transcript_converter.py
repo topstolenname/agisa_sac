@@ -117,7 +117,8 @@ def transcript_to_artifact(
         }
     """
     # Generate name if not provided
-    # Priority: meta.source + meta.run_id > meta.source + timestamp > transcript_<timestamp>
+    # Priority: meta.source + meta.run_id > meta.source + timestamp
+    # > transcript_<timestamp>
     # This avoids leaking transcript content in filenames/logs
     if name is None:
         meta = transcript.get("meta") or {}

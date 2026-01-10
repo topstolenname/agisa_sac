@@ -150,9 +150,7 @@ def test_transcript_to_artifact_slugification(tmp_path):
     """Test that names are properly slugified."""
     transcript = {
         "meta": {"source": "Test Source!", "run_id": "Run@123#"},
-        "turns": [
-            {"role": "user", "content": "This Has Spaces and Special! Chars@#$"}
-        ],
+        "turns": [{"role": "user", "content": "This Has Spaces and Special! Chars@#$"}],
     }
     artifact = transcript_to_artifact(transcript)
 
@@ -203,9 +201,7 @@ def test_write_context_blob_with_base_context(minimal_transcript_file, tmp_path)
     base_context = {"existing_key": "existing_value", "another_key": 123}
 
     out_path = tmp_path / "context_blob.json"
-    write_context_blob(
-        base_context=base_context, artifact=artifact, out_path=out_path
-    )
+    write_context_blob(base_context=base_context, artifact=artifact, out_path=out_path)
 
     with open(out_path) as f:
         blob = json.load(f)

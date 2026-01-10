@@ -41,9 +41,7 @@ class TemporalResonanceTracker:
                 "content": content or {},
             }
 
-    def detect_echo(
-        self, current_vector: np.ndarray, current_theme: str
-    ) -> List[Dict]:
+    def detect_echo(self, current_vector: np.ndarray, current_theme: str) -> List[Dict]:
         # ... (logic from previous combined file) ...
         echoes = []
         if current_vector is None or current_theme is None:
@@ -59,8 +57,8 @@ class TemporalResonanceTracker:
         if not past_data:
             return echoes
         try:
-            past_timestamps, past_vectors_list, past_themes, past_contents = (
-                zip(*past_data)
+            past_timestamps, past_vectors_list, past_themes, past_contents = zip(
+                *past_data
             )
             past_vectors_array = np.array(past_vectors_list)
             past_norms = np.linalg.norm(past_vectors_array, axis=1)
@@ -71,14 +69,10 @@ class TemporalResonanceTracker:
             past_norms = past_norms[valid_indices]
             past_timestamps = np.array(past_timestamps)[valid_indices]
             past_contents = [
-                past_contents[i]
-                for i, valid in enumerate(valid_indices)
-                if valid
+                past_contents[i] for i, valid in enumerate(valid_indices) if valid
             ]
             past_themes = [
-                past_themes[i]
-                for i, valid in enumerate(valid_indices)
-                if valid
+                past_themes[i] for i, valid in enumerate(valid_indices) if valid
             ]
             similarities = np.dot(past_vectors_array, current_vector) / (
                 past_norms * current_norm
@@ -118,9 +112,7 @@ class TemporalResonanceTracker:
                     "timestamp": ts,
                     "theme": state.get("theme"),
                     "vector_norm": (
-                        float(np.linalg.norm(vector_list))
-                        if vector_list
-                        else 0.0
+                        float(np.linalg.norm(vector_list)) if vector_list else 0.0
                     ),
                     "content_keys": list(state.get("content", {}).keys()),
                 }
@@ -130,9 +122,7 @@ class TemporalResonanceTracker:
     def to_dict(self, history_limit: Optional[int] = None) -> Dict:
         history_to_save = self.history
         if history_limit is not None:
-            sorted_ts = sorted(self.history.keys(), reverse=True)[
-                :history_limit
-            ]
+            sorted_ts = sorted(self.history.keys(), reverse=True)[:history_limit]
             history_to_save = {ts: self.history[ts] for ts in sorted_ts}
         return {
             "version": FRAMEWORK_VERSION,

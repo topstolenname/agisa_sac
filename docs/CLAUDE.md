@@ -9,9 +9,10 @@
 > MUST be updated in the same change to avoid documentation drift.
 > Experimental or planned features should be labeled explicitly.
 
-**Last Updated**: 2025-12-15
+**Last Updated**: 2026-01-10
 **Framework Version**: 1.0.0-alpha
 **Python Version**: 3.9+
+**Build System**: Poetry
 
 ---
 
@@ -73,12 +74,13 @@ Before relying on information in this document:
 
 ### Technology Stack
 - **Language**: Python 3.9+
+- **Build System**: Poetry 2.x
 - **Core Libraries**: PyTorch, Scikit-learn, NetworkX, SentenceTransformers
 - **API Framework**: FastAPI
 - **Documentation**: MkDocs with Material theme
 - **Deployment**: Docker, GCP (optional)
 - **Testing**: pytest with coverage
-- **Code Quality**: black, ruff, mypy, pre-commit
+- **Code Quality**: black (line-length=88), ruff, flake8, mypy, pre-commit
 
 ### CLI Tools
 ```bash
@@ -707,24 +709,24 @@ def test_component_serialization():
 
 ```bash
 # Run all tests
-pytest
+poetry run pytest
 
 # Run with coverage
-pytest --cov=src/agisa_sac --cov-report=html --cov-report=term
+poetry run pytest --cov=src/agisa_sac --cov-report=html --cov-report=term
 
 # Run specific test suite
-pytest tests/unit/
-pytest tests/integration/
-pytest tests/chaos/
+poetry run pytest tests/unit/
+poetry run pytest tests/integration/
+poetry run pytest tests/chaos/
 
 # Run with parallel execution
-pytest -n auto
+poetry run pytest -n auto
 
 # Run with timeout (5 minutes per test)
-pytest --timeout=300
+poetry run pytest --timeout=300
 
 # Run verbose with strict markers
-pytest -v --strict-markers --strict-config
+poetry run pytest -v --strict-markers --strict-config
 ```
 
 ---
@@ -744,8 +746,8 @@ pytest -v --strict-markers --strict-config
    - `pip-audit` - Security audit (non-blocking)
 
 2. **Test** (Python 3.10, 3.11, 3.12)
-   - Install dependencies (`pip install -e .`)
-   - Run `pytest` with coverage
+   - Install dependencies (`poetry install`)
+   - Run `poetry run pytest` with coverage
    - Upload coverage to Codecov
    - Upload test results as artifacts
    - Publish test results to GitHub Checks
@@ -788,33 +790,36 @@ repos:
 
 **Setup:**
 ```bash
-pip install pre-commit
-pre-commit install
+poetry install --with dev
+poetry run pre-commit install
 ```
 
 **Manual run:**
 ```bash
-pre-commit run --all-files
+poetry run pre-commit run --all-files
 ```
 
 ### Code Quality Requirements
 
 Before committing:
 ```bash
-# Format code
-black src/ tests/
+# Format code (line-length=88)
+poetry run black src/ tests/
 
-# Lint
-ruff src/ tests/
+# Lint with flake8
+poetry run flake8 src/ tests/
+
+# Lint with ruff
+poetry run ruff src/ tests/
 
 # Type check
-mypy src/agisa_sac --ignore-missing-imports
+poetry run mypy src/agisa_sac --ignore-missing-imports
 
 # Run tests
-pytest --cov=src/agisa_sac
+poetry run pytest --cov=src/agisa_sac
 
 # Run all pre-commit checks
-pre-commit run --all-files
+poetry run pre-commit run --all-files
 ```
 
 ---
@@ -1012,13 +1017,14 @@ nav:
 
 **3. Build and preview locally:**
 ```bash
-mkdocs build --strict  # Check for errors
-mkdocs serve           # Preview at http://127.0.0.1:8000/
+poetry install --with docs
+poetry run mkdocs build --strict  # Check for errors
+poetry run mkdocs serve            # Preview at http://127.0.0.1:8000/
 ```
 
 **4. Deploy to GitHub Pages (if authorized):**
 ```bash
-mkdocs gh-deploy
+poetry run mkdocs gh-deploy
 ```
 
 ---
@@ -1172,8 +1178,11 @@ class CognitiveDiversityEngine:
 
 **Solution:**
 ```bash
-# Install in editable mode
-pip install -e .
+# Install with Poetry
+poetry install
+
+# Or install development dependencies
+poetry install --with dev
 
 # Or add src to PYTHONPATH (from project root)
 export PYTHONPATH="${PYTHONPATH}:$(pwd)/src"
@@ -1185,11 +1194,11 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)/src"
 
 **Solution:**
 ```bash
-# Install full dependencies
-pip install agisa-sac[all]
+# Install all optional dependency groups
+poetry install --with dev,docs,visualization,monitoring,gcp,topology,chaos,federation
 
-# Or specific feature set
-pip install sentence-transformers
+# Or specific group
+poetry install --with dev
 
 # Or disable in config
 config = {"use_semantic": False}
@@ -1324,8 +1333,9 @@ config = {
 
 ### Development Tools
 
-- **Code Formatter**: `black` (line length 100)
-- **Linter**: `ruff`
+- **Build System**: `poetry` (2.x)
+- **Code Formatter**: `black` (line-length=88)
+- **Linters**: `flake8` (max-line-length=88), `ruff`
 - **Type Checker**: `mypy` (Python 3.9+)
 - **Test Framework**: `pytest` with coverage
 - **Documentation**: `mkdocs` with Material theme

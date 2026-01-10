@@ -36,9 +36,7 @@ def authenticated_client():
     def override_authenticate_edge_node():
         return "test_node_123"
 
-    app.dependency_overrides[authenticate_edge_node] = (
-        override_authenticate_edge_node
-    )
+    app.dependency_overrides[authenticate_edge_node] = override_authenticate_edge_node
     with TestClient(app) as c:
         yield c
     # Clean up dependency overrides
@@ -113,9 +111,7 @@ def test_submit_cognitive_fragment_unregistered(
         "timestamp": "2024-01-01T12:00:00Z",
         "signature": "abc",
     }
-    response = authenticated_client.post(
-        "/api/v1/edge/submit", json=update_data
-    )
+    response = authenticated_client.post("/api/v1/edge/submit", json=update_data)
     assert response.status_code == 403
     assert response.json()["detail"] == "Node not registered"
 
@@ -136,9 +132,7 @@ def test_submit_cognitive_fragment_success(
             "coherence_metrics": {"score": 0.9},
         }
 
-    monkeypatch.setattr(
-        cbp_middleware, "process_edge_update", mock_process_edge_update
-    )
+    monkeypatch.setattr(cbp_middleware, "process_edge_update", mock_process_edge_update)
 
     # 3. Submit the fragment
     update_data = {
@@ -147,9 +141,7 @@ def test_submit_cognitive_fragment_success(
         "timestamp": "2024-01-01T12:00:00Z",
         "signature": "abc",
     }
-    response = authenticated_client.post(
-        "/api/v1/edge/submit", json=update_data
-    )
+    response = authenticated_client.post("/api/v1/edge/submit", json=update_data)
 
     assert response.status_code == 200
     data = response.json()

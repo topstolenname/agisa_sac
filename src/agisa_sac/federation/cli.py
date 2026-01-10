@@ -36,9 +36,7 @@ def start_server(args: argparse.Namespace) -> int:
             f"Error: Missing dependencies for federation server: {e}",
             file=sys.stderr,
         )
-        print(
-            "Install with: pip install agisa-sac[federation]", file=sys.stderr
-        )
+        print("Install with: pip install agisa-sac[federation]", file=sys.stderr)
         return 1
     except Exception as e:
         print(f"Error starting server: {e}", file=sys.stderr)
@@ -88,9 +86,7 @@ def main() -> int:
     subparsers = parser.add_subparsers(dest="command", help="Command to run")
 
     # Server command
-    server_parser = subparsers.add_parser(
-        "server", help="Start federation server"
-    )
+    server_parser = subparsers.add_parser("server", help="Start federation server")
     server_parser.add_argument(
         "--host",
         type=str,

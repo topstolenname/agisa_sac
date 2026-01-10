@@ -60,9 +60,7 @@ class MemoryEncapsulation:
         self.access_count = access_count
         self.verification_hash = self._generate_hash(content)
         self.embedding = embedding
-        self.theme = (
-            theme if theme is not None else content.get("theme", "general")
-        )
+        self.theme = theme if theme is not None else content.get("theme", "general")
 
     def access(self) -> Dict:
         self.last_accessed = time.time()
@@ -87,15 +85,11 @@ class MemoryEncapsulation:
         return False
 
     def reinforce(self, strength_increase: float = 0.1):
-        self.encoding_strength = min(
-            1.0, self.encoding_strength + strength_increase
-        )
+        self.encoding_strength = min(1.0, self.encoding_strength + strength_increase)
 
     def decay(self, decay_rate: float = 0.05) -> float:
         time_since_access = (time.time() - self.last_accessed) / 86400  # Days
-        decay_amount = (
-            decay_rate * time_since_access * (1 - self.importance * 0.5)
-        )
+        decay_amount = decay_rate * time_since_access * (1 - self.importance * 0.5)
         self.encoding_strength = max(
             0.1, self.encoding_strength - min(decay_amount, 0.2)
         )
@@ -103,11 +97,7 @@ class MemoryEncapsulation:
 
     def calculate_retrieval_strength(self) -> float:
         recency = math.exp(-0.1 * (time.time() - self.last_accessed) / 86400)
-        return (
-            recency * 0.3
-            + self.importance * 0.3
-            + self.encoding_strength * 0.4
-        )
+        return recency * 0.3 + self.importance * 0.3 + self.encoding_strength * 0.4
 
     def set_embedding(self, embedding: np.ndarray):
         self.embedding = embedding
@@ -156,10 +146,7 @@ class MemoryEncapsulation:
             theme=data.get("theme"),
         )
         loaded_hash = data.get("verification_hash")
-        if (
-            loaded_hash
-            and instance._generate_hash(instance.content) != loaded_hash
-        ):
+        if loaded_hash and instance._generate_hash(instance.content) != loaded_hash:
             warnings.warn(
                 f"Memory {instance.memory_id}: Hash mismatch on load.",
                 RuntimeWarning,
@@ -204,7 +191,9 @@ class MemoryContinuumLayer:
     def add_memory(self, content: Dict, importance: float = 0.5) -> str:
         if self.use_semantic and self.encoder is None:
             self._initialize_encoder()
-        memory_id = f"mem_{self.agent_id}_{int(time.time())}_{random.randint(1000, 9999)}"
+        memory_id = (
+            f"mem_{self.agent_id}_{int(time.time())}_{random.randint(1000, 9999)}"
+        )
         memory = MemoryEncapsulation(memory_id, content, importance)
         if self.use_semantic and self.encoder:
             try:
@@ -248,9 +237,7 @@ class MemoryContinuumLayer:
             for memory_id, term_relevance in term_relevance_scores.items():
                 if memory_id in self.memories:
                     memory = self.memories[memory_id]
-                    score = memory.calculate_retrieval_strength() * (
-                        1 + term_relevance
-                    )
+                    score = memory.calculate_retrieval_strength() * (1 + term_relevance)
                     if score >= threshold:
                         match_data = memory.to_dict()
                         match_data["relevance_score"] = score
@@ -274,9 +261,7 @@ class MemoryContinuumLayer:
                         mem_norms = np.linalg.norm(mem_embeddings, axis=1)
                         valid_indices = mem_norms > 1e-6
                         if np.any(valid_indices):
-                            mem_embeddings_valid = mem_embeddings[
-                                valid_indices
-                            ]
+                            mem_embeddings_valid = mem_embeddings[valid_indices]
                             mem_norms_valid = mem_norms[valid_indices]
                             mem_ids_valid = np.array(mem_ids)[valid_indices]
                             similarities = np.dot(
@@ -294,16 +279,12 @@ class MemoryContinuumLayer:
                                     if memory_id in matches:
                                         if (
                                             score
-                                            > matches[memory_id][
-                                                "relevance_score"
-                                            ]
+                                            > matches[memory_id]["relevance_score"]
                                         ):
                                             matches[memory_id][
                                                 "relevance_score"
                                             ] = score
-                                            matches[memory_id][
-                                                "match_type"
-                                            ] = "hybrid"
+                                            matches[memory_id]["match_type"] = "hybrid"
                                     else:
                                         match_data = memory.to_dict()
                                         match_data["relevance_score"] = score
@@ -449,9 +430,7 @@ class MemoryContinuumLayer:
         try:
             weakest_id = min(
                 self.memories,
-                key=lambda mid: self.memories[
-                    mid
-                ].calculate_retrieval_strength(),
+                key=lambda mid: self.memories[mid].calculate_retrieval_strength(),
             )
             self._remove_memory(weakest_id)
         except ValueError:

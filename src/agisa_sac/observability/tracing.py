@@ -118,9 +118,7 @@ def setup_local_tracing(service_name: str = "agisa-sac"):
     tracer_provider = TracerProvider(resource=resource)
 
     # Add console exporter for local development
-    tracer_provider.add_span_processor(
-        BatchSpanProcessor(ConsoleSpanExporter())
-    )
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
     # Set global tracer provider
     trace.set_tracer_provider(tracer_provider)

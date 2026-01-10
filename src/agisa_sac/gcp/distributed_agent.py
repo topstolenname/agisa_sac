@@ -1,7 +1,8 @@
 """
 Distributed Agent with GCP Integration
 
-This module implements a sophisticated agent system that integrates with Google Cloud Platform
+This module implements a sophisticated agent system that integrates
+with Google Cloud Platform
 services including Firestore, Pub/Sub, and Cloud Storage. It supports:
 - LLM-based agent loops with tool execution
 - Budget management for tokens, tools, and costs
@@ -40,8 +41,10 @@ except ImportError:
             class _MockCurrentSpan:
                 def set_status(self, status):
                     pass
+
                 def record_exception(self, e):
                     pass
+
             return _MockCurrentSpan()
 
     trace = _MockTrace()
@@ -200,6 +203,7 @@ else:
 
     class MockTracerContextManager:
         """Context manager wrapper for mock tracer."""
+
         def __init__(self, name):
             self.name = name
             self.span = MockSpan()
@@ -213,16 +217,20 @@ else:
         def __call__(self, func):
             """Support decorator usage."""
             if asyncio.iscoroutinefunction(func):
+
                 @wraps(func)
                 async def async_wrapper(*args, **kwargs):
                     with self:
                         return await func(*args, **kwargs)
+
                 return async_wrapper
             else:
+
                 @wraps(func)
                 def wrapper(*args, **kwargs):
                     with self:
                         return func(*args, **kwargs)
+
                 return wrapper
 
     class MockTracer:
@@ -317,7 +325,9 @@ class DistributedAgent:
         """
         span = trace.get_current_span()
         context = context or {}
-        run_id = context.get("run_id", hashlib.sha256(message.encode()).hexdigest()[:16])
+        run_id = context.get(
+            "run_id", hashlib.sha256(message.encode()).hexdigest()[:16]
+        )
         context["run_id"] = run_id
 
         # Create run document in Firestore
@@ -372,9 +382,15 @@ class DistributedAgent:
             span.record_exception(e)
             span.set_status(Status(StatusCode.ERROR, str(e)))
             run_ref.update(
-                {"end_ts": firestore.SERVER_TIMESTAMP, "status": "error", "errors": [str(e)]}
+                {
+                    "end_ts": firestore.SERVER_TIMESTAMP,
+                    "status": "error",
+                    "errors": [str(e)],
+                }
             )
-            return LoopResult(exit=LoopExit.ERROR, payload={"error": str(e)}, iterations=0)
+            return LoopResult(
+                exit=LoopExit.ERROR, payload={"error": str(e)}, iterations=0
+            )
 
     # ───────────────────────── internal helpers ─────────────────────────
 
@@ -398,7 +414,11 @@ class DistributedAgent:
             "metadata": result.get("metadata", {}),
         }
         run_ref.update(
-            {"end_ts": firestore.SERVER_TIMESTAMP, "status": "guardrail_block", "guardrail": detail}
+            {
+                "end_ts": firestore.SERVER_TIMESTAMP,
+                "status": "guardrail_block",
+                "guardrail": detail,
+            }
         )
         return LoopResult(exit=LoopExit.GUARDRAIL_BLOCK, payload=detail, iterations=0)
 
@@ -571,7 +591,9 @@ class DistributedAgent:
             # Default: continue conversation with assistant content if any
             assistant_msg = llm_resp.get("content")
             if assistant_msg:
-                working_ctx["messages"].append({"role": "assistant", "content": assistant_msg})
+                working_ctx["messages"].append(
+                    {"role": "assistant", "content": assistant_msg}
+                )
 
             iteration += 1
 
@@ -579,7 +601,9 @@ class DistributedAgent:
         return LoopResult(
             exit=LoopExit.MAX_ITERS,
             payload={
-                "last_message": working_ctx["messages"][-1] if working_ctx["messages"] else {}
+                "last_message": (
+                    working_ctx["messages"][-1] if working_ctx["messages"] else {}
+                )
             },
             iterations=iteration,
             total_tokens=total_tokens,
@@ -607,7 +631,9 @@ class DistributedAgent:
         req = {"model": self.model, "messages": ctx["messages"], "tools": tool_defs}
         return await llm_client(req)
 
-    async def _execute_tools(self, tool_calls: List[Dict[str, Any]], context: Dict[str, Any]):
+    async def _execute_tools(
+        self, tool_calls: List[Dict[str, Any]], context: Dict[str, Any]
+    ):
         results = []
         invocations = []
         for call in tool_calls:
@@ -662,7 +688,9 @@ class DistributedAgent:
             to_capabilities=to_capabilities,
             task_signature=task_signature,
             context_ref=context_ref,
-            expires_at=(datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds)).isoformat(),
+            expires_at=(
+                datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds)
+            ).isoformat(),
         )
         topic = self.publisher.topic_path(
             self.project_id, f"{self.workspace_topic or 'global-workspace'}-handoff"
@@ -699,7 +727,9 @@ class DistributedAgent:
         return str(msg_id)
 
     def _task_signature_from_ctx(self, ctx: Dict[str, Any]) -> Dict[str, Any]:
-        last_user = next((m for m in reversed(ctx["messages"]) if m["role"] == "user"), {})
+        last_user = next(
+            (m for m in reversed(ctx["messages"]) if m["role"] == "user"), {}
+        )
         return {
             "hash": hashlib.sha256(str(last_user).encode("utf-8")).hexdigest()[:16],
             "hint": (last_user.get("content", "") or "")[:180],

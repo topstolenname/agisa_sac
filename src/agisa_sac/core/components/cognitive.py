@@ -28,9 +28,7 @@ class CognitiveDiversityEngine:
         message_bus: Optional["MessageBus"] = None,
     ):
         self.agent_id = agent_id
-        self.personality = {
-            k: np.clip(v, 0.0, 1.0) for k, v in personality.items()
-        }
+        self.personality = {k: np.clip(v, 0.0, 1.0) for k, v in personality.items()}
         self.memory_layer = memory_layer  # Keep reference
         self.message_bus = message_bus  # Keep reference
         # State
@@ -48,8 +46,7 @@ class CognitiveDiversityEngine:
             "decision outcome context", limit=5, threshold=0.2
         )
         salience = (
-            sum(m["importance"] * m["confidence"] for m in memories)
-            / len(memories)
+            sum(m["importance"] * m["confidence"] for m in memories) / len(memories)
             if memories
             else 0.1
         )
@@ -87,9 +84,7 @@ class CognitiveDiversityEngine:
 
     def decide(self, query: str, peer_influence: Dict[str, float]) -> str:
         # ... (logic from previous combined file) ...
-        memories = self.memory_layer.retrieve_memory(
-            query, limit=5, threshold=0.25
-        )
+        memories = self.memory_layer.retrieve_memory(query, limit=5, threshold=0.25)
         memory_weight = (
             sum(m["relevance_score"] * m["confidence"] for m in memories)
             / len(memories)
@@ -114,17 +109,11 @@ class CognitiveDiversityEngine:
                     mem_impact = m["relevance_score"] / total_mem_relevance
                     memory_state_influence[3] += mem_impact * m["importance"]
                     memory_state_influence[1] += mem_impact * m["confidence"]
-                    memory_state_influence[2] += mem_impact * (
-                        1 - m["importance"]
-                    )
-                    memory_state_influence[0] += mem_impact * (
-                        1 - m["confidence"]
-                    )
+                    memory_state_influence[2] += mem_impact * (1 - m["importance"])
+                    memory_state_influence[0] += mem_impact * (1 - m["confidence"])
                 if np.sum(memory_state_influence) > 1e-6:
                     memory_state_influence /= np.sum(memory_state_influence)
-                self.cognitive_state += (
-                    0.1 * memory_weight * memory_state_influence
-                )
+                self.cognitive_state += 0.1 * memory_weight * memory_state_influence
         if normalized_influence:
             peer_state_influence = np.array([0.0, 0.6, 0.0, 0.4])
             self.cognitive_state += 0.1 * peer_weight * peer_state_influence
@@ -163,9 +152,7 @@ class CognitiveDiversityEngine:
             "timestamp": time.time(),
         }
         self.decision_history.append(decision_record)
-        self.decision_history = self.decision_history[
-            -100:
-        ]  # Limit history size
+        self.decision_history = self.decision_history[-100:]  # Limit history size
         memory_content = {
             "type": "decision_context",
             "query": query,
@@ -203,10 +190,7 @@ class CognitiveDiversityEngine:
                 ]
                 choice_idx = options.index(response)
                 update_vector = (
-                    cognitive_state_at_decision
-                    * reward
-                    * self.learning_rate
-                    * 0.5
+                    cognitive_state_at_decision * reward * self.learning_rate * 0.5
                 )
                 self.heuristics[:, choice_idx] += update_vector
                 self.heuristics = 1 / (1 + np.exp(-self.heuristics))
@@ -273,12 +257,8 @@ class CognitiveDiversityEngine:
             memory_layer=memory_layer,
             message_bus=message_bus,
         )
-        instance.heuristics = np.array(
-            data.get("heuristics", instance.heuristics)
-        )
-        instance.learning_rate = data.get(
-            "learning_rate", instance.learning_rate
-        )
+        instance.heuristics = np.array(data.get("heuristics", instance.heuristics))
+        instance.learning_rate = data.get("learning_rate", instance.learning_rate)
         instance.stability_factor = data.get(
             "stability_factor", instance.stability_factor
         )

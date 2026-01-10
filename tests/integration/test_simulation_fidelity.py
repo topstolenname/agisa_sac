@@ -106,6 +106,9 @@ def test_simulation_produces_consistent_output():
         # Fallback to simple text comparison
         assert (
             new_content == golden_content
-        ), f"The simulation output has changed.\nGolden: {golden_content}\nNew: {new_content}"
+        ), (
+            f"The simulation output has changed.\n"
+            f"Golden: {golden_content}\nNew: {new_content}"
+        )
 
     print("✓ Simulation output matches golden reference")

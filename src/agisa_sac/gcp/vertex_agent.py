@@ -20,13 +20,13 @@ class VertexAgent:
 
     def __init__(self, model: str = "gemini-pro") -> None:
         if not HAS_VERTEX_AI:
-            raise ImportError(
-                "google-cloud-aiplatform is required for VertexAgent"
-            )
+            raise ImportError("google-cloud-aiplatform is required for VertexAgent")
         self.model = model
-        # Use GenerativeModel for Gemini models, fallback to TextGenerationModel for legacy
+        # Use GenerativeModel for Gemini models
+        # fallback to TextGenerationModel for legacy
         if model.startswith("gemini"):
             from google.cloud.aiplatform import generative_models
+
             self.endpoint = generative_models.GenerativeModel(model)
         else:
             self.endpoint = aiplatform.TextGenerationModel.from_pretrained(model)

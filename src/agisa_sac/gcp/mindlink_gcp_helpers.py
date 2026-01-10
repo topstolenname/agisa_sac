@@ -129,9 +129,7 @@ def upload_bytes(
 def download_bytes(blob_name: str) -> Optional[bytes]:
     """Download data from Cloud Storage."""
     if not HAS_GOOGLE_STORAGE:
-        raise ImportError(
-            "google-cloud-storage is required for download_bytes"
-        )
+        raise ImportError("google-cloud-storage is required for download_bytes")
     client = _get_storage_client()
     if not client:
         raise RuntimeError("Google Cloud Storage client not available")
@@ -175,9 +173,7 @@ def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
 def save_state_bq(agent_id: str, state: Dict[str, Any]) -> None:
     """Insert agent state into BigQuery."""
     if not HAS_BIGQUERY:
-        raise ImportError(
-            "google-cloud-bigquery is required for save_state_bq"
-        )
+        raise ImportError("google-cloud-bigquery is required for save_state_bq")
     table_id = f"{PROJECT_ID}.mindlink.agent_states"
     rows: Iterable[dict[str, Any]] = [{**state, "agent_id": agent_id}]
     client = bigquery.Client()
@@ -217,9 +213,7 @@ class VertexAILLM:
         model: str = "text-bison",
     ) -> None:
         if not HAS_VERTEX:
-            raise ImportError(
-                "google-cloud-aiplatform is required for VertexAILLM"
-            )
+            raise ImportError("google-cloud-aiplatform is required for VertexAILLM")
         self.project = project
         self.location = location
         self.model = model
@@ -239,9 +233,7 @@ class VertexAILLM:
 # ------------------------------
 # Observability helpers
 # ------------------------------
-def log_agent_event(
-    event_type: str, agent_id: str, details: Dict[str, Any]
-) -> None:
+def log_agent_event(event_type: str, agent_id: str, details: Dict[str, Any]) -> None:
     """Log an agent-related event."""
     logger.info("[%s] Agent: %s | Details: %s", event_type, agent_id, details)
 

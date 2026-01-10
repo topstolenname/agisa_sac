@@ -53,9 +53,7 @@ class SimulationConfig:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> SimulationConfig:
         """Create configuration from dictionary."""
-        return cls(
-            **{k: v for k, v in data.items() if k in cls.__dataclass_fields__}
-        )
+        return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
 
 
 # Configuration Presets

@@ -52,7 +52,8 @@ class TopologyOrchestrationManager:
             firestore_client: Firestore client instance
             storage_client: GCS client instance
             project_id: GCP project ID
-            topology_bucket: GCS bucket for topology snapshots (defaults to {project_id}-agisa-sac-topology)
+            topology_bucket: GCS bucket for topology snapshots
+                (defaults to {project_id}-agisa-sac-topology)
         """
         if not HAS_DEPS:
             raise ImportError(
@@ -321,7 +322,8 @@ class TopologyOrchestrationManager:
         if h1_count > 10:
             suggestions.append(
                 f"OVERCONNECTION: {h1_count} redundant pathways detected. "
-                "Consider consolidating overlapping capabilities into shared service agents."
+                "Consider consolidating overlapping capabilities "
+                "into shared service agents."
             )
 
         # COVERAGE GAPS

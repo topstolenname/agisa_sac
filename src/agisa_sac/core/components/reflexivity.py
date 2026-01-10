@@ -19,19 +19,14 @@ class ReflexivityLayer:
 
     def __init__(self, agent: "EnhancedAgent"):
         """Initializes with a reference to the owning agent."""
-        if not hasattr(
-            agent, "agent_id"
-        ):  # Basic check for valid agent object
-            raise TypeError(
-                "Agent reference is required for ReflexivityLayer."
-            )
+        if not hasattr(agent, "agent_id"):  # Basic check for valid agent object
+            raise TypeError("Agent reference is required for ReflexivityLayer.")
         self.agent = agent
 
     def force_deep_reflection(self, trigger: str):
         """Initiate identity-realignment sequence (Satori Event)."""
         if not all(
-            hasattr(self.agent, attr)
-            for attr in ["voice", "memory", "cognitive"]
+            hasattr(self.agent, attr) for attr in ["voice", "memory", "cognitive"]
         ):
             warnings.warn(
                 f"Agent {self.agent.agent_id}: Missing components for deep reflection.",

@@ -26,9 +26,7 @@ def plot_persistence_diagram(
         or diagram.shape[1] != 2
         or diagram.shape[0] == 0
     ):
-        warnings.warn(
-            f"Invalid diagram for '{title}'. Skip plot.", RuntimeWarning
-        )
+        warnings.warn(f"Invalid diagram for '{title}'. Skip plot.", RuntimeWarning)
         return
     if ax is None:
         fig, ax = plt.subplots(figsize=(6, 6))
@@ -42,9 +40,7 @@ def plot_persistence_diagram(
     ax.scatter(plot_diagram[:, 0], plot_diagram[:, 1], **kwargs)
     lim_min = min_val - 0.05 * (max_val - min_val + 1e-6)
     lim_max = inf_death_val + 0.05 * (max_val - min_val + 1e-6)
-    ax.plot(
-        [lim_min, lim_max], [lim_min, lim_max], "--", color="grey", label="y=x"
-    )
+    ax.plot([lim_min, lim_max], [lim_min, lim_max], "--", color="grey", label="y=x")
     ax.set_xlabel("Birth")
     ax.set_ylabel("Death")
     ax.set_title(title)
@@ -70,9 +66,7 @@ def plot_persistence_barcode(
         or diagram.shape[1] != 2
         or diagram.shape[0] == 0
     ):
-        warnings.warn(
-            f"Invalid diagram for '{title}'. Skip plot.", RuntimeWarning
-        )
+        warnings.warn(f"Invalid diagram for '{title}'. Skip plot.", RuntimeWarning)
         return
     if ax is None:
         fig, ax = plt.subplots(figsize=(8, 4))
@@ -80,9 +74,7 @@ def plot_persistence_barcode(
     plot_diagram = sorted_diagram.copy()
     finite_deaths = plot_diagram[np.isfinite(plot_diagram[:, 1]), 1]
     max_finite_death = (
-        np.max(finite_deaths)
-        if finite_deaths.size > 0
-        else np.max(plot_diagram[:, 0])
+        np.max(finite_deaths) if finite_deaths.size > 0 else np.max(plot_diagram[:, 0])
     )
     inf_death_val = max_finite_death + 0.1 * (
         max_finite_death - np.min(plot_diagram[:, 0]) + 1e-6
@@ -172,9 +164,7 @@ def plot_metric_comparison(
                 and tda_metric_history[e].get(metric_key) is not None
                 and np.isfinite(tda_metric_history[e].get(metric_key))
             ]
-            valid_values = [
-                tda_metric_history[e].get(metric_key) for e in valid_epochs
-            ]
+            valid_values = [tda_metric_history[e].get(metric_key) for e in valid_epochs]
             if valid_values:
                 ax.plot(
                     valid_epochs,

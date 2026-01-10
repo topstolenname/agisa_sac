@@ -70,7 +70,8 @@ class SelfPreservationCircuit:
 
         # Calculate confidence based on state completeness
         available_signals = sum(
-            1 for k in ["resource_level", "constraint_violations", "autonomy_score"]
+            1
+            for k in ["resource_level", "constraint_violations", "autonomy_score"]
             if k in agent_state
         )
         confidence = available_signals / 3.0
@@ -108,7 +109,7 @@ class TacticalHelpCircuit:
         self,
         self_state: Dict[str, Any],
         other_state: Dict[str, Any],
-        relationship_history: Optional[List[Dict[str, Any]]] = None
+        relationship_history: Optional[List[Dict[str, Any]]] = None,
     ) -> CircuitActivation:
         """
         Evaluate opportunity and capacity to provide tactical help.
@@ -156,7 +157,7 @@ class TacticalHelpCircuit:
             if len(relationship_history) > 0:
                 reciprocity_bonus = (received_helps / len(relationship_history)) * 0.2
 
-        help_score = (capacity_to_help * 0.5 + need_urgency * 0.4 + reciprocity_bonus)
+        help_score = capacity_to_help * 0.5 + need_urgency * 0.4 + reciprocity_bonus
 
         # Strategic value: avoid over-extension
         strategic_penalty = 0.0
@@ -203,7 +204,7 @@ class EmpathyCircuit:
         self,
         self_state: Dict[str, Any],
         other_state: Dict[str, Any],
-        emotional_context: Optional[Dict[str, Any]] = None
+        emotional_context: Optional[Dict[str, Any]] = None,
     ) -> CircuitActivation:
         """
         Evaluate empathic resonance with another agent.
@@ -233,7 +234,7 @@ class EmpathyCircuit:
         if emotional_context:
             shared_attention = emotional_context.get("shared_attention", 0.5)
             situational_salience = emotional_context.get("salience", 0.5)
-            resonance_raw *= (0.7 + 0.3 * shared_attention * situational_salience)
+            resonance_raw *= 0.7 + 0.3 * shared_attention * situational_salience
 
         resonance = np.clip(resonance_raw, 0.0, 1.0)
 

@@ -44,9 +44,7 @@ def run_simulation(args: argparse.Namespace) -> int:
         config_path = Path(args.config)
         if not config_path.exists():
             logger.error(f"Config file not found: {config_path}")
-            print(
-                f"Error: Config file not found: {config_path}", file=sys.stderr
-            )
+            print(f"Error: Config file not found: {config_path}", file=sys.stderr)
             return 1
 
         try:
@@ -198,9 +196,7 @@ def main() -> int:
     )
 
     # List presets command
-    subparsers.add_parser(
-        "list-presets", help="List configuration presets"
-    )
+    subparsers.add_parser("list-presets", help="List configuration presets")
 
     # Convert transcript command
     convert_parser = subparsers.add_parser(
@@ -254,9 +250,7 @@ def main() -> int:
             log_level = logging.DEBUG
 
         log_file = (
-            Path(args.log_file)
-            if hasattr(args, "log_file") and args.log_file
-            else None
+            Path(args.log_file) if hasattr(args, "log_file") and args.log_file else None
         )
         json_format = hasattr(args, "json_logs") and args.json_logs
         verbose = hasattr(args, "verbose") and args.verbose

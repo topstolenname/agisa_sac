@@ -27,9 +27,7 @@ class MessageBus:
                     "No running asyncio loop found. Getting/creating one.",
                     RuntimeWarning,
                 )
-                self._loop = (
-                    asyncio.get_event_loop_policy().get_event_loop()
-                )
+                self._loop = asyncio.get_event_loop_policy().get_event_loop()
         return self._loop
 
     def subscribe(self, topic: str, callback: Callable):
@@ -42,8 +40,7 @@ class MessageBus:
         """Publish a message to all subscribers registered for the topic."""
         if not isinstance(message, dict):
             warnings.warn(
-                f"Publishing non-dict message to '{topic}'. "
-                f"Converting to dict.",
+                f"Publishing non-dict message to '{topic}'. " f"Converting to dict.",
                 RuntimeWarning,
             )
             message = {"data": message}
@@ -101,13 +98,9 @@ class MessageBus:
         if topic:
             # Iterate backwards for efficiency if history is large
             filtered_messages = [
-                m
-                for m in reversed(self.message_history)
-                if m["topic"] == topic
+                m for m in reversed(self.message_history) if m["topic"] == topic
             ]
-            return filtered_messages[:limit][
-                ::-1
-            ]  # Get limit and reverse back
+            return filtered_messages[:limit][::-1]  # Get limit and reverse back
         else:
             return self.message_history[-limit:]
 

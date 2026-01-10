@@ -5,24 +5,21 @@ These tests verify the behavior of the TopologyOrchestrationManager
 and agent handoff mechanisms.
 """
 
-import importlib
-import sys
+import numpy as np
 import pytest
 from unittest.mock import MagicMock, patch
-
-import numpy as np
 
 from agisa_sac.types.contracts import Tool, ToolType
 
 try:
     from agisa_sac.orchestration.topology_manager import TopologyOrchestrationManager
+
     HAS_DEPS = True
 except ImportError:
     HAS_DEPS = False
 
 pytestmark = pytest.mark.skipif(
-    not HAS_DEPS,
-    reason="Requires google-cloud-firestore and google-cloud-storage"
+    not HAS_DEPS, reason="Requires google-cloud-firestore and google-cloud-storage"
 )
 
 
@@ -30,10 +27,13 @@ pytestmark = pytest.mark.skipif(
 def mock_firestore():
     """Mock Firestore client for testing"""
     fs = MagicMock()
-    fs.collection.return_value.document.return_value.get.return_value.to_dict.return_value = {
+    (
+        fs.collection.return_value.document.return_value.get.return_value
+        .to_dict.return_value
+    ) = {
         "node_id": "test-node",
         "status": "active",
-        "last_seen": "2024-01-01T00:00:00Z"
+        "last_seen": "2024-01-01T00:00:00Z",
     }
     return fs
 
@@ -68,24 +68,28 @@ async def test_fragmentation_detection(mock_firestore, mock_storage):
     def mock_ripser(D, distance_matrix=False, maxdim=1):
         # For a fragmented network with 3 agents, return 3 H0 components
         # These represent 3 connected components (fragmentation)
-        h0 = np.array([
-            [0.0, np.inf],  # Component 1
-            [0.0, 0.8],     # Component 2 (merges at distance 0.8)
-            [0.0, 0.9],     # Component 3 (merges at distance 0.9)
-        ])
+        h0 = np.array(
+            [
+                [0.0, np.inf],  # Component 1
+                [0.0, 0.8],  # Component 2 (merges at distance 0.8)
+                [0.0, 0.9],  # Component 3 (merges at distance 0.9)
+            ]
+        )
         h1 = np.array([])  # No loops
         h2 = np.array([])  # No voids
         return {"dgms": [h0, h1, h2]}
 
     # Patch the module-level variables to simulate GCP being available
-    with patch.object(base_agent, "firestore", fake_firestore), \
-         patch.object(base_agent, "storage", fake_storage), \
-         patch.object(base_agent, "pubsub_v1", fake_pubsub), \
-         patch.object(base_agent, "HAS_GCP", True), \
-         patch.object(topology_manager, "firestore", fake_firestore), \
-         patch.object(topology_manager, "storage", fake_storage), \
-         patch.object(topology_manager, "HAS_DEPS", True), \
-         patch.object(topology_manager, "ripser", mock_ripser):
+    with (
+        patch.object(base_agent, "firestore", fake_firestore),
+        patch.object(base_agent, "storage", fake_storage),
+        patch.object(base_agent, "pubsub_v1", fake_pubsub),
+        patch.object(base_agent, "HAS_GCP", True),
+        patch.object(topology_manager, "firestore", fake_firestore),
+        patch.object(topology_manager, "storage", fake_storage),
+        patch.object(topology_manager, "HAS_DEPS", True),
+        patch.object(topology_manager, "ripser", mock_ripser),
+    ):
 
         AGISAAgent = base_agent.AGISAAgent
 
@@ -94,7 +98,11 @@ async def test_fragmentation_detection(mock_firestore, mock_storage):
             agent_id="test_a",
             name="Agent A",
             instructions="Research agent",
-            tools=[Tool("search", ToolType.DATA, lambda: "result", "Search tool", "low", {})],
+            tools=[
+                Tool(
+                    "search", ToolType.DATA, lambda: "result", "Search tool", "low", {}
+                )
+            ],
             project_id="test-project",
         )
 
@@ -102,7 +110,16 @@ async def test_fragmentation_detection(mock_firestore, mock_storage):
             agent_id="test_b",
             name="Agent B",
             instructions="Analysis agent",
-            tools=[Tool("analyze", ToolType.DATA, lambda: "result", "Analyze tool", "low", {})],
+            tools=[
+                Tool(
+                    "analyze",
+                    ToolType.DATA,
+                    lambda: "result",
+                    "Analyze tool",
+                    "low",
+                    {},
+                )
+            ],
             project_id="test-project",
         )
 
@@ -110,11 +127,17 @@ async def test_fragmentation_detection(mock_firestore, mock_storage):
             agent_id="test_c",
             name="Agent C",
             instructions="Writing agent",
-            tools=[Tool("write", ToolType.ACTION, lambda: "result", "Write tool", "low", {})],
+            tools=[
+                Tool(
+                    "write", ToolType.ACTION, lambda: "result", "Write tool", "low", {}
+                )
+            ],
             project_id="test-project",
         )
 
-        topo = TopologyOrchestrationManager(mock_firestore, mock_storage, "test-project")
+        topo = TopologyOrchestrationManager(
+            mock_firestore, mock_storage, "test-project"
+        )
         topo.register_agent(agent_a)
         topo.register_agent(agent_b)
         topo.register_agent(agent_c)
@@ -149,24 +172,28 @@ async def test_agent_distance_metric(mock_firestore, mock_storage):
     def mock_ripser(D, distance_matrix=False, maxdim=1):
         # For a fragmented network with 3 agents, return 3 H0 components
         # These represent 3 connected components (fragmentation)
-        h0 = np.array([
-            [0.0, np.inf],  # Component 1
-            [0.0, 0.8],     # Component 2 (merges at distance 0.8)
-            [0.0, 0.9],     # Component 3 (merges at distance 0.9)
-        ])
+        h0 = np.array(
+            [
+                [0.0, np.inf],  # Component 1
+                [0.0, 0.8],  # Component 2 (merges at distance 0.8)
+                [0.0, 0.9],  # Component 3 (merges at distance 0.9)
+            ]
+        )
         h1 = np.array([])  # No loops
         h2 = np.array([])  # No voids
         return {"dgms": [h0, h1, h2]}
 
     # Patch the module-level variables to simulate GCP being available
-    with patch.object(base_agent, "firestore", fake_firestore), \
-         patch.object(base_agent, "storage", fake_storage), \
-         patch.object(base_agent, "pubsub_v1", fake_pubsub), \
-         patch.object(base_agent, "HAS_GCP", True), \
-         patch.object(topology_manager, "firestore", fake_firestore), \
-         patch.object(topology_manager, "storage", fake_storage), \
-         patch.object(topology_manager, "HAS_DEPS", True), \
-         patch.object(topology_manager, "ripser", mock_ripser):
+    with (
+        patch.object(base_agent, "firestore", fake_firestore),
+        patch.object(base_agent, "storage", fake_storage),
+        patch.object(base_agent, "pubsub_v1", fake_pubsub),
+        patch.object(base_agent, "HAS_GCP", True),
+        patch.object(topology_manager, "firestore", fake_firestore),
+        patch.object(topology_manager, "storage", fake_storage),
+        patch.object(topology_manager, "HAS_DEPS", True),
+        patch.object(topology_manager, "ripser", mock_ripser),
+    ):
 
         AGISAAgent = base_agent.AGISAAgent
 
@@ -196,11 +223,15 @@ async def test_agent_distance_metric(mock_firestore, mock_storage):
             agent_id="test_c",
             name="Agent C",
             instructions="Writing agent",
-            tools=[Tool("write", ToolType.ACTION, lambda: "result", "Write", "low", {})],
+            tools=[
+                Tool("write", ToolType.ACTION, lambda: "result", "Write", "low", {})
+            ],
             project_id="test-project",
         )
 
-        topo = TopologyOrchestrationManager(mock_firestore, mock_storage, "test-project")
+        topo = TopologyOrchestrationManager(
+            mock_firestore, mock_storage, "test-project"
+        )
         topo.register_agent(agent_a)
         topo.register_agent(agent_b)
         topo.register_agent(agent_c)
@@ -222,7 +253,9 @@ async def test_resource_budget_enforcement():
     """Test resource budget constraints (no pubsub needed)"""
     from agisa_sac.agents.base_agent import ResourceBudget
 
-    budget = ResourceBudget(max_tokens_per_min=1000, max_tools_per_min=50, max_cost_per_day=10.0)
+    budget = ResourceBudget(
+        max_tokens_per_min=1000, max_tools_per_min=50, max_cost_per_day=10.0
+    )
 
     # Verify budget enforcement
     assert budget.max_tokens_per_min == 1000
@@ -241,7 +274,7 @@ async def test_tool_mcp_format_conversion():
         function=lambda x: x,
         description="Test",
         risk_level="low",
-        parameters={"x": {"type": "string"}}
+        parameters={"x": {"type": "string"}},
     )
 
     mcp_format = tool.to_mcp_format()

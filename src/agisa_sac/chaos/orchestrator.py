@@ -44,7 +44,7 @@ async def run_scenario(args: argparse.Namespace) -> int:
             print("\n" + "=" * 60)
             print("CHAOS SUITE COMPLETE")
             print("=" * 60)
-            score = results['overall_metrics']['system_resilience_score']
+            score = results["overall_metrics"]["system_resilience_score"]
             print(f"Resilience Score: {score:.3f}")
             return 0
 
@@ -54,9 +54,7 @@ async def run_scenario(args: argparse.Namespace) -> int:
                     f"Error: Unknown scenario '{args.scenario}'",
                     file=sys.stderr,
                 )
-                print(
-                    "Use 'agisa-chaos list-scenarios' to see available scenarios"
-                )
+                print("Use 'agisa-chaos list-scenarios' to see available scenarios")
                 return 1
 
             print(f"Running chaos scenario: {args.scenario}")
@@ -137,9 +135,7 @@ def main() -> int:
     )
 
     # List scenarios command
-    subparsers.add_parser(
-        "list-scenarios", help="List chaos scenarios"
-    )
+    subparsers.add_parser("list-scenarios", help="List chaos scenarios")
 
     # Parse arguments
     args = parser.parse_args()

@@ -40,7 +40,8 @@ class SimulationOrchestrator:
         self.num_agents = config.get("num_agents", 100)
         self.num_epochs = config.get("num_epochs", 50)
         seed = config.get("random_seed")
-        # Seed both global RNGs for backward compatibility and local generator for new code
+        # Seed both global RNGs for backward compatibility
+        # and local generator for new code
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
@@ -131,17 +132,13 @@ class SimulationOrchestrator:
             )
             return
         self.hooks[hook_point].append(callback)
-        logger.debug(
-            f"Registered hook '{callback.__name__}' for '{hook_point}'"
-        )
+        logger.debug(f"Registered hook '{callback.__name__}' for '{hook_point}'")
 
     def _trigger_hooks(self, hook_point: str, **kwargs):
         if hook_point in self.hooks:
             for callback in self.hooks[hook_point]:
                 try:
-                    callback(
-                        orchestrator=self, epoch=self.current_epoch, **kwargs
-                    )
+                    callback(orchestrator=self, epoch=self.current_epoch, **kwargs)
                 except Exception as e:
                     logger.error(
                         f"Hook error at '{hook_point}' ({callback.__name__}): {e}",
@@ -150,9 +147,7 @@ class SimulationOrchestrator:
 
     def run_epoch(self):
         if not self.is_running:
-            logger.warning(
-                "Attempted to run epoch but simulation is not running"
-            )
+            logger.warning("Attempted to run epoch but simulation is not running")
             return
 
         epoch_start_time = time.perf_counter()
@@ -177,9 +172,7 @@ class SimulationOrchestrator:
                 hasattr(agent, "cognitive")
                 and agent.cognitive.cognitive_state is not None
             ):
-                cognitive_states_for_tda.append(
-                    agent.cognitive.cognitive_state
-                )
+                cognitive_states_for_tda.append(agent.cognitive.cognitive_state)
             self._trigger_hooks("post_agent_step", agent_id=agent_id)
         # TDA
         tda_run_freq = self.config.get("tda_run_frequency", 1)
@@ -204,12 +197,8 @@ class SimulationOrchestrator:
                     distance_metric = self.config.get(
                         "tda_distance_metric", "bottleneck"
                     )
-                    comparison_dim = self.config.get(
-                        "tda_comparison_dimension", 1
-                    )
-                    threshold = self.config.get(
-                        "tda_transition_threshold", 0.2
-                    )
+                    comparison_dim = self.config.get("tda_comparison_dimension", 1)
+                    threshold = self.config.get("tda_transition_threshold", 0.2)
                     transition_detected, distance = (
                         self.tda_tracker.detect_phase_transition(
                             comparison_dimension=comparison_dim,
@@ -309,23 +298,15 @@ class SimulationOrchestrator:
         if protocol_name == "divergence_stress":
             target_agents = self._select_agents_for_protocol(parameters)
             if not target_agents:
-                logger.warning(
-                    "No agents selected for divergence_stress protocol"
-                )
+                logger.warning("No agents selected for divergence_stress protocol")
                 return
             heuristic_mult_range = parameters.get(
                 "heuristic_multiplier_range", (0.5, 0.8)
             )
-            counter_narrative = parameters.get(
-                "counter_narrative", "Ghosts..."
-            )
+            counter_narrative = parameters.get("counter_narrative", "Ghosts...")
             narrative_importance = parameters.get("narrative_importance", 0.9)
-            narrative_theme = parameters.get(
-                "narrative_theme", "divergence_seed"
-            )
-            logger.info(
-                f"Applying divergence stress to {len(target_agents)} agents"
-            )
+            narrative_theme = parameters.get("narrative_theme", "divergence_seed")
+            logger.info(f"Applying divergence stress to {len(target_agents)} agents")
             modified_count = 0
             for agent in target_agents:
                 try:
@@ -350,12 +331,12 @@ class SimulationOrchestrator:
                     modified_count += 1
                 except Exception as e:
                     logger.error(
-                        f"Failed to apply stress to agent "
-                        f"{agent.agent_id}: {e}",
+                        f"Failed to apply stress to agent " f"{agent.agent_id}: {e}",
                         exc_info=True,
                     )
             logger.info(
-                f"Divergence stress applied to {modified_count}/{len(target_agents)} agents"
+                f"Divergence stress applied to "
+                f"{modified_count}/{len(target_agents)} agents"
             )
         elif protocol_name == "satori_probe":
             threshold = parameters.get(
@@ -429,9 +410,7 @@ class SimulationOrchestrator:
             logger.info(f"State saved successfully to {filepath}")
             return True
         except Exception as e:
-            logger.error(
-                f"Failed to save state to {filepath}: {e}", exc_info=True
-            )
+            logger.error(f"Failed to save state to {filepath}: {e}", exc_info=True)
             return False
 
     def load_state(self, filepath: str) -> bool:
@@ -472,16 +451,15 @@ class SimulationOrchestrator:
             )
 
             max_dim = self.config.get("tda_max_dimension", 1)
-            self.tda_tracker = PersistentHomologyTracker(
-                max_dimension=max_dim
-            )
+            self.tda_tracker = PersistentHomologyTracker(max_dimension=max_dim)
             if state.get("tda_tracker_state"):
                 self.tda_tracker.load_state(state["tda_tracker_state"])
 
             self.analyzer = AgentStateAnalyzer(self.agents)
 
             logger.info(
-                f"State loaded successfully from {filepath} at epoch {self.current_epoch}"
+                f"State loaded successfully from {filepath} "
+                f"at epoch {self.current_epoch}"
             )
             return True
         except FileNotFoundError:
@@ -489,18 +467,15 @@ class SimulationOrchestrator:
             return False
         except (json.JSONDecodeError, KeyError) as e:
             logger.error(
-                f"Failed to parse state file {filepath} or key missing: {e}", exc_info=True
+                f"Failed to parse state file {filepath} or key missing: {e}",
+                exc_info=True,
             )
             return False
         except Exception as e:
-            logger.error(
-                f"Failed to load state from {filepath}: {e}", exc_info=True
-            )
+            logger.error(f"Failed to load state from {filepath}: {e}", exc_info=True)
             return False
 
-    def _select_agents_for_protocol(
-        self, parameters: Dict
-    ) -> List[EnhancedAgent]:
+    def _select_agents_for_protocol(self, parameters: Dict) -> List[EnhancedAgent]:
         selection_method = parameters.get("selection_method", "percentage")
         agent_list = list(self.agents.values())
         if not agent_list:
@@ -511,9 +486,12 @@ class SimulationOrchestrator:
             count = max(1, int(self.num_agents * percentage))
             selected_count = min(count, self.num_agents)
             logger.debug(
-                f"Selecting {selected_count} agents ({percentage*100:.1f}%) for protocol"
+                f"Selecting {selected_count} agents "
+                f"({percentage*100:.1f}%) for protocol"
             )
-            return self.rng.choice(agent_list, size=selected_count, replace=False).tolist()
+            return self.rng.choice(
+                agent_list, size=selected_count, replace=False
+            ).tolist()
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."
         )
