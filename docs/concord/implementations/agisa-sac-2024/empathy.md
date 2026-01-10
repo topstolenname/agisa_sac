@@ -1,5 +1,15 @@
 # Coordination & CMNI
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## Overview
 
 The Coordination module integrates the L2N1 Circuit with CMNI (Coordination Mirror Neuron Integration) tracking to measure coordination capacity across agent interactions (NOT empathy or consciousness).

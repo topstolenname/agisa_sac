@@ -1,5 +1,15 @@
 # Concord Framework Architecture
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## System Overview
 
 The Concord of Coexistence framework provides a layered architecture for ethical multi-agent systems:

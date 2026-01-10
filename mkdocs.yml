@@ -81,15 +81,19 @@ nav:
   # These sections are temporarily disabled because they require the agisa_sac package to be installed.
   # - API:
   #     - agisa_sac: api/agisa_sac.md
-  # - Concord Framework:
-  #     - Overview: concord/index.md
-  #     - Architecture: concord/architecture.md
-  #     - Neural Circuits: concord/circuits.md
-  #     - Ethics Guardians: concord/ethics.md
-  #     - Empathy & CMNI: concord/empathy.md
-  #     - Elliot Clause: concord/elliot_clause.md
-  #     - Observability: concord/observability.md
-  #     - Integration Guide: concord/integration.md
+  - Concord of Coexistence:
+      - Framework: CONCORD.md
+      - Implementations:
+          - Overview: concord/implementations/README.md
+          - AGI-SAC 2024:
+              - Index: concord/implementations/agisa-sac-2024/index.md
+              - Architecture: concord/implementations/agisa-sac-2024/architecture.md
+              - Circuits: concord/implementations/agisa-sac-2024/circuits.md
+              - Ethics: concord/implementations/agisa-sac-2024/ethics.md
+              - Coordination & CMNI: concord/implementations/agisa-sac-2024/empathy.md
+              - Continuity Thresholds: concord/implementations/agisa-sac-2024/continuity_thresholds.md
+              - Integration: concord/implementations/agisa-sac-2024/integration.md
+              - Observability: concord/implementations/agisa-sac-2024/observability.md
   - Supplement:
       - Citation Guide: CITATION_GUIDE.md
       - Figure Catalog: FIGURE_CATALOG.md

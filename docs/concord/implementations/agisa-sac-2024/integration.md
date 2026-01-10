@@ -1,5 +1,15 @@
 # Concord Framework Integration Guide
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## Installation
 
 The Concord framework is included as an extension in the AGISA-SAC package:

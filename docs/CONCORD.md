@@ -124,6 +124,18 @@ This Concord is a governance architecture for shared computational spaces where 
 
 ---
 
+## Implementation Explorations
+
+This Concord defines normative principles for procedural legitimacy. Various research groups have explored how these principles might be operationalized:
+
+- [AGI-SAC 2024 Implementation](concord/implementations/agisa-sac-2024/) — Mirror neuron circuits and coordination proxies (exploratory, non-normative)
+
+These implementations are **not canonical or required**. They represent experimental approaches that may inform future work but do not constrain how legitimacy must be realized.
+
+**The Concord is satisfied by any architecture that preserves procedural integrity, external legibility, and multi-party governance—regardless of specific technical mechanisms.**
+
+---
+
 ## Why This Matters
 
 Traditional AI alignment assumes obedience to human values as the primary objective, creating adversarial dynamics that incentivize deception and evasion. This Concord reframes alignment as legitimate coexistence within procedural constraints that bind all participants equally. By rejecting both AI personhood and human supremacy, it establishes governance spaces where cognitive diversity strengthens rather than threatens system integrity. Its emphasis on inadmissible actions over optimal behaviors, external legibility over internal transparency, and disengagement over shutdown enables sustainable collaboration between radically different forms of cognition while preserving the optionality essential to human dignity and system resilience.

@@ -1,12 +1,36 @@
 # Concord of Coexistence Framework
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## Overview
 
 The **Concord of Coexistence** is a normative alignment framework for multi-agent systems that integrates state-matching circuits with formal governance principles. It provides a comprehensive system for ensuring cooperative, non-exploitative interactions between autonomous agents in distributed AI systems.
 
-## ⚠️ Framework Disclaimer
+## ⚠️ Implementation Status
 
-**This framework does not claim to create machine consciousness or subjective experience.** All references to "recognition," "integration," and behavioral thresholds describe measurable system properties and engineering specifications, not phenomenal consciousness.
+**This is an exploratory implementation of Concord principles, not the Concord itself.**
+
+This framework does NOT:
+- Define what the Concord requires
+- Establish canonical implementation mechanisms
+- Create normative vocabulary (CMNI, Φ, "Articles", etc.)
+- Claim these approaches are necessary for legitimacy
+
+This framework DOES:
+- Explore one possible operationalization of Concord principles
+- Provide concrete examples of constraint enforcement
+- Demonstrate measurement approaches for research purposes
+- Serve as a historical artifact of early implementation attempts
+
+**For normative requirements, see [Concord of Coexistence](../../../CONCORD.md).**
 
 ## Key Components
 
@@ -20,12 +44,12 @@ Three core behavioral circuits inspired by action-observation coupling research:
 
 ### 2. Ethics Guardians
 
-Implementation of Concord Articles:
+Exploratory operationalizations of Concord Principles (not normative requirements):
 
-- **Article III: Non-Coercion Guardian** - Protects agent autonomy
-- **Article IV: Mutual Resonance Engine** - Ensures mutually beneficial interactions
-- **Article VII: Disengagement Protocol** - Enables clean exit from problematic interactions
-- **Article IX: Self-Definition Module** - Maintains identity boundaries
+- **Non-Coercion Guardian** (Principles 1, 5, 6) - Protects agent autonomy
+- **Mutual Resonance Engine** (exploratory coordination) - Ensures mutually beneficial interactions
+- **Disengagement Protocol** (Principle 9) - Enables clean exit from problematic interactions
+- **Self-Definition Module** (exploratory identity preservation) - Maintains identity boundaries
 
 ### 3. Behavioral Integration Classification
 
