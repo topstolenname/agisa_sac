@@ -107,5 +107,5 @@ jobs:
       - name: Build documentation
         run: |
           echo "Building documentation to check for broken links..."
-          mkdocs build --strict || true
-          echo "✅ Documentation build completed"
+          mkdocs build --strict
+          echo "✅ Documentation builds successfully"
