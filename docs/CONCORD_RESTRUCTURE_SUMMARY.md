@@ -7,7 +7,7 @@
 
 ### Structural Changes
 1. Moved implementation docs to `docs/concord/implementations/agisa-sac-2024/`
-2. Created non-normative framing document: `implementations/README.md`
+2. Created non-normative framing document: `concord/implementations/README.md`
 3. Updated main `CONCORD.md` with implementation explorations section
 4. Renamed `empathy.md` → `coordination.md` for conceptual clarity
 
@@ -135,9 +135,9 @@ When adding new documentation:
 ## Contact
 
 Questions about this restructure? See:
-- [Contributing Guide](../CONTRIBUTING_DOCS.md)
-- [Implementation Explorations README](implementations/README.md)
-- [Main Concord Framework](../CONCORD.md)
+- [Contributing Guide](CONTRIBUTING_DOCS.md)
+- [Implementation Explorations README](concord/implementations/README.md)
+- [Main Concord Framework](CONCORD.md)
 
 ---
 
