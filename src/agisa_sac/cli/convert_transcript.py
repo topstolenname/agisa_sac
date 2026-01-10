@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -28,7 +29,7 @@ def convert_transcript(args: argparse.Namespace) -> int:
     input_path = Path(args.input)
     output_path = Path(args.output)
 
-       # Load transcript, convert, and write context blob
+    # Load transcript, convert, and write context blob
     try:
         logger.info(f"Loading transcript from: {input_path}")
         transcript = load_transcript(input_path)
@@ -59,7 +60,10 @@ def convert_transcript(args: argparse.Namespace) -> int:
         return 1
     except IOError as e:
         logger.error(f"Failed to write output file: {e}", exc_info=True)
-        print(f"Error: Could not write to output file at '{output_path}'. {e}", file=sys.stderr)
+        print(
+            f"Error: Could not write to output file at '{output_path}'. {e}",
+            file=sys.stderr,
+        )
         return 1
     except Exception as e:
         logger.error(f"An unexpected error occurred: {e}", exc_info=True)
@@ -67,7 +71,7 @@ def convert_transcript(args: argparse.Namespace) -> int:
         return 1
 
     # Print success message
-    print(f"Successfully converted transcript to context blob")
+    print("Successfully converted transcript to context blob")
     print(f"Written to: {written_path}")
     print(f"Artifact name: {artifact['name']}")
     print(f"Marker: {artifact['marker']}")
