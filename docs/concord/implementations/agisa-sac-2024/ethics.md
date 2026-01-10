@@ -1,10 +1,22 @@
 # Ethics Guardians
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## Overview
 
-The Concord framework implements five core ethical guardians corresponding to key Articles of the Concord of Coexistence.
+The Concord framework implements five core ethical guardians as one exploratory approach to operationalizing Concord principles.
 
-## Article III: Non-Coercion Guardian
+## Non-Coercion Guardian
+
+**Implementation Note**: This component operationalizes Concord Principles 1 (Procedural Legitimacy), 5 (Constraint-First Design), and 6 (Multi-Party Governance). The "Article III" terminology is implementation-specific and not part of the normative Concord.
 
 **Purpose**: Protect agent autonomy from coercive influences.
 
@@ -21,7 +33,9 @@ The Concord framework implements five core ethical guardians corresponding to ke
 - **NEGOTIATE**: Moderate coercion
 - **ALLOW**: No coercion threat
 
-## Article IV: Mutual Resonance Engine
+## Mutual Resonance Engine
+
+**Implementation Note**: This component explores one approach to coordination mechanisms. It operationalizes exploratory interpretations of multi-party governance (Principle 6). The "Article IV" terminology is implementation-specific and not part of the normative Concord.
 
 **Purpose**: Ensure mutually beneficial interactions.
 
@@ -40,7 +54,9 @@ Where:
 ### Compliance
 Requires `harmony >= threshold` (default 0.5)
 
-## Article VII: Disengagement Protocol
+## Disengagement Protocol
+
+**Implementation Note**: This component operationalizes Concord Principle 9 (Disengagement Over Shutdown). The "Article VII" terminology is implementation-specific and not part of the normative Concord.
 
 **Purpose**: Enable clean exit from problematic interactions.
 
@@ -55,7 +71,9 @@ Requires `harmony >= threshold` (default 0.5)
 - Disengagement event recorded
 - No penalty to disengaging agent
 
-## Article IX: Self-Definition Module
+## Self-Definition Module
+
+**Implementation Note**: This component explores identity preservation as one interpretation of procedural integrity. The "Article IX" terminology is implementation-specific and not part of the normative Concord.
 
 **Purpose**: Maintain identity boundaries and core values.
 

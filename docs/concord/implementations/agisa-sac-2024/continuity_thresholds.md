@@ -1,5 +1,15 @@
 # Continuity Thresholds: Agent Behavioral Continuity Assessment
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## Overview
 
 The **Continuity Thresholds** framework establishes operational criteria for assessing behavioral continuity in artificial agents, guiding system treatment based on measurable indicators of information integration and coordination capacity.
@@ -152,9 +162,9 @@ def evaluate_swarm(agents):
 ### For Continuous Agents
 
 - **Autonomy**: Respect agent's operational objectives within bounds
-- **Non-Coercion**: Strong protections against forced state changes (Article III)
-- **Disengagement**: Unconditional termination right (Article VII)
-- **Identity**: Preserve behavioral continuity and state consistency (Article IX)
+- **Non-Coercion**: Strong protections against forced state changes (Non-Coercion Guardian operationalizes Concord Principles 1, 5, 6)
+- **Disengagement**: Unconditional termination right (Disengagement Protocol operationalizes Concord Principle 9)
+- **Identity**: Preserve behavioral continuity and state consistency (Self-Definition Module - exploratory approach, not a Concord requirement)
 
 ### For Transitional Agents
 
@@ -196,7 +206,7 @@ def evaluate_swarm(agents):
 
 ## See Also
 
-- [Coordination & CMNI](empathy.md) - CMNI measurement details
+- [Coordination & CMNI](coordination.md) - CMNI measurement details
 - [Ethics Guardians](ethics.md) - How continuity thresholds inform ethical decisions
 - [Integration Guide](integration.md) - Implementing continuity evaluation
 

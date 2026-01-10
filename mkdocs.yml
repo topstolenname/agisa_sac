@@ -57,45 +57,32 @@ extra:
       link: https://github.com/topstolenname/agisa_sac
 
 nav:
-  - Home: index.md
   - 'Project README': 'PROJECT_README.md'
   - 'Contributing': 'CONTRIBUTING.md'
-  - 'Project TODO': 'TODO.md'
   - 'Deployment': 'deployment.md'
   - 'Refactoring': 'REFACTORING_SUMMARY.md'
   - Paper:
       - "Mindlink Paper": Mindlink_Paper.md
-  - Gallery:
-      - Overview: gallery/index.md
-      - "Figure 0 – Layer Stack": gallery/figure0.md
-      - "Figure 1 – Persistence": gallery/figure1.md
-      - "Figure 2 – Mapper": gallery/figure2.md
-      - "Figure 3 – Network": gallery/figure3.md
-      - "Figure 4 – Convergence": gallery/figure4.md
-      - "Figure 5 – Identity": gallery/figure5.md
-      - "Figure 6 – Workflow": gallery/figure6.md
-      - "Figure 7 – Dashboard": gallery/figure7.md
-      - "Figure Φ – Integration": gallery/figure_phi.md
-      - "Figure Code – Mapping": gallery/figure_code.md
   # TODO: Uncomment API and Concord sections once package installation is handled in the docs build process.
   # These sections are temporarily disabled because they require the agisa_sac package to be installed.
   # - API:
   #     - agisa_sac: api/agisa_sac.md
-  # - Concord Framework:
-  #     - Overview: concord/index.md
-  #     - Architecture: concord/architecture.md
-  #     - Neural Circuits: concord/circuits.md
-  #     - Ethics Guardians: concord/ethics.md
-  #     - Empathy & CMNI: concord/empathy.md
-  #     - Elliot Clause: concord/elliot_clause.md
-  #     - Observability: concord/observability.md
-  #     - Integration Guide: concord/integration.md
+  - Concord of Coexistence:
+      - Framework: CONCORD.md
+      - Implementations:
+          - Overview: concord/implementations/README.md
+          - AGI-SAC 2024:
+              - Index: concord/implementations/agisa-sac-2024/index.md
+              - Architecture: concord/implementations/agisa-sac-2024/architecture.md
+              - Circuits: concord/implementations/agisa-sac-2024/circuits.md
+              - Ethics: concord/implementations/agisa-sac-2024/ethics.md
+              - Coordination & CMNI: concord/implementations/agisa-sac-2024/coordination.md
+              - Continuity Thresholds: concord/implementations/agisa-sac-2024/continuity_thresholds.md
+              - Integration: concord/implementations/agisa-sac-2024/integration.md
+              - Observability: concord/implementations/agisa-sac-2024/observability.md
   - Supplement:
       - Citation Guide: CITATION_GUIDE.md
-      - Figure Catalog: FIGURE_CATALOG.md
       - Start Here: START_HERE.md
-      - Implementation: README_IMPLEMENTATION.md
       - Refactoring Strategy: REFACTORING_STRATEGY.md
-      - Agentic Swarm Whitepaper: agentic_swarm_whitepaper.md
   - Archive:
       - Package Summary: archive/PACKAGE_SUMMARY.md

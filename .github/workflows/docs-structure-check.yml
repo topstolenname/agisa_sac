@@ -1,0 +1,124 @@
+name: Documentation Structure Check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+
+jobs:
+  check-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for misplaced implementation docs
+        run: |
+          echo "Checking for .md files directly in docs/concord/ (should only be subdirectories)..."
+
+          # Find any .md files directly in docs/concord/ (depth 1)
+          MISPLACED=$(find docs/concord -maxdepth 1 -name "*.md" -type f 2>/dev/null || true)
+
+          if [ -n "$MISPLACED" ]; then
+            echo "❌ ERROR: Found .md files directly in docs/concord/"
+            echo "These should be in docs/concord/implementations/<implementation-name>/"
+            echo ""
+            echo "Misplaced files:"
+            echo "$MISPLACED"
+            echo ""
+            echo "See docs/CONTRIBUTING_DOCS.md for guidelines."
+            exit 1
+          fi
+
+          echo "✅ No misplaced files in docs/concord/"
+
+      - name: Check for Article terminology in CONCORD.md
+        run: |
+          echo "Checking CONCORD.md for implementation-specific terminology..."
+
+          # Check for Article section headers (should not be in normative doc)
+          if grep -n "^## Article III\|^## Article IV\|^## Article VII\|^## Article IX" docs/CONCORD.md; then
+            echo "❌ ERROR: Found 'Article' section headers in CONCORD.md"
+            echo "Article terminology is implementation-specific, not normative."
+            echo "Remove these references or rephrase as principles."
+            exit 1
+          fi
+
+          # Check for implementation-specific terms
+          if grep -n "CMNI\|mirror neuron\|L2N0\|L2N1\|L2N7" docs/CONCORD.md; then
+            echo "❌ ERROR: Found implementation-specific terminology in CONCORD.md"
+            echo "CONCORD.md should only contain normative principles."
+            echo "Move implementation details to docs/concord/implementations/"
+            exit 1
+          fi
+
+          echo "✅ CONCORD.md contains only normative content"
+
+      - name: Check implementation files have non-normative headers
+        run: |
+          echo "Checking implementation files for required non-normative headers..."
+
+          # Find all .md files in implementations/
+          IMPL_FILES=$(find docs/concord/implementations -name "*.md" -not -name "README.md" 2>/dev/null || true)
+
+          if [ -z "$IMPL_FILES" ]; then
+            echo "⚠️  WARNING: No implementation files found"
+            exit 0
+          fi
+
+          MISSING_HEADER=0
+          for file in $IMPL_FILES; do
+            if ! grep -q "Status.*Exploratory Implementation" "$file"; then
+              echo "❌ Missing non-normative header in: $file"
+              MISSING_HEADER=1
+            fi
+
+            if ! grep -q "Implementation Note.*not required, canonical, or authoritative" "$file"; then
+              echo "❌ Missing implementation disclaimer in: $file"
+              MISSING_HEADER=1
+            fi
+          done
+
+          if [ $MISSING_HEADER -eq 1 ]; then
+            echo ""
+            echo "Implementation files must include non-normative headers."
+            echo "See docs/CONTRIBUTING_DOCS.md for required format."
+            exit 1
+          fi
+
+          echo "✅ All implementation files have required headers"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install MkDocs
+        run: |
+          pip install mkdocs-material mkdocs-mermaid2-plugin mkdocstrings[python]
+
+      - name: Install package for API docs
+        run: |
+          pip install -e .
+
+      - name: Build documentation
+        run: |
+          echo "Building documentation to check for broken links..."
+          # Temporarily move _historical to skip archived docs during validation
+          # (archived docs may have outdated references we don't need to validate)
+          if [ -d docs/_historical ]; then
+            mv docs/_historical docs/_historical_backup
+          fi
+          mkdocs build --strict
+          # Restore _historical
+          if [ -d docs/_historical_backup ]; then
+            mv docs/_historical_backup docs/_historical
+          fi
+          echo "✅ Documentation builds successfully"

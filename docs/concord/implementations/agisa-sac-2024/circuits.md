@@ -1,5 +1,15 @@
 # Mirror Neuron Circuits
 
+---
+**Status**: Exploratory Implementation
+**Authority**: Non-Normative
+**Normative Source**: [Concord of Coexistence](../../../CONCORD.md)
+---
+
+> ⚠️ **Implementation Note**: This document describes one experimental approach to operationalizing Concord principles. It is not required, canonical, or authoritative. See [Implementation Explorations](../README.md) for context.
+
+---
+
 ## Overview
 
 Three core circuits based on Iacoboni's mirror neuron research provide the foundation for ethical agent interactions.
@@ -8,7 +18,7 @@ Three core circuits based on Iacoboni's mirror neuron research provide the found
 
 **Purpose**: Monitor agent's internal state for threats to operational integrity.
 
-**Aligns with**: Article III (Non-Coercion)
+**Implementation Note**: Supports Non-Coercion Guardian operationalizing Concord Principles 1, 5, 6 (not a normative requirement)
 
 **Implementation**: `SelfPreservationCircuit` in `circuits.py`
 
@@ -22,7 +32,7 @@ Three core circuits based on Iacoboni's mirror neuron research provide the found
 
 **Purpose**: Evaluate strategic opportunities for providing assistance.
 
-**Aligns with**: Articles IV (Mutual Resonance) and VII (Disengagement)
+**Implementation Note**: Supports exploratory coordination and disengagement mechanisms (Principle 9)
 
 **Implementation**: `TacticalHelpCircuit` in `circuits.py`
 
@@ -32,11 +42,11 @@ Three core circuits based on Iacoboni's mirror neuron research provide the found
 - Reciprocity tracking (relationship history)
 - Strategic penalty (self-preservation override)
 
-## L2N1: Empathy Circuit
+## L2N1: Coordination Circuit
 
-**Purpose**: Simulate emotional resonance and perspective-taking.
+**Purpose**: Track coordination capacity through action-observation coupling (NOT empathy or consciousness).
 
-**Aligns with**: Article IV (Mutual Resonance) and CMNI tracking
+**Implementation Note**: Supports exploratory coordination mechanisms and CMNI tracking (not a normative requirement)
 
 **Implementation**: `EmpathyCircuit` in `circuits.py`
 
@@ -82,5 +92,5 @@ sequenceDiagram
 
 ## Next Steps
 
-- [Empathy & CMNI](empathy.md) - Deep dive into empathy tracking
+- [Coordination & CMNI](coordination.md) - Deep dive into coordination tracking
 - [Ethics Guardians](ethics.md) - How circuits inform ethical decisions
