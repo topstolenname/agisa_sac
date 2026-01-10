@@ -10,9 +10,7 @@ from agisa_sac.core.components.semantic_analyzer import (
 class EnhancedContinuityBridgeProtocol:
     """CBP with enhanced semantic analysis capabilities"""
 
-    def __init__(
-        self, coherence_threshold: float = 0.8, memory_window_hours: int = 24
-    ):
+    def __init__(self, coherence_threshold: float = 0.8, memory_window_hours: int = 24):
         from .continuity_bridge import ContinuityBridgeProtocol
 
         self.base_cbp = ContinuityBridgeProtocol(
@@ -24,14 +22,10 @@ class EnhancedContinuityBridgeProtocol:
 
     def initialize_identity_anchor(self, core_identity: Dict) -> str:
         identity_hash = self.base_cbp.initialize_identity_anchor(core_identity)
-        self.identity_semantic_profile = (
-            self.semantic_analyzer.create_semantic_profile(
-                core_identity, "identity"
-            )
+        self.identity_semantic_profile = self.semantic_analyzer.create_semantic_profile(
+            core_identity, "identity"
         )
-        self.logger.info(
-            "Enhanced identity anchor with semantic profile initialized"
-        )
+        self.logger.info("Enhanced identity anchor with semantic profile initialized")
         return identity_hash
 
     def validate_fragment_enhanced(self, fragment) -> Tuple[bool, str, Dict]:

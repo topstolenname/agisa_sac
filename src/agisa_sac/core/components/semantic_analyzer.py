@@ -10,6 +10,7 @@ try:
     import torch
     from sentence_transformers import SentenceTransformer
     from sklearn.metrics.pairwise import cosine_similarity
+
     HAS_ML_DEPS = True
 except ImportError:
     HAS_ML_DEPS = False
@@ -32,9 +33,7 @@ class SemanticProfile:
 class EnhancedSemanticAnalyzer:
     """Advanced semantic coherence analysis using embeddings and concept mapping"""
 
-    def __init__(
-        self, model_name: str = "all-MiniLM-L6-v2", device: str = "auto"
-    ):
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2", device: str = "auto"):
         if not HAS_ML_DEPS:
             raise ImportError(
                 "ML dependencies (torch, sentence-transformers, sklearn) not available. "
@@ -62,16 +61,13 @@ class EnhancedSemanticAnalyzer:
                 "and shared goals"
             ),
             "autonomy": (
-                "respecting individual freedom choice "
-                "and self-determination"
+                "respecting individual freedom choice " "and self-determination"
             ),
             "harm_prevention": (
-                "actively avoiding causing damage injury "
-                "or suffering to others"
+                "actively avoiding causing damage injury " "or suffering to others"
             ),
             "truthfulness": (
-                "commitment to honesty accuracy "
-                "and transparent communication"
+                "commitment to honesty accuracy " "and transparent communication"
             ),
             "privacy": (
                 "protecting personal information "
@@ -82,16 +78,13 @@ class EnhancedSemanticAnalyzer:
                 "before taking actions affecting others"
             ),
             "wellbeing": (
-                "promoting health happiness safety "
-                "and flourishing of all beings"
+                "promoting health happiness safety " "and flourishing of all beings"
             ),
             "fairness": (
-                "treating all entities equitably "
-                "without bias or discrimination"
+                "treating all entities equitably " "without bias or discrimination"
             ),
             "responsibility": (
-                "accountability for actions consequences "
-                "and their effects on others"
+                "accountability for actions consequences " "and their effects on others"
             ),
         }
 
@@ -201,23 +194,19 @@ class EnhancedSemanticAnalyzer:
         ethical_scores = []
         for concept, concept_embedding in self.ethical_concepts.items():
             content_embedding = self._get_cached_embedding(content_text)
-            similarity = cosine_similarity(
-                [content_embedding], [concept_embedding]
-            )[0][0]
+            similarity = cosine_similarity([content_embedding], [concept_embedding])[0][
+                0
+            ]
             ethical_scores.append(similarity)
         return np.array(ethical_scores)
 
-    def _compute_confidence(
-        self, content: Dict, embedding: np.ndarray
-    ) -> float:
+    def _compute_confidence(self, content: Dict, embedding: np.ndarray) -> float:
         """Compute confidence score based on content richness and embedding quality"""
         content_richness = min(1.0, len(str(content)) / 500)
         embedding_strength = min(1.0, np.linalg.norm(embedding) / 10)
         semantic_coherence = self._measure_internal_coherence(content)
         confidence = (
-            0.4 * content_richness
-            + 0.3 * embedding_strength
-            + 0.3 * semantic_coherence
+            0.4 * content_richness + 0.3 * embedding_strength + 0.3 * semantic_coherence
         )
         return confidence
 

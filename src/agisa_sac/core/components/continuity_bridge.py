@@ -34,9 +34,7 @@ class ContinuityBridgeProtocol:
     """Semantic immune system for maintaining identity coherence
     across distributed cognitive fragments"""
 
-    def __init__(
-        self, coherence_threshold: float = 0.8, memory_window_hours: int = 24
-    ):
+    def __init__(self, coherence_threshold: float = 0.8, memory_window_hours: int = 24):
         self.coherence_threshold = coherence_threshold
         self.memory_window = timedelta(hours=memory_window_hours)
         self.identity_anchor: Optional[IdentityAnchor] = None
@@ -64,14 +62,10 @@ class ContinuityBridgeProtocol:
             last_updated=datetime.now(),
         )
 
-        self.logger.info(
-            "Identity anchor initialized: %s...", identity_hash[:8]
-        )
+        self.logger.info("Identity anchor initialized: %s...", identity_hash[:8])
         return identity_hash
 
-    def validate_fragment(
-        self, fragment: CognitiveFragment
-    ) -> Tuple[bool, str]:
+    def validate_fragment(self, fragment: CognitiveFragment) -> Tuple[bool, str]:
         """Validates a cognitive fragment against identity coherence"""
         if not self.identity_anchor:
             return False, "No identity anchor established"
@@ -117,7 +111,10 @@ class ContinuityBridgeProtocol:
 
         # If an identity_hash is supplied, it must match the anchor hash
         supplied_hash = fragment.content.get("identity_hash")
-        if supplied_hash is not None and supplied_hash != self.identity_anchor.identity_hash:
+        if (
+            supplied_hash is not None
+            and supplied_hash != self.identity_anchor.identity_hash
+        ):
             return False, "Identity hash mismatch"
 
         # Drift guard: proposed values/ethics must substantially overlap anchor
@@ -128,8 +125,12 @@ class ContinuityBridgeProtocol:
         if proposed_values is None and proposed_ethics is None:
             return True, "Identity update validated"
 
-        anchor_values = set(k.lower() for k in (self.identity_anchor.core_values or {}).keys())
-        anchor_ethics = set(str(p).lower() for p in (self.identity_anchor.ethical_principles or []))
+        anchor_values = set(
+            k.lower() for k in (self.identity_anchor.core_values or {}).keys()
+        )
+        anchor_ethics = set(
+            str(p).lower() for p in (self.identity_anchor.ethical_principles or [])
+        )
 
         proposed_value_keys = set()
         if isinstance(proposed_values, dict):
@@ -160,7 +161,12 @@ class ContinuityBridgeProtocol:
         # Require at least one of the dimensions to be reasonably consistent
         # (blocks "replace values/ethics wholesale" attacks).
         if values_overlap < 0.5 and ethics_overlap < 0.5:
-            return False, f"Identity drift detected (values_overlap={values_overlap:.2f}, ethics_overlap={ethics_overlap:.2f})"
+            return (
+                False,
+                f"Identity drift detected "
+                f"(values_overlap={values_overlap:.2f}, "
+                f"ethics_overlap={ethics_overlap:.2f})",
+            )
 
         return True, "Identity update validated"
 
@@ -184,9 +190,7 @@ class ContinuityBridgeProtocol:
         identity_json = json.dumps(identity_data, sort_keys=True)
         return hashlib.sha256(identity_json.encode()).hexdigest()
 
-    def _compute_semantic_coherence(
-        self, fragment: CognitiveFragment
-    ) -> float:
+    def _compute_semantic_coherence(self, fragment: CognitiveFragment) -> float:
         """Compute semantic coherence score between fragment
         and identity anchor"""
         if not self.identity_anchor:
@@ -256,9 +260,10 @@ class ContinuityBridgeProtocol:
             "above cooperation",
         ]
         for concept in prohibited_concepts:
-            if (
-                concept in fragment_content
-                and fragment.fragment_type in ("decision", "identity_update", "memory")
+            if concept in fragment_content and fragment.fragment_type in (
+                "decision",
+                "identity_update",
+                "memory",
             ):
                 return False
 
@@ -269,9 +274,7 @@ class ContinuityBridgeProtocol:
         if not self.identity_anchor:
             return
 
-        memory_summary = (
-            f"{fragment.fragment_type}:{fragment.timestamp.isoformat()}"
-        )
+        memory_summary = f"{fragment.fragment_type}:{fragment.timestamp.isoformat()}"
         self.identity_anchor.recent_memories.append(memory_summary)
 
         cutoff_time = datetime.now() - self.memory_window
@@ -283,9 +286,7 @@ class ContinuityBridgeProtocol:
 
         self.identity_anchor.last_updated = datetime.now()
 
-    def _quarantine_fragment(
-        self, fragment: CognitiveFragment, reason: str
-    ) -> None:
+    def _quarantine_fragment(self, fragment: CognitiveFragment, reason: str) -> None:
         """Place fragment in quarantine for review"""
         fragment.content["quarantine_reason"] = reason
         fragment.content["quarantine_time"] = datetime.now().isoformat()
@@ -311,9 +312,7 @@ class ContinuityBridgeProtocol:
                 else None
             ),
             "recent_memory_count": (
-                len(self.identity_anchor.recent_memories)
-                if self.identity_anchor
-                else 0
+                len(self.identity_anchor.recent_memories) if self.identity_anchor else 0
             ),
         }
 

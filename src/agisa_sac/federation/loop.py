@@ -47,9 +47,7 @@ class FederationLoop:
 
         # Trigger CGE optimization at configured intervals
         if self.tick > 0 and self.tick % self.cge_trigger_interval == 0:
-            logger.info(
-                f"Federation tick={self.tick}: Triggering CGE evolution cycle"
-            )
+            logger.info(f"Federation tick={self.tick}: Triggering CGE evolution cycle")
             await evolve_pool(agent_pool)
 
         self.tick += 1

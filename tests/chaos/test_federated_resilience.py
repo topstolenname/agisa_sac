@@ -345,9 +345,7 @@ class TestCombinedChaosScenario:
         chaos.cbp.memory_window = timedelta(minutes=1)
         events.append("Memory pressure applied")
 
-        surviving_nodes = [
-            n for n in legitimate_nodes if n not in failed_nodes
-        ]
+        surviving_nodes = [n for n in legitimate_nodes if n not in failed_nodes]
         legitimate_success = 0
         for node in surviving_nodes:
             fragment = chaos.create_legitimate_fragment(node)
@@ -357,20 +355,17 @@ class TestCombinedChaosScenario:
         final_metrics = chaos.cbp.get_trust_metrics()
         assert legitimate_success > 0
         assert final_metrics["quarantine_count"] >= len(malicious_nodes)
-        assert len(chaos.cbp.trust_graph) == initial_network_size - len(
-            failed_nodes
-        )
+        assert len(chaos.cbp.trust_graph) == initial_network_size - len(failed_nodes)
 
         print("\nChaos Events:")
         for event in events:
             print(f"  - {event}")
         print("\nFinal Network State:")
         print(f"  - Nodes remaining: {len(chaos.cbp.trust_graph)}")
+        print(f"  - Quarantined fragments: {final_metrics['quarantine_count']}")
         print(
-            f"  - Quarantined fragments: {final_metrics['quarantine_count']}"
-        )
-        print(
-            f"  - Legitimate processing rate: {legitimate_success}/{len(surviving_nodes)}"
+            f"  - Legitimate processing rate: "
+            f"{legitimate_success}/{len(surviving_nodes)}"
         )
 
 

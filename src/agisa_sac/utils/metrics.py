@@ -18,29 +18,36 @@ try:
         generate_latest,
         CONTENT_TYPE_LATEST,
     )
+
     HAS_PROMETHEUS = True
 except ImportError:
     HAS_PROMETHEUS = False
+
     # Provide no-op placeholders
     class Counter:
         def __init__(self, *args, **kwargs):
             pass
+
         def inc(self, *args, **kwargs):
             pass
+
         def labels(self, *args, **kwargs):
             return self
 
     class Gauge:
         def __init__(self, *args, **kwargs):
             pass
+
         def set(self, *args, **kwargs):
             pass
+
         def labels(self, *args, **kwargs):
             return self
 
     class Histogram:
         def __init__(self, *args, **kwargs):
             pass
+
         def observe(self, *args, **kwargs):
             pass
 
@@ -50,8 +57,10 @@ except ImportError:
     def generate_latest(registry):
         return b""
 
+
 try:
     import psutil
+
     HAS_PSUTIL = True
 except ImportError:
     HAS_PSUTIL = False
@@ -69,11 +78,13 @@ def _require_enabled(func: Callable) -> Callable:
     Returns:
         Wrapped method that checks self.enabled before executing
     """
+
     @wraps(func)
     def wrapper(self: "PrometheusMetrics", *args: Any, **kwargs: Any) -> Any:
         if not self.enabled:
             return None
         return func(self, *args, **kwargs)
+
     return wrapper
 
 
@@ -106,168 +117,166 @@ class PrometheusMetrics:
 
         # Simulation metrics
         self.simulation_duration = Histogram(
-            'agisa_simulation_duration_seconds',
-            'Time spent in simulation epoch',
+            "agisa_simulation_duration_seconds",
+            "Time spent in simulation epoch",
             buckets=[0.1, 0.5, 1.0, 2.5, 5.0, 10.0, 30.0, 60.0, 120.0],
-            registry=self.registry
+            registry=self.registry,
         )
 
         self.simulation_epochs_total = Counter(
-            'agisa_simulation_epochs_total',
-            'Total number of simulation epochs completed',
-            registry=self.registry
+            "agisa_simulation_epochs_total",
+            "Total number of simulation epochs completed",
+            registry=self.registry,
         )
 
         self.simulation_errors_total = Counter(
-            'agisa_simulation_errors_total',
-            'Total number of simulation errors',
-            ['error_type'],
-            registry=self.registry
+            "agisa_simulation_errors_total",
+            "Total number of simulation errors",
+            ["error_type"],
+            registry=self.registry,
         )
 
         # Agent metrics
         self.agent_count = Gauge(
-            'agisa_agent_count',
-            'Current number of active agents',
-            registry=self.registry
+            "agisa_agent_count",
+            "Current number of active agents",
+            registry=self.registry,
         )
 
         self.agent_interactions_total = Counter(
-            'agisa_agent_interactions_total',
-            'Total number of agent interactions',
-            registry=self.registry
+            "agisa_agent_interactions_total",
+            "Total number of agent interactions",
+            registry=self.registry,
         )
 
         self.agent_state_changes_total = Counter(
-            'agisa_agent_state_changes_total',
-            'Total number of agent state changes',
-            ['state_type'],
-            registry=self.registry
+            "agisa_agent_state_changes_total",
+            "Total number of agent state changes",
+            ["state_type"],
+            registry=self.registry,
         )
 
         # Memory metrics
         self.memory_operations_total = Counter(
-            'agisa_memory_operations_total',
-            'Total number of memory operations',
-            ['operation'],
-            registry=self.registry
+            "agisa_memory_operations_total",
+            "Total number of memory operations",
+            ["operation"],
+            registry=self.registry,
         )
 
         self.memory_size_bytes = Gauge(
-            'agisa_memory_size_bytes',
-            'Current memory usage in bytes',
-            ['memory_type'],
-            registry=self.registry
+            "agisa_memory_size_bytes",
+            "Current memory usage in bytes",
+            ["memory_type"],
+            registry=self.registry,
         )
 
         self.memory_items_count = Gauge(
-            'agisa_memory_items_count',
-            'Number of items in memory stores',
-            ['memory_type'],
-            registry=self.registry
+            "agisa_memory_items_count",
+            "Number of items in memory stores",
+            ["memory_type"],
+            registry=self.registry,
         )
 
         # TDA (Topological Data Analysis) metrics
         self.tda_persistence_features = Gauge(
-            'agisa_tda_persistence_features',
-            'Number of persistent topological features',
-            ['dimension'],
-            registry=self.registry
+            "agisa_tda_persistence_features",
+            "Number of persistent topological features",
+            ["dimension"],
+            registry=self.registry,
         )
 
         self.tda_computation_duration = Histogram(
-            'agisa_tda_computation_duration_seconds',
-            'Time spent computing topological features',
+            "agisa_tda_computation_duration_seconds",
+            "Time spent computing topological features",
             buckets=[0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0],
-            registry=self.registry
+            registry=self.registry,
         )
 
         # Social graph metrics
         self.social_graph_edges = Gauge(
-            'agisa_social_graph_edges',
-            'Number of edges in social graph',
-            registry=self.registry
+            "agisa_social_graph_edges",
+            "Number of edges in social graph",
+            registry=self.registry,
         )
 
         self.social_graph_density = Gauge(
-            'agisa_social_graph_density',
-            'Density of the social graph (0-1)',
-            registry=self.registry
+            "agisa_social_graph_density",
+            "Density of the social graph (0-1)",
+            registry=self.registry,
         )
 
         self.social_clustering_coefficient = Gauge(
-            'agisa_social_clustering_coefficient',
-            'Average clustering coefficient of social graph',
-            registry=self.registry
+            "agisa_social_clustering_coefficient",
+            "Average clustering coefficient of social graph",
+            registry=self.registry,
         )
 
         # System resource metrics
         self.system_cpu_percent = Gauge(
-            'agisa_system_cpu_percent',
-            'CPU usage percentage',
-            registry=self.registry
+            "agisa_system_cpu_percent", "CPU usage percentage", registry=self.registry
         )
 
         self.system_memory_bytes = Gauge(
-            'agisa_system_memory_bytes',
-            'Memory usage in bytes',
-            ['type'],
-            registry=self.registry
+            "agisa_system_memory_bytes",
+            "Memory usage in bytes",
+            ["type"],
+            registry=self.registry,
         )
 
         self.system_memory_percent = Gauge(
-            'agisa_system_memory_percent',
-            'Memory usage percentage',
-            registry=self.registry
+            "agisa_system_memory_percent",
+            "Memory usage percentage",
+            registry=self.registry,
         )
 
         # Federation metrics
         self.federation_nodes_count = Gauge(
-            'agisa_federation_nodes_count',
-            'Number of federation nodes',
-            registry=self.registry
+            "agisa_federation_nodes_count",
+            "Number of federation nodes",
+            registry=self.registry,
         )
 
         self.federation_messages_total = Counter(
-            'agisa_federation_messages_total',
-            'Total federation messages sent',
-            ['message_type'],
-            registry=self.registry
+            "agisa_federation_messages_total",
+            "Total federation messages sent",
+            ["message_type"],
+            registry=self.registry,
         )
 
         self.federation_sync_duration = Histogram(
-            'agisa_federation_sync_duration_seconds',
-            'Time spent synchronizing with federation',
+            "agisa_federation_sync_duration_seconds",
+            "Time spent synchronizing with federation",
             buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0],
-            registry=self.registry
+            registry=self.registry,
         )
 
         # Integration metrics (IIT-inspired)
         # Note: Metric names retained for monitoring API compatibility
         self.consciousness_phi = Gauge(
-            'agisa_consciousness_phi',
-            'IIT-inspired integration (Φ-like) metric',
-            registry=self.registry
+            "agisa_consciousness_phi",
+            "IIT-inspired integration (Φ-like) metric",
+            registry=self.registry,
         )
 
         self.consciousness_recursive_depth = Gauge(
-            'agisa_consciousness_recursive_depth',
-            'Meta-cognitive monitoring depth level',
-            registry=self.registry
+            "agisa_consciousness_recursive_depth",
+            "Meta-cognitive monitoring depth level",
+            registry=self.registry,
         )
 
         # Ethical metrics
         self.ethics_coexistence_score = Gauge(
-            'agisa_ethics_coexistence_score',
-            'Harmony/coexistence score (0-1)',
-            registry=self.registry
+            "agisa_ethics_coexistence_score",
+            "Harmony/coexistence score (0-1)",
+            registry=self.registry,
         )
 
         self.ethics_violations_total = Counter(
-            'agisa_ethics_violations_total',
-            'Total number of ethical violations detected',
-            ['violation_type'],
-            registry=self.registry
+            "agisa_ethics_violations_total",
+            "Total number of ethical violations detected",
+            ["violation_type"],
+            registry=self.registry,
         )
 
     @_require_enabled
@@ -313,7 +322,9 @@ class PrometheusMetrics:
         self.memory_operations_total.labels(operation=operation).inc()
 
     @_require_enabled
-    def update_memory_stats(self, memory_type: str, size_bytes: int, item_count: int) -> None:
+    def update_memory_stats(
+        self, memory_type: str, size_bytes: int, item_count: int
+    ) -> None:
         """Update memory statistics.
 
         Args:
@@ -345,10 +356,7 @@ class PrometheusMetrics:
 
     @_require_enabled
     def update_social_graph_stats(
-        self,
-        edge_count: int,
-        density: float,
-        clustering: float
+        self, edge_count: int, density: float, clustering: float
     ) -> None:
         """Update social graph statistics.
 
@@ -373,8 +381,8 @@ class PrometheusMetrics:
 
             # Memory usage
             mem_info = self._process.memory_info()
-            self.system_memory_bytes.labels(type='rss').set(mem_info.rss)
-            self.system_memory_bytes.labels(type='vms').set(mem_info.vms)
+            self.system_memory_bytes.labels(type="rss").set(mem_info.rss)
+            self.system_memory_bytes.labels(type="vms").set(mem_info.vms)
 
             mem_percent = self._process.memory_percent()
             self.system_memory_percent.set(mem_percent)

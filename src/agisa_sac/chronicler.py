@@ -29,9 +29,7 @@ class ResonanceChronicler:
         except Exception:
             theme = None
         state = (
-            list(agent.cognitive.cognitive_state)
-            if hasattr(agent, "cognitive")
-            else []
+            list(agent.cognitive.cognitive_state) if hasattr(agent, "cognitive") else []
         )
         entry = LineageEntry(
             epoch=epoch,
@@ -45,8 +43,7 @@ class ResonanceChronicler:
     def to_dict(self) -> Dict[str, Any]:
         """Serialize all stored lineages to a dictionary."""
         return {
-            aid: [asdict(e) for e in entries]
-            for aid, entries in self.lineages.items()
+            aid: [asdict(e) for e in entries] for aid, entries in self.lineages.items()
         }
 
     def export_to_bigquery(self, table_id: str) -> None:

@@ -41,9 +41,7 @@ class AgentStateAnalyzer:
                 for attr in ["temporal_resonance", "voice", "memory"]
             ):
                 continue
-            current_style_vector = agent.voice.linguistic_signature.get(
-                "style_vector"
-            )
+            current_style_vector = agent.voice.linguistic_signature.get("style_vector")
             try:
                 current_theme = agent.memory.get_current_focus_theme()
             except Exception:
@@ -53,10 +51,7 @@ class AgentStateAnalyzer:
             detected_echoes = agent.temporal_resonance.detect_echo(
                 current_style_vector, current_theme
             )
-            if (
-                detected_echoes
-                and detected_echoes[0]["similarity"] >= threshold
-            ):
+            if detected_echoes and detected_echoes[0]["similarity"] >= threshold:
                 satori_count += 1
         return satori_count / self.num_agents if self.num_agents > 0 else 0.0
 
@@ -79,7 +74,8 @@ class AgentStateAnalyzer:
         return entropy
 
     def compute_mean_resonance_strength(self) -> float:
-        """Calculates the average similarity of the strongest echo for agents with echoes."""
+        """Calculates the average similarity of the strongest echo
+        for agents with echoes."""
         if not self.agents:
             return 0.0
         similarities = []
@@ -89,9 +85,7 @@ class AgentStateAnalyzer:
                 for attr in ["temporal_resonance", "voice", "memory"]
             ):
                 continue
-            current_style_vector = agent.voice.linguistic_signature.get(
-                "style_vector"
-            )
+            current_style_vector = agent.voice.linguistic_signature.get("style_vector")
             try:
                 current_theme = agent.memory.get_current_focus_theme()
             except Exception:

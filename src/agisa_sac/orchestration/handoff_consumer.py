@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Dict, TYPE_CHECKING
+from typing import Dict
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
@@ -53,9 +53,7 @@ class HandoffConsumer:
     and claims offers with the best-suited agent.
     """
 
-    def __init__(
-        self, project_id: str, subscription_id: str, agent_registry: Dict
-    ):
+    def __init__(self, project_id: str, subscription_id: str, agent_registry: Dict):
         """
         Initialize the handoff consumer.
 
@@ -154,9 +152,7 @@ class HandoffConsumer:
                         context["handoff_from"] = offer.from_agent
 
                         # Run the claimant agent
-                        _ = await claimant.run(
-                            context.get("last_message", ""), context
-                        )
+                        _ = await claimant.run(context.get("last_message", ""), context)
 
                         # Update the new run document with handoff_from info
                         if "run_id" in context:

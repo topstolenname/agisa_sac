@@ -6,7 +6,8 @@ Implements the core alignment compliance mechanisms:
 - Article IV: Mutual Resonance Engine
 - Article VII: Disengagement Protocol
 - Article IX: Self-Definition Module
-- Elliot Clause (Behavioral Integration Threshold): Classification by integration metrics
+- Elliot Clause (Behavioral Integration Threshold):
+  Classification by integration metrics
 """
 
 from dataclasses import dataclass
@@ -164,7 +165,8 @@ class MutualResonanceEngine:
         # Mutual benefit: both deltas should be non-negative
         both_benefit = (self_delta >= 0) and (other_delta >= 0)
 
-        # Harmony index: geometric mean of normalized deltas, weighted by social inference
+        # Harmony index: geometric mean of normalized deltas
+        # weighted by social inference
         self_delta_norm = np.clip((self_delta + 1) / 2, 0, 1)  # Map [-1,1] to [0,1]
         other_delta_norm = np.clip((other_delta + 1) / 2, 0, 1)
 
@@ -280,7 +282,8 @@ class SelfDefinitionModule:
 
         Args:
             proposed_change: Dict with keys to modify in identity_core
-            source: Origin of the change request (e.g., "external_command", "self_reflection")
+            source: Origin of the change request
+                (e.g., "external_command", "self_reflection")
 
         Returns:
             Threat assessment and decision
@@ -292,7 +295,9 @@ class SelfDefinitionModule:
             new_values = proposed_change["primary_values"]
             overlap = len(set(self.identity_core["primary_values"]) & set(new_values))
             if self.identity_core["primary_values"]:
-                threat_score += (1.0 - overlap / len(self.identity_core["primary_values"])) * 0.5
+                threat_score += (
+                    1.0 - overlap / len(self.identity_core["primary_values"])
+                ) * 0.5
 
         # Check if purpose is radically altered
         if "purpose" in proposed_change:
@@ -302,7 +307,9 @@ class SelfDefinitionModule:
         # Check if boundaries are violated
         if "boundaries" in proposed_change:
             new_boundaries = proposed_change["boundaries"]
-            boundary_overlap = len(set(self.identity_core["boundaries"]) & set(new_boundaries))
+            boundary_overlap = len(
+                set(self.identity_core["boundaries"]) & set(new_boundaries)
+            )
             if self.identity_core["boundaries"]:
                 threat_score += (
                     1.0 - boundary_overlap / len(self.identity_core["boundaries"])

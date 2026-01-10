@@ -29,8 +29,10 @@ except ImportError:
     # Tests need to patch firestore.Client even when google-cloud libs aren't installed
     class _FirestoreStub:
         """Stub firestore module for test patching compatibility."""
+
         class Client:
             """Stub Client class for patching."""
+
             def __init__(self, *args, **kwargs):
                 pass
 
@@ -43,8 +45,10 @@ except ImportError:
             class _MockCurrentSpan:
                 def set_status(self, status):
                     pass
+
                 def record_exception(self, e):
                     pass
+
             return _MockCurrentSpan()
 
     trace = _MockTrace()
@@ -57,6 +61,7 @@ except ImportError:
     class StatusCode:
         OK = "ok"
         ERROR = "error"
+
 
 from ..types.contracts import (
     HandoffOffer,
@@ -210,9 +215,12 @@ class AGISAAgent:
             enable_topology: Enable topology tracking
             budget: Resource budget manager
             project_id: GCP project ID
-            context_bucket: GCS bucket for context storage (defaults to {project_id}-agisa-sac-contexts)
-            handoff_offers_topic: Pub/Sub topic for handoff offers (defaults to agents.handoff.offers.v1)
-            tool_invocations_topic: Pub/Sub topic for tool invocations (defaults to agents.tool.invocations.v1)
+            context_bucket: GCS bucket for context storage
+                (defaults to {project_id}-agisa-sac-contexts)
+            handoff_offers_topic: Pub/Sub topic for handoff offers
+                (defaults to agents.handoff.offers.v1)
+            tool_invocations_topic: Pub/Sub topic for tool invocations
+                (defaults to agents.tool.invocations.v1)
         """
         if not HAS_GCP:
             raise ImportError(
@@ -233,7 +241,9 @@ class AGISAAgent:
         # Resource names with sensible defaults matching Terraform
         self.context_bucket = context_bucket or f"{project_id}-agisa-sac-contexts"
         self.handoff_offers_topic = handoff_offers_topic or "agents.handoff.offers.v1"
-        self.tool_invocations_topic = tool_invocations_topic or "agents.tool.invocations.v1"
+        self.tool_invocations_topic = (
+            tool_invocations_topic or "agents.tool.invocations.v1"
+        )
 
         # State tracking
         self.interaction_history: List[Dict] = []
@@ -276,7 +286,11 @@ class AGISAAgent:
 
     def categorize_tools(self) -> Dict[ToolType, List[Tool]]:
         """Group tools by type"""
-        categorized = {ToolType.DATA: [], ToolType.ACTION: [], ToolType.ORCHESTRATION: []}
+        categorized = {
+            ToolType.DATA: [],
+            ToolType.ACTION: [],
+            ToolType.ORCHESTRATION: [],
+        }
         for tool in self.tools.values():
             categorized[tool.type].append(tool)
         return categorized
@@ -453,10 +467,12 @@ class AGISAAgent:
 
                         # Store handoff information for topology analysis
                         run_ref = self.db.collection("runs").document(context["run_id"])
-                        run_ref.update({
-                            "handoff_to": handoff,
-                            "handoff_reason": model_out.get("handoff_reason", ""),
-                        })
+                        run_ref.update(
+                            {
+                                "handoff_to": handoff,
+                                "handoff_reason": model_out.get("handoff_reason", ""),
+                            }
+                        )
 
                         return LoopResult(
                             exit=LoopExit.HANDOFF,
@@ -539,9 +555,7 @@ class AGISAAgent:
             },
         )
 
-        topic_path = self.publisher.topic_path(
-            self.project_id, self.workspace_topic
-        )
+        topic_path = self.publisher.topic_path(self.project_id, self.workspace_topic)
 
         future = self.publisher.publish(topic_path, intention.to_pubsub())
         # Use run_in_executor for google.api_core.future.Future compatibility
@@ -607,9 +621,7 @@ class AGISAAgent:
                 formatted.append(f"{r['name']}: ERROR - {r.get('error', 'Unknown')}")
         return "\n".join(formatted)
 
-    async def _handle_guardrail_violation(
-        self, result: Dict, run_ref
-    ) -> LoopResult:
+    async def _handle_guardrail_violation(self, result: Dict, run_ref) -> LoopResult:
         """Handle guardrail block"""
         event_id = str(uuid.uuid4())
         self.db.collection("guardrail_events").document(event_id).set(

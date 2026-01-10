@@ -1,0 +1,128 @@
+{
+  "session_id": "agisa-sac-refactor",
+  "created_at": "2026-01-10T15:50:08.458253",
+  "current_turn": 1,
+  "current_role": "architect-pm",
+  "tasks": [
+    {
+      "id": "arch-01",
+      "role": "architect-pm",
+      "component": "planning",
+      "description": "Create spec.md with refactor requirements",
+      "status": "pending",
+      "dependencies": [],
+      "artifacts": [
+        "spec.md"
+      ],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "arch-02",
+      "role": "architect-pm",
+      "component": "planning",
+      "description": "Create design.md with component breakdown",
+      "status": "pending",
+      "dependencies": [
+        "arch-01"
+      ],
+      "artifacts": [
+        "design.md"
+      ],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "dev-01",
+      "role": "developer",
+      "component": "infrastructure",
+      "description": "Migrate to Poetry (init, dependencies, config)",
+      "status": "pending",
+      "dependencies": [
+        "arch-02"
+      ],
+      "artifacts": [
+        "pyproject.toml",
+        "poetry.lock"
+      ],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "dev-02",
+      "role": "developer",
+      "component": "documentation",
+      "description": "Update CLAUDE.md to reflect current state",
+      "status": "pending",
+      "dependencies": [
+        "dev-01"
+      ],
+      "artifacts": [
+        "docs/CLAUDE.md"
+      ],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "dev-03",
+      "role": "developer",
+      "component": "linting-core",
+      "description": "Fix logical/import linting errors",
+      "status": "pending",
+      "dependencies": [
+        "dev-01"
+      ],
+      "artifacts": [],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "dev-04",
+      "role": "developer",
+      "component": "linting-style",
+      "description": "Fix formatting/E501 style errors",
+      "status": "pending",
+      "dependencies": [
+        "dev-03"
+      ],
+      "artifacts": [],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "qa-01",
+      "role": "qa-critic",
+      "component": "validation",
+      "description": "Run flake8 validation",
+      "status": "pending",
+      "dependencies": [
+        "dev-04"
+      ],
+      "artifacts": [],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "qa-02",
+      "role": "qa-critic",
+      "component": "validation",
+      "description": "Run pytest test suite",
+      "status": "pending",
+      "dependencies": [
+        "dev-04"
+      ],
+      "artifacts": [],
+      "notes": "",
+      "started_at": null,
+      "completed_at": null
+    }
+  ],
+  "metadata": {}
+}

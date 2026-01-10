@@ -29,7 +29,8 @@ def main():
         with open(config_file, "r") as f:
             config = json.load(f)
     else:
-        # Fallback minimal config for testing environments where config file may be missing
+        # Fallback minimal config for testing environments
+        # where config file may be missing
         config = {
             "num_agents": 3,
             "num_epochs": 5,

@@ -60,9 +60,7 @@ class TrustMetricsResponse(BaseModel):
 async def authenticate_edge_node(authorization: str = Header(None)) -> str:
     """Simple token-based authentication for edge nodes"""
     if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(
-            status_code=401, detail="Missing or invalid authorization"
-        )
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization")
 
     token = authorization.split(" ")[1]
     try:
@@ -166,12 +164,8 @@ async def submit_cognitive_fragment(
         }
 
     except Exception as e:
-        logger.error(
-            f"Error processing fragment from {node_id}: {e}", exc_info=True
-        )
-        raise HTTPException(
-            status_code=500, detail="Fragment processing failed"
-        )
+        logger.error(f"Error processing fragment from {node_id}: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Fragment processing failed")
 
 
 @app.get("/api/v1/edge/trust-metrics")
@@ -210,9 +204,7 @@ async def get_network_status(node_id: str = Depends(authenticate_edge_node)):
 
     active_nodes = len(cbp.trust_graph)
     avg_trust = (
-        sum(cbp.trust_graph.values()) / active_nodes
-        if active_nodes > 0
-        else 0.0
+        sum(cbp.trust_graph.values()) / active_nodes if active_nodes > 0 else 0.0
     )
     high_trust_nodes = len([t for t in cbp.trust_graph.values() if t > 0.7])
 
@@ -233,21 +225,15 @@ async def request_state_sync(node_id: str = Depends(authenticate_edge_node)):
     """Request state synchronization for CRDT-based eventual consistency"""
 
     if not cbp.identity_anchor:
-        raise HTTPException(
-            status_code=503, detail="Identity anchor not initialized"
-        )
+        raise HTTPException(status_code=503, detail="Identity anchor not initialized")
 
     sync_data = {
         "identity_hash": cbp.identity_anchor.identity_hash,
-        "core_values_hash": cbp._compute_identity_hash(
-            cbp.identity_anchor.core_values
-        ),
+        "core_values_hash": cbp._compute_identity_hash(cbp.identity_anchor.core_values),
         "ethical_principles": cbp.identity_anchor.ethical_principles,
         "coherence_threshold": cbp.coherence_threshold,
         "trusted_peers": {
-            node: trust
-            for node, trust in cbp.trust_graph.items()
-            if trust > 0.6
+            node: trust for node, trust in cbp.trust_graph.items() if trust > 0.6
         },
     }
 

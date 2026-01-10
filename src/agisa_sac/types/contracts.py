@@ -1,11 +1,13 @@
 """
 Core Types and Contracts for AGISA-SAC
 
-This module defines the core data structures and contracts for the distributed agent system,
-including tools, messages, loop results, and guardrail structures.
+This module defines the core data structures and contracts for the
+distributed agent system, including tools, messages, loop results,
+and guardrail structures.
 
 Terminology Notes:
-- "Phase transition" / "integration event": Cognitive threshold crossing (internal: "satori")
+- "Phase transition" / "integration event":
+  Cognitive threshold crossing (internal: "satori")
 - "Reflection event": Agent self-evaluation triggered by entropy/conflict
 - "Fragmentation": Network partition into disconnected components
 """
@@ -13,9 +15,7 @@ Terminology Notes:
 import json
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional, Protocol, TypedDict, AsyncIterator, Dict
-import numpy as np
-import numpy.typing as npt
+from typing import Any, Callable, Dict, Optional, Protocol, TypedDict
 
 
 class ToolType(Enum):

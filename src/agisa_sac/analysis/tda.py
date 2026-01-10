@@ -31,9 +31,7 @@ class PersistentHomologyTracker:
 
     def __init__(self, max_dimension: int = 1):
         self.max_dimension = max_dimension
-        self.persistence_diagrams_history: List[Optional[List[np.ndarray]]] = (
-            []
-        )
+        self.persistence_diagrams_history: List[Optional[List[np.ndarray]]] = []
         self.has_tda_lib = HAS_RIPSER  # Store availability
 
     def compute_persistence(
@@ -82,9 +80,7 @@ class PersistentHomologyTracker:
             self.persistence_diagrams_history.append(cleaned_diagrams)
             return cleaned_diagrams
         except Exception as e:
-            warnings.warn(
-                f"Persistence computation failed: {e}", RuntimeWarning
-            )
+            warnings.warn(f"Persistence computation failed: {e}", RuntimeWarning)
             self.persistence_diagrams_history.append(None)
             return None
 
@@ -108,16 +104,12 @@ class PersistentHomologyTracker:
         ):
             return False, 0.0
         current_diagram = np.array(current_diagram_list[comparison_dimension])
-        previous_diagram = np.array(
-            previous_diagram_list[comparison_dimension]
-        )
+        previous_diagram = np.array(previous_diagram_list[comparison_dimension])
         distance = 0.0
         if current_diagram.shape[0] == 0 and previous_diagram.shape[0] == 0:
             distance = 0.0
         elif current_diagram.shape[0] == 0 or previous_diagram.shape[0] == 0:
-            distance = (
-                threshold + 0.1
-            )  # Assume change if features appear/vanish
+            distance = threshold + 0.1  # Assume change if features appear/vanish
         else:
             try:
                 if distance_metric == "bottleneck":
@@ -188,8 +180,7 @@ class PersistentHomologyTracker:
         loaded_version = state.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
-                f"Loading TDA v '{loaded_version}' "
-                f"into v '{FRAMEWORK_VERSION}'.",
+                f"Loading TDA v '{loaded_version}' " f"into v '{FRAMEWORK_VERSION}'.",
                 UserWarning,
             )
         self.max_dimension = state.get("max_dimension", self.max_dimension)

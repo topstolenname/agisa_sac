@@ -61,9 +61,7 @@ class EnhancedAgent:
         self.memory = (
             memory
             if memory is not None
-            else MemoryContinuumLayer(
-                agent_id, capacity, use_semantic, message_bus
-            )
+            else MemoryContinuumLayer(agent_id, capacity, use_semantic, message_bus)
         )
         self.cognitive = (
             cognitive
@@ -80,9 +78,7 @@ class EnhancedAgent:
             if temporal_resonance is not None
             else TemporalResonanceTracker(agent_id)
         )
-        self.reflexivity_layer = ReflexivityLayer(
-            self
-        )  # Always needs self reference
+        self.reflexivity_layer = ReflexivityLayer(self)  # Always needs self reference
         self.resonance_liturgy_instance = ResonanceLiturgy(
             agent_id
         )  # Stateless, init normally
@@ -114,9 +110,7 @@ class EnhancedAgent:
         if query:
             decision_response = self.cognitive.decide(query, peer_influence)
         current_theme = self.memory.get_current_focus_theme()
-        current_style_vector = self.voice.linguistic_signature.get(
-            "style_vector"
-        )
+        current_style_vector = self.voice.linguistic_signature.get("style_vector")
         if current_style_vector is not None:
             current_content = {
                 "cognitive_state": self.cognitive.cognitive_state.tolist()
@@ -132,9 +126,7 @@ class EnhancedAgent:
         return decision_response
 
     def check_resonance(self):
-        current_style_vector = self.voice.linguistic_signature.get(
-            "style_vector"
-        )
+        current_style_vector = self.voice.linguistic_signature.get("style_vector")
         current_theme = self.memory.get_current_focus_theme()
         if current_style_vector is None:
             return
@@ -154,9 +146,7 @@ class EnhancedAgent:
             "previous_manifestation_timestamp": top_echo[
                 "previous_manifestation_timestamp"
             ],
-            "previous_manifestation_theme": top_echo[
-                "previous_manifestation_theme"
-            ],
+            "previous_manifestation_theme": top_echo["previous_manifestation_theme"],
             "reflection": commentary,
             "timestamp": time.time(),
         }
@@ -174,9 +164,7 @@ class EnhancedAgent:
                 "type": "resonant_reply",
                 "theme": current_theme,
                 "message": response_text,
-                "responding_to_echo_at": top_echo[
-                    "previous_manifestation_timestamp"
-                ],
+                "responding_to_echo_at": top_echo["previous_manifestation_timestamp"],
                 "linked_resonance_event_id": resonance_memory_id,
                 "timestamp": time.time(),
             }
@@ -193,9 +181,7 @@ class EnhancedAgent:
                 f"(theme: '{top_echo['previous_manifestation_theme']}')."
             )
             self.last_reflection_trigger = trigger_message
-            self.reflexivity_layer.force_deep_reflection(
-                trigger=trigger_message
-            )
+            self.reflexivity_layer.force_deep_reflection(trigger=trigger_message)
         if self.message_bus:
             self.message_bus.publish(
                 "agent_resonance_detected",
@@ -253,9 +239,7 @@ class EnhancedAgent:
                 data["memory_state"], message_bus=message_bus
             )
         except Exception as e:
-            warnings.warn(
-                f"Agent {agent_id}: Failed memory load: {e}", RuntimeWarning
-            )
+            warnings.warn(f"Agent {agent_id}: Failed memory load: {e}", RuntimeWarning)
             raise ValueError("Memory load failed") from e
         try:
             cognitive = CognitiveDiversityEngine.from_dict(
@@ -270,13 +254,9 @@ class EnhancedAgent:
             )
             raise ValueError("Cognitive load failed") from e
         try:
-            voice = VoiceEngine.from_dict(
-                data["voice_state"], agent_id=agent_id
-            )
+            voice = VoiceEngine.from_dict(data["voice_state"], agent_id=agent_id)
         except Exception as e:
-            warnings.warn(
-                f"Agent {agent_id}: Failed voice load: {e}", RuntimeWarning
-            )
+            warnings.warn(f"Agent {agent_id}: Failed voice load: {e}", RuntimeWarning)
             raise ValueError("Voice load failed") from e
         try:
             temporal_resonance = TemporalResonanceTracker.from_dict(
@@ -288,10 +268,11 @@ class EnhancedAgent:
             )
             raise ValueError("Resonance load failed") from e
 
-        # Create agent instance, passing reconstructed components, and DO NOT add initial memory
+        # Create agent instance, passing reconstructed components
+        # DO NOT add initial memory
         agent = cls(
             agent_id=agent_id,
-            personality=cognitive.personality,  # Get personality from loaded cognitive state
+            personality=cognitive.personality,  # From loaded cognitive state
             capacity=memory.capacity,
             message_bus=message_bus,
             use_semantic=memory.use_semantic,
@@ -355,25 +336,17 @@ class EnhancedAgent:
         if not isinstance(self.memory.memories, dict):
             errors.append("Memory store type.")
         # Correct state sum if not strict
-        if not strict and any(
-            "Cognitive state sum" in w for w in warnings_list
-        ):
+        if not strict and any("Cognitive state sum" in w for w in warnings_list):
             if np.sum(self.cognitive.cognitive_state) > 1e-6:
-                self.cognitive.cognitive_state /= np.sum(
-                    self.cognitive.cognitive_state
-                )
+                self.cognitive.cognitive_state /= np.sum(self.cognitive.cognitive_state)
             else:
                 self.cognitive.cognitive_state = np.ones(4) / 4
                 warnings_list.append("Cognitive state reset.")
         # Report
         for w in warnings_list:
-            warnings.warn(
-                f"Agent {self.agent_id} Validate Warn: {w}", RuntimeWarning
-            )
+            warnings.warn(f"Agent {self.agent_id} Validate Warn: {w}", RuntimeWarning)
         if errors:
-            error_message = (
-                f"Agent {self.agent_id} Validate Fail: {'; '.join(errors)}"
-            )
+            error_message = f"Agent {self.agent_id} Validate Fail: {'; '.join(errors)}"
         if strict and errors:
             raise ValueError(error_message)
         elif errors:

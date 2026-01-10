@@ -119,13 +119,9 @@ class CRDTMemoryLayer:
         self.logger.debug(f"Added memory {entry_id} of type {memory_type}")
         return entry_id
 
-    def update_memory(
-        self, entry_id: str, content_updates: Dict[str, Any]
-    ) -> bool:
+    def update_memory(self, entry_id: str, content_updates: Dict[str, Any]) -> bool:
         if entry_id not in self.memories or entry_id in self.tombstones:
-            self.logger.warning(
-                f"Cannot update non-existent memory {entry_id}"
-            )
+            self.logger.warning(f"Cannot update non-existent memory {entry_id}")
             return False
         self.vector_clock = self.vector_clock.increment(self.node_id)
         old_entry = self.memories[entry_id]
@@ -192,22 +188,19 @@ class CRDTMemoryLayer:
         }
         self.sync_history.append(sync_stats)
         self.logger.info(
-            f"Merged state: {len(remote_memories)} entries, {conflicts_detected} conflicts"
+            f"Merged state: {len(remote_memories)} entries, "
+            f"{conflicts_detected} conflicts"
         )
         return merge_results
 
-    def _merge_single_entry(
-        self, entry_id: str, remote_entry: CRDTMemoryEntry
-    ) -> str:
+    def _merge_single_entry(self, entry_id: str, remote_entry: CRDTMemoryEntry) -> str:
         if entry_id not in self.memories:
             if entry_id not in self.tombstones:
                 self.memories[entry_id] = remote_entry
                 return "added_from_remote"
             return "ignored_tombstoned"
         local_entry = self.memories[entry_id]
-        clock_relation = local_entry.vector_clock.compare(
-            remote_entry.vector_clock
-        )
+        clock_relation = local_entry.vector_clock.compare(remote_entry.vector_clock)
         if clock_relation == "after":
             return "local_newer"
         elif clock_relation == "before":
@@ -230,9 +223,7 @@ class CRDTMemoryLayer:
         resolver = self.resolution_strategies.get(
             strategy, self._resolve_last_writer_wins
         )
-        resolved_entry, needs_manual_review = resolver(
-            local_entry, remote_entry
-        )
+        resolved_entry, needs_manual_review = resolver(local_entry, remote_entry)
         conflict = MemoryMergeConflict(
             conflict_id=f"conflict_{uuid.uuid4().hex[:8]}",
             entry_id=entry_id,
@@ -251,15 +242,9 @@ class CRDTMemoryLayer:
     def _select_resolution_strategy(
         self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
     ) -> str:
-        if (
-            local_entry.memory_type == "core"
-            or remote_entry.memory_type == "core"
-        ):
+        if local_entry.memory_type == "core" or remote_entry.memory_type == "core":
             return "consensus_required"
-        if (
-            local_entry.importance_score > 0.8
-            or remote_entry.importance_score > 0.8
-        ):
+        if local_entry.importance_score > 0.8 or remote_entry.importance_score > 0.8:
             return "importance_weighted"
         if (
             local_entry.memory_type == "semantic"
@@ -288,20 +273,14 @@ class CRDTMemoryLayer:
                     merged_content[f"{key}_composite"] = {
                         "local": merged_content[key],
                         "remote": remote_value,
-                        "merge_timestamp": datetime.now(
-                            timezone.utc
-                        ).isoformat(),
+                        "merge_timestamp": datetime.now(timezone.utc).isoformat(),
                     }
             merged_entry = CRDTMemoryEntry(
                 entry_id=local_entry.entry_id,
                 content=merged_content,
-                vector_clock=local_entry.vector_clock.update(
-                    remote_entry.vector_clock
-                ),
+                vector_clock=local_entry.vector_clock.update(remote_entry.vector_clock),
                 node_id=f"merged_{local_entry.node_id}_{remote_entry.node_id}",
-                created_at=min(
-                    local_entry.created_at, remote_entry.created_at
-                ),
+                created_at=min(local_entry.created_at, remote_entry.created_at),
                 memory_type=local_entry.memory_type,
                 importance_score=max(
                     local_entry.importance_score, remote_entry.importance_score
@@ -339,16 +318,12 @@ class CRDTMemoryLayer:
             scored_memories.append((score, entry_id))
         scored_memories.sort(reverse=True)
         keep_count = int(self.max_memory_size * 0.8)
-        entries_to_keep = {
-            entry_id for _, entry_id in scored_memories[:keep_count]
-        }
+        entries_to_keep = {entry_id for _, entry_id in scored_memories[:keep_count]}
         for entry_id in list(self.memories.keys()):
             if entry_id not in entries_to_keep:
                 self.tombstones.add(entry_id)
                 del self.memories[entry_id]
-        self.logger.info(
-            f"Cleaned up {len(self.memories) - keep_count} old memories"
-        )
+        self.logger.info(f"Cleaned up {len(self.memories) - keep_count} old memories")
 
     def get_sync_state(self) -> Dict[str, Any]:
         return {

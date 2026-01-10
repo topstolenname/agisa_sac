@@ -55,7 +55,9 @@ class CMNITracker:
             Updated CMNI score
         """
         if activation.circuit_id != "L2N1":
-            raise ValueError(f"CMNI tracker expects L2N1 activations, got {activation.circuit_id}")
+            raise ValueError(
+                f"CMNI tracker expects L2N1 activations, got {activation.circuit_id}"
+            )
 
         # Add weighted activation (weight by confidence)
         weighted_activation = activation.activation_level * activation.confidence
@@ -107,7 +109,8 @@ class CMNITracker:
 
 class EmpathyModule:
     """
-    High-level social inference module integrating state-matching circuits with CMNI tracking.
+    High-level social inference module integrating state-matching circuits
+    with CMNI tracking.
 
     Manages social inference interactions across multiple agents and maintains
     the agent's overall social inference capacity score.
@@ -122,8 +125,12 @@ class EmpathyModule:
         baseline_cmni: float = 0.3,
     ):
         self.empathy_circuit = EmpathyCircuit(resonance_gain=resonance_gain)
-        self.cmni_tracker = CMNITracker(window_size=cmni_window, baseline_cmni=baseline_cmni)
-        self.agent_resonance_map: Dict[str, List[float]] = {}  # Track per-agent resonance
+        self.cmni_tracker = CMNITracker(
+            window_size=cmni_window, baseline_cmni=baseline_cmni
+        )
+        self.agent_resonance_map: Dict[str, List[float]] = (
+            {}
+        )  # Track per-agent resonance
 
     def process_interaction(
         self,
@@ -145,7 +152,9 @@ class EmpathyModule:
             CircuitActivation from social inference circuit, with CMNI updated
         """
         # Run social inference circuit evaluation
-        activation = self.empathy_circuit.evaluate(self_state, other_state, emotional_context)
+        activation = self.empathy_circuit.evaluate(
+            self_state, other_state, emotional_context
+        )
 
         # Update CMNI tracker
         self.cmni_tracker.update(activation)

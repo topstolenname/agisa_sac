@@ -23,17 +23,18 @@ def get_metrics():
                 enabled = False
 
                 def get_metrics(self):
-                    return lambda: type('obj', (object,), {'enabled': False})()
+                    return lambda: type("obj", (object,), {"enabled": False})()
+
             _metrics_module = NoOpMetrics()
 
-    if hasattr(_metrics_module, 'get_metrics'):
+    if hasattr(_metrics_module, "get_metrics"):
         return _metrics_module.get_metrics()
     return _metrics_module.get_metrics
 
 
 def reset_metrics():
     """Reset the metrics module (if available)."""
-    if _metrics_module is not None and hasattr(_metrics_module, 'reset_metrics'):
+    if _metrics_module is not None and hasattr(_metrics_module, "reset_metrics"):
         _metrics_module.reset_metrics()
 
 

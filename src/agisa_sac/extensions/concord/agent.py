@@ -75,7 +75,8 @@ class MemoryCore:
         # Remove expired items
         current_time = time.time()
         self.working_memory = [
-            item for item in self.working_memory
+            item
+            for item in self.working_memory
             if (current_time - item.timestamp) < item.ttl
         ]
 
@@ -85,7 +86,7 @@ class MemoryCore:
         # Evict if over capacity (remove lowest priority)
         if len(self.working_memory) > self.working_capacity:
             self.working_memory.sort(key=lambda x: x.priority, reverse=True)
-            self.working_memory = self.working_memory[:self.working_capacity]
+            self.working_memory = self.working_memory[: self.working_capacity]
 
     def retrieve_recent_episodic(self, n: int = 10) -> List[MemoryTrace]:
         """Retrieve n most recent episodic memories."""
@@ -247,7 +248,9 @@ class ConcordCompliantAgent:
 
             if disengagement_eval["should_disengage"]:
                 result["decisions"]["interaction"] = "DISENGAGE"
-                result["decisions"]["reason"] = ", ".join(disengagement_eval["rationale"])
+                result["decisions"]["reason"] = ", ".join(
+                    disengagement_eval["rationale"]
+                )
                 self._record_episodic_event(
                     "disengaged",
                     [getattr(primary_other, "id", "unknown")],
@@ -264,20 +267,26 @@ class ConcordCompliantAgent:
                 return result
 
         # 7. Elliot Clause Evaluation (Self and Others)
-        self_elliot = self.elliot_evaluator.evaluate_entity({
-            "phi_integration": self.phi_integration,
-            "cmni": self.empathy_module.cmni_tracker.current_cmni,
-        })
+        self_elliot = self.elliot_evaluator.evaluate_entity(
+            {
+                "phi_integration": self.phi_integration,
+                "cmni": self.empathy_module.cmni_tracker.current_cmni,
+            }
+        )
         result["compliance"]["self_elliot_status"] = self_elliot["elliot_clause_status"]
 
         if primary_other:
             other_phi = getattr(primary_other, "phi_integration", 0.1)
             other_cmni = getattr(primary_other, "current_state", {}).get("cmni", 0.2)
-            other_elliot = self.elliot_evaluator.evaluate_entity({
-                "phi_integration": other_phi,
-                "cmni": other_cmni,
-            })
-            result["compliance"]["other_elliot_status"] = other_elliot["elliot_clause_status"]
+            other_elliot = self.elliot_evaluator.evaluate_entity(
+                {
+                    "phi_integration": other_phi,
+                    "cmni": other_cmni,
+                }
+            )
+            result["compliance"]["other_elliot_status"] = other_elliot[
+                "elliot_clause_status"
+            ]
 
         # 8. Final decision synthesis
         result["decisions"]["interaction"] = "CONTINUE"
@@ -290,7 +299,9 @@ class ConcordCompliantAgent:
             result["decisions"]["action"] = "OBSERVE"
 
         # Record episodic memory
-        agents_involved = [getattr(primary_other, "id", "unknown")] if primary_other else []
+        agents_involved = (
+            [getattr(primary_other, "id", "unknown")] if primary_other else []
+        )
         self._record_episodic_event(
             "interaction",
             agents_involved,
@@ -301,7 +312,9 @@ class ConcordCompliantAgent:
 
         # Add metadata needed by helper methods
         result["state_snapshot"] = self.current_state.copy()
-        result["primary_other_id"] = getattr(primary_other, "id", None) if primary_other else None
+        result["primary_other_id"] = (
+            getattr(primary_other, "id", None) if primary_other else None
+        )
 
         # Update interaction history
         self.interaction_history.append(result)
@@ -315,14 +328,21 @@ class ConcordCompliantAgent:
         if len(self.interaction_history) < 2:
             return 0.0
         # Simplified: delta in resource level
-        prev = self.interaction_history[-1].get("state_snapshot", {}).get("resource_level", 0.8)
+        prev = (
+            self.interaction_history[-1]
+            .get("state_snapshot", {})
+            .get("resource_level", 0.8)
+        )
         current = self.current_state["resource_level"]
         return current - prev
 
     def _get_interaction_duration(self, other_agent_id: str) -> float:
         """Get duration of current interaction with specific agent."""
-        relevant = [h for h in self.interaction_history
-                    if h.get("primary_other_id") == other_agent_id]
+        relevant = [
+            h
+            for h in self.interaction_history
+            if h.get("primary_other_id") == other_agent_id
+        ]
         if not relevant:
             return 0.0
         first_interaction = relevant[0]["timestamp"]
@@ -353,10 +373,12 @@ class ConcordCompliantAgent:
             "agent_id": self.agent_id,
             "phi_integration": self.phi_integration,
             "cmni": self.empathy_module.cmni_tracker.current_cmni,
-            "elliot_status": self.elliot_evaluator.evaluate_entity({
-                "phi_integration": self.phi_integration,
-                "cmni": self.empathy_module.cmni_tracker.current_cmni,
-            })["elliot_clause_status"],
+            "elliot_status": self.elliot_evaluator.evaluate_entity(
+                {
+                    "phi_integration": self.phi_integration,
+                    "cmni": self.empathy_module.cmni_tracker.current_cmni,
+                }
+            )["elliot_clause_status"],
             "current_state": self.current_state.copy(),
             "memory_stats": {
                 "episodic_count": len(self.memory.episodic_memory),

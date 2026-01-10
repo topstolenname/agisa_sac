@@ -7,7 +7,8 @@ system for normative multi-agent interactions.
 
 Key Components:
 - ConcordCompliantAgent: Main agent implementation
-- State-matching circuits: L2N0 (Self-Preservation), L2N7 (Tactical Help), L2N1 (Social Inference)
+- State-matching circuits: L2N0 (Self-Preservation), L2N7 (Tactical Help),
+  L2N1 (Social Inference)
 - Ethics guardians: Non-Coercion, Mutual Resonance, Disengagement, Self-Definition
 - Elliot Clause (Behavioral Integration Threshold): Integration classification
 - CMNI: Cognitive state-matching integration tracking
