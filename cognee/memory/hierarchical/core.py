@@ -2,7 +2,7 @@
 import asyncio
 from collections import deque
 from datetime import datetime
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Deque
 from cognee.memory.hierarchical.config import MemoryGenome
 from cognee.memory.hierarchical.decay import MemoryDecayModel
 
@@ -12,7 +12,7 @@ class CircularBuffer:
 
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.buffer = deque(maxlen=capacity)
+        self.buffer: Deque[Dict[str, Any]] = deque(maxlen=capacity)
         self.lock = asyncio.Lock()
 
     async def add(self, item: Dict[str, Any]):
@@ -27,7 +27,7 @@ class TemporalGraph:
 
     def __init__(self, salience_threshold: float):
         self.salience_threshold = salience_threshold
-        self.graph = {}
+        self.graph: Dict[str, Dict[str, Any]] = {}
         self.lock = asyncio.Lock()
 
     async def add_memory(self, experience: Dict, emotional_valence: float):
@@ -49,12 +49,12 @@ class HierarchicalMemory:
     def __init__(self, genome: MemoryGenome):
         self.genome = genome
         self.sensory = CircularBuffer(capacity=genome.sensory_buffer_capacity)
-        self.working = asyncio.Queue(maxsize=genome.working_memory_limit)
+        self.working: asyncio.Queue[Dict[str, Any]] = asyncio.Queue(maxsize=genome.working_memory_limit)
         self.episodic = TemporalGraph(
             salience_threshold=genome.episodic_salience_threshold
         )
-        self.semantic = {}  # KnowledgeGraph placeholder
-        self.procedural = {}  # SkillLibrary placeholder
+        self.semantic: Dict[str, Any] = {}  # KnowledgeGraph placeholder
+        self.procedural: Dict[str, Any] = {}  # SkillLibrary placeholder
 
         self.decay_model = MemoryDecayModel(genome)
         self.consolidation_task: Optional[asyncio.Task] = None
@@ -101,7 +101,7 @@ class HierarchicalMemory:
 
     async def _assess_emotion(self, experience: Dict) -> float:
         """Placeholder for emotional valence assessment."""
-        return experience.get("emotional_valence", 0.5)
+        return float(experience.get("emotional_valence", 0.5))
 
     async def _update_procedural_skills(self, experience: Dict):
         """Placeholder for procedural skill reinforcement."""

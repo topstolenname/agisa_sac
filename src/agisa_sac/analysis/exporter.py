@@ -1,7 +1,7 @@
 import os
 import warnings
 from datetime import datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List, TypedDict, cast, Any
 
 # Use TYPE_CHECKING for chronicler hint
 if TYPE_CHECKING:
@@ -9,6 +9,12 @@ if TYPE_CHECKING:
         ResonanceChronicler,
     )  # Adjust if chronicler is moved
 
+class LineageEntry(TypedDict):
+    epoch: int
+    timestamp_str: str
+    theme: str
+    strength: float
+    reflection: str
 
 class ChronicleExporter:
     """Handles generation and export of formatted narrative outputs."""
@@ -62,7 +68,7 @@ class ChronicleExporter:
         lineage = self.chronicler.lineages.get(agent_id, [])
         if not lineage:
             return None
-        manifesto_entries = []
+        manifesto_entries: List[LineageEntry] = []
         for i, entry in enumerate(lineage):
             if (
                 entry.echo_strength is not None
@@ -74,13 +80,19 @@ class ChronicleExporter:
                     )
                 except Exception:
                     ts_str = f"TS {entry.timestamp:.0f}"
+
+                # Ensure fields are of correct type
+                theme_val = entry.theme if entry.theme is not None else "unknown"
+                strength_val = float(entry.echo_strength)
+                reflection_val = entry.reflection or "*No reflection*"
+
                 manifesto_entries.append(
                     {
                         "epoch": i + 1,
                         "timestamp_str": ts_str,
-                        "theme": entry.theme,
-                        "strength": entry.echo_strength,
-                        "reflection": entry.reflection or "*No reflection*",
+                        "theme": theme_val,
+                        "strength": strength_val,
+                        "reflection": reflection_val,
                     }
                 )
         if not manifesto_entries:
@@ -89,16 +101,22 @@ class ChronicleExporter:
             f"# Echo Manifesto: {agent_id}\n",
             f"*(Significant Resonance >= {min_echo_strength:.2f})*\n",
         ]
-        for entry in sorted(
-            manifesto_entries, key=lambda x: x["strength"], reverse=True
-        ):
+
+        # Explicitly cast lambda return to avoid mypy confusion about TypedDict sorting
+        sorted_entries = sorted(
+            manifesto_entries,
+            key=lambda x: cast(float, x["strength"]),
+            reverse=True
+        )
+
+        for m_entry in sorted_entries:
             output.append(
-                f"## Agent Epoch {entry['epoch']} "
-                f"({entry['timestamp_str']}) - "
-                f"Strength: {entry['strength']:.4f}"
+                f"## Agent Epoch {m_entry['epoch']} "
+                f"({m_entry['timestamp_str']}) - "
+                f"Strength: {m_entry['strength']:.4f}"
             )
-            output.append(f"**Theme:** {entry['theme']}")
-            output.append(f"> {entry['reflection']}")
+            output.append(f"**Theme:** {m_entry['theme']}")
+            output.append(f"> {m_entry['reflection']}")
             output.append("---")
         return "\n".join(output)
 

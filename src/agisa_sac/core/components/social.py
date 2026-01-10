@@ -1,7 +1,7 @@
 import random
 import warnings
 from collections import defaultdict
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, cast
 
 import networkx as nx
 import numpy as np
@@ -162,7 +162,7 @@ class DynamicSocialGraph:
                 self.influence_matrix_csr[:, target_idx].toarray().flatten()
             )
             influences = {}
-            total_influence = 0
+            total_influence: float = 0.0
             for i in range(self.num_agents):
                 if i != target_idx and influence_on_agent[i] > 1e-6:
                     influencer_id = self.agent_ids[i]
@@ -270,11 +270,12 @@ class DynamicSocialGraph:
                 partition = community_louvain.best_partition(
                     G, weight="weight"
                 )
-                community_map = defaultdict(set)
-                [
+                community_map: Dict[int, Set[str]] = defaultdict(set)
+
+                # Use standard loop instead of list comprehension for side effects
+                for node, comm_id in partition.items():
                     community_map[comm_id].add(node)
-                    for node, comm_id in partition.items()
-                ]
+
                 communities = list(community_map.values())
             except Exception as e:
                 warnings.warn(

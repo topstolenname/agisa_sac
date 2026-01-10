@@ -7,7 +7,7 @@ using persistent homology to detect fragmentation, overconnection, and coverage 
 
 import tempfile
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any, Union
 
 import networkx as nx
 import numpy as np
@@ -40,8 +40,8 @@ class TopologyOrchestrationManager:
 
     def __init__(
         self,
-        firestore_client,
-        storage_client,
+        firestore_client: Any,
+        storage_client: Any,
         project_id: str,
         topology_bucket: Optional[str] = None,
     ):
@@ -64,14 +64,14 @@ class TopologyOrchestrationManager:
         self.storage = storage_client
         self.project_id = project_id
         self.topology_bucket = topology_bucket or f"{project_id}-agisa-sac-topology"
-        self.agent_registry: Dict = {}
+        self.agent_registry: Dict[str, Any] = {}
         self.interaction_graph = nx.DiGraph()
 
         # Cache for performance
-        self._distance_cache: Dict = {}
-        self._cache_expiry = None
+        self._distance_cache: Dict[tuple[str, str], float] = {}
+        self._cache_expiry: Optional[datetime] = None
 
-    def register_agent(self, agent):
+    def register_agent(self, agent: Any) -> None:
         """
         Register agent in topology system.
 
@@ -89,7 +89,7 @@ class TopologyOrchestrationManager:
         # Invalidate cache
         self._distance_cache = {}
 
-    def agent_distance(self, agent_i, agent_j, eps: float = 1e-6) -> float:
+    def agent_distance(self, agent_i: Any, agent_j: Any, eps: float = 1e-6) -> float:
         """
         Proper metric distance between agents.
         Ensures: d(i,j) = d(j,i), d(i,i) = 0, triangle inequality (approximately)
@@ -108,8 +108,10 @@ class TopologyOrchestrationManager:
 
         # Check cache
         cache_key = tuple(sorted([agent_i.agent_id, agent_j.agent_id]))
-        if cache_key in self._distance_cache:
-            return self._distance_cache[cache_key]
+        # cast to key tuple
+        cache_key_typed = (cache_key[0], cache_key[1])
+        if cache_key_typed in self._distance_cache:
+            return self._distance_cache[cache_key_typed]
 
         # Tool overlap (Jaccard distance)
         tools_i = set(agent_i.tools.keys())
@@ -133,10 +135,10 @@ class TopologyOrchestrationManager:
         d = max(0.0, min(1.0, d))  # Clamp to [0, 1]
 
         # Cache
-        self._distance_cache[cache_key] = d
+        self._distance_cache[cache_key_typed] = d
         return d
 
-    async def compute_coordination_topology(self) -> Dict:
+    async def compute_coordination_topology(self) -> Dict[str, Any]:
         """
         Compute persistence diagrams with proper metric handling.
 
@@ -204,7 +206,7 @@ class TopologyOrchestrationManager:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _extract_topological_features(self, diagrams: List[np.ndarray]) -> Dict:
+    def _extract_topological_features(self, diagrams: List[np.ndarray]) -> Dict[str, Any]:
         """
         Extract persistent features above threshold.
 
@@ -214,7 +216,7 @@ class TopologyOrchestrationManager:
         Returns:
             Dictionary with H0, H1, H2 features
         """
-        features = {"h0_components": [], "h1_loops": [], "h2_voids": []}
+        features: Dict[str, List[Any]] = {"h0_components": [], "h1_loops": [], "h2_voids": []}
 
         for dim, diagram in enumerate(diagrams):
             if len(diagram) == 0:
@@ -234,7 +236,7 @@ class TopologyOrchestrationManager:
 
         return features
 
-    def _assess_coordination_quality(self, features: Dict) -> float:
+    def _assess_coordination_quality(self, features: Dict[str, Any]) -> float:
         """
         Quality scoring:
         - Fewer H0 components = better connectivity
@@ -259,7 +261,7 @@ class TopologyOrchestrationManager:
         return quality
 
     def _suggest_optimizations(
-        self, features: Dict, distance_matrix: np.ndarray, agents: List
+        self, features: Dict[str, Any], distance_matrix: np.ndarray, agents: List[Any]
     ) -> List[str]:
         """
         Actionable topology-informed suggestions.
@@ -336,7 +338,7 @@ class TopologyOrchestrationManager:
     async def _store_topology_snapshot(
         self,
         diagrams: List[np.ndarray],
-        features: Dict,
+        features: Dict[str, Any],
         quality: float,
         distance_matrix: np.ndarray,
         n: int,

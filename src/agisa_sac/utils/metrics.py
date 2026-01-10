@@ -5,15 +5,15 @@ This module provides comprehensive metrics collection for production monitoring
 of multi-agent simulations, including performance, resource usage, and system health.
 """
 
-from typing import Optional, Callable, Any
+from typing import Optional, Callable, Any, cast, TYPE_CHECKING
 from functools import wraps
 import logging
 
 try:
     from prometheus_client import (
-        Counter,
-        Gauge,
-        Histogram,
+        Counter as PromCounter,
+        Gauge as PromGauge,
+        Histogram as PromHistogram,
         CollectorRegistry,
         generate_latest,
         CONTENT_TYPE_LATEST,
@@ -22,7 +22,7 @@ try:
 except ImportError:
     HAS_PROMETHEUS = False
     # Provide no-op placeholders
-    class Counter:
+    class PromCounter:  # type: ignore
         def __init__(self, *args, **kwargs):
             pass
         def inc(self, *args, **kwargs):
@@ -30,7 +30,7 @@ except ImportError:
         def labels(self, *args, **kwargs):
             return self
 
-    class Gauge:
+    class PromGauge:  # type: ignore
         def __init__(self, *args, **kwargs):
             pass
         def set(self, *args, **kwargs):
@@ -38,17 +38,22 @@ except ImportError:
         def labels(self, *args, **kwargs):
             return self
 
-    class Histogram:
+    class PromHistogram:  # type: ignore
         def __init__(self, *args, **kwargs):
             pass
         def observe(self, *args, **kwargs):
             pass
 
-    CollectorRegistry = None
+    CollectorRegistry = None  # type: ignore
     CONTENT_TYPE_LATEST = "text/plain"
 
-    def generate_latest(registry):
+    def generate_latest(registry):  # type: ignore
         return b""
+
+# Alias classes to standard names for usage in this module
+Counter = PromCounter
+Gauge = PromGauge
+Histogram = PromHistogram
 
 try:
     import psutil
@@ -422,7 +427,7 @@ class PrometheusMetrics:
         if not self.enabled:
             return b""
 
-        return generate_latest(self.registry)
+        return cast(bytes, generate_latest(self.registry))
 
     def get_content_type(self) -> str:
         """Get the content type for metrics endpoint.
@@ -433,7 +438,7 @@ class PrometheusMetrics:
         if not self.enabled:
             return "text/plain"
 
-        return CONTENT_TYPE_LATEST
+        return cast(str, CONTENT_TYPE_LATEST)
 
 
 # Global metrics instance

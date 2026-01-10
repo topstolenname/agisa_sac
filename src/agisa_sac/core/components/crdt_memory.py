@@ -3,8 +3,7 @@ import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set, Tuple
-
+from typing import Any, Dict, List, Optional, Set, Tuple, DefaultDict, cast
 
 @dataclass
 class VectorClock:
@@ -332,9 +331,13 @@ class CRDTMemoryLayer:
             return
         scored_memories = []
         for entry_id, memory in self.memories.items():
-            time_decay = 1.0 / (
-                1.0 + (datetime.now(timezone.utc) - memory.last_accessed).days
-            )
+            if memory.last_accessed:
+                time_decay = 1.0 / (
+                    1.0 + (datetime.now(timezone.utc) - memory.last_accessed).days
+                )
+            else:
+                time_decay = 1.0
+
             score = memory.importance_score * time_decay * memory.access_count
             scored_memories.append((score, entry_id))
         scored_memories.sort(reverse=True)
@@ -397,7 +400,7 @@ class CRDTMemoryLayer:
     def get_memory_statistics(self) -> Dict[str, Any]:
         if not self.memories:
             return {"total_memories": 0}
-        memory_types = defaultdict(int)
+        memory_types: DefaultDict[str, int] = defaultdict(int)
         importance_scores = []
         access_counts = []
         for memory in self.memories.values():

@@ -12,12 +12,12 @@ This module implements a production-ready agent system with:
 import asyncio
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast, TYPE_CHECKING, Union
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
     from opentelemetry import trace
-    from opentelemetry.trace import Status, StatusCode
+    from opentelemetry.trace import Status as TraceStatus, StatusCode as TraceStatusCode
 
     HAS_GCP = True
 except ImportError:
@@ -31,30 +31,32 @@ except ImportError:
         """Stub firestore module for test patching compatibility."""
         class Client:
             """Stub Client class for patching."""
-            def __init__(self, *args, **kwargs):
+            def __init__(self, *args: Any, **kwargs: Any) -> None:
                 pass
 
-    firestore = _FirestoreStub()
+            SERVER_TIMESTAMP = "SERVER_TIMESTAMP"
+
+    firestore = _FirestoreStub()  # type: ignore
 
     # Mock trace module
     class _MockTrace:
         @staticmethod
-        def get_current_span():
+        def get_current_span() -> Any:
             class _MockCurrentSpan:
-                def set_status(self, status):
+                def set_status(self, status: Any) -> None:
                     pass
-                def record_exception(self, e):
+                def record_exception(self, e: BaseException) -> None:
                     pass
             return _MockCurrentSpan()
 
     trace = _MockTrace()
 
     # Mock Status and StatusCode
-    class Status:
-        def __init__(self, status_code, description=""):
+    class TraceStatus:  # type: ignore
+        def __init__(self, status_code: Any, description: str = "") -> None:
             pass
 
-    class StatusCode:
+    class TraceStatusCode:  # type: ignore
         OK = "ok"
         ERROR = "error"
 
@@ -75,28 +77,28 @@ else:
     class MockSpan:
         """Mock span for when OpenTelemetry is not available"""
 
-        def set_attribute(self, key: str, value: Any):
+        def set_attribute(self, key: str, value: Any) -> None:
             pass
 
-        def set_status(self, status):
+        def set_status(self, status: Any) -> None:
             pass
 
-        def record_exception(self, e):
+        def record_exception(self, e: BaseException) -> None:
             pass
 
-        def __enter__(self):
+        def __enter__(self) -> "MockSpan":
             return self
 
-        def __exit__(self, *args):
+        def __exit__(self, *args: Any) -> None:
             pass
 
     class MockTracer:
         """Mock tracer for when OpenTelemetry is not available"""
 
-        def start_as_current_span(self, name):
+        def start_as_current_span(self, name: str) -> MockSpan:
             return MockSpan()
 
-    tracer = MockTracer()
+    tracer = MockTracer()  # type: ignore
 
 
 class ResourceBudget:
@@ -112,7 +114,7 @@ class ResourceBudget:
         max_tokens_per_min: int = 10000,
         max_tools_per_min: int = 50,
         max_cost_per_day: float = 10.0,
-    ):
+    ) -> None:
         self.max_tokens_per_min = max_tokens_per_min
         self.max_tools_per_min = max_tools_per_min
         self.max_cost_per_day = max_cost_per_day
@@ -127,9 +129,9 @@ class ResourceBudget:
         """Check if token budget allows the request"""
         self._clean_token_window()
         current = sum(t[1] for t in self._token_window)
-        return (current + count) <= self.max_tokens_per_min
+        return bool((current + count) <= self.max_tokens_per_min)
 
-    def consume_tokens(self, count: int):
+    def consume_tokens(self, count: int) -> None:
         """Consume token budget"""
         self._token_window.append((datetime.now(), count))
 
@@ -138,7 +140,7 @@ class ResourceBudget:
         self._clean_tool_window()
         return len(self._tool_window) < self.max_tools_per_min
 
-    def consume_tool(self):
+    def consume_tool(self) -> None:
         """Consume tool budget"""
         self._tool_window.append(datetime.now())
 
@@ -147,21 +149,21 @@ class ResourceBudget:
         self._reset_daily_if_needed()
         return (self._daily_cost + estimated_cost) <= self.max_cost_per_day
 
-    def consume_cost(self, cost: float):
+    def consume_cost(self, cost: float) -> None:
         """Consume cost budget"""
         self._daily_cost += cost
 
-    def _clean_token_window(self):
+    def _clean_token_window(self) -> None:
         """Remove expired token entries"""
         cutoff = datetime.now() - timedelta(minutes=1)
         self._token_window = [(t, c) for t, c in self._token_window if t > cutoff]
 
-    def _clean_tool_window(self):
+    def _clean_tool_window(self) -> None:
         """Remove expired tool entries"""
         cutoff = datetime.now() - timedelta(minutes=1)
         self._tool_window = [t for t in self._tool_window if t > cutoff]
 
-    def _reset_daily_if_needed(self):
+    def _reset_daily_if_needed(self) -> None:
         """Reset daily budget if new day"""
         today = datetime.now().date()
         if today > self._day_start:
@@ -196,7 +198,7 @@ class AGISAAgent:
         context_bucket: Optional[str] = None,
         handoff_offers_topic: Optional[str] = None,
         tool_invocations_topic: Optional[str] = None,
-    ):
+    ) -> None:
         """
         Initialize the AGISA agent.
 
@@ -236,9 +238,9 @@ class AGISAAgent:
         self.tool_invocations_topic = tool_invocations_topic or "agents.tool.invocations.v1"
 
         # State tracking
-        self.interaction_history: List[Dict] = []
-        self.persistence_diagram = None
-        self.handoff_targets: List[Dict] = []
+        self.interaction_history: List[Dict[str, Any]] = []
+        self.persistence_diagram: Optional[Any] = None
+        self.handoff_targets: List[Dict[str, Any]] = []
         self.guardrails: List[Any] = []
 
         # GCP clients
@@ -253,7 +255,7 @@ class AGISAAgent:
         # Register agent profile in Firestore
         self._register_profile()
 
-    def _register_profile(self):
+    def _register_profile(self) -> None:
         """Store static agent profile in Firestore"""
         self.db.collection("agents").document(self.agent_id).set(
             {
@@ -265,7 +267,7 @@ class AGISAAgent:
             }
         )
 
-    def _refill_broadcast_bucket(self):
+    def _refill_broadcast_bucket(self) -> None:
         """Token bucket for broadcast rate limiting"""
         now = datetime.now()
         elapsed = (now - self._broadcast_refill).total_seconds()
@@ -276,13 +278,13 @@ class AGISAAgent:
 
     def categorize_tools(self) -> Dict[ToolType, List[Tool]]:
         """Group tools by type"""
-        categorized = {ToolType.DATA: [], ToolType.ACTION: [], ToolType.ORCHESTRATION: []}
+        categorized: Dict[ToolType, List[Tool]] = {ToolType.DATA: [], ToolType.ACTION: [], ToolType.ORCHESTRATION: []}
         for tool in self.tools.values():
             categorized[tool.type].append(tool)
         return categorized
 
     async def run(
-        self, input_message: str, context: Optional[Dict] = None
+        self, input_message: str, context: Optional[Dict[str, Any]] = None
     ) -> LoopResult:
         """
         Main execution with guardrails, tracing, and resource checks.
@@ -317,7 +319,7 @@ class AGISAAgent:
                 for guardrail in self.guardrails:
                     result = await guardrail.check_input(input_message, context)
                     if not result.get("passed", True):
-                        span.set_status(Status(StatusCode.ERROR, "Guardrail blocked"))
+                        span.set_status(TraceStatus(TraceStatusCode.ERROR, "Guardrail blocked"))
                         return await self._handle_guardrail_violation(result, run_ref)
 
                 # Track interaction for topology
@@ -354,13 +356,13 @@ class AGISAAgent:
 
                 span.set_attribute("run.iterations", loop_result.iterations)
                 span.set_attribute("run.tokens", loop_result.total_tokens)
-                span.set_status(Status(StatusCode.OK))
+                span.set_status(TraceStatus(TraceStatusCode.OK))
 
                 return loop_result
 
             except Exception as e:
                 span.record_exception(e)
-                span.set_status(Status(StatusCode.ERROR, str(e)))
+                span.set_status(TraceStatus(TraceStatusCode.ERROR, str(e)))
                 run_ref.update(
                     {
                         "end_ts": firestore.SERVER_TIMESTAMP,
@@ -370,7 +372,7 @@ class AGISAAgent:
                 )
                 raise
 
-    async def _execute_loop(self, message: str, context: Dict) -> LoopResult:
+    async def _execute_loop(self, message: str, context: Dict[str, Any]) -> LoopResult:
         """
         Deterministic loop with explicit exit conditions.
 
@@ -384,7 +386,7 @@ class AGISAAgent:
         max_iterations = 20
         total_tokens = 0
         tool_calls_count = 0
-        errors = []
+        errors: List[str] = []
 
         for iteration in range(max_iterations):
             with tracer.start_as_current_span("agent_loop_iteration") as span:
@@ -479,7 +481,7 @@ class AGISAAgent:
             errors=["Maximum iterations exceeded"],
         )
 
-    async def _emit_handoff_offer(self, model_out: Dict, context: Dict):
+    async def _emit_handoff_offer(self, model_out: Dict[str, Any], context: Dict[str, Any]) -> None:
         """Publish handoff offer to Pub/Sub"""
         # Upload context to GCS
         context_uri = await self._upload_context_to_gcs(context)
@@ -505,7 +507,7 @@ class AGISAAgent:
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None, future.result)
 
-    async def _upload_context_to_gcs(self, context: Dict) -> str:
+    async def _upload_context_to_gcs(self, context: Dict[str, Any]) -> str:
         """Store context in GCS for handoff"""
         import json
 
@@ -519,7 +521,7 @@ class AGISAAgent:
 
         return f"gs://{self.context_bucket}/{blob_name}"
 
-    async def _publish_to_workspace(self, result: LoopResult, context: Dict):
+    async def _publish_to_workspace(self, result: LoopResult, context: Dict[str, Any]) -> None:
         """Publish to global workspace with rate limiting"""
         self._refill_broadcast_bucket()
 
@@ -550,26 +552,26 @@ class AGISAAgent:
 
         self._broadcast_tokens -= 1
 
-    def _record_interaction(self, interaction: Dict):
+    def _record_interaction(self, interaction: Dict[str, Any]) -> None:
         """Record for topology analysis"""
         self.interaction_history.append(interaction)
         # Keep window manageable
         if len(self.interaction_history) > 1000:
             self.interaction_history = self.interaction_history[-500:]
 
-    async def _call_model(self, message: str, context: Dict) -> Dict:
+    async def _call_model(self, message: str, context: Dict[str, Any]) -> Dict[str, Any]:
         """Call LLM (placeholder - implement with actual LLM client)"""
         # This would be implemented with actual LLM API calls
         llm_client = context.get("llm_client")
         if llm_client:
-            return await llm_client({"model": self.model, "messages": [message]})
+            return cast(Dict[str, Any], await llm_client({"model": self.model, "messages": [message]}))
         return {"content": "Not implemented", "done": True}
 
-    def _should_exit(self, response: Dict) -> bool:
+    def _should_exit(self, response: Dict[str, Any]) -> bool:
         """Check if response indicates completion"""
         return response.get("done") is True or response.get("final_output") is not None
 
-    async def _execute_tool(self, tool_name: str, args: Dict, context: Dict) -> Dict:
+    async def _execute_tool(self, tool_name: str, args: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
         """Execute tool with risk checks"""
         if tool_name not in self.tools:
             return {"ok": False, "error": f"Tool {tool_name} not found"}
@@ -597,7 +599,7 @@ class AGISAAgent:
         except Exception as e:
             return {"ok": False, "error": str(e)}
 
-    def _format_tool_results(self, results: List[Dict]) -> str:
+    def _format_tool_results(self, results: List[Dict[str, Any]]) -> str:
         """Format tool results for next iteration"""
         formatted = []
         for r in results:
@@ -608,7 +610,7 @@ class AGISAAgent:
         return "\n".join(formatted)
 
     async def _handle_guardrail_violation(
-        self, result: Dict, run_ref
+        self, result: Dict[str, Any], run_ref: Any
     ) -> LoopResult:
         """Handle guardrail block"""
         event_id = str(uuid.uuid4())
@@ -643,7 +645,7 @@ class AGISAAgent:
             errors=[f"Guardrail: {result.get('reason')}"],
         )
 
-    def add_handoff(self, target_agent: "AGISAAgent"):
+    def add_handoff(self, target_agent: "AGISAAgent") -> None:
         """Register potential handoff target"""
         self.handoff_targets.append(
             {

@@ -8,7 +8,7 @@ Implements three core circuits based on action-observation coupling research:
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 import numpy as np
 
@@ -235,7 +235,7 @@ class EmpathyCircuit:
             situational_salience = emotional_context.get("salience", 0.5)
             resonance_raw *= (0.7 + 0.3 * shared_attention * situational_salience)
 
-        resonance = np.clip(resonance_raw, 0.0, 1.0)
+        resonance = float(np.clip(resonance_raw, 0.0, 1.0))
 
         # Confidence based on signal quality
         confidence = 0.5 + 0.5 * other_arousal
@@ -267,4 +267,4 @@ class EmpathyCircuit:
         if not self.affective_memory:
             return 0.0
         recent = self.affective_memory[-window:]
-        return np.mean([a.activation_level for a in recent])
+        return float(np.mean([a.activation_level for a in recent]))

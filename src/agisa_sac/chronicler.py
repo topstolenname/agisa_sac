@@ -1,9 +1,10 @@
 import time
 from dataclasses import asdict, dataclass
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 
 if TYPE_CHECKING:
     from agisa_sac.agents.agent import EnhancedAgent
+    from agisa_sac.core.components.memory import MemoryContinuumLayer
 
 
 @dataclass
@@ -24,10 +25,18 @@ class ResonanceChronicler:
 
     def record_epoch(self, agent: "EnhancedAgent", epoch: int) -> None:
         """Record state information from an agent for the given epoch."""
-        try:
-            theme = agent.memory.get_current_focus_theme()
-        except Exception:
-            theme = None
+        theme = None
+        # Check if memory has get_current_focus_theme (it does in MemoryContinuumLayer)
+        if hasattr(agent.memory, "get_current_focus_theme"):
+             try:
+                 # We can safely cast here since we checked hasattr, or rely on runtime
+                 # But for mypy with Union, we might need explicit cast if the other type doesn't have it
+                 # Assuming MemoryContinuumLayer has it.
+                 # We can try to cast to MemoryContinuumLayer if we are sure, or just use getattr
+                 theme = getattr(agent.memory, "get_current_focus_theme")()
+             except Exception:
+                 theme = None
+
         state = (
             list(agent.cognitive.cognitive_state)
             if hasattr(agent, "cognitive")
@@ -51,7 +60,7 @@ class ResonanceChronicler:
 
     def export_to_bigquery(self, table_id: str) -> None:
         """Export stored lineages to a BigQuery table."""
-        from .gcp.bigquery_client import insert_rows
+        from .gcp.bigquery_client import insert_rows  # type: ignore
 
         rows = []
         for aid, entries in self.lineages.items():

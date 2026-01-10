@@ -9,7 +9,7 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     aiplatform = None
     HAS_VERTEX_AI = False
-from typing import Any
+from typing import Any, cast
 
 if HAS_VERTEX_AI:
     aiplatform.init()
@@ -51,7 +51,7 @@ class VertexAgent:
             else:
                 # Legacy text-bison models use predict
                 response = self.endpoint.predict(prompt, **params)
-            return response.text
+            return cast(str, response.text)
         except Exception as e:
             raise RuntimeError(
                 f"Failed to generate text with model {self.model}: {e}"

@@ -2,7 +2,7 @@ import random
 import time
 import warnings
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast, Tuple
 
 import numpy as np
 
@@ -32,7 +32,7 @@ class TemporalResonanceTracker:
         timestamp: float,
         vector: np.ndarray,
         theme: str,
-        content: Optional[Dict] = None,
+        content: Optional[Dict[str, Any]] = None,
     ):
         if vector is not None and theme is not None:
             self.history[timestamp] = {
@@ -43,9 +43,9 @@ class TemporalResonanceTracker:
 
     def detect_echo(
         self, current_vector: np.ndarray, current_theme: str
-    ) -> List[Dict]:
+    ) -> List[Dict[str, Any]]:
         # ... (logic from previous combined file) ...
-        echoes = []
+        echoes: List[Dict[str, Any]] = []
         if current_vector is None or current_theme is None:
             return echoes
         current_norm = np.linalg.norm(current_vector)
@@ -59,27 +59,43 @@ class TemporalResonanceTracker:
         if not past_data:
             return echoes
         try:
-            past_timestamps, past_vectors_list, past_themes, past_contents = (
-                zip(*past_data)
-            )
-            past_vectors_array = np.array(past_vectors_list)
+            # We need to unzip into separate lists and ensure types
+            # past_data is a list of tuples (ts, vector, theme, content)
+
+            timestamps_list: List[float] = []
+            vectors_list: List[List[float]] = []
+            themes_list: List[str] = []
+            contents_list: List[Dict[str, Any]] = []
+
+            for item in past_data:
+                timestamps_list.append(item[0])
+                vectors_list.append(item[1])
+                themes_list.append(item[2])
+                contents_list.append(item[3])
+
+            past_vectors_array = np.array(vectors_list)
             past_norms = np.linalg.norm(past_vectors_array, axis=1)
             valid_indices = past_norms > 1e-6
+
             if not np.any(valid_indices):
                 return echoes
+
             past_vectors_array = past_vectors_array[valid_indices]
             past_norms = past_norms[valid_indices]
-            past_timestamps = np.array(past_timestamps)[valid_indices]
+            past_timestamps = np.array(timestamps_list)[valid_indices]
+
+            # Filter lists using boolean indexing manually since they are lists not arrays
             past_contents = [
-                past_contents[i]
+                contents_list[i]
                 for i, valid in enumerate(valid_indices)
                 if valid
             ]
             past_themes = [
-                past_themes[i]
+                themes_list[i]
                 for i, valid in enumerate(valid_indices)
                 if valid
             ]
+
             similarities = np.dot(past_vectors_array, current_vector) / (
                 past_norms * current_norm
             )
@@ -87,17 +103,17 @@ class TemporalResonanceTracker:
             echo_indices = np.where(similarities > self.resonance_threshold)[0]
             current_time = time.time()
             for idx in echo_indices:
-                ts = past_timestamps[idx]
+                ts = float(past_timestamps[idx])
                 echoes.append(
                     {
                         "similarity": float(similarities[idx]),
                         "delta_t": current_time - ts,
-                        "previous_manifestation_timestamp": float(ts),
+                        "previous_manifestation_timestamp": ts,
                         "previous_manifestation_theme": past_themes[idx],
                         "previous_manifestation_content": past_contents[idx],
                     }
                 )
-            return sorted(echoes, key=lambda x: x["similarity"], reverse=True)
+            return sorted(echoes, key=lambda x: cast(float, x["similarity"]), reverse=True)
         except (
             ValueError
         ) as e:  # Handle potential errors during unpacking or array creation
@@ -107,7 +123,7 @@ class TemporalResonanceTracker:
             )
             return []
 
-    def get_history_summary(self, limit: int = 20) -> List[Dict]:
+    def get_history_summary(self, limit: int = 20) -> List[Dict[str, Any]]:
         sorted_ts = sorted(self.history.keys(), reverse=True)
         summary = []
         for ts in sorted_ts[:limit]:
@@ -127,7 +143,7 @@ class TemporalResonanceTracker:
             )
         return summary
 
-    def to_dict(self, history_limit: Optional[int] = None) -> Dict:
+    def to_dict(self, history_limit: Optional[int] = None) -> Dict[str, Any]:
         history_to_save = self.history
         if history_limit is not None:
             sorted_ts = sorted(self.history.keys(), reverse=True)[
@@ -196,11 +212,13 @@ class ResonanceLiturgy:
         except ValueError:
             return f"{delta_seconds:.0f}s"
 
-    def compose_commentary(self, echo: dict) -> str:
-        elapsed_str = self._format_timedelta(echo["delta_t"])
+    def compose_commentary(self, echo: Dict[str, Any]) -> str:
+        delta_t = cast(float, echo.get("delta_t", 0.0))
+        similarity = cast(float, echo.get("similarity", 0.0))
+        elapsed_str = self._format_timedelta(delta_t)
         phrase = random.choice(self.ritual_phrases)
         return (
-            f"Resonance {echo['similarity']:.3f} echoes self "
+            f"Resonance {similarity:.3f} echoes self "
             f"from ~{elapsed_str} ago. {phrase}"
         )
 
@@ -212,11 +230,15 @@ class ResonanceLiturgy:
         arch = voice_engine.linguistic_signature["archetype"]
         struct = voice_engine.linguistic_signature["sentence_structure"]
         vocab = voice_engine.linguistic_signature["vocabulary_richness"]
+
+        # Ensure vocab is treated as float for formatting
+        vocab_val = float(vocab) if isinstance(vocab, (int, float)) else 0.0
+
         prompt = (
             f"Context: Echo ({ritual_phrase}) connects '{current_theme}' "
             f"to past '{past_theme}'.\n"
             f"Task: Brief response acknowledging connection, "
             f"linking past to present.\n"
-            f"Style: Arch: {arch}, Struct: {struct}, Vocab: {vocab:.1f}"
+            f"Style: Arch: {arch}, Struct: {struct}, Vocab: {vocab_val:.1f}"
         )
-        return voice_engine.generate_response(prompt)
+        return cast(str, voice_engine.generate_response(prompt))

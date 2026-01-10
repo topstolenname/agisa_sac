@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 # Dependency check
 try:
-
+    from sklearn.cluster import KMeans  # type: ignore
     HAS_SKLEARN = True
 except ImportError:
     HAS_SKLEARN = False
@@ -42,3 +42,7 @@ def cluster_archetypes(
             "Cannot cluster archetypes: scikit-learn not installed.",
             RuntimeWarning,
         )
+        return None
+
+    # Placeholder implementation to satisfy return type
+    return None

@@ -2,7 +2,7 @@ import json
 import random
 import time
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, cast
 
 import numpy as np
 
@@ -19,6 +19,7 @@ try:
     from ..utils.message_bus import MessageBus
     from ..utils.metrics import get_metrics
     from .components.social import DynamicSocialGraph
+    from .components.memory import MemoryContinuumLayer
 
     # Check optional dependencies status (assuming defined in __init__ or config)
     # from . import HAS_CUPY, HAS_SENTENCE_TRANSFORMER
@@ -64,7 +65,7 @@ class SimulationOrchestrator:
 
         self.current_epoch = 0
         self.is_running = False
-        self.simulation_start_time = None
+        self.simulation_start_time: Optional[float] = None
         self.hooks: Dict[str, List[Callable]] = defaultdict(list)
 
         # Initialize metrics collection
@@ -114,7 +115,7 @@ class SimulationOrchestrator:
     # ... (register_hook, _trigger_hooks, run_epoch, run_simulation,
     # inject_protocol, get_summary_metrics methods as defined in
     # agisa_orchestrator_serialization_v1) ...
-    def register_hook(self, hook_point: str, callback: Callable):
+    def register_hook(self, hook_point: str, callback: Callable) -> None:
         valid_hooks = {
             "pre_epoch",
             "post_epoch",
@@ -135,7 +136,7 @@ class SimulationOrchestrator:
             f"Registered hook '{callback.__name__}' for '{hook_point}'"
         )
 
-    def _trigger_hooks(self, hook_point: str, **kwargs):
+    def _trigger_hooks(self, hook_point: str, **kwargs: Any) -> None:
         if hook_point in self.hooks:
             for callback in self.hooks[hook_point]:
                 try:
@@ -148,7 +149,7 @@ class SimulationOrchestrator:
                         exc_info=True,
                     )
 
-    def run_epoch(self):
+    def run_epoch(self) -> None:
         if not self.is_running:
             logger.warning(
                 "Attempted to run epoch but simulation is not running"
@@ -255,7 +256,7 @@ class SimulationOrchestrator:
 
     def run_simulation(
         self, num_epochs: Optional[int] = None
-    ):  # Allow overriding num_epochs
+    ) -> Dict[str, Any]:  # Allow overriding num_epochs
         run_epochs = num_epochs if num_epochs is not None else self.num_epochs
         if run_epochs <= 0:
             logger.warning("No epochs to run (run_epochs <= 0)")
@@ -279,7 +280,7 @@ class SimulationOrchestrator:
             self.current_epoch = epoch
             self.run_epoch()
         self.is_running = False
-        total_duration = time.perf_counter() - self.simulation_start_time
+        total_duration = time.perf_counter() - cast(float, self.simulation_start_time)
         logger.info(
             f"Simulation run complete: {run_epochs} epochs "
             f"in {total_duration:.2f} seconds "
@@ -296,7 +297,7 @@ class SimulationOrchestrator:
             "duration": total_duration,
         }
 
-    def inject_protocol(self, protocol_name: str, parameters: Dict):
+    def inject_protocol(self, protocol_name: str, parameters: Dict) -> None:
         # ... (logic as defined in agisa_orchestrator_protocol_v1) ...
         logger.info(
             f"Injecting protocol '{protocol_name}' with parameters: {parameters}"
@@ -337,17 +338,20 @@ class SimulationOrchestrator:
                     agent.cognitive.heuristics = np.clip(
                         agent.cognitive.heuristics, 0.1, 0.9
                     )
-                    agent.memory.add_memory(
-                        content={
-                            "type": "divergence_seed",
-                            "source": "SYS_PROTO",
-                            "text": counter_narrative,
-                            "theme": narrative_theme,
-                            "timestamp": time.time(),
-                        },
-                        importance=narrative_importance,
-                    )
-                    modified_count += 1
+
+                    # Safe check and cast for MemoryContinuumLayer to access add_memory
+                    if hasattr(agent.memory, "add_memory"):
+                        cast(MemoryContinuumLayer, agent.memory).add_memory(
+                            content={
+                                "type": "divergence_seed",
+                                "source": "SYS_PROTO",
+                                "text": counter_narrative,
+                                "theme": narrative_theme,
+                                "timestamp": time.time(),
+                            },
+                            importance=narrative_importance,
+                        )
+                        modified_count += 1
                 except Exception as e:
                     logger.error(
                         f"Failed to apply stress to agent "
@@ -513,7 +517,7 @@ class SimulationOrchestrator:
             logger.debug(
                 f"Selecting {selected_count} agents ({percentage*100:.1f}%) for protocol"
             )
-            return self.rng.choice(agent_list, size=selected_count, replace=False).tolist()
+            return cast(List[EnhancedAgent], self.rng.choice(agent_list, size=selected_count, replace=False).tolist())
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."
         )

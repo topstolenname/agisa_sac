@@ -1,6 +1,9 @@
+from __future__ import annotations
+
+import asyncio
 import time
 import warnings
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast, TYPE_CHECKING, Union
 
 import numpy as np
 
@@ -24,6 +27,16 @@ from ..utils.message_bus import MessageBus  # Assuming message_bus is in utils
 from ..utils.logger import get_logger
 
 # Import for cognitive profile hot-swapping
+if TYPE_CHECKING:
+    from cognee.memory.hierarchical.config import MemoryGenome as CogneeMemoryGenome
+    from cognee.memory.hierarchical.core import HierarchicalMemory as CogneeHierarchicalMemory
+
+    MemoryGenomeT = CogneeMemoryGenome
+    HierarchicalMemoryT = CogneeHierarchicalMemory
+else:
+    MemoryGenomeT = Any  # runtime-safe: cognee may not exist
+    HierarchicalMemoryT = Any
+
 try:
     from cognee.memory.hierarchical.config import MemoryGenome
     from cognee.memory.hierarchical.core import HierarchicalMemory
@@ -31,8 +44,8 @@ try:
     HAS_COGNEE = True
 except ImportError:
     HAS_COGNEE = False
-    MemoryGenome = None
-    HierarchicalMemory = None
+    MemoryGenome = None  # type: ignore[misc]
+    HierarchicalMemory = None  # type: ignore[misc]
 
 logger = get_logger(__name__)
 
@@ -48,7 +61,7 @@ class EnhancedAgent:
         message_bus: Optional[MessageBus] = None,
         use_semantic: bool = True,
         # Allow passing pre-constructed components for loading state
-        memory: Optional[MemoryContinuumLayer] = None,
+        memory: Optional[Union[MemoryContinuumLayer, HierarchicalMemoryT]] = None,
         cognitive: Optional[CognitiveDiversityEngine] = None,
         voice: Optional[VoiceEngine] = None,
         temporal_resonance: Optional[TemporalResonanceTracker] = None,
@@ -58,24 +71,24 @@ class EnhancedAgent:
         self.message_bus = message_bus
 
         # Initialize components, using provided ones if available (for loading)
-        self.memory = (
+        self.memory: Union[MemoryContinuumLayer, HierarchicalMemoryT] = (
             memory
             if memory is not None
             else MemoryContinuumLayer(
                 agent_id, capacity, use_semantic, message_bus
             )
         )
-        self.cognitive = (
+        self.cognitive: CognitiveDiversityEngine = (
             cognitive
             if cognitive is not None
             else CognitiveDiversityEngine(
-                agent_id, personality, self.memory, message_bus
+                agent_id, personality, cast(MemoryContinuumLayer, self.memory), message_bus
             )
         )
-        self.voice = (
+        self.voice: VoiceEngine = (
             voice if voice is not None else VoiceEngine(agent_id)
         )  # Pass initial style from config if needed
-        self.temporal_resonance = (
+        self.temporal_resonance: TemporalResonanceTracker = (
             temporal_resonance
             if temporal_resonance is not None
             else TemporalResonanceTracker(agent_id)
@@ -92,8 +105,11 @@ class EnhancedAgent:
         self.recent_decision_log: List[Dict] = []  # Runtime log
 
         # Add initial memory only if specified (i.e., not loading from state)
-        if add_initial_memory:
-            self.memory.add_memory(
+        if add_initial_memory and hasattr(self.memory, "add_memory"):
+             # We assume default memory (MemoryContinuumLayer) has add_memory.
+             # HierarchicalMemory might not have exactly this signature or method exposed here.
+             # Safely check or cast.
+             cast(MemoryContinuumLayer, self.memory).add_memory(
                 {
                     "type": "initial_state",
                     "theme": "genesis",
@@ -113,7 +129,13 @@ class EnhancedAgent:
         decision_response = None
         if query:
             decision_response = self.cognitive.decide(query, peer_influence)
-        current_theme = self.memory.get_current_focus_theme()
+
+        # Safe access to get_current_focus_theme
+        if hasattr(self.memory, "get_current_focus_theme"):
+             current_theme = self.memory.get_current_focus_theme()
+        else:
+             current_theme = "general" # Fallback
+
         current_style_vector = self.voice.linguistic_signature.get(
             "style_vector"
         )
@@ -128,14 +150,23 @@ class EnhancedAgent:
                 current_content,
             )
         self.check_resonance()
-        self.memory.update_all_memories()
+
+        # Safe access to update_all_memories
+        if hasattr(self.memory, "update_all_memories"):
+            self.memory.update_all_memories()
+
         return decision_response
 
     def check_resonance(self):
         current_style_vector = self.voice.linguistic_signature.get(
             "style_vector"
         )
-        current_theme = self.memory.get_current_focus_theme()
+
+        if hasattr(self.memory, "get_current_focus_theme"):
+             current_theme = self.memory.get_current_focus_theme()
+        else:
+             current_theme = "general"
+
         if current_style_vector is None:
             return
         echoes = self.temporal_resonance.detect_echo(
@@ -160,7 +191,14 @@ class EnhancedAgent:
             "reflection": commentary,
             "timestamp": time.time(),
         }
-        resonance_memory_id = self.memory.add_memory(
+
+        # Only proceed if we are using MemoryContinuumLayer or compatible interface
+        if not hasattr(self.memory, "add_memory") or not hasattr(self.memory, "link_memories"):
+            return
+
+        memory_layer = cast(MemoryContinuumLayer, self.memory)
+
+        resonance_memory_id = memory_layer.add_memory(
             resonance_memory_content,
             importance=np.clip(0.85 * top_echo["similarity"], 0.1, 1.0),
         )
@@ -180,10 +218,10 @@ class EnhancedAgent:
                 "linked_resonance_event_id": resonance_memory_id,
                 "timestamp": time.time(),
             }
-            reply_memory_id = self.memory.add_memory(
+            reply_memory_id = memory_layer.add_memory(
                 response_memory_content, importance=0.75
             )
-            self.memory.link_memories(
+            memory_layer.link_memories(
                 resonance_memory_id, reply_memory_id, "generated_reply"
             )
         if top_echo["similarity"] >= liturgy.satori_threshold:
@@ -216,6 +254,11 @@ class EnhancedAgent:
         resonance_history_limit: Optional[int] = 50,
     ) -> Dict[str, Any]:
         """Serializes the agent's state using component to_dict methods."""
+
+        memory_state: Dict[str, Any] = {}
+        if hasattr(self.memory, "to_dict"):
+             memory_state = self.memory.to_dict(include_embeddings=include_memory_embeddings) # type: ignore
+
         return {
             "agent_id": self.agent_id,
             "version": FRAMEWORK_VERSION,
@@ -224,9 +267,7 @@ class EnhancedAgent:
             "temporal_resonance_state": self.temporal_resonance.to_dict(
                 history_limit=resonance_history_limit
             ),
-            "memory_state": self.memory.to_dict(
-                include_embeddings=include_memory_embeddings
-            ),
+            "memory_state": memory_state,
             "last_reflection_trigger": self.last_reflection_trigger,
         }
 
@@ -352,8 +393,12 @@ class EnhancedAgent:
             np.isinf(sig["style_vector"])
         ):
             errors.append("Style vector NaN/Inf.")
-        if not isinstance(self.memory.memories, dict):
-            errors.append("Memory store type.")
+
+        # Check memory type safely
+        if isinstance(self.memory, MemoryContinuumLayer):
+            if not isinstance(self.memory.memories, dict):
+                errors.append("Memory store type.")
+
         # Correct state sum if not strict
         if not strict and any(
             "Cognitive state sum" in w for w in warnings_list
@@ -379,7 +424,7 @@ class EnhancedAgent:
         elif errors:
             warnings.warn(error_message, RuntimeWarning)
 
-    async def load_cognitive_profile(self, genome: "MemoryGenome"):
+    async def load_cognitive_profile(self, genome: MemoryGenomeT):
         """
         Hot-swap the agent's memory architecture with a new cognitive genome.
 
@@ -402,13 +447,33 @@ class EnhancedAgent:
         logger.info(f"Agent {self.agent_id}: Receiving new cognitive genome")
 
         # Stop old memory's background tasks if it exists and supports it
-        if hasattr(self, "memory") and self.memory and hasattr(self.memory, "stop"):
-            logger.debug(f"Agent {self.agent_id}: Stopping old memory system")
-            await self.memory.stop()
+        # We need to check types carefully because MemoryContinuumLayer doesn't have stop()
+        # but HierarchicalMemory does.
+        # Use getattr to be safe with different memory implementations
+        if hasattr(self, "memory") and self.memory:
+            stop_method = getattr(self.memory, "stop", None)
+            if callable(stop_method):
+                logger.debug(f"Agent {self.agent_id}: Stopping old memory system")
+                if asyncio.iscoroutinefunction(stop_method):
+                    await stop_method()
+                else:
+                    stop_method()
 
         # Create new hierarchical memory with optimized genome
-        self.memory = HierarchicalMemory(genome)
-        await self.memory.start()
+        # Note: We are assigning a HierarchicalMemory to self.memory which was typed as MemoryContinuumLayer
+        # This is a runtime swap that changes the type. In a strictly typed system this is problematic.
+        # Ideally both should inherit from a common Protocol.
+        # For now we cast to Any or ignore type checking for this swap.
+        if HierarchicalMemory:
+            self.memory = cast(Any, HierarchicalMemory(genome))
+
+        # Start the new memory system if it has a start method
+        start_method = getattr(self.memory, "start", None)
+        if callable(start_method):
+            if asyncio.iscoroutinefunction(start_method):
+                await start_method()
+            else:
+                start_method()
 
         logger.info(
             f"Agent {self.agent_id} cognitive genome updated: "

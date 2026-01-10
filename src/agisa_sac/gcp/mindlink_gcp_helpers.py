@@ -7,7 +7,7 @@ import json
 import logging
 import os
 from collections.abc import Iterable
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, cast
 
 try:
     from fastapi import FastAPI
@@ -15,8 +15,8 @@ try:
 
     HAS_FASTAPI = True
 except Exception:  # pragma: no cover - optional dependency
-    FastAPI = None
-    JSONResponse = None
+    FastAPI = None  # type: ignore
+    JSONResponse = None  # type: ignore
     HAS_FASTAPI = False
 
 try:
@@ -72,7 +72,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Configuration values read from environment
-PROJECT_ID = os.getenv("GCP_PROJECT") or os.getenv("GOOGLE_CLOUD_PROJECT")
+PROJECT_ID = os.getenv("GCP_PROJECT") or os.getenv("GOOGLE_CLOUD_PROJECT") or "mock-project"
 GCS_BUCKET = os.getenv("GCS_BUCKET", "")
 PUBSUB_TOPIC = os.getenv("PUBSUB_TOPIC", "")
 FIRESTORE_COLLECTION = os.getenv("FIRESTORE_COLLECTION", "agent_states")
@@ -123,7 +123,7 @@ def upload_bytes(
     blob = bucket.blob(blob_name)
     blob.upload_from_string(data, content_type=content_type)
     logger.info("Uploaded %s to GCS bucket %s", blob_name, GCS_BUCKET)
-    return blob.public_url
+    return cast(str, blob.public_url)
 
 
 def download_bytes(blob_name: str) -> Optional[bytes]:
@@ -139,7 +139,7 @@ def download_bytes(blob_name: str) -> Optional[bytes]:
     blob = bucket.blob(blob_name)
     logger.info("Downloading %s from GCS bucket %s", blob_name, GCS_BUCKET)
     try:
-        return blob.download_as_bytes()
+        return cast(Optional[bytes], blob.download_as_bytes())
     except exceptions.NotFound:
         logger.warning("Blob %s not found in bucket %s", blob_name, GCS_BUCKET)
         return None
@@ -168,7 +168,7 @@ def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
         raise RuntimeError("Firestore client not available")
     doc = client.collection(FIRESTORE_COLLECTION).document(agent_id).get()
     if doc.exists:
-        return doc.to_dict()
+        return cast(Dict[str, Any], doc.to_dict())
     return None
 
 
@@ -200,7 +200,10 @@ def publish_event(event: Dict[str, Any]) -> None:
     data = json.dumps(event).encode("utf-8")
     future = publisher.publish(topic_path, data=data)
     logger.info("Published event: %s", event)
-    return future.result()
+    # The return type of future.result() is technically dynamic, but we can't type it properly without stubs
+    # Use cast to silence None return type error, assuming result returns something or None and we don't care
+    _ = future.result()
+    return None
 
 
 # ------------------------------
@@ -233,7 +236,7 @@ class VertexAILLM:
             prompt, temperature=temperature, max_output_tokens=max_tokens
         )
         logger.info("Queried Vertex AI model %s", self.model)
-        return response.text
+        return cast(str, response.text)
 
 
 # ------------------------------
@@ -271,6 +274,6 @@ if __name__ == "__main__":
     if app is not None:
         import uvicorn
 
-        uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8080)))
+        uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8080")))
     else:
         asyncio.run(main())

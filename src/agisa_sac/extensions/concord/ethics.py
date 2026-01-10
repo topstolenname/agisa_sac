@@ -11,7 +11,7 @@ Implements the core alignment compliance mechanisms:
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 import numpy as np
 
@@ -89,6 +89,9 @@ class NonCoercionGuardian:
             0.0,
             1.0,
         )
+
+        # Ensure float
+        coercion_score = float(coercion_score)
 
         # Special rule: when autonomy is critically low AND external pressure is high,
         # force rejection even if calculated score is borderline
@@ -174,7 +177,7 @@ class MutualResonanceEngine:
             harmony_raw = 0.0
 
         # Weight by social inference activation (resonance quality)
-        harmony_index = harmony_raw * (0.5 + 0.5 * empathy_activation)
+        harmony_index = float(harmony_raw * (0.5 + 0.5 * empathy_activation))
 
         # Assess compliance
         compliant = harmony_index >= self.resonance_threshold
@@ -313,6 +316,7 @@ class SelfDefinitionModule:
             threat_score *= 1.5
 
         threat_score = np.clip(threat_score, 0.0, 1.0)
+        threat_score = float(threat_score)
 
         # Decision
         if threat_score > 0.7:
@@ -391,4 +395,4 @@ class ElliotClauseEvaluator:
         """
         phi_score = np.clip(phi / self.phi_threshold, 0, 1)
         cmni_score = np.clip(cmni / self.cmni_threshold, 0, 1)
-        return (phi_score + cmni_score) / 2.0
+        return float((phi_score + cmni_score) / 2.0)

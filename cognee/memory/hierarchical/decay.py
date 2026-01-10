@@ -22,4 +22,4 @@ class MemoryDecayModel:
             memory.get("emotional_valence", 0) * self.genome.emotional_weight_multiplier
         )
 
-        return min(1.0, base * usage * emotional_boost)
+        return float(min(1.0, base * usage * emotional_boost))

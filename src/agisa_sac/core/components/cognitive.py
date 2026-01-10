@@ -1,7 +1,7 @@
 import random
 import time
 import warnings
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 
 import numpy as np
 
@@ -186,7 +186,7 @@ class CognitiveDiversityEngine:
                     "cognitive_state": self.cognitive_state.tolist(),
                 },
             )
-        return response
+        return cast(str, response)
 
     def learn_from_feedback(self, decision_index: int, reward: float):
         # ... (logic from previous combined file) ...

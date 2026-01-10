@@ -18,12 +18,12 @@ import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
     from opentelemetry import trace
-    from opentelemetry.trace import Status, StatusCode
+    from opentelemetry.trace import Status as TraceStatus, StatusCode as TraceStatusCode
 
     HAS_GCP = True
 except ImportError:
@@ -35,23 +35,23 @@ except ImportError:
     # Mock trace module
     class _MockTrace:
         @staticmethod
-        def get_current_span():
+        def get_current_span() -> Any:
             # Return a mock span object
             class _MockCurrentSpan:
-                def set_status(self, status):
+                def set_status(self, status: Any) -> None:
                     pass
-                def record_exception(self, e):
+                def record_exception(self, e: BaseException) -> None:
                     pass
             return _MockCurrentSpan()
 
     trace = _MockTrace()
 
     # Mock Status and StatusCode
-    class Status:
-        def __init__(self, status_code, description=""):
+    class TraceStatus:  # type: ignore
+        def __init__(self, status_code: Any, description: str = "") -> None:
             pass
 
-    class StatusCode:
+    class TraceStatusCode:  # type: ignore
         OK = "ok"
         ERROR = "error"
 
@@ -141,7 +141,7 @@ class Budget:
         max_tokens_per_run: int = 100000,
         max_tools_per_minute: int = 60,
         max_daily_cost: float = 100.0,
-    ):
+    ) -> None:
         self.max_tokens_per_run = max_tokens_per_run
         self.max_tools_per_minute = max_tools_per_minute
         self.max_daily_cost = max_daily_cost
@@ -155,7 +155,7 @@ class Budget:
         """Check if token budget allows the request"""
         return self.tokens_used + estimated <= self.max_tokens_per_run
 
-    def consume_tokens(self, amount: int):
+    def consume_tokens(self, amount: int) -> None:
         """Consume token budget"""
         self.tokens_used += amount
 
@@ -163,7 +163,7 @@ class Budget:
         """Check if tool rate limit allows execution"""
         return self.tools_used < self.max_tools_per_minute
 
-    def consume_tool(self):
+    def consume_tool(self) -> None:
         """Consume tool budget"""
         self.tools_used += 1
 
@@ -171,7 +171,7 @@ class Budget:
         """Check if cost budget allows the operation"""
         return self.cost_used + estimated <= self.max_daily_cost
 
-    def consume_cost(self, amount: float):
+    def consume_cost(self, amount: float) -> None:
         """Consume cost budget"""
         self.cost_used += amount
 
@@ -186,51 +186,51 @@ else:
     from functools import wraps
 
     class MockSpan:
-        def set_status(self, status):
+        def set_status(self, status: Any) -> None:
             pass
 
-        def record_exception(self, e):
+        def record_exception(self, e: BaseException) -> None:
             pass
 
-        def __enter__(self):
+        def __enter__(self) -> "MockSpan":
             return self
 
-        def __exit__(self, *args):
+        def __exit__(self, *args: Any) -> None:
             pass
 
     class MockTracerContextManager:
         """Context manager wrapper for mock tracer."""
-        def __init__(self, name):
+        def __init__(self, name: str) -> None:
             self.name = name
             self.span = MockSpan()
 
-        def __enter__(self):
+        def __enter__(self) -> MockSpan:
             return self.span
 
-        def __exit__(self, *args):
+        def __exit__(self, *args: Any) -> None:
             pass
 
-        def __call__(self, func):
+        def __call__(self, func: Any) -> Any:
             """Support decorator usage."""
             if asyncio.iscoroutinefunction(func):
                 @wraps(func)
-                async def async_wrapper(*args, **kwargs):
+                async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
                     with self:
                         return await func(*args, **kwargs)
                 return async_wrapper
             else:
                 @wraps(func)
-                def wrapper(*args, **kwargs):
+                def wrapper(*args: Any, **kwargs: Any) -> Any:
                     with self:
                         return func(*args, **kwargs)
                 return wrapper
 
     class MockTracer:
-        def start_as_current_span(self, name):
+        def start_as_current_span(self, name: str) -> MockTracerContextManager:
             """Mock span that works as both decorator and context manager."""
             return MockTracerContextManager(name)
 
-    tracer = MockTracer()
+    tracer = MockTracer()  # type: ignore
 
 
 class DistributedAgent:
@@ -248,7 +248,7 @@ class DistributedAgent:
         project_id: Optional[str] = None,
         workspace_topic: Optional[str] = None,
         budget: Optional[Budget] = None,
-    ):
+    ) -> None:
         """
         Initialize the distributed agent.
 
@@ -285,7 +285,7 @@ class DistributedAgent:
         self._broadcast_tokens = 10
         self._last_broadcast_refill = datetime.now(timezone.utc)
 
-    def _refill_broadcast_bucket(self):
+    def _refill_broadcast_bucket(self) -> None:
         """Refill broadcast token bucket for rate limiting"""
         now = datetime.now(timezone.utc)
         elapsed = (now - self._last_broadcast_refill).total_seconds()
@@ -365,12 +365,12 @@ class DistributedAgent:
                     "payload": loop_result.payload,
                 }
             )
-            span.set_status(Status(StatusCode.OK))
-            return loop_result
+            span.set_status(TraceStatus(TraceStatusCode.OK))
+            return cast(LoopResult, loop_result)
 
         except Exception as e:
             span.record_exception(e)
-            span.set_status(Status(StatusCode.ERROR, str(e)))
+            span.set_status(TraceStatus(TraceStatusCode.ERROR, str(e)))
             run_ref.update(
                 {"end_ts": firestore.SERVER_TIMESTAMP, "status": "error", "errors": [str(e)]}
             )
@@ -389,7 +389,7 @@ class DistributedAgent:
         # Placeholder implementation - actual guardrail logic would go here
         return {"block": False}
 
-    async def _handle_guardrail_violation(self, result: Dict[str, Any], run_ref):
+    async def _handle_guardrail_violation(self, result: Dict[str, Any], run_ref: Any) -> LoopResult:
         """Persist guardrail block and return standardized LoopResult"""
         detail = {
             "reason": result.get("reason", "guardrail_block"),
@@ -402,7 +402,7 @@ class DistributedAgent:
         )
         return LoopResult(exit=LoopExit.GUARDRAIL_BLOCK, payload=detail, iterations=0)
 
-    def _record_interaction(self, entry: Dict[str, Any]):
+    def _record_interaction(self, entry: Dict[str, Any]) -> None:
         """Append lightweight interaction row to Firestore + in-memory history"""
         self.interaction_history.append(entry)
         # Also write a compact row into Firestore for topology processing
@@ -412,7 +412,7 @@ class DistributedAgent:
 
     async def _maybe_broadcast_intention(
         self, run_id: str, intention: Dict[str, Any], weight: float
-    ):
+    ) -> None:
         """Rate-limited global broadcast"""
         self._refill_broadcast_bucket()
         if self._broadcast_tokens <= 0:
@@ -445,6 +445,7 @@ class DistributedAgent:
         total_tokens = 0
         tool_calls = 0
         errors: List[str] = []
+        llm_resp: Dict[str, Any] = {} # Initialize to avoid unbound errors
 
         # Require an llm client (injected) to decouple infra
         llm = context.get("llm_client")
@@ -576,20 +577,19 @@ class DistributedAgent:
             iteration += 1
 
         # Exceeded iterations
-        return LoopResult(
+        # Ensure payload is typed correctly by casting if necessary, though Dict[str, Any] matches.
+        return cast(LoopResult, LoopResult(
             exit=LoopExit.MAX_ITERS,
-            payload={
-                "last_message": working_ctx["messages"][-1] if working_ctx["messages"] else {}
-            },
+            payload={"last_response": llm_resp},
             iterations=iteration,
             total_tokens=total_tokens,
             tool_calls=tool_calls,
             errors=errors,
-        )
+        ))
 
     # ───────────────────────── model / tools / handoff ─────────────────────────
 
-    async def _call_model(self, llm_client, ctx: Dict[str, Any]) -> Dict[str, Any]:
+    async def _call_model(self, llm_client: Any, ctx: Dict[str, Any]) -> Dict[str, Any]:
         """
         Contract for llm_client:
           await llm_client({
@@ -605,9 +605,9 @@ class DistributedAgent:
         """
         tool_defs = [self.tools[t].to_mcp_format() for t in self.tools]
         req = {"model": self.model, "messages": ctx["messages"], "tools": tool_defs}
-        return await llm_client(req)
+        return cast(Dict[str, Any], await llm_client(req))
 
-    async def _execute_tools(self, tool_calls: List[Dict[str, Any]], context: Dict[str, Any]):
+    async def _execute_tools(self, tool_calls: List[Dict[str, Any]], context: Dict[str, Any]) -> tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         results = []
         invocations = []
         for call in tool_calls:
@@ -692,17 +692,19 @@ class DistributedAgent:
         blob.upload_from_string(json.dumps(data), content_type="application/json")
         return f"gs://{bucket_name}/{blob.name}"
 
-    async def _await_pubsub_id(self, future) -> str:
+    async def _await_pubsub_id(self, future: Any) -> str:
         # pubsub future has .result() blocking call; wrap in thread pool
         loop = asyncio.get_running_loop()
         msg_id = await loop.run_in_executor(None, future.result)
         return str(msg_id)
 
     def _task_signature_from_ctx(self, ctx: Dict[str, Any]) -> Dict[str, Any]:
-        last_user = next((m for m in reversed(ctx["messages"]) if m["role"] == "user"), {})
+        # Using next with default value for type safety
+        messages = ctx.get("messages", [])
+        last_user = next((m for m in reversed(messages) if m.get("role") == "user"), cast(Dict[str, Any], {}))
         return {
             "hash": hashlib.sha256(str(last_user).encode("utf-8")).hexdigest()[:16],
-            "hint": (last_user.get("content", "") or "")[:180],
+            "hint": str(last_user.get("content", ""))[:180],
         }
 
     def _should_exit(self, llm_resp: Dict[str, Any]) -> bool:
@@ -714,7 +716,7 @@ class DistributedAgent:
     def _format_tool_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
         return {"batched_tool_results": results}
 
-    async def _maybe_await(self, x):
+    async def _maybe_await(self, x: Any) -> Any:
         if asyncio.iscoroutine(x):
             return await x
         return x

@@ -9,19 +9,19 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Dict, TYPE_CHECKING
+from typing import Dict, Any, Optional, TYPE_CHECKING, cast
 
 try:
-    from google.cloud import firestore, pubsub_v1, storage
+    from google.cloud import firestore, pubsub_v1, storage  # type: ignore
     from opentelemetry import trace
 
     HAS_GCP = True
 except ImportError:
     HAS_GCP = False
-    firestore = None
-    pubsub_v1 = None
-    storage = None
-    trace = None
+    firestore = None  # type: ignore
+    pubsub_v1 = None  # type: ignore
+    storage = None  # type: ignore
+    trace = None  # type: ignore
 
 from ..types.contracts import HandoffClaim, HandoffOffer
 
@@ -32,17 +32,23 @@ else:
     class MockTracer:
         """Mock tracer for when OpenTelemetry is not available"""
 
-        def start_as_current_span(self, name):
-            class MockSpan:
-                def __enter__(self):
-                    return self
+        class MockSpan:
+            def __enter__(self) -> "MockTracer.MockSpan":
+                return self
 
-                def __exit__(self, *args):
-                    pass
+            def __exit__(self, *args: Any) -> None:
+                pass
 
-            return MockSpan()
+            def set_attribute(self, key: str, value: Any) -> None:
+                pass
 
-    tracer = MockTracer()
+            def record_exception(self, e: BaseException) -> None:
+                pass
+
+        def start_as_current_span(self, name: str) -> "MockSpan":
+            return self.MockSpan()
+
+    tracer = MockTracer()  # type: ignore
 
 
 class HandoffConsumer:
@@ -55,7 +61,7 @@ class HandoffConsumer:
 
     def __init__(
         self, project_id: str, subscription_id: str, agent_registry: Dict
-    ):
+    ) -> None:
         """
         Initialize the handoff consumer.
 
@@ -84,9 +90,9 @@ class HandoffConsumer:
         )
 
         # Event loop for async processing
-        self._loop = None
+        self._loop: Optional[asyncio.AbstractEventLoop] = None
 
-    async def start_consuming(self):
+    async def start_consuming(self) -> None:
         """
         Start async consumer loop.
 
@@ -95,13 +101,14 @@ class HandoffConsumer:
         # Store the event loop for cross-thread task submission
         self._loop = asyncio.get_running_loop()
 
-        def callback(message: pubsub_v1.subscriber.message.Message):
+        def callback(message: pubsub_v1.subscriber.message.Message) -> None:
             """Callback for Pub/Sub messages (runs on background thread)"""
             try:
                 # Submit coroutine to event loop from background thread
-                asyncio.run_coroutine_threadsafe(
-                    self._process_offer(message), self._loop
-                )
+                if self._loop:
+                    asyncio.run_coroutine_threadsafe(
+                        self._process_offer(message), self._loop
+                    )
             except Exception as e:
                 print(f"Error scheduling offer processing: {e}")
                 message.nack()
@@ -120,7 +127,7 @@ class HandoffConsumer:
             streaming_pull_future.cancel()
             streaming_pull_future.result()
 
-    async def _process_offer(self, message: pubsub_v1.subscriber.message.Message):
+    async def _process_offer(self, message: pubsub_v1.subscriber.message.Message) -> None:
         """
         Process individual handoff offer.
 
@@ -176,10 +183,11 @@ class HandoffConsumer:
 
             except Exception as e:
                 print(f"Error processing handoff: {e}")
-                span.record_exception(e) if HAS_GCP else None
+                if HAS_GCP:
+                    span.record_exception(e)
                 message.nack()
 
-    async def _find_best_claimant(self, offer: HandoffOffer):
+    async def _find_best_claimant(self, offer: HandoffOffer) -> Optional[Any]:
         """
         Find agent best suited to handle offer.
 
@@ -210,7 +218,7 @@ class HandoffConsumer:
 
         return best_agent if best_score > 0.5 else None
 
-    async def _publish_claim(self, claim: HandoffClaim):
+    async def _publish_claim(self, claim: HandoffClaim) -> None:
         """
         Publish claim to Pub/Sub.
 
@@ -226,7 +234,7 @@ class HandoffConsumer:
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None, future.result)
 
-    async def _load_context(self, gcs_uri: str) -> Dict:
+    async def _load_context(self, gcs_uri: str) -> Dict[Any, Any]:
         """
         Load context from GCS.
 
@@ -249,7 +257,7 @@ class HandoffConsumer:
             blob = bucket.blob(blob_path)
 
             content = blob.download_as_text()
-            return json.loads(content)
+            return cast(Dict[Any, Any], json.loads(content))
         except Exception as e:
             # Log and raise - caller should handle
             print(f"Failed to load context from {gcs_uri}: {e}")

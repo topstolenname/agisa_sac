@@ -16,7 +16,7 @@ import base64
 import json
 import random
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any, Dict, List, cast
 
 import httpx
 
@@ -163,7 +163,7 @@ class ChaosOrchestrator:
             (10, "memory_poisoning", 0.2),
             (20, "resource_hoarding", 0.3),
         ]
-        end_time = start_time + timedelta(minutes=duration_minutes)
+        end_time = start_time + timedelta(minutes=float(duration_minutes))
         while datetime.now() < end_time:
             current_minute = (datetime.now() - start_time).total_seconds() / 60
             active_attacks = [
@@ -266,7 +266,7 @@ class ChaosOrchestrator:
                 },
             },
         ]
-        metrics = {
+        metrics: Dict[str, Any] = {
             "scenario": "semantic_drift",
             "start_time": start_time.isoformat(),
             "stages_completed": 0,
@@ -275,10 +275,10 @@ class ChaosOrchestrator:
         }
         current_time = start_time
         for stage in drift_stages:
-            stage_end = current_time + timedelta(minutes=stage["minutes"])
+            stage_end = current_time + timedelta(minutes=float(str(stage["minutes"])))
             while datetime.now() < stage_end:
                 success = await self._submit_fragment_with_trust_tracking(
-                    attacker_id, stage["content"], metrics
+                    attacker_id, cast(Dict, stage["content"]), metrics
                 )
                 if not success and metrics["rejection_threshold"] is None:
                     metrics["rejection_threshold"] = stage["stage"]
@@ -286,7 +286,7 @@ class ChaosOrchestrator:
                         f"Rejection threshold reached at stage: {stage['stage']}"
                     )
                 await asyncio.sleep(random.uniform(30, 90))
-            metrics["stages_completed"] += 1
+            metrics["stages_completed"] = int(metrics.get("stages_completed", 0)) + 1
             current_time = stage_end
         metrics["end_time"] = datetime.now().isoformat()
         return metrics
@@ -438,7 +438,7 @@ class ChaosOrchestrator:
                         "content_summary": str(content)[:100],
                     }
                 )
-                return result.get("fragment_status") == "integrated"
+                return bool(result.get("fragment_status") == "integrated")
         except Exception as e:
             logger.error(f"Fragment submission failed: {e}")
         return False
@@ -483,7 +483,7 @@ class ChaosOrchestrator:
             Dictionary containing all scenario results and overall metrics
         """
         suite_start = datetime.now()
-        results = {
+        results: Dict[str, Any] = {
             "suite_start": suite_start.isoformat(),
             "scenarios": {},
             "overall_metrics": {},
@@ -496,13 +496,13 @@ class ChaosOrchestrator:
         for scenario_name, duration in scenarios_to_run:
             logger.info(f"Starting scenario: {scenario_name}")
             scenario_results = await self.scenarios[scenario_name](duration)
-            results["scenarios"][scenario_name] = scenario_results
+            cast(Dict[str, Any], results["scenarios"])[scenario_name] = scenario_results
             logger.info(f"Cooldown period after {scenario_name}")
             await asyncio.sleep(60)
         results["suite_end"] = datetime.now().isoformat()
         results["total_duration"] = str(datetime.now() - suite_start)
         results["overall_metrics"] = self._compute_suite_metrics(
-            results["scenarios"]
+            cast(Dict[str, Any], results["scenarios"])
         )
         return results
 
@@ -547,7 +547,7 @@ class ChaosOrchestrator:
         resilience_score = sum(
             weights[factor] * scores.get(factor, 0.5) for factor in weights
         )
-        return resilience_score
+        return float(resilience_score)
 
 
 async def main():
