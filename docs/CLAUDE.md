@@ -354,12 +354,20 @@ Ethical modules act as decorators/middleware:
 **Every stateful component MUST implement:**
 
 ```python
-from typing import Dict, Any
-from agisa_sac import FRAMEWORK_VERSION
+import warnings
+from typing import Any, Dict
 
 class MyComponent:
     def to_dict(self, **options) -> Dict[str, Any]:
         """Serialize component state to dictionary."""
+        # IMPORTANT: avoid top-level imports of FRAMEWORK_VERSION inside the package.
+        # In `src/agisa_sac/core/components/*.py`, the correct relative import is:
+        #   from ... import FRAMEWORK_VERSION
+        # and it should be done inside methods to reduce circular-import risk.
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
         return {
             "version": FRAMEWORK_VERSION,
             "state_key": self.state_value,
@@ -369,9 +377,16 @@ class MyComponent:
     @classmethod
     def from_dict(cls, data: Dict[str, Any], **context) -> "MyComponent":
         """Reconstruct component from dictionary."""
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
         # Version check
         if data.get("version") != FRAMEWORK_VERSION:
-            warnings.warn(f"Version mismatch: {data.get('version')} != {FRAMEWORK_VERSION}")
+            warnings.warn(
+                f"Version mismatch: {data.get('version')} != {FRAMEWORK_VERSION}"
+            )
 
         # Reconstruct state
         instance = cls(...)
@@ -538,9 +553,14 @@ def process_matrix(data: np.ndarray, use_gpu: bool = False):
 **Include version in serialized state:**
 
 ```python
-from agisa_sac import FRAMEWORK_VERSION
+import warnings
+from typing import Any, Dict
 
 def to_dict(self) -> Dict[str, Any]:
+    try:
+        from ... import FRAMEWORK_VERSION
+    except ImportError:
+        FRAMEWORK_VERSION = "unknown"
     return {
         "version": FRAMEWORK_VERSION,  # Always include
         # ... rest of state
@@ -548,6 +568,10 @@ def to_dict(self) -> Dict[str, Any]:
 
 @classmethod
 def from_dict(cls, data: Dict[str, Any]) -> "MyClass":
+    try:
+        from ... import FRAMEWORK_VERSION
+    except ImportError:
+        FRAMEWORK_VERSION = "unknown"
     version = data.get("version")
     if version != FRAMEWORK_VERSION:
         warnings.warn(
@@ -835,8 +859,8 @@ touch src/agisa_sac/core/components/my_component.py
 
 **2. Implement the component:**
 ```python
-from typing import Dict, Any
-from agisa_sac import FRAMEWORK_VERSION
+import warnings
+from typing import Any, Dict
 from agisa_sac.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -855,6 +879,10 @@ class MyComponent:
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize to dictionary."""
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
         return {
             "version": FRAMEWORK_VERSION,
             "param": self.param,
@@ -864,6 +892,15 @@ class MyComponent:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "MyComponent":
         """Deserialize from dictionary."""
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+        if data.get("version") != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading MyComponent v '{data.get('version')}' into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
         instance = cls(param=data["param"])
         instance.state = data["state"]
         return instance
