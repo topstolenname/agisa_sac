@@ -92,5 +92,5 @@ sequenceDiagram
 
 ## Next Steps
 
-- [Empathy & CMNI](empathy.md) - Deep dive into empathy tracking
+- [Coordination & CMNI](coordination.md) - Deep dive into coordination tracking
 - [Ethics Guardians](ethics.md) - How circuits inform ethical decisions

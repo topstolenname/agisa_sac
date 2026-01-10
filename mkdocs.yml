@@ -90,7 +90,7 @@ nav:
               - Architecture: concord/implementations/agisa-sac-2024/architecture.md
               - Circuits: concord/implementations/agisa-sac-2024/circuits.md
               - Ethics: concord/implementations/agisa-sac-2024/ethics.md
-              - Coordination & CMNI: concord/implementations/agisa-sac-2024/empathy.md
+              - Coordination & CMNI: concord/implementations/agisa-sac-2024/coordination.md
               - Continuity Thresholds: concord/implementations/agisa-sac-2024/continuity_thresholds.md
               - Integration: concord/implementations/agisa-sac-2024/integration.md
               - Observability: concord/implementations/agisa-sac-2024/observability.md

@@ -128,7 +128,7 @@ This Concord is a governance architecture for shared computational spaces where 
 
 This Concord defines normative principles for procedural legitimacy. Various research groups have explored how these principles might be operationalized:
 
-- [AGI-SAC 2024 Implementation](concord/implementations/agisa-sac-2024/) — Mirror neuron circuits and coordination proxies (exploratory, non-normative)
+- [AGI-SAC 2024 Implementation](concord/implementations/agisa-sac-2024/index.md) — Mirror neuron circuits and coordination proxies (exploratory, non-normative)
 
 These implementations are **not canonical or required**. They represent experimental approaches that may inform future work but do not constrain how legitimacy must be realized.
 

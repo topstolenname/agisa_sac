@@ -72,7 +72,7 @@ For detailed information on each component:
 
 - [Neural Circuits](circuits.md)
 - [Ethics Guardians](ethics.md)
-- [Empathy & CMNI](empathy.md)
+- [Coordination & CMNI](coordination.md)
 - [Continuity Thresholds](continuity_thresholds.md)
 
 ## Data Flow

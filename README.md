@@ -280,6 +280,24 @@ System-level validation includes:
 
 -----
 
+## Documentation
+
+### Structure
+- **[Concord of Coexistence](docs/CONCORD.md)** - Normative governance framework
+- **[Implementation Explorations](docs/concord/implementations/)** - Exploratory approaches
+
+### Contributing to Documentation
+See [Documentation Contributing Guide](docs/CONTRIBUTING_DOCS.md) for guidelines on:
+- Where to place new documentation (normative vs. exploratory)
+- Language guidelines (must vs. might)
+- Creating new implementation approaches
+- Avoiding authority ambiguity
+
+**Key Principle:** The Concord defines legitimacy. Implementations explore how
+legitimacy might be realized—and are allowed to be wrong.
+
+-----
+
 ## Contributing
 
 AGI-SAC is research infrastructure. Contributions should maintain:
