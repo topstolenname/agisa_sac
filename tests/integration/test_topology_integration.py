@@ -28,8 +28,7 @@ def mock_firestore():
     """Mock Firestore client for testing"""
     fs = MagicMock()
     (
-        fs.collection.return_value.document.return_value.get.return_value
-        .to_dict.return_value
+        fs.collection.return_value.document.return_value.get.return_value.to_dict.return_value
     ) = {
         "node_id": "test-node",
         "status": "active",
