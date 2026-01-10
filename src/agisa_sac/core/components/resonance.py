@@ -210,3 +210,45 @@ class ResonanceLiturgy:
             f"Style: Arch: {arch}, Struct: {struct}, Vocab: {vocab:.1f}"
         )
         return voice_engine.generate_response(prompt)
+
+    def to_dict(self) -> Dict:
+        """Serialize ResonanceLiturgy state."""
+        return {
+            "version": FRAMEWORK_VERSION,
+            "agent_id": self.agent_id,
+            "satori_threshold": self.satori_threshold,
+            "ritual_phrases": self.ritual_phrases.copy(),
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict, agent_id: Optional[str] = None) -> "ResonanceLiturgy":
+        """Reconstruct ResonanceLiturgy from serialized state.
+
+        Args:
+            data: Serialized state dictionary
+            agent_id: Optional agent_id override (uses data['agent_id'] if not provided)
+
+        Returns:
+            Reconstructed ResonanceLiturgy instance
+        """
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading ResonanceLiturgy v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Use provided agent_id or fall back to serialized one
+        final_agent_id = agent_id if agent_id is not None else data.get("agent_id", "unknown")
+
+        instance = cls(
+            agent_id=final_agent_id,
+            satori_threshold=data.get("satori_threshold", 0.9),
+        )
+
+        # Restore ritual phrases if they were customized
+        if "ritual_phrases" in data:
+            instance.ritual_phrases = data["ritual_phrases"]
+
+        return instance

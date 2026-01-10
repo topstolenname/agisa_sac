@@ -29,6 +29,65 @@ class SemanticProfile:
     temporal_context: Optional[np.ndarray] = None
     confidence_score: float = 1.0
 
+    def to_dict(self) -> Dict:
+        """Serialize SemanticProfile to dictionary.
+
+        Converts numpy arrays to lists for JSON compatibility.
+        """
+        # Import here to avoid circular dependencies at module level
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "text_embedding": self.text_embedding.tolist(),
+            "concept_vectors": {
+                key: vec.tolist() for key, vec in self.concept_vectors.items()
+            },
+            "ethical_signature": self.ethical_signature.tolist(),
+            "temporal_context": (
+                self.temporal_context.tolist() if self.temporal_context is not None else None
+            ),
+            "confidence_score": self.confidence_score,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> "SemanticProfile":
+        """Reconstruct SemanticProfile from dictionary.
+
+        Converts lists back to numpy arrays.
+        """
+        import warnings
+
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading SemanticProfile v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        return cls(
+            text_embedding=np.array(data["text_embedding"]),
+            concept_vectors={
+                key: np.array(vec) for key, vec in data["concept_vectors"].items()
+            },
+            ethical_signature=np.array(data["ethical_signature"]),
+            temporal_context=(
+                np.array(data["temporal_context"])
+                if data.get("temporal_context") is not None
+                else None
+            ),
+            confidence_score=data.get("confidence_score", 1.0),
+        )
+
 
 class EnhancedSemanticAnalyzer:
     """Advanced semantic coherence analysis using embeddings and concept mapping"""
@@ -307,3 +366,66 @@ class EnhancedSemanticAnalyzer:
         if semantic_distance > 0.7:
             anomalies.append("semantic_drift")
         return anomalies
+
+    def to_dict(self) -> Dict:
+        """Serialize EnhancedSemanticAnalyzer to dictionary.
+
+        Note: The SentenceTransformer model itself is NOT serialized
+        (it's too large). Instead, we serialize the model_name so it
+        can be reloaded during deserialization.
+        """
+        # Import here to avoid circular dependencies
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "model_name": self.model.get_config_dict().get("model_name", "all-MiniLM-L6-v2"),
+            "device": str(self.device),
+            "ethical_concepts": {
+                concept: embedding.tolist()
+                for concept, embedding in self.ethical_concepts.items()
+            },
+            # Note: _embedding_cache is NOT serialized - it's a runtime cache
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> "EnhancedSemanticAnalyzer":
+        """Reconstruct EnhancedSemanticAnalyzer from serialized state.
+
+        Note: This will reload the SentenceTransformer model from the
+        model_name, which requires network access and may take time.
+        """
+        import warnings
+
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading EnhancedSemanticAnalyzer v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Extract model_name and device
+        model_name = data.get("model_name", "all-MiniLM-L6-v2")
+        device_str = data.get("device", "auto")
+
+        # Create new instance (this will reload the model)
+        instance = cls(model_name=model_name, device=device_str)
+
+        # Restore ethical_concepts if they were serialized
+        # (This avoids re-encoding them)
+        if "ethical_concepts" in data:
+            instance.ethical_concepts = {
+                concept: np.array(embedding)
+                for concept, embedding in data["ethical_concepts"].items()
+            }
+
+        return instance

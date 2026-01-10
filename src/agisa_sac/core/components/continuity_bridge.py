@@ -320,6 +320,99 @@ class ContinuityBridgeProtocol:
         """Return quarantined fragments for manual review"""
         return self.quarantine_queue.copy()
 
+    def to_dict(self) -> Dict:
+        """Serialize ContinuityBridgeProtocol to dictionary."""
+        # Import here to avoid circular dependencies
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "coherence_threshold": self.coherence_threshold,
+            "memory_window_hours": int(self.memory_window.total_seconds() / 3600),
+            "identity_anchor": (
+                {
+                    "identity_hash": self.identity_anchor.identity_hash,
+                    "core_values": self.identity_anchor.core_values,
+                    "recent_memories": self.identity_anchor.recent_memories,
+                    "ethical_principles": self.identity_anchor.ethical_principles,
+                    "created_at": self.identity_anchor.created_at.isoformat(),
+                    "last_updated": self.identity_anchor.last_updated.isoformat(),
+                }
+                if self.identity_anchor
+                else None
+            ),
+            "trust_graph": self.trust_graph.copy(),
+            "quarantine_queue": [
+                {
+                    "node_id": frag.node_id,
+                    "fragment_type": frag.fragment_type,
+                    "content": frag.content,
+                    "timestamp": frag.timestamp.isoformat(),
+                    "signature": frag.signature,
+                    "trust_score": frag.trust_score,
+                }
+                for frag in self.quarantine_queue
+            ],
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> "ContinuityBridgeProtocol":
+        """Reconstruct ContinuityBridgeProtocol from serialized state."""
+        import warnings
+
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading ContinuityBridgeProtocol v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Create instance with configuration
+        instance = cls(
+            coherence_threshold=data.get("coherence_threshold", 0.8),
+            memory_window_hours=data.get("memory_window_hours", 24),
+        )
+
+        # Restore identity anchor if present
+        identity_data = data.get("identity_anchor")
+        if identity_data:
+            instance.identity_anchor = IdentityAnchor(
+                identity_hash=identity_data["identity_hash"],
+                core_values=identity_data["core_values"],
+                recent_memories=identity_data["recent_memories"],
+                ethical_principles=identity_data["ethical_principles"],
+                created_at=datetime.fromisoformat(identity_data["created_at"]),
+                last_updated=datetime.fromisoformat(identity_data["last_updated"]),
+            )
+
+        # Restore trust graph
+        instance.trust_graph = data.get("trust_graph", {}).copy()
+
+        # Restore quarantine queue
+        quarantine_data = data.get("quarantine_queue", [])
+        instance.quarantine_queue = [
+            CognitiveFragment(
+                node_id=frag_data["node_id"],
+                fragment_type=frag_data["fragment_type"],
+                content=frag_data["content"],
+                timestamp=datetime.fromisoformat(frag_data["timestamp"]),
+                signature=frag_data["signature"],
+                trust_score=frag_data["trust_score"],
+            )
+            for frag_data in quarantine_data
+        ]
+
+        return instance
+
 
 class CBPMiddleware:
     """Middleware to integrate CBP with existing API endpoints"""

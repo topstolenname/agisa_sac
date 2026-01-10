@@ -76,3 +76,45 @@ class ReflexivityLayer:
     #     shifted[2, 1] += 0.1 # Novelty -> Creative
     #     shifted[2, 2] += 0.1 # Novelty -> Balanced
     #     return np.clip(shifted, 0.1, 0.9)
+
+    def to_dict(self) -> dict:
+        """Serialize ReflexivityLayer state.
+
+        Note: ReflexivityLayer is mostly stateless - it operates through
+        the agent reference. We only serialize the agent_id to recreate
+        the reference during deserialization.
+        """
+        return {
+            "version": FRAMEWORK_VERSION,
+            "agent_id": self.agent.agent_id,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict, agent: "EnhancedAgent") -> "ReflexivityLayer":
+        """Reconstruct ReflexivityLayer from serialized state.
+
+        Args:
+            data: Serialized state dictionary
+            agent: Agent reference to attach to this layer
+
+        Returns:
+            Reconstructed ReflexivityLayer instance
+        """
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading ReflexivityLayer v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Verify agent_id matches if provided
+        serialized_agent_id = data.get("agent_id")
+        if serialized_agent_id and serialized_agent_id != agent.agent_id:
+            warnings.warn(
+                f"Agent ID mismatch: serialized '{serialized_agent_id}' "
+                f"!= provided '{agent.agent_id}'",
+                UserWarning,
+            )
+
+        return cls(agent=agent)

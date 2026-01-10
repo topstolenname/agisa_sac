@@ -287,6 +287,40 @@ class DynamicSocialGraph:
             "edge_changes": self.edge_changes_since_last_community_check,
         }
 
+    @classmethod
+    def from_dict(
+        cls,
+        data: Dict,
+        num_agents: int,
+        agent_ids: List[str],
+        use_gpu: bool = False,
+        message_bus: Optional["MessageBus"] = None,
+    ) -> "DynamicSocialGraph":
+        """Reconstruct DynamicSocialGraph from serialized state.
+
+        Args:
+            data: Serialized state dictionary from to_dict()
+            num_agents: Number of agents in the graph
+            agent_ids: List of agent IDs
+            use_gpu: Whether to use GPU acceleration
+            message_bus: Optional message bus for publishing events
+
+        Returns:
+            Reconstructed DynamicSocialGraph instance
+        """
+        # Create new instance with default initialization
+        instance = cls(
+            num_agents=num_agents,
+            agent_ids=agent_ids,
+            use_gpu=use_gpu,
+            message_bus=message_bus,
+        )
+
+        # Load the serialized state
+        instance.load_state(data)
+
+        return instance
+
     def load_state(self, state: Dict):
         """Loads state from dictionary."""
         loaded_version = state.get("version")

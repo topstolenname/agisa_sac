@@ -398,3 +398,75 @@ class CRDTMemoryLayer:
             "vector_clock": self.vector_clock.clocks,
             "node_id": self.node_id,
         }
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Serialize CRDT memory layer to dictionary.
+
+        Returns serializable state including version tracking.
+        """
+        # Import here to avoid circular dependencies
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        # Use get_sync_state() and add version
+        sync_state = self.get_sync_state()
+        sync_state["version"] = FRAMEWORK_VERSION
+
+        # Add additional non-sync state
+        sync_state["max_memory_size"] = self.max_memory_size
+        sync_state["compression_ratio"] = self.compression_ratio
+
+        return sync_state
+
+    @classmethod
+    def from_dict(
+        cls, data: Dict[str, Any], node_id: Optional[str] = None
+    ) -> "CRDTMemoryLayer":
+        """Reconstruct CRDT memory layer from serialized state.
+
+        Args:
+            data: Serialized state dictionary from to_dict()
+            node_id: Optional node_id override (uses data['node_id'] if not provided)
+
+        Returns:
+            Reconstructed CRDTMemoryLayer instance
+        """
+        import warnings
+
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading CRDTMemoryLayer v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Use provided node_id or fall back to serialized one
+        final_node_id = node_id if node_id is not None else data.get("node_id", "unknown")
+
+        # Create new instance
+        instance = cls(
+            node_id=final_node_id,
+            max_memory_size=data.get("max_memory_size", 10000),
+        )
+
+        # Restore compression ratio
+        instance.compression_ratio = data.get("compression_ratio", 1.0)
+
+        # Load the sync state (memories, vector_clock, tombstones)
+        if instance.load_sync_state(data):
+            return instance
+        else:
+            warnings.warn(
+                f"Failed to load sync state for node {final_node_id}. "
+                "Returning partially initialized instance.",
+                RuntimeWarning,
+            )
+            return instance
