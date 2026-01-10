@@ -23,7 +23,7 @@ Brief description of changes...
 
 **If this PR modifies documentation in `docs/concord/`:**
 
-- [ ] I have read [Documentation Contributing Guide](../blob/main/docs/CONTRIBUTING_DOCS.md)
+- [ ] I have read [Documentation Contributing Guide](docs/CONTRIBUTING_DOCS.md)
 - [ ] I have placed content in the correct location:
   - Normative principles → `docs/CONCORD.md`
   - Implementation approaches → `docs/concord/implementations/`

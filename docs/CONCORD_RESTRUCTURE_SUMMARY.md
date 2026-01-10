@@ -115,12 +115,12 @@ When adding new documentation:
 
 - **Files moved:** 8
 - **Files renamed:** 1 (empathy.md → coordination.md)
-- **New files created:** 4
+- **New files created:** 5
   - CHANGELOG.md
   - docs/CONTRIBUTING_DOCS.md
   - .github/workflows/docs-structure-check.yml
   - .github/PULL_REQUEST_TEMPLATE.md
-  - docs/concord/RESTRUCTURE_SUMMARY.md (this file)
+  - docs/CONCORD_RESTRUCTURE_SUMMARY.md (this file)
 - **Files modified:** 6
   - docs/CONCORD.md
   - docs/concord/implementations/agisa-sac-2024/architecture.md
@@ -135,7 +135,7 @@ When adding new documentation:
 ## Contact
 
 Questions about this restructure? See:
-- [Contributing Guide](CONTRIBUTING_DOCS.md)
+- [Contributing Guide](../CONTRIBUTING_DOCS.md)
 - [Implementation Explorations README](implementations/README.md)
 - [Main Concord Framework](../CONCORD.md)
 
