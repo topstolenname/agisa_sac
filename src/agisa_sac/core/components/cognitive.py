@@ -5,17 +5,21 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 import numpy as np
 
+# NOTE: This module sits under `agisa_sac/core/components/`.
+# Importing `agisa_sac` at module import time can create circular dependencies
+# because `agisa_sac/__init__.py` re-exports many components.
+def _get_framework_version() -> str:
+    """Fetch framework version without triggering circular imports."""
+    try:
+        from ... import FRAMEWORK_VERSION  # agisa_sac/__init__.py
+    except ImportError:
+        return "unknown"
+    return FRAMEWORK_VERSION
+
 # Relative imports for type hints
 if TYPE_CHECKING:
     from ..utils.message_bus import MessageBus
     from .memory import MemoryContinuumLayer
-
-# Import framework version
-try:
-    from .. import FRAMEWORK_VERSION
-except ImportError:
-    FRAMEWORK_VERSION = "unknown"
-
 
 class CognitiveDiversityEngine:
     """Agent's decision-making engine. Includes serialization."""
@@ -224,8 +228,9 @@ class CognitiveDiversityEngine:
 
     def to_dict(self, history_limit: int = 10) -> Dict:
         """Serializes the cognitive engine state."""
+        framework_version = _get_framework_version()
         return {
-            "version": FRAMEWORK_VERSION,
+            "version": framework_version,
             "personality": self.personality,
             "heuristics": self.heuristics.tolist(),
             "learning_rate": self.learning_rate,
@@ -243,11 +248,12 @@ class CognitiveDiversityEngine:
         message_bus: Optional["MessageBus"],
     ) -> "CognitiveDiversityEngine":
         """Reconstructs the cognitive engine from serialized data."""
+        framework_version = _get_framework_version()
         loaded_version = data.get("version")
-        if loaded_version != FRAMEWORK_VERSION:
+        if loaded_version != framework_version:
             warnings.warn(
                 f"Agent {agent_id}: Loading cognitive v "
-                f"'{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"'{loaded_version}' into v '{framework_version}'.",
                 UserWarning,
             )
         # Need to pass memory_layer and message_bus which are runtime objects

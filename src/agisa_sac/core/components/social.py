@@ -21,11 +21,13 @@ try:
 except ImportError:
     HAS_LOUVAIN = False
 
-# Import framework version
-try:
-    from .. import FRAMEWORK_VERSION
-except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+def _get_framework_version() -> str:
+    """Fetch framework version without triggering circular imports."""
+    try:
+        from ... import FRAMEWORK_VERSION  # agisa_sac/__init__.py
+    except ImportError:
+        return "unknown"
+    return FRAMEWORK_VERSION
 
 # Forward reference for MessageBus
 from typing import TYPE_CHECKING
@@ -273,10 +275,11 @@ class DynamicSocialGraph:
 
     def to_dict(self) -> Dict:
         """Returns serializable state dictionary."""
+        framework_version = _get_framework_version()
         coo = self.influence_matrix_csr.tocoo()
         matrix_state = list(zip(coo.row.tolist(), coo.col.tolist(), coo.data.tolist()))
         return {
-            "version": FRAMEWORK_VERSION,
+            "version": framework_version,
             "influence_matrix_coo": matrix_state,
             "reputation": self.reputation.tolist(),
             "last_communities": (
@@ -289,11 +292,12 @@ class DynamicSocialGraph:
 
     def load_state(self, state: Dict):
         """Loads state from dictionary."""
+        framework_version = _get_framework_version()
         loaded_version = state.get("version")
-        if loaded_version != FRAMEWORK_VERSION:
+        if loaded_version != framework_version:
             warnings.warn(
                 f"Loading social graph v '{loaded_version}' "
-                f"into v '{FRAMEWORK_VERSION}'.",
+                f"into v '{framework_version}'.",
                 UserWarning,
             )
         self.reputation = np.array(

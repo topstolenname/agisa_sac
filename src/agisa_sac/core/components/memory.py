@@ -18,11 +18,13 @@ except ImportError:
     HAS_SENTENCE_TRANSFORMER = False
     # Warning is handled within MemoryContinuumLayer __init__
 
-# Import framework version (assuming it's accessible, e.g., from top-level __init__)
-try:
-    from .. import FRAMEWORK_VERSION
-except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+def _get_framework_version() -> str:
+    """Fetch framework version without triggering circular imports."""
+    try:
+        from ... import FRAMEWORK_VERSION  # agisa_sac/__init__.py
+    except ImportError:
+        return "unknown"
+    return FRAMEWORK_VERSION
 
 # Forward reference for MessageBus if needed for type hints
 from typing import TYPE_CHECKING
@@ -467,8 +469,9 @@ class MemoryContinuumLayer:
             self._update_indices(memory_id, memory.content)
 
     def to_dict(self, include_embeddings: bool = False) -> Dict:
+        framework_version = _get_framework_version()
         return {
-            "version": FRAMEWORK_VERSION,
+            "version": framework_version,
             "agent_id": self.agent_id,
             "capacity": self.capacity,
             "use_semantic_config": self.use_semantic,
@@ -495,12 +498,13 @@ class MemoryContinuumLayer:
     def from_dict(
         cls, data: Dict[str, Any], message_bus: Optional["MessageBus"] = None
     ) -> "MemoryContinuumLayer":
+        framework_version = _get_framework_version()
         loaded_version = data.get("version")
         agent_id = data["agent_id"]
-        if loaded_version != FRAMEWORK_VERSION:
+        if loaded_version != framework_version:
             warnings.warn(
                 f"Agent {agent_id}: Loading memory v '{loaded_version}' "
-                f"into v '{FRAMEWORK_VERSION}'.",
+                f"into v '{framework_version}'.",
                 UserWarning,
             )
         instance = cls(

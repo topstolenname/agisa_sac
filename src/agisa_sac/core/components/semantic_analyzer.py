@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -40,10 +40,13 @@ class EnhancedSemanticAnalyzer:
                 "Install with: pip install torch sentence-transformers scikit-learn"
             )
 
-        self.device = torch.device(
-            "cuda" if torch.cuda.is_available() and device == "auto" else "cpu"
-        )
-        self.model = SentenceTransformer(model_name, device=self.device)
+        self.model_name = model_name
+        # Preserve the caller's intent (e.g., "auto") for round-trip fidelity.
+        self.device_preference = device
+
+        self.device = self._resolve_torch_device(device)
+        # SentenceTransformer accepts either a string or torch.device; string is safer.
+        self.model = SentenceTransformer(model_name, device=str(self.device))
         self.logger = logging.getLogger(__name__)
 
         self.ethical_concepts = self._initialize_ethical_concepts()
@@ -52,6 +55,31 @@ class EnhancedSemanticAnalyzer:
         self.logger.info(
             f"Semantic analyzer initialized with {model_name} on {self.device}"
         )
+
+    @staticmethod
+    def _resolve_torch_device(device: str) -> "torch.device":
+        """Resolve a torch device from a user-provided string.
+
+        Supports:
+        - "auto": chooses CUDA if available, otherwise CPU
+        - explicit torch device strings like "cpu", "cuda", "cuda:0"
+
+        If CUDA is requested but unavailable, falls back to CPU.
+        """
+        if device == "auto":
+            resolved = "cuda" if torch.cuda.is_available() else "cpu"
+        else:
+            resolved = str(device)
+
+        try:
+            torch_device = torch.device(resolved)
+        except Exception:
+            return torch.device("cpu")
+
+        if torch_device.type == "cuda" and not torch.cuda.is_available():
+            return torch.device("cpu")
+
+        return torch_device
 
     def _initialize_ethical_concepts(self) -> Dict[str, np.ndarray]:
         """Initialize embeddings for core ethical concepts"""
@@ -307,3 +335,80 @@ class EnhancedSemanticAnalyzer:
         if semantic_distance > 0.7:
             anomalies.append("semantic_drift")
         return anomalies
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Serialize EnhancedSemanticAnalyzer state.
+
+        Note: The SentenceTransformer model itself is not serialized.
+        We store the model name and device preference so it can be reloaded.
+        """
+        # Import locally to avoid circular imports via agisa_sac/__init__.py
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "model_name": self.model_name,
+            # Preserve the original preference ("auto" vs explicit) to keep GPU behavior.
+            "device": self.device_preference,
+            # Keep resolved device for diagnostics.
+            "resolved_device": str(self.device),
+            "ethical_concepts": {
+                concept: embedding.tolist()
+                for concept, embedding in self.ethical_concepts.items()
+            },
+            # Note: _embedding_cache is a runtime cache and is not serialized.
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "EnhancedSemanticAnalyzer":
+        """Reconstruct EnhancedSemanticAnalyzer from serialized state.
+
+        This will reload the SentenceTransformer model from the serialized model name.
+        """
+        import warnings
+
+        # Import locally to avoid circular imports via agisa_sac/__init__.py
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading EnhancedSemanticAnalyzer v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        model_name = data.get("model_name", "all-MiniLM-L6-v2")
+        device_preference = data.get("device", "auto")
+
+        # Backwards/alternate payload compatibility: if older payloads stored only
+        # a resolved CUDA device string, preserve GPU behavior by mapping to "auto".
+        if (
+            isinstance(device_preference, str)
+            and device_preference.startswith("cuda")
+            and torch is not None
+            and torch.cuda.is_available()
+        ):
+            # Keep explicit "cuda*" when CUDA is available (honored by __init__).
+            pass
+
+        instance = cls(model_name=model_name, device=device_preference)
+
+        ethical_concepts = data.get("ethical_concepts")
+        if isinstance(ethical_concepts, dict):
+            try:
+                instance.ethical_concepts = {
+                    concept: np.array(embedding)
+                    for concept, embedding in ethical_concepts.items()
+                }
+            except Exception:
+                # If loading fails, keep freshly initialized embeddings.
+                pass
+
+        return instance

@@ -6,11 +6,13 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 import numpy as np
 
-# Import framework version
-try:
-    from .. import FRAMEWORK_VERSION
-except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+def _get_framework_version() -> str:
+    """Fetch framework version without triggering circular imports."""
+    try:
+        from ... import FRAMEWORK_VERSION  # agisa_sac/__init__.py
+    except ImportError:
+        return "unknown"
+    return FRAMEWORK_VERSION
 
 # Forward reference for type hints
 if TYPE_CHECKING:
@@ -120,12 +122,13 @@ class TemporalResonanceTracker:
         return summary
 
     def to_dict(self, history_limit: Optional[int] = None) -> Dict:
+        framework_version = _get_framework_version()
         history_to_save = self.history
         if history_limit is not None:
             sorted_ts = sorted(self.history.keys(), reverse=True)[:history_limit]
             history_to_save = {ts: self.history[ts] for ts in sorted_ts}
         return {
-            "version": FRAMEWORK_VERSION,
+            "version": framework_version,
             "resonance_threshold": self.resonance_threshold,
             "history": history_to_save,
         }
@@ -134,11 +137,12 @@ class TemporalResonanceTracker:
     def from_dict(
         cls, data: Dict[str, Any], agent_id: str
     ) -> "TemporalResonanceTracker":
+        framework_version = _get_framework_version()
         loaded_version = data.get("version")
-        if loaded_version != FRAMEWORK_VERSION:
+        if loaded_version != framework_version:
             warnings.warn(
                 f"Agent {agent_id}: Loading resonance v "
-                f"'{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"'{loaded_version}' into v '{framework_version}'.",
                 UserWarning,
             )
         instance = cls(
