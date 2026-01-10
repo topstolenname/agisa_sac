@@ -3,11 +3,13 @@ from typing import Any, Dict, Optional
 
 import numpy as np
 
-# Import framework version
-try:
-    from .. import FRAMEWORK_VERSION
-except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+def _get_framework_version() -> str:
+    """Fetch framework version without triggering circular imports."""
+    try:
+        from ... import FRAMEWORK_VERSION  # agisa_sac/__init__.py
+    except ImportError:
+        return "unknown"
+    return FRAMEWORK_VERSION
 
 
 class VoiceEngine:
@@ -78,19 +80,21 @@ class VoiceEngine:
 
     def to_dict(self) -> Dict:
         """Serializes the voice engine state."""
+        framework_version = _get_framework_version()
         sig = self.linguistic_signature.copy()
         if "style_vector" in sig and isinstance(sig["style_vector"], np.ndarray):
             sig["style_vector"] = sig["style_vector"].tolist()  # Convert numpy array
-        return {"version": FRAMEWORK_VERSION, "linguistic_signature": sig}
+        return {"version": framework_version, "linguistic_signature": sig}
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any], agent_id: str) -> "VoiceEngine":
         """Reconstructs the voice engine from serialized data."""
+        framework_version = _get_framework_version()
         loaded_version = data.get("version")
-        if loaded_version != FRAMEWORK_VERSION:
+        if loaded_version != framework_version:
             warnings.warn(
                 f"Agent {agent_id}: Loading voice state v "
-                f"'{loaded_version}' into v '{FRAMEWORK_VERSION}'.",
+                f"'{loaded_version}' into v '{framework_version}'.",
                 UserWarning,
             )
 

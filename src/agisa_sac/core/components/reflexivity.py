@@ -2,12 +2,6 @@ import time
 import warnings
 from typing import TYPE_CHECKING
 
-# Import framework version
-try:
-    from .. import FRAMEWORK_VERSION
-except ImportError:
-    FRAMEWORK_VERSION = "unknown"
-
 # Use TYPE_CHECKING for agent hint to avoid circular import
 if TYPE_CHECKING:
     from ..agent import EnhancedAgent
