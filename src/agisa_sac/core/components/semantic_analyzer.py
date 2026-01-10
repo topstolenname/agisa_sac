@@ -99,6 +99,7 @@ class EnhancedSemanticAnalyzer:
                 "Install with: pip install torch sentence-transformers scikit-learn"
             )
 
+        self.model_name = model_name  # Store for serialization
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and device == "auto" else "cpu"
         )
@@ -382,7 +383,7 @@ class EnhancedSemanticAnalyzer:
 
         return {
             "version": FRAMEWORK_VERSION,
-            "model_name": self.model.get_config_dict().get("model_name", "all-MiniLM-L6-v2"),
+            "model_name": self.model_name,  # Use stored model_name instead of introspection
             "device": str(self.device),
             "ethical_concepts": {
                 concept: embedding.tolist()
