@@ -70,7 +70,7 @@ class Orchestrator:
 
     def save_state(self):
         """Persist state to disk"""
-        with open(STATE_FILE, 'w') as f:
+        with open(STATE_FILE, 'w', encoding='utf-8') as f:
             json.dump(self.state, f, indent=2)
 
     def extract_components_from_design(self):
