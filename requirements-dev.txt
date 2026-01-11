@@ -1,0 +1,8 @@
+flake8>=7.0.0
+black
+pytest-cov
+coverage
+mypy
+types-requests
+pytest
+pytest-asyncio

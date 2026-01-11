@@ -1,0 +1,12 @@
+{
+  "num_agents": 20,
+  "num_epochs": 50,
+  "random_seed": 123,
+  "agent_capacity": 150,
+  "use_semantic": true,
+  "use_gpu": false,
+  "tda_max_dimension": 2,
+  "community_check_frequency": 10,
+  "epoch_log_frequency": 10,
+  "satori_threshold_analyzer": 0.85
+}

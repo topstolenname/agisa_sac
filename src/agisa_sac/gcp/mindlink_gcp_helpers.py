@@ -1,0 +1,268 @@
+"""Helper utilities for running AGI-SAC on Google Cloud."""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import logging
+import os
+from collections.abc import Iterable
+from typing import Any, Dict, Optional
+
+try:
+    from fastapi import FastAPI
+    from fastapi.responses import JSONResponse
+
+    HAS_FASTAPI = True
+except Exception:  # pragma: no cover - optional dependency
+    FastAPI = None
+    JSONResponse = None
+    HAS_FASTAPI = False
+
+try:
+    from google.cloud import storage
+
+    HAS_GOOGLE_STORAGE = True
+except Exception:  # pragma: no cover - optional dependency
+    storage = None
+    HAS_GOOGLE_STORAGE = False
+
+try:
+    from google.cloud import firestore
+
+    HAS_FIRESTORE = True
+except Exception:  # pragma: no cover - optional dependency
+    firestore = None
+    HAS_FIRESTORE = False
+
+try:
+    from google.cloud import bigquery
+
+    HAS_BIGQUERY = True
+except Exception:  # pragma: no cover - optional dependency
+    bigquery = None
+    HAS_BIGQUERY = False
+
+try:
+    from google.cloud import pubsub_v1
+
+    HAS_PUBSUB = True
+except Exception:  # pragma: no cover - optional dependency
+    pubsub_v1 = None
+    HAS_PUBSUB = False
+
+try:
+    from google.cloud import aiplatform
+
+    HAS_VERTEX = True
+except Exception:  # pragma: no cover - optional dependency
+    aiplatform = None
+    HAS_VERTEX = False
+
+try:
+    from google.api_core import exceptions
+
+    HAS_GOOGLE_EXCEPTIONS = True
+except Exception:  # pragma: no cover - optional dependency
+    exceptions = None
+    HAS_GOOGLE_EXCEPTIONS = False
+
+# Basic stdout logging works with Cloud Logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Configuration values read from environment
+PROJECT_ID = os.getenv("GCP_PROJECT") or os.getenv("GOOGLE_CLOUD_PROJECT")
+GCS_BUCKET = os.getenv("GCS_BUCKET", "")
+PUBSUB_TOPIC = os.getenv("PUBSUB_TOPIC", "")
+FIRESTORE_COLLECTION = os.getenv("FIRESTORE_COLLECTION", "agent_states")
+VERTEX_LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")
+
+# Reused service clients - only initialize if credentials are available
+db = None
+storage_client = None
+
+
+# Lazy initialization of GCP clients to avoid credential errors at import time
+def _get_firestore_client():
+    global db
+    if db is None and HAS_FIRESTORE:
+        try:
+            db = firestore.Client()
+        except Exception:
+            pass  # Credentials not available
+    return db
+
+
+def _get_storage_client():
+    global storage_client
+    if storage_client is None and HAS_GOOGLE_STORAGE:
+        try:
+            storage_client = storage.Client()
+        except Exception:
+            pass  # Credentials not available
+    return storage_client
+
+
+# ------------------------------
+# Storage helpers
+# ------------------------------
+def upload_bytes(
+    blob_name: str,
+    data: bytes,
+    *,
+    content_type: str = "application/octet-stream",
+) -> str:
+    """Upload data to Cloud Storage and return the public URL."""
+    if not HAS_GOOGLE_STORAGE:
+        raise ImportError("google-cloud-storage is required for upload_bytes")
+    client = _get_storage_client()
+    if not client:
+        raise RuntimeError("Google Cloud Storage client not available")
+    bucket = client.bucket(GCS_BUCKET)
+    blob = bucket.blob(blob_name)
+    blob.upload_from_string(data, content_type=content_type)
+    logger.info("Uploaded %s to GCS bucket %s", blob_name, GCS_BUCKET)
+    return blob.public_url
+
+
+def download_bytes(blob_name: str) -> Optional[bytes]:
+    """Download data from Cloud Storage."""
+    if not HAS_GOOGLE_STORAGE:
+        raise ImportError("google-cloud-storage is required for download_bytes")
+    client = _get_storage_client()
+    if not client:
+        raise RuntimeError("Google Cloud Storage client not available")
+    bucket = client.bucket(GCS_BUCKET)
+    blob = bucket.blob(blob_name)
+    logger.info("Downloading %s from GCS bucket %s", blob_name, GCS_BUCKET)
+    try:
+        return blob.download_as_bytes()
+    except exceptions.NotFound:
+        logger.warning("Blob %s not found in bucket %s", blob_name, GCS_BUCKET)
+        return None
+
+
+# ------------------------------
+# Firestore and BigQuery state persistence
+# ------------------------------
+def save_state(agent_id: str, state: Dict[str, Any]) -> None:
+    """Persist agent state to Firestore."""
+    if not HAS_FIRESTORE:
+        raise ImportError("google-cloud-firestore is required for save_state")
+    client = _get_firestore_client()
+    if not client:
+        raise RuntimeError("Firestore client not available")
+    client.collection(FIRESTORE_COLLECTION).document(agent_id).set(state)
+    logger.info("Saved agent state for %s", agent_id)
+
+
+def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
+    """Load agent state from Firestore."""
+    if not HAS_FIRESTORE:
+        raise ImportError("google-cloud-firestore is required for load_state")
+    client = _get_firestore_client()
+    if not client:
+        raise RuntimeError("Firestore client not available")
+    doc = client.collection(FIRESTORE_COLLECTION).document(agent_id).get()
+    if doc.exists:
+        return doc.to_dict()
+    return None
+
+
+def save_state_bq(agent_id: str, state: Dict[str, Any]) -> None:
+    """Insert agent state into BigQuery."""
+    if not HAS_BIGQUERY:
+        raise ImportError("google-cloud-bigquery is required for save_state_bq")
+    table_id = f"{PROJECT_ID}.mindlink.agent_states"
+    rows: Iterable[dict[str, Any]] = [{**state, "agent_id": agent_id}]
+    client = bigquery.Client()
+    errors = client.insert_rows_json(table_id, list(rows))
+    if errors:
+        logger.error("BigQuery insert errors: %s", errors)
+    else:
+        logger.info("Saved agent state for %s to BigQuery", agent_id)
+
+
+# ------------------------------
+# Pub/Sub events
+# ------------------------------
+def publish_event(event: Dict[str, Any]) -> None:
+    """Publish an event dictionary to a Pub/Sub topic."""
+    if not HAS_PUBSUB:
+        raise ImportError("google-cloud-pubsub is required for publish_event")
+    publisher = pubsub_v1.PublisherClient()
+    topic_path = publisher.topic_path(PROJECT_ID, PUBSUB_TOPIC)
+    data = json.dumps(event).encode("utf-8")
+    future = publisher.publish(topic_path, data=data)
+    logger.info("Published event: %s", event)
+    return future.result()
+
+
+# ------------------------------
+# Vertex AI wrapper
+# ------------------------------
+class VertexAILLM:
+    """Simplified interface to Vertex AI text models."""
+
+    def __init__(
+        self,
+        *,
+        project: str = PROJECT_ID,
+        location: str = VERTEX_LOCATION,
+        model: str = "text-bison",
+    ) -> None:
+        if not HAS_VERTEX:
+            raise ImportError("google-cloud-aiplatform is required for VertexAILLM")
+        self.project = project
+        self.location = location
+        self.model = model
+        aiplatform.init(project=project, location=location)
+        self.endpoint = aiplatform.TextGenerationModel.from_pretrained(model)
+
+    def query(
+        self, prompt: str, *, temperature: float = 0.7, max_tokens: int = 256
+    ) -> str:
+        response = self.endpoint.predict(
+            prompt, temperature=temperature, max_output_tokens=max_tokens
+        )
+        logger.info("Queried Vertex AI model %s", self.model)
+        return response.text
+
+
+# ------------------------------
+# Observability helpers
+# ------------------------------
+def log_agent_event(event_type: str, agent_id: str, details: Dict[str, Any]) -> None:
+    """Log an agent-related event."""
+    logger.info("[%s] Agent: %s | Details: %s", event_type, agent_id, details)
+
+
+# ------------------------------
+# Optional FastAPI health check
+# ------------------------------
+if HAS_FASTAPI:
+    app = FastAPI()
+
+    @app.get("/healthz")
+    async def healthz() -> JSONResponse:
+        return JSONResponse({"status": "ok"})
+
+else:  # pragma: no cover - API optional
+    app = None
+
+
+async def main() -> None:
+    """Example asynchronous entrypoint."""
+    logger.info("Mindlink helper module started")
+    while True:
+        await asyncio.sleep(1)
+
+
+if __name__ == "__main__":
+    if app is not None:
+        import uvicorn
+
+        uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8080)))
+    else:
+        asyncio.run(main())

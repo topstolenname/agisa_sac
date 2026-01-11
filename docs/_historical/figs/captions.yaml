@@ -1,0 +1,29 @@
+figures:
+  - id: 1
+    file: docs/figs/svg/figure1.svg
+    title: "Persistence Diagram"
+    caption: "β₀ (components) and β₁ (loops) persistence as indicators of system coherence and feedback complexity."
+  - id: 2
+    file: docs/figs/svg/figure2.svg
+    title: "Mapper Graph"
+    caption: "Topological skeleton connecting clusters across overlapping covers."
+  - id: 3
+    file: docs/figs/svg/figure3.svg
+    title: "Decentralized Agent Network"
+    caption: "Pub/Sub topics as a global workspace enabling emergent coordination."
+  - id: 4
+    file: docs/figs/svg/figure4.svg
+    title: "Instrumental Convergence Flow"
+    caption: "Diverse goals converging on shared instrumental subgoals."
+  - id: 5
+    file: docs/figs/svg/figure5.svg
+    title: "Identity Layer Stack"
+    caption: "Cryptographic → Credential → Relational identity hierarchy."
+  - id: 6
+    file: docs/figs/svg/figure6.svg
+    title: "agisa_sac Workflow"
+    caption: "Task → Plan → Execute → Evaluate → Persist (Firestore)."
+  - id: 7
+    file: docs/figs/svg/figure7.svg
+    title: "Consciousness Metrics Dashboard"
+    caption: "Live plots for Φ, recursion depth, coherence, and memory consolidation."

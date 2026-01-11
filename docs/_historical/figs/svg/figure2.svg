@@ -1,0 +1,121 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="652pt" height="214pt" viewBox="0.00 0.00 652.09 214.00">
+<g id="graph0" class="graph" transform="translate(4,210) scale(1)" data-name="G">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-210 648.09,-210 648.09,4 -4,4" style=""/>
+<g id="clust1" class="cluster" data-name="cluster_A">
+
+<polygon fill="none" stroke="black" points="8,-65 8,-152 233.03,-152 233.03,-65 8,-65" style=""/>
+<text text-anchor="middle" x="120.52" y="-135.4" font-family="Times,serif" font-size="14.00" style="">Cover Region A</text>
+</g>
+<g id="clust2" class="cluster" data-name="cluster_B">
+
+<polygon fill="none" stroke="black" points="253.03,-113 253.03,-198 394.26,-198 394.26,-113 253.03,-113" style=""/>
+<text text-anchor="middle" x="323.65" y="-181.4" font-family="Times,serif" font-size="14.00" style="">Cover Region B</text>
+</g>
+<g id="clust3" class="cluster" data-name="cluster_C">
+
+<polygon fill="none" stroke="black" points="333.65,-20 333.65,-105 636.09,-105 636.09,-20 333.65,-20" style=""/>
+<text text-anchor="middle" x="484.87" y="-88.4" font-family="Times,serif" font-size="14.00" style="">Cover Region C</text>
+</g>
+<!-- A1 -->
+<g id="node1" class="node" pointer-events="visible" data-name="A1">
+
+<ellipse fill="white" stroke="black" cx="38.84" cy="-96" rx="22.68" ry="22.68" style=""/>
+<text text-anchor="middle" x="38.84" y="-91.8" font-family="Times,serif" font-size="14.00" style="">A1</text>
+</g>
+<!-- A2 -->
+<g id="node2" class="node" pointer-events="visible" data-name="A2">
+
+<ellipse fill="white" stroke="black" cx="120.52" cy="-96" rx="22.68" ry="22.68" style=""/>
+<text text-anchor="middle" x="120.52" y="-91.8" font-family="Times,serif" font-size="14.00" style="">A2</text>
+</g>
+<!-- A1&#45;&#45;A2 -->
+<g id="edge1" class="edge" data-name="A1--A2">
+
+<path fill="none" stroke="black" d="M61.61,-96C72.76,-96 86.31,-96 97.49,-96" style=""/>
+</g>
+<!-- A3 -->
+<g id="node3" class="node" pointer-events="visible" data-name="A3">
+
+<ellipse fill="white" stroke="black" cx="202.19" cy="-96" rx="22.68" ry="22.68" style=""/>
+<text text-anchor="middle" x="202.19" y="-91.8" font-family="Times,serif" font-size="14.00" style="">A3</text>
+</g>
+<!-- A2&#45;&#45;A3 -->
+<g id="edge2" class="edge" data-name="A2--A3">
+
+<path fill="none" stroke="black" d="M143.29,-96C154.44,-96 167.99,-96 179.17,-96" style=""/>
+</g>
+<!-- C3 -->
+<g id="node8" class="node" pointer-events="visible" data-name="C3">
+
+<ellipse fill="white" stroke="black" cx="525.18" cy="-50" rx="22.11" ry="22.11" style=""/>
+<text text-anchor="middle" x="525.18" y="-45.8" font-family="Times,serif" font-size="14.00" style="">C3</text>
+</g>
+<!-- A2&#45;&#45;C3 -->
+<g id="edge9" class="edge" data-name="A2--C3">
+
+<path fill="none" stroke="black" d="M136.17,-79.71C162.51,-52.33 220.88,0 282.34,0 282.34,0 282.34,0 364.95,0 411.03,0 423.43,-3.63 466.87,-19 480.63,-23.87 495.07,-31.7 506.02,-38.28" style=""/>
+</g>
+<!-- B1 -->
+<g id="node4" class="node" pointer-events="visible" data-name="B1">
+
+<ellipse fill="white" stroke="black" cx="283.34" cy="-143" rx="22.11" ry="22.11" style=""/>
+<text text-anchor="middle" x="283.34" y="-138.8" font-family="Times,serif" font-size="14.00" style="">B1</text>
+</g>
+<!-- A3&#45;&#45;B1 -->
+<g id="edge7" class="edge" data-name="A3--B1">
+
+<path fill="none" stroke="black" d="M222.35,-107.38C234.98,-114.88 251.42,-124.64 263.9,-132.05" style=""/>
+</g>
+<!-- B2 -->
+<g id="node5" class="node" pointer-events="visible" data-name="B2">
+
+<ellipse fill="white" stroke="black" cx="363.95" cy="-143" rx="22.11" ry="22.11" style=""/>
+<text text-anchor="middle" x="363.95" y="-138.8" font-family="Times,serif" font-size="14.00" style="">B2</text>
+</g>
+<!-- B1&#45;&#45;B2 -->
+<g id="edge3" class="edge" data-name="B1--B2">
+
+<path fill="none" stroke="black" d="M305.82,-143C316.91,-143 330.41,-143 341.5,-143" style=""/>
+</g>
+<!-- C2 -->
+<g id="node7" class="node" pointer-events="visible" data-name="C2">
+
+<ellipse fill="white" stroke="black" cx="444.56" cy="-50" rx="22.11" ry="22.11" style=""/>
+<text text-anchor="middle" x="444.56" y="-45.8" font-family="Times,serif" font-size="14.00" style="">C2</text>
+</g>
+<!-- B2&#45;&#45;C2 -->
+<g id="edge8" class="edge" data-name="B2--C2">
+
+<path fill="none" stroke="black" d="M379.31,-126.44C384.09,-120.91 389.42,-114.7 394.26,-109 406.26,-94.85 419.77,-78.67 429.6,-66.84" style=""/>
+</g>
+<!-- C1 -->
+<g id="node6" class="node" pointer-events="visible" data-name="C1">
+
+<ellipse fill="white" stroke="black" cx="363.95" cy="-50" rx="22.11" ry="22.11" style=""/>
+<text text-anchor="middle" x="363.95" y="-45.8" font-family="Times,serif" font-size="14.00" style="">C1</text>
+</g>
+<!-- C1&#45;&#45;C2 -->
+<g id="edge4" class="edge" data-name="C1--C2">
+
+<path fill="none" stroke="black" d="M386.43,-50C397.53,-50 411.02,-50 422.11,-50" style=""/>
+</g>
+<!-- C2&#45;&#45;C3 -->
+<g id="edge5" class="edge" data-name="C2--C3">
+
+<path fill="none" stroke="black" d="M467.05,-50C478.14,-50 491.63,-50 502.72,-50" style=""/>
+</g>
+<!-- C4 -->
+<g id="node9" class="node" pointer-events="visible" data-name="C4">
+
+<ellipse fill="white" stroke="black" cx="605.79" cy="-50" rx="22.11" ry="22.11" style=""/>
+<text text-anchor="middle" x="605.79" y="-45.8" font-family="Times,serif" font-size="14.00" style="">C4</text>
+</g>
+<!-- C3&#45;&#45;C4 -->
+<g id="edge6" class="edge" data-name="C3--C4">
+
+<path fill="none" stroke="black" d="M547.66,-50C558.75,-50 572.24,-50 583.33,-50" style=""/>
+</g>
+</g>
+</svg>

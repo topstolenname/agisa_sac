@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agisac-simulation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agisac
+  template:
+    metadata:
+      labels:
+        app: agisac
+    spec:
+      containers:
+      - name: orchestrator
+        image: gcr.io/PROJECT_ID/agisac:latest
+        command: ["python", "sim_runner.py", "config.json"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1

@@ -1,0 +1,86 @@
+site_name: Mindlink / The Agentic Swarm
+site_description: Emergent agent swarms, ethical governance, and AGI system architecture
+repo_url: https://github.com/topstolenname/agisa_sac
+repo_name: topstolenname/agisa_sac
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: deep purple
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.expand
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+    - content.code.copy
+    - content.action.edit
+    - content.tabs.link
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+  - mermaid2
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - footnotes
+  - def_list
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/topstolenname/agisa_sac
+
+nav:
+  - 'Project README': 'PROJECT_README.md'
+  - 'Contributing': 'CONTRIBUTING.md'
+  - 'Deployment': 'deployment.md'
+  - 'Refactoring': 'REFACTORING_SUMMARY.md'
+  - Paper:
+      - "Mindlink Paper": Mindlink_Paper.md
+  - API:
+      - agisa_sac: api/agisa_sac.md
+  - Concord of Coexistence:
+      - Framework: CONCORD.md
+      - Implementations:
+          - Overview: concord/implementations/README.md
+          - AGI-SAC 2024:
+              - Index: concord/implementations/agisa-sac-2024/index.md
+              - Architecture: concord/implementations/agisa-sac-2024/architecture.md
+              - Circuits: concord/implementations/agisa-sac-2024/circuits.md
+              - Ethics: concord/implementations/agisa-sac-2024/ethics.md
+              - Coordination & CMNI: concord/implementations/agisa-sac-2024/coordination.md
+              - Continuity Thresholds: concord/implementations/agisa-sac-2024/continuity_thresholds.md
+              - Integration: concord/implementations/agisa-sac-2024/integration.md
+              - Observability: concord/implementations/agisa-sac-2024/observability.md
+  - Supplement:
+      - Citation Guide: CITATION_GUIDE.md
+      - Start Here: START_HERE.md
+      - Refactoring Strategy: REFACTORING_STRATEGY.md
+  - Archive:
+      - Package Summary: archive/PACKAGE_SUMMARY.md

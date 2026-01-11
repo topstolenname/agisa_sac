@@ -1,0 +1,1 @@
+{'satori_wave_ratio': 1.0, 'archetype_distribution': Counter({'enlightened': 3}), 'archetype_entropy': 0.0, 'mean_resonance_strength': 0.9945663146844289, 'agent_count': 3}

@@ -1,0 +1,9 @@
+name: agisa-deploy
+description: Deploy AGISA on main branch
+github:
+  owner: topstolenname
+  name: agisa_sac
+  push:
+    branch: '^main$'
+build:
+  filename: infra/gcp/cloudbuild.yaml

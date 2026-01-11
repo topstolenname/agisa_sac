@@ -1,0 +1,82 @@
+
+
+> This document outlines the prioritized tasks for the initial proof of concept (PoC), chaos resilience testing, simplified governance implementation, and whitepaper planning for the `mindlink_core` MVP.
+
+---
+
+## 🧪 1. Proof of Concept Build (Simulation Layer)
+
+- [ ] Set up Docker Compose to simulate 100+ node environment
+- [ ] Implement `run_simulation()` core loop
+  - [ ] CRDT-based memory merge across nodes
+  - [ ] CBP (Consensus-Based Proofing) coherence arbitration
+- [ ] Capture performance metrics:
+  - [ ] Per-node CPU/memory usage
+  - [ ] Merge resolution timing
+  - [ ] Redundancy reduction / compute savings
+  - [ ] CBP arbitration overhead
+
+---
+
+## 🧨 2. Chaos Engineering Test Battery
+
+- [ ] Inject node failures (graceful and sudden crash)
+- [ ] Simulate bad actors:
+  - [ ] Malicious merge submissions
+  - [ ] Nonsensical or contradictory memory vectors
+- [ ] Create network partition scenarios:
+  - [ ] Isolated nodes
+  - [ ] Gossip propagation delay
+
+### Evaluation Targets:
+- [ ] CBP quorum stability under stress
+- [ ] Observer agent detection of malicious or incoherent behavior
+- [ ] Staking/penalty model effectiveness in sandbox
+
+---
+
+## 🔐 3. Privacy & Governance (Simplified for MVP)
+
+- [ ] Implement **gradient clipping** in memory vector deltas
+- [ ] Replace semantic similarity with **static rule-based CBP validation**
+- [ ] Deploy **minimal observer logic**:
+  - [ ] Stateless
+  - [ ] Triggered only on merge proposals
+  - [ ] No inference or retention
+
+> Note: All traces must remain synthetic. Avoid PII risk even in simulation.
+
+---
+
+## 🌱 4. Phased Community Rollout Strategy
+
+- [ ] Identify early-adopter orgs:
+  - [ ] LAION
+  - [ ] EleutherAI
+  - [ ] HuggingFace forums or ML Collective
+- [ ] Build opt-in onboarding doc for external testers
+- [ ] Establish public changelog + transparent telemetry
+- [ ] Enable anonymous feedback loop or structured form
+
+---
+
+## 📄 5. Whitepaper Drafting
+
+- [ ] Draft sections:
+  - [ ] Intro: Project background + AGI-SAC lineage
+  - [ ] Architecture: CRDT memory, CBP governance, node design
+  - [ ] Ethics: Lightweight observer logic, MVP constraints
+  - [ ] Limitations: Coherence vs inference, staking trust bootstrap
+- [ ] Write Red Team Appendix:
+  - [ ] Threat surface: node compromise, data poisoning, quorum hijack
+  - [ ] Response protocol: staking isolation, observer override
+  - [ ] Open questions and future mitigation options
+
+---
+
+## 📌 Notes
+
+- This checklist supports milestone planning, partner previews, and the GitHub README.
+- Use subtask tracking under each heading to reflect progress status.
+- Can be extended into a full milestone map using project boards or Gantt chart tools.
+
