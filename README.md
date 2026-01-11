@@ -205,6 +205,39 @@ agisa-federation server --host 0.0.0.0 --port 8000
 agisa-sac convert-transcript --input transcript.json --output context.json
 ```
 
+### Dev Orchestration Agent 🤖
+
+AGI-SAC now includes an intelligent dev agent powered by Claude Agent SDK for workflow automation:
+
+```bash
+# Run tests and get reports
+agisa-dev "Run all tests and report results"
+
+# Analyze code quality
+agisa-dev "Analyze code quality in src/ using pylint and mypy"
+
+# Interactive development session
+agisa-dev --interactive
+
+# Auto-edit mode for refactoring
+agisa-dev --allow-edits "Add type hints to the cognition module"
+
+# Project status report
+agisa-dev "Give me a comprehensive project status"
+```
+
+The dev agent provides intelligent assistance with:
+- Test execution (pytest/unittest)
+- Build automation
+- Code quality analysis (pylint, mypy, flake8, black)
+- File operations (read, write, edit)
+- Git workflows
+- Task planning and tracking
+
+See [DEV_AGENT_README.md](DEV_AGENT_README.md) for detailed documentation and examples.
+
+**Requirements**: Python 3.10+, ANTHROPIC_API_KEY environment variable
+
 -----
 
 ## Roadmap

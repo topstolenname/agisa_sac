@@ -95,6 +95,36 @@ def test_cmni_tracker_stable_trend():
     assert trend == "stable"
 
 
+def test_cmni_tracker_decreasing_trend():
+    """Test CMNI recognizes decreasing trend."""
+    import time
+
+    tracker = CMNITracker(baseline_cmni=0.6)
+
+    # Simulate decreasing CMNI
+    for i in range(20):
+        activation = CircuitActivation(
+            circuit_id="L2N1",
+            activation_level=0.6 - i * 0.02,
+            confidence=0.8,
+            context={},
+            timestamp=time.time(),
+        )
+        tracker.update(activation)
+
+    trend = tracker.get_cmni_trend(lookback=10)
+    assert trend == "decreasing"
+
+
+def test_cmni_tracker_empty_history_trend():
+    """Test get_cmni_trend returns 'stable' when history is insufficient."""
+    tracker = CMNITracker(baseline_cmni=0.3)
+
+    # No history yet
+    trend = tracker.get_cmni_trend()
+    assert trend == "stable"
+
+
 def test_empathy_module_initialization():
     """Test EmpathyModule initializes correctly."""
     module = EmpathyModule(resonance_gain=0.8, cmni_window=50, baseline_cmni=0.3)
@@ -135,6 +165,15 @@ def test_empathy_module_agent_affinity():
     affinity = module.get_agent_affinity("agent-001")
     assert affinity > 0
     assert affinity <= 1.0
+
+
+def test_empathy_module_unknown_agent_affinity():
+    """Test get_agent_affinity returns 0.0 for unknown agent."""
+    module = EmpathyModule()
+
+    # Query affinity for agent we haven't interacted with
+    affinity = module.get_agent_affinity("unknown-agent")
+    assert affinity == 0.0
 
 
 def test_empathy_module_multiple_agents():

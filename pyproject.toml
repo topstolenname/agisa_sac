@@ -9,13 +9,13 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.10,<4.0"
 numpy = ">=1.26.0"
 scipy = ">=1.11.0"
 networkx = ">=2.6"
@@ -26,6 +26,10 @@ torch = ">=2.0.0"
 pydantic = ">=2.0.0"
 httpx = ">=0.24.0"
 hyperopt = "0.2.7"
+claude-agent-sdk = ">=0.1.19"
+gradio = ">=4.0.0"
+pandas = ">=2.0.0"
+jinja2 = ">=3.1.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.0.0"
@@ -80,6 +84,8 @@ chaostoolkit = ">=1.16.0"
 agisa-sac = "agisa_sac.cli:main"
 agisa-federation = "agisa_sac.federation.cli:main"
 agisa-chaos = "agisa_sac.chaos.orchestrator:main"
+agisa-dev = "agisa_sac.dev_agent:main"
+agisa-sac-gui = "agisa_sac.gui.app:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -87,11 +93,11 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
-target-version = ['py39']
+target-version = ['py310']
 
 [tool.ruff]
 line-length = 88
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "C90", "I", "N", "UP", "S", "B", "A", "C4", "ICN", "PIE", "T20", "Q"]
@@ -110,7 +116,7 @@ ignore = ["B028"]  # Ignore stacklevel warnings
 "src/agisa_sac/analysis/exporter.py" = ["E501"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false  # Relaxed globally
