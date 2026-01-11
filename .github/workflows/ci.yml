@@ -132,7 +132,7 @@ jobs:
     name: GCP Deployment Preview
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/feature/update-agisa-sac'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/update-agisa-sac'
 
     steps:
       - uses: actions/checkout@v4
