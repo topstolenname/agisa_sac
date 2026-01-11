@@ -135,6 +135,11 @@ poetry run agisa-dev "Run all tests and create a coverage report"
 poetry run agisa-dev "Run pylint, mypy, and black on the entire codebase"
 ```
 
+### Branch Review & Merge to Main
+```bash
+poetry run agisa-dev "Review this branch and merge it to main"
+```
+
 ### Git Workflow
 ```bash
 poetry run agisa-dev "Show git status and summarize uncommitted changes"
