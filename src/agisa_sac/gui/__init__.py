@@ -6,7 +6,6 @@ AGI-SAC multi-agent simulations.
 
 __all__ = [
     "ConfigManager",
-    "SimulationRunner",
     "MetricsCollector",
     "VisualizationGenerator",
     "ExportManager",
