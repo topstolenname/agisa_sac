@@ -32,7 +32,7 @@ def create_parser():
     add_parser.add_argument("item", help="Item to add")
     
     # Example: 'list' command
-    list_parser = subparsers.add_parser("list", help="List all items")
+    subparsers.add_parser("list", help="List all items")
     
     # Example: 'remove' command
     remove_parser = subparsers.add_parser("remove", help="Remove an item")
