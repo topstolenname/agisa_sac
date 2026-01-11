@@ -10,7 +10,7 @@ import queue
 import threading
 import time
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any
 
 from ..core.orchestrator import SimulationOrchestrator
 from ..utils.logger import get_logger
@@ -37,10 +37,10 @@ class SimulationStatus:
         self.current_epoch: int = 0
         self.total_epochs: int = 0
         self.elapsed_time: float = 0.0
-        self.error_message: Optional[str] = None
-        self.run_id: Optional[str] = None
+        self.error_message: str | None = None
+        self.run_id: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert status to dictionary format.
 
         Returns:
@@ -65,15 +65,15 @@ class SimulationRunner:
         Args:
             metrics_queue: Thread-safe queue for pushing metrics updates
         """
-        self.orchestrator: Optional[SimulationOrchestrator] = None
-        self.thread: Optional[threading.Thread] = None
+        self.orchestrator: SimulationOrchestrator | None = None
+        self.thread: threading.Thread | None = None
         self.status = SimulationStatus()
         self.metrics_queue = metrics_queue
         self._stop_event = threading.Event()
         self._start_time: float = 0.0
         self._lock = threading.Lock()
 
-    def start(self, config: Dict[str, Any]) -> bool:
+    def start(self, config: dict[str, Any]) -> bool:
         """Start a new simulation in background thread.
 
         Args:
@@ -213,7 +213,7 @@ class SimulationRunner:
 
             return self.status
 
-    def get_orchestrator(self) -> Optional[SimulationOrchestrator]:
+    def get_orchestrator(self) -> SimulationOrchestrator | None:
         """Get the current orchestrator instance.
 
         Returns:
@@ -243,7 +243,7 @@ class SimulationRunner:
             logger.error(f"Failed to save state: {e}", exc_info=True)
             return False
 
-    def load_state(self, filepath: str, config: Dict[str, Any]) -> bool:
+    def load_state(self, filepath: str, config: dict[str, Any]) -> bool:
         """Load simulation state from file.
 
         Args:

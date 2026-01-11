@@ -174,7 +174,10 @@ class TestSimulationRunnerIntegration:
         time.sleep(2)
 
         # Should be stopped, not completed
-        assert runner.status.state in (SimulationState.PAUSED, SimulationState.COMPLETED)
+        assert runner.status.state in (
+            SimulationState.PAUSED,
+            SimulationState.COMPLETED,
+        )
         # Simulation should have been interrupted
         assert runner.status.current_epoch < 99
 
@@ -395,8 +398,8 @@ class TestFullWorkflowIntegration:
         # Continuously poll statistics while simulation runs
         poll_count = 0
         while runner.status.state == SimulationState.RUNNING and poll_count < 20:
-            stats = collector.get_statistics()
-            snapshot = collector.get_latest_snapshot()
+            _ = collector.get_statistics()
+            _ = collector.get_latest_snapshot()
             poll_count += 1
             time.sleep(0.5)
 

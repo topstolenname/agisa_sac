@@ -4,7 +4,7 @@ This module provides matplotlib figure generation for Gradio components.
 All functions return figures without calling plt.show() to avoid blocking.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ from agisa_sac.utils.logger import get_logger
 logger = get_logger(__name__)
 
 # Use non-interactive backend for GUI
-matplotlib.use('Agg')
+matplotlib.use("Agg")
 
 
 class VisualizationManager:
@@ -37,10 +37,10 @@ class VisualizationManager:
 
     def plot_metrics_timeseries(
         self,
-        metrics_history: List[Dict[str, Any]],
-        metrics_to_plot: Optional[List[str]] = None,
-        agent_id: Optional[str] = None,
-        title: Optional[str] = None
+        metrics_history: list[dict[str, Any]],
+        metrics_to_plot: list[str] | None = None,
+        agent_id: str | None = None,
+        title: str | None = None,
     ) -> plt.Figure:
         """Plot time series of metrics over epochs.
 
@@ -78,9 +78,10 @@ class VisualizationManager:
             # Create subplots
             num_metrics = len(metrics_to_plot)
             fig, axes = plt.subplots(
-                num_metrics, 1,
+                num_metrics,
+                1,
                 figsize=(self.default_figsize[0], 3 * num_metrics),
-                squeeze=False
+                squeeze=False,
             )
 
             for idx, metric_key in enumerate(metrics_to_plot):
@@ -104,11 +105,11 @@ class VisualizationManager:
                     values.append(value if value is not None else np.nan)
 
                 # Plot
-                ax.plot(epochs, values, marker='o', markersize=3, linewidth=1.5)
+                ax.plot(epochs, values, marker="o", markersize=3, linewidth=1.5)
                 ax.set_xlabel("Epoch")
                 ax.set_ylabel(metric_key.replace("_", " ").title())
                 ax.set_title(f"{metric_key.upper()}")
-                ax.grid(True, linestyle=':', alpha=0.6)
+                ax.grid(True, linestyle=":", alpha=0.6)
 
             # Overall title
             if title is None:
@@ -116,7 +117,7 @@ class VisualizationManager:
                     title = f"Metrics for Agent {agent_id}"
                 else:
                     title = "System-Wide Metrics Over Time"
-            fig.suptitle(title, fontsize=14, fontweight='bold')
+            fig.suptitle(title, fontsize=14, fontweight="bold")
 
             plt.tight_layout()
             return fig
@@ -126,10 +127,7 @@ class VisualizationManager:
             return self._create_empty_plot(f"Error: {str(e)}")
 
     def plot_persistence_diagram(
-        self,
-        diagram: Optional[np.ndarray],
-        epoch: int,
-        dimension: int = 1
+        self, diagram: np.ndarray | None, epoch: int, dimension: int = 1
     ) -> plt.Figure:
         """Plot TDA persistence diagram for a specific epoch.
 
@@ -154,7 +152,7 @@ class VisualizationManager:
                 ax=ax,
                 show_plot=False,
                 alpha=0.6,
-                s=50
+                s=50,
             )
             plt.tight_layout()
             return fig
@@ -164,10 +162,7 @@ class VisualizationManager:
             return self._create_empty_plot(f"Error: {str(e)}")
 
     def plot_persistence_barcode(
-        self,
-        diagram: Optional[np.ndarray],
-        epoch: int,
-        dimension: int = 1
+        self, diagram: np.ndarray | None, epoch: int, dimension: int = 1
     ) -> plt.Figure:
         """Plot TDA persistence barcode for a specific epoch.
 
@@ -191,7 +186,7 @@ class VisualizationManager:
                 title=f"Persistence Barcode (Epoch {epoch}, H{dimension})",
                 ax=ax,
                 show_plot=False,
-                color='steelblue'
+                color="steelblue",
             )
             plt.tight_layout()
             return fig
@@ -202,10 +197,10 @@ class VisualizationManager:
 
     def plot_agent_metrics_comparison(
         self,
-        metrics_history: List[Dict[str, Any]],
+        metrics_history: list[dict[str, Any]],
         metric_key: str,
-        agent_ids: Optional[List[str]] = None,
-        max_agents: int = 10
+        agent_ids: list[str] | None = None,
+        max_agents: int = 10,
     ) -> plt.Figure:
         """Plot a single metric across multiple agents.
 
@@ -243,14 +238,21 @@ class VisualizationManager:
                     value = agent_data.get(metric_key)
                     values.append(value if value is not None else np.nan)
 
-                ax.plot(epochs, values, marker='o', markersize=2, linewidth=1,
-                       label=agent_id, alpha=0.7)
+                ax.plot(
+                    epochs,
+                    values,
+                    marker="o",
+                    markersize=2,
+                    linewidth=1,
+                    label=agent_id,
+                    alpha=0.7,
+                )
 
             ax.set_xlabel("Epoch")
             ax.set_ylabel(metric_key.upper())
             ax.set_title(f"{metric_key.upper()} Across Agents")
-            ax.grid(True, linestyle=':', alpha=0.6)
-            ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=8)
+            ax.grid(True, linestyle=":", alpha=0.6)
+            ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
 
             plt.tight_layout()
             return fig
@@ -260,9 +262,7 @@ class VisualizationManager:
             return self._create_empty_plot(f"Error: {str(e)}")
 
     def plot_social_graph(
-        self,
-        graph_data: Optional[Dict[str, Any]],
-        epoch: int
+        self, graph_data: dict[str, Any] | None, epoch: int
     ) -> plt.Figure:
         """Plot social graph structure.
 
@@ -274,9 +274,7 @@ class VisualizationManager:
             matplotlib Figure object
         """
         if graph_data is None:
-            return self._create_empty_plot(
-                f"No social graph data for epoch {epoch}"
-            )
+            return self._create_empty_plot(f"No social graph data for epoch {epoch}")
 
         try:
             import networkx as nx
@@ -296,8 +294,14 @@ class VisualizationManager:
                     communities = graph_data["communities"]
                     # Color nodes by community
                     node_colors = [communities.get(i, 0) for i in range(len(G.nodes()))]
-                    nx.draw_networkx_nodes(G, pos, node_color=node_colors,
-                                          cmap='tab10', node_size=300, ax=ax)
+                    nx.draw_networkx_nodes(
+                        G,
+                        pos,
+                        node_color=node_colors,
+                        cmap="tab10",
+                        node_size=300,
+                        ax=ax,
+                    )
                 else:
                     nx.draw_networkx_nodes(G, pos, node_size=300, ax=ax)
 
@@ -305,7 +309,7 @@ class VisualizationManager:
                 nx.draw_networkx_edges(G, pos, alpha=0.3, ax=ax)
 
                 ax.set_title(f"Social Graph (Epoch {epoch})")
-                ax.axis('off')
+                ax.axis("off")
             else:
                 return self._create_empty_plot("Invalid graph data format")
 
@@ -326,11 +330,17 @@ class VisualizationManager:
             matplotlib Figure with text message
         """
         fig, ax = plt.subplots(figsize=self.default_figsize)
-        ax.text(0.5, 0.5, message,
-                ha='center', va='center',
-                fontsize=14, color='gray',
-                transform=ax.transAxes)
-        ax.axis('off')
+        ax.text(
+            0.5,
+            0.5,
+            message,
+            ha="center",
+            va="center",
+            fontsize=14,
+            color="gray",
+            transform=ax.transAxes,
+        )
+        ax.axis("off")
         return fig
 
     def close_figure(self, fig: plt.Figure) -> None:

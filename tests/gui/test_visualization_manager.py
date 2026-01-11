@@ -155,9 +155,7 @@ class TestMetricsTimeseriesPlot:
         """Test accepts custom title."""
         manager = VisualizationManager()
 
-        metrics_history = [
-            {"epoch": 0, "system_metrics": {"satori_wave_ratio": 0.5}}
-        ]
+        metrics_history = [{"epoch": 0, "system_metrics": {"satori_wave_ratio": 0.5}}]
 
         fig = manager.plot_metrics_timeseries(
             metrics_history, title="Custom Title Test"
@@ -280,9 +278,7 @@ class TestAgentMetricsComparison:
         metrics_history = [
             {
                 "epoch": 0,
-                "agent_metrics": {
-                    f"agent_{i}": {"sri": 0.1 * i} for i in range(15)
-                },
+                "agent_metrics": {f"agent_{i}": {"sri": 0.1 * i} for i in range(15)},
             }
         ]
 
@@ -444,9 +440,7 @@ class TestMemoryManagement:
         """Test generated figures can be closed to free memory."""
         manager = VisualizationManager()
 
-        metrics_history = [
-            {"epoch": 0, "system_metrics": {"satori_wave_ratio": 0.5}}
-        ]
+        metrics_history = [{"epoch": 0, "system_metrics": {"satori_wave_ratio": 0.5}}]
 
         # Create multiple figures
         figures = []
@@ -469,9 +463,7 @@ class TestMemoryManagement:
         """Test plt.show() is never called (non-blocking requirement)."""
         manager = VisualizationManager()
 
-        metrics_history = [
-            {"epoch": 0, "system_metrics": {"satori_wave_ratio": 0.5}}
-        ]
+        metrics_history = [{"epoch": 0, "system_metrics": {"satori_wave_ratio": 0.5}}]
 
         with patch("matplotlib.pyplot.show") as mock_show:
             fig = manager.plot_metrics_timeseries(metrics_history)

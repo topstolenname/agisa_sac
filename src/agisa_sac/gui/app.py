@@ -5,26 +5,22 @@ AGI-SAC multi-agent simulations.
 """
 
 import gradio as gr
-from typing import Optional
 
 from ..gui.config_manager import ConfigManager
-from ..gui.metrics_collector import MetricsCollector
-from ..gui.visualization_manager import VisualizationManager
 from ..gui.tabs import (
     create_config_tab,
     create_control_tab,
-    create_visualization_tab,
     create_export_tab,
+    create_visualization_tab,
 )
+from ..gui.visualization_manager import VisualizationManager
 from ..utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
 def create_gui(
-    share: bool = False,
-    server_name: str = "0.0.0.0",
-    server_port: int = 7860
+    share: bool = False, server_name: str = "0.0.0.0", server_port: int = 7860
 ) -> gr.Blocks:
     """Create the main Gradio application.
 
@@ -38,12 +34,10 @@ def create_gui(
     """
     # Initialize managers
     config_manager = ConfigManager()
-    viz_manager = VisualizationManager()
+    _ = VisualizationManager()  # Initialized for side effects
 
     # Create the Gradio interface
-    with gr.Blocks(
-        title="AGI-SAC Simulation Control"
-    ) as app:
+    with gr.Blocks(title="AGI-SAC Simulation Control") as app:
         gr.Markdown(
             """
             # AGI-SAC Simulation Control
@@ -58,7 +52,7 @@ def create_gui(
         with gr.Tabs():
             config_tab, config_components = create_config_tab(config_manager)
             control_tab, control_components = create_control_tab(config_manager)
-            viz_tab, viz_components = create_visualization_tab()
+            _, viz_components = create_visualization_tab()
             export_tab, export_components = create_export_tab()
 
         # Footer
@@ -83,7 +77,7 @@ def main(
     share: bool = False,
     server_name: str = "0.0.0.0",
     server_port: int = 7860,
-    debug: bool = False
+    debug: bool = False,
 ):
     """Launch the AGI-SAC GUI application.
 
@@ -114,7 +108,7 @@ def main(
                 border-radius: 4px;
                 border-left: 4px solid #d32f2f;
             }
-            """
+            """,
         )
 
     except KeyboardInterrupt:
@@ -131,26 +125,15 @@ if __name__ == "__main__":
         description="AGI-SAC GUI - Web interface for simulation control"
     )
     parser.add_argument(
-        "--share",
-        action="store_true",
-        help="Create a public shareable link"
+        "--share", action="store_true", help="Create a public shareable link"
     )
     parser.add_argument(
-        "--server-name",
-        default="0.0.0.0",
-        help="Server hostname (default: 0.0.0.0)"
+        "--server-name", default="0.0.0.0", help="Server hostname (default: 0.0.0.0)"
     )
     parser.add_argument(
-        "--server-port",
-        type=int,
-        default=7860,
-        help="Server port (default: 7860)"
+        "--server-port", type=int, default=7860, help="Server port (default: 7860)"
     )
-    parser.add_argument(
-        "--debug",
-        action="store_true",
-        help="Enable debug mode"
-    )
+    parser.add_argument("--debug", action="store_true", help="Enable debug mode")
 
     args = parser.parse_args()
 
@@ -158,5 +141,5 @@ if __name__ == "__main__":
         share=args.share,
         server_name=args.server_name,
         server_port=args.server_port,
-        debug=args.debug
+        debug=args.debug,
     )

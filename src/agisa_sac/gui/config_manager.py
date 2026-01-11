@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from ..config import PRESETS, SimulationConfig, get_preset
 from ..utils.logger import get_logger
@@ -35,7 +35,7 @@ class ConfigManager:
 
     def __init__(self):
         """Initialize ConfigManager with default configuration."""
-        self.current_config: Optional[SimulationConfig] = None
+        self.current_config: SimulationConfig | None = None
         self._load_default_config()
 
     def _load_default_config(self) -> None:
@@ -64,7 +64,7 @@ class ConfigManager:
             logger.error(f"Invalid preset name: {preset_name}")
             raise e
 
-    def get_available_presets(self) -> List[str]:
+    def get_available_presets(self) -> list[str]:
         """Get list of available preset names.
 
         Returns:
@@ -72,7 +72,7 @@ class ConfigManager:
         """
         return list(PRESETS.keys())
 
-    def validate_parameters(self, **kwargs) -> Tuple[bool, List[str]]:
+    def validate_parameters(self, **kwargs) -> tuple[bool, list[str]]:
         """Validate simulation parameters against constraints.
 
         Args:
@@ -123,7 +123,7 @@ class ConfigManager:
         is_valid = len(errors) == 0
         return is_valid, errors
 
-    def update_config(self, **kwargs) -> Tuple[bool, List[str]]:
+    def update_config(self, **kwargs) -> tuple[bool, list[str]]:
         """Update current configuration with new parameters.
 
         Validates parameters before updating. If validation fails, config remains
@@ -161,7 +161,7 @@ class ConfigManager:
             logger.error(error_msg, exc_info=True)
             return False, [error_msg]
 
-    def load_from_file(self, filepath: str) -> Tuple[bool, List[str]]:
+    def load_from_file(self, filepath: str) -> tuple[bool, list[str]]:
         """Load configuration from a JSON file.
 
         Args:
@@ -177,7 +177,7 @@ class ConfigManager:
                 logger.error(error_msg)
                 return False, [error_msg]
 
-            with open(path, "r") as f:
+            with open(path, encoding="utf-8") as f:
                 config_dict = json.load(f)
 
             # Validate loaded config
@@ -200,7 +200,7 @@ class ConfigManager:
             logger.error(error_msg, exc_info=True)
             return False, [error_msg]
 
-    def save_to_file(self, filepath: str) -> Tuple[bool, List[str]]:
+    def save_to_file(self, filepath: str) -> tuple[bool, list[str]]:
         """Save current configuration to a JSON file.
 
         Args:
@@ -231,7 +231,7 @@ class ConfigManager:
             logger.error(error_msg, exc_info=True)
             return False, [error_msg]
 
-    def to_orchestrator_dict(self) -> Dict[str, Any]:
+    def to_orchestrator_dict(self) -> dict[str, Any]:
         """Convert current configuration to format expected by SimulationOrchestrator.
 
         Returns:
@@ -242,7 +242,7 @@ class ConfigManager:
 
         return self.current_config.to_dict()
 
-    def get_config_summary(self) -> Dict[str, Any]:
+    def get_config_summary(self) -> dict[str, Any]:
         """Get a human-readable summary of current configuration.
 
         Returns:

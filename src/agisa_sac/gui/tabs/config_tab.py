@@ -3,8 +3,9 @@
 Provides preset selection, parameter controls, and configuration validation.
 """
 
+from typing import Any
+
 import gradio as gr
-from typing import Any, Dict, List, Tuple
 
 from ...gui.config_manager import ConfigManager
 from ...utils.logger import get_logger
@@ -12,7 +13,7 @@ from ...utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, Any]]:
+def create_config_tab(config_manager: ConfigManager) -> tuple[gr.Tab, dict[str, Any]]:
     """Create the configuration tab with all controls.
 
     Args:
@@ -33,7 +34,7 @@ def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, 
                 choices=config_manager.get_available_presets(),
                 value="default",
                 label="Preset",
-                info="Select a pre-configured simulation preset"
+                info="Select a pre-configured simulation preset",
             )
             load_preset_btn = gr.Button("Load Preset", variant="primary")
 
@@ -45,27 +46,36 @@ def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, 
             gr.Markdown("### Main Parameters")
 
             num_agents = gr.Slider(
-                minimum=1, maximum=1000, value=5, step=1,
+                minimum=1,
+                maximum=1000,
+                value=5,
+                step=1,
                 label="Number of Agents",
-                info="Total agents in the simulation"
+                info="Total agents in the simulation",
             )
 
             num_epochs = gr.Slider(
-                minimum=1, maximum=1000, value=10, step=1,
+                minimum=1,
+                maximum=1000,
+                value=10,
+                step=1,
                 label="Number of Epochs",
-                info="Simulation duration in epochs"
+                info="Simulation duration in epochs",
             )
 
             agent_capacity = gr.Slider(
-                minimum=10, maximum=1000, value=100, step=10,
+                minimum=10,
+                maximum=1000,
+                value=100,
+                step=10,
                 label="Agent Memory Capacity",
-                info="Maximum memories per agent"
+                info="Maximum memories per agent",
             )
 
             random_seed = gr.Number(
                 value=42,
                 label="Random Seed",
-                info="For reproducible results (leave empty for random)"
+                info="For reproducible results (leave empty for random)",
             )
 
         components["num_agents"] = num_agents
@@ -80,13 +90,13 @@ def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, 
             use_semantic = gr.Checkbox(
                 value=True,
                 label="Use Semantic Memory",
-                info="Enable semantic embeddings for memory retrieval"
+                info="Enable semantic embeddings for memory retrieval",
             )
 
             use_gpu = gr.Checkbox(
                 value=False,
                 label="Use GPU Acceleration",
-                info="Use GPU for computations (requires CUDA)"
+                info="Use GPU for computations (requires CUDA)",
             )
 
         components["use_semantic"] = use_semantic
@@ -95,27 +105,39 @@ def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, 
         # Advanced settings
         with gr.Accordion("Advanced Settings", open=False):
             satori_threshold = gr.Slider(
-                minimum=0.0, maximum=1.0, value=0.88, step=0.01,
+                minimum=0.0,
+                maximum=1.0,
+                value=0.88,
+                step=0.01,
                 label="Satori Threshold",
-                info="Threshold for satori wave detection"
+                info="Threshold for satori wave detection",
             )
 
             tda_max_dimension = gr.Slider(
-                minimum=0, maximum=3, value=1, step=1,
+                minimum=0,
+                maximum=3,
+                value=1,
+                step=1,
                 label="TDA Max Dimension",
-                info="Maximum homology dimension for TDA"
+                info="Maximum homology dimension for TDA",
             )
 
             community_check_freq = gr.Slider(
-                minimum=1, maximum=100, value=5, step=1,
+                minimum=1,
+                maximum=100,
+                value=5,
+                step=1,
                 label="Community Check Frequency",
-                info="Epochs between community detection runs"
+                info="Epochs between community detection runs",
             )
 
             epoch_log_freq = gr.Slider(
-                minimum=1, maximum=100, value=2, step=1,
+                minimum=1,
+                maximum=100,
+                value=2,
+                step=1,
                 label="Epoch Log Frequency",
-                info="Epochs between log messages"
+                info="Epochs between log messages",
             )
 
         components["satori_threshold"] = satori_threshold
@@ -125,23 +147,17 @@ def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, 
 
         # Validation feedback
         validation_output = gr.Markdown(
-            value="",
-            visible=False,
-            elem_classes=["validation-error"]
+            value="", visible=False, elem_classes=["validation-error"]
         )
         components["validation_output"] = validation_output
 
         # File operations
         with gr.Row():
             config_file_upload = gr.File(
-                label="Load Config from File",
-                file_types=[".json"]
+                label="Load Config from File", file_types=[".json"]
             )
             save_config_btn = gr.Button("Save Config to File")
-            config_file_download = gr.File(
-                label="Download Config",
-                visible=False
-            )
+            config_file_download = gr.File(label="Download Config", visible=False)
 
         components["config_file_upload"] = config_file_upload
         components["save_config_btn"] = save_config_btn
@@ -167,17 +183,28 @@ def create_config_tab(config_manager: ConfigManager) -> Tuple[gr.Tab, Dict[str, 
             }
         except Exception as e:
             logger.error(f"Error loading preset: {e}")
-            return {validation_output: gr.update(
-                value=f"❌ Error loading preset: {str(e)}",
-                visible=True
-            )}
+            return {
+                validation_output: gr.update(
+                    value=f"❌ Error loading preset: {str(e)}", visible=True
+                )
+            }
 
     load_preset_btn.click(
         fn=load_preset,
         inputs=[preset_dropdown],
-        outputs=[num_agents, num_epochs, agent_capacity, random_seed,
-                use_semantic, use_gpu, satori_threshold, tda_max_dimension,
-                community_check_freq, epoch_log_freq, validation_output]
+        outputs=[
+            num_agents,
+            num_epochs,
+            agent_capacity,
+            random_seed,
+            use_semantic,
+            use_gpu,
+            satori_threshold,
+            tda_max_dimension,
+            community_check_freq,
+            epoch_log_freq,
+            validation_output,
+        ],
     )
 
     return tab, components

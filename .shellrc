@@ -1,9 +1,10 @@
 # AGI-SAC Shell Configuration
 # Add this to your ~/.zshrc or ~/.bashrc:
-#   source /home/tristanj/AGI-SAC/agisa_sac/.shellrc
+#   source /path/to/your/agisa_sac/.shellrc
 
-# Project root
-export AGISA_SAC_ROOT="/home/tristanj/AGI-SAC/agisa_sac"
+# Project root - auto-detect from script location
+AGISA_SAC_ROOT="${AGISA_SAC_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)}"
+export AGISA_SAC_ROOT
 
 # Add Poetry to PATH
 export PATH="$HOME/.local/bin:$PATH"

@@ -8,9 +8,8 @@ import queue
 import threading
 import time
 from collections import deque
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from agisa_sac.analysis.analyzer import AgentStateAnalyzer
 from agisa_sac.metrics import monitoring
 from agisa_sac.utils.logger import get_logger
 
@@ -32,9 +31,7 @@ class MetricsCollector:
     """
 
     def __init__(
-        self,
-        metrics_queue: Optional[queue.Queue] = None,
-        max_history: int = 1000
+        self, metrics_queue: queue.Queue | None = None, max_history: int = 1000
     ):
         """Initialize the metrics collector.
 
@@ -45,7 +42,7 @@ class MetricsCollector:
         """
         self.metrics_queue = metrics_queue or queue.Queue(maxsize=1000)
         self.history = deque(maxlen=max_history)
-        self.latest_snapshot: Optional[Dict[str, Any]] = None
+        self.latest_snapshot: dict[str, Any] | None = None
         self._lock = threading.Lock()
 
         # Statistics
@@ -68,10 +65,19 @@ class MetricsCollector:
             agent_metrics = {}
             for agent_id, agent in orchestrator.agents.items():
                 try:
-                    agent_metrics[agent_id] = monitoring.generate_monitoring_metrics(agent)
+                    agent_metrics[agent_id] = monitoring.generate_monitoring_metrics(
+                        agent
+                    )
                 except Exception as e:
-                    logger.warning(f"Failed to collect metrics for agent {agent_id}: {e}")
-                    agent_metrics[agent_id] = {"sri": 0.0, "nds": 0.0, "vsd": 0.0, "mce": 0.0}
+                    logger.warning(
+                        f"Failed to collect metrics for agent {agent_id}: {e}"
+                    )
+                    agent_metrics[agent_id] = {
+                        "sri": 0.0,
+                        "nds": 0.0,
+                        "vsd": 0.0,
+                        "mce": 0.0,
+                    }
 
             # Collect system-wide metrics
             try:
@@ -82,7 +88,10 @@ class MetricsCollector:
 
             # Collect TDA metrics if available
             tda_metrics = {}
-            if orchestrator.tda_tracker and orchestrator.tda_tracker.persistence_diagrams_history:
+            if (
+                orchestrator.tda_tracker
+                and orchestrator.tda_tracker.persistence_diagrams_history
+            ):
                 try:
                     tda_metrics = orchestrator.tda_tracker.get_diagram_summary(-1)
                 except Exception as e:
@@ -124,7 +133,7 @@ class MetricsCollector:
         epoch: int,
         transition_detected: bool = False,
         distance: float = 0.0,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Hook callback triggered when TDA detects a phase transition.
 
@@ -157,7 +166,7 @@ class MetricsCollector:
             except queue.Full:
                 pass  # Non-critical, skip if queue full
 
-    def get_latest_snapshot(self) -> Optional[Dict[str, Any]]:
+    def get_latest_snapshot(self) -> dict[str, Any] | None:
         """Get the most recent metrics snapshot (thread-safe).
 
         Returns:
@@ -167,11 +176,8 @@ class MetricsCollector:
             return self.latest_snapshot.copy() if self.latest_snapshot else None
 
     def get_timeseries(
-        self,
-        metric_key: str,
-        agent_id: Optional[str] = None,
-        window: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+        self, metric_key: str, agent_id: str | None = None, window: int | None = None
+    ) -> list[dict[str, Any]]:
         """Extract time series data for a specific metric.
 
         Args:
@@ -214,7 +220,7 @@ class MetricsCollector:
 
         return timeseries
 
-    def get_agent_ids(self) -> List[str]:
+    def get_agent_ids(self) -> list[str]:
         """Get list of all agent IDs from latest snapshot.
 
         Returns:
@@ -225,7 +231,7 @@ class MetricsCollector:
             return list(snapshot["agent_metrics"].keys())
         return []
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get collector statistics.
 
         Returns:

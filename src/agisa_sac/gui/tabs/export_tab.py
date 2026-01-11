@@ -3,15 +3,16 @@
 Provides export functionality and post-simulation analysis.
 """
 
+from typing import Any
+
 import gradio as gr
-from typing import Any, Dict, Tuple
 
 from ...utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
-def create_export_tab() -> Tuple[gr.Tab, Dict[str, Any]]:
+def create_export_tab() -> tuple[gr.Tab, dict[str, Any]]:
     """Create the export tab with analysis and download features.
 
     Returns:
@@ -30,15 +31,12 @@ def create_export_tab() -> Tuple[gr.Tab, Dict[str, Any]]:
             export_format = gr.CheckboxGroup(
                 choices=["JSON", "CSV", "Markdown", "HTML"],
                 value=["JSON"],
-                label="Export Formats"
+                label="Export Formats",
             )
 
             export_btn = gr.Button("Export Results", variant="primary")
 
-            export_file = gr.File(
-                label="Download Results",
-                visible=False
-            )
+            export_file = gr.File(label="Download Results", visible=False)
 
         components["export_format"] = export_format
         components["export_btn"] = export_btn
@@ -57,7 +55,7 @@ def create_export_tab() -> Tuple[gr.Tab, Dict[str, Any]]:
                     ["Satori Wave Ratio", "0.0"],
                     ["Archetype Entropy", "0.0"],
                 ],
-                label="System Metrics"
+                label="System Metrics",
             )
 
         components["summary_table"] = summary_table
@@ -70,15 +68,9 @@ def create_export_tab() -> Tuple[gr.Tab, Dict[str, Any]]:
                 save_state_btn = gr.Button("Save Simulation State")
                 load_state_btn = gr.Button("Load Simulation State")
 
-            state_file_upload = gr.File(
-                label="Upload State File",
-                file_types=[".json"]
-            )
+            state_file_upload = gr.File(label="Upload State File", file_types=[".json"])
 
-            state_file_download = gr.File(
-                label="Download State",
-                visible=False
-            )
+            state_file_download = gr.File(label="Download State", visible=False)
 
         components["save_state_btn"] = save_state_btn
         components["load_state_btn"] = load_state_btn

@@ -265,7 +265,9 @@ class TestMetricsCollectorDataRetrieval:
         collector = MetricsCollector()
         orchestrator = Mock()
         orchestrator.agents = {"agent_0": Mock()}
-        orchestrator.agents["agent_0"].memory.memories = {f"m{i}": Mock() for i in range(5)}
+        orchestrator.agents["agent_0"].memory.memories = {
+            f"m{i}": Mock() for i in range(5)
+        }
         orchestrator.analyzer.summarize.return_value = {}
         orchestrator.tda_tracker = None
 
