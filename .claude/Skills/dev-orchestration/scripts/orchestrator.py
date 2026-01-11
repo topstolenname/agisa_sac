@@ -29,7 +29,7 @@ class Orchestrator:
     def _load_state(self):
         """Load or initialize project state"""
         if os.path.exists(STATE_FILE):
-            with open(STATE_FILE, 'r') as f:
+            with open(STATE_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return {
             "project_name": "unknown",
