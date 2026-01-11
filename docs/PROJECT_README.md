@@ -2,7 +2,7 @@
 
 > **Instrumented multi-agent system for alignment, robustness, and oversight research**
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Framework](https://img.shields.io/badge/Framework-AGI--SAC%20v1.0.0--alpha-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 

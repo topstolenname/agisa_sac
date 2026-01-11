@@ -8,7 +8,7 @@ This document provides a comprehensive overview of the AGI-SAC project, generate
 
 The project is built on a modern technology stack, including:
 
-*   **Core Logic:** Python 3.9+
+*   **Core Logic:** Python 3.10+
 *   **Machine Learning:** PyTorch, Scikit-learn, Sentence-Transformers
 *   **API & Web:** FastAPI
 *   **Data & Networking:** NumPy, SciPy, NetworkX

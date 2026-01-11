@@ -19,7 +19,7 @@ The dev agent provides:
 The dev agent is included as part of the AGI-SAC installation. Make sure you have:
 
 1. **Poetry installed** (for dependency management)
-2. **Python 3.9+**
+2. **Python 3.10+**
 3. **Anthropic API key** ([get one here](https://console.anthropic.com/))
 
 Install dependencies:

@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - AGI-SAC Updates
+
+### Breaking Changes
+
+**Python 3.10+ Now Required**
+- Minimum Python version has been updated from 3.9 to 3.10
+- **Impact**: Users running Python 3.9 will need to upgrade to Python 3.10 or later
+- **Reason**: Enables use of modern Python features and aligns with dependency requirements
+- **Migration**: 
+  - Install Python 3.10 or later (3.11 and 3.12 are also supported)
+  - Update your virtual environment: `python3.10 -m venv venv`
+  - Reinstall dependencies: `pip install -r requirements.txt` or `poetry install`
+
+### Added
+- Interactive GUI for AGI-SAC simulations via Gradio
+- Dev agent for workflow automation powered by Claude Agent SDK
+- Enhanced testing infrastructure with comprehensive test coverage
+
+### Changed
+- Updated Python classifier tags to reflect 3.10, 3.11, and 3.12 support
+- Updated mypy and black target versions to Python 3.10
+
+---
+
 ## [2026-01-10] - Documentation Architecture Clarification
 
 ### Changed
