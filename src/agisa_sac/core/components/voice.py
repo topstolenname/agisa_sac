@@ -7,7 +7,7 @@ import numpy as np
 try:
     from .. import FRAMEWORK_VERSION
 except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+    FRAMEWORK_VERSION = "unknown"  # noqa: N806
 
 
 class VoiceEngine:

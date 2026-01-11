@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 try:
     from .. import FRAMEWORK_VERSION
 except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+    FRAMEWORK_VERSION = "unknown"  # noqa: N806
 
 # Use TYPE_CHECKING for agent hint to avoid circular import
 if TYPE_CHECKING:

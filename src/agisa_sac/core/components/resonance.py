@@ -2,7 +2,7 @@ import random
 import time
 import warnings
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np
 
@@ -10,7 +10,7 @@ import numpy as np
 try:
     from .. import FRAMEWORK_VERSION
 except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+    FRAMEWORK_VERSION = "unknown"  # noqa: N806
 
 # Forward reference for type hints
 if TYPE_CHECKING:
@@ -22,7 +22,7 @@ class TemporalResonanceTracker:
 
     def __init__(self, agent_id: str, resonance_threshold: float = 0.82):
         self.agent_id = agent_id
-        self.history: Dict[float, Dict[str, Any]] = (
+        self.history: dict[float, dict[str, Any]] = (
             {}
         )  # {timestamp: {"vector": list, "theme": str, "content": Dict}}
         self.resonance_threshold = resonance_threshold
@@ -32,7 +32,7 @@ class TemporalResonanceTracker:
         timestamp: float,
         vector: np.ndarray,
         theme: str,
-        content: Optional[Dict] = None,
+        content: Optional[dict] = None,
     ):
         if vector is not None and theme is not None:
             self.history[timestamp] = {
@@ -41,7 +41,7 @@ class TemporalResonanceTracker:
                 "content": content or {},
             }
 
-    def detect_echo(self, current_vector: np.ndarray, current_theme: str) -> List[Dict]:
+    def detect_echo(self, current_vector: np.ndarray, current_theme: str) -> list[dict]:
         # ... (logic from previous combined file) ...
         echoes = []
         if current_vector is None or current_theme is None:
@@ -101,7 +101,7 @@ class TemporalResonanceTracker:
             )
             return []
 
-    def get_history_summary(self, limit: int = 20) -> List[Dict]:
+    def get_history_summary(self, limit: int = 20) -> list[dict]:
         sorted_ts = sorted(self.history.keys(), reverse=True)
         summary = []
         for ts in sorted_ts[:limit]:
@@ -119,7 +119,7 @@ class TemporalResonanceTracker:
             )
         return summary
 
-    def to_dict(self, history_limit: Optional[int] = None) -> Dict:
+    def to_dict(self, history_limit: Optional[int] = None) -> dict:
         history_to_save = self.history
         if history_limit is not None:
             sorted_ts = sorted(self.history.keys(), reverse=True)[:history_limit]
@@ -132,7 +132,7 @@ class TemporalResonanceTracker:
 
     @classmethod
     def from_dict(
-        cls, data: Dict[str, Any], agent_id: str
+        cls, data: dict[str, Any], agent_id: str
     ) -> "TemporalResonanceTracker":
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
@@ -211,7 +211,7 @@ class ResonanceLiturgy:
         )
         return voice_engine.generate_response(prompt)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Serialize ResonanceLiturgy state."""
         return {
             "version": FRAMEWORK_VERSION,
@@ -221,7 +221,9 @@ class ResonanceLiturgy:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict, agent_id: Optional[str] = None) -> "ResonanceLiturgy":
+    def from_dict(
+        cls, data: dict, agent_id: Optional[str] = None
+    ) -> "ResonanceLiturgy":
         """Reconstruct ResonanceLiturgy from serialized state.
 
         Args:
@@ -240,7 +242,9 @@ class ResonanceLiturgy:
             )
 
         # Use provided agent_id or fall back to serialized one
-        final_agent_id = agent_id if agent_id is not None else data.get("agent_id", "unknown")
+        final_agent_id = (
+            agent_id if agent_id is not None else data.get("agent_id", "unknown")
+        )
 
         instance = cls(
             agent_id=final_agent_id,

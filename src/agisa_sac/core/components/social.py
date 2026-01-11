@@ -1,7 +1,7 @@
 import random
 import warnings
 from collections import defaultdict
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Optional
 
 import networkx as nx
 import numpy as np
@@ -25,7 +25,7 @@ except ImportError:
 try:
     from .. import FRAMEWORK_VERSION
 except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+    FRAMEWORK_VERSION = "unknown"  # noqa: N806
 
 # Forward reference for MessageBus
 from typing import TYPE_CHECKING
@@ -40,7 +40,7 @@ class DynamicSocialGraph:
     def __init__(
         self,
         num_agents: int,
-        agent_ids: List[str],
+        agent_ids: list[str],
         use_gpu: bool = False,
         message_bus: Optional["MessageBus"] = None,
     ):  # Add message_bus
@@ -62,7 +62,7 @@ class DynamicSocialGraph:
         if self.use_gpu:
             self._transfer_to_gpu()
         self.edge_changes_since_last_community_check = 0
-        self.last_communities: Optional[List[Set[str]]] = (
+        self.last_communities: Optional[list[set[str]]] = (
             None  # Store as set of agent IDs
         )
 
@@ -108,7 +108,7 @@ class DynamicSocialGraph:
             return True
         return False
 
-    def batch_update_influences(self, updates: List[Tuple[str, str, float]]):
+    def batch_update_influences(self, updates: list[tuple[str, str, float]]):
         if not updates:
             return
         self.influence_matrix = self.influence_matrix_csr.tolil()
@@ -140,7 +140,7 @@ class DynamicSocialGraph:
 
     def get_peer_influence_for_agent(
         self, agent_id: str, normalize: bool = True
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         # ... (logic as before) ...
         if agent_id in self.id_to_index:
             target_idx = self.id_to_index[agent_id]
@@ -160,7 +160,7 @@ class DynamicSocialGraph:
             return influences
         return {}
 
-    def get_influence_exerted_by_agent(self, agent_id: str) -> Dict[str, float]:
+    def get_influence_exerted_by_agent(self, agent_id: str) -> dict[str, float]:
         # ... (logic as before) ...
         if agent_id in self.id_to_index:
             influencer_idx = self.id_to_index[agent_id]
@@ -176,7 +176,7 @@ class DynamicSocialGraph:
 
     def get_top_influencers(
         self, n: int = 5, based_on: str = "outgoing"
-    ) -> List[Tuple[str, float]]:
+    ) -> list[tuple[str, float]]:
         # ... (logic as before) ...
         n = min(n, self.num_agents)
         scores = None
@@ -224,7 +224,7 @@ class DynamicSocialGraph:
 
     def detect_communities(
         self, force_update: bool = False, threshold: float = 0.3
-    ) -> Optional[List[Set[str]]]:  # Return Set[str]
+    ) -> Optional[list[set[str]]]:  # Return Set[str]
         recalculation_threshold = max(10, self.num_agents // 5)
         if (
             not force_update
@@ -271,7 +271,7 @@ class DynamicSocialGraph:
             )
         return self.last_communities
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Returns serializable state dictionary."""
         coo = self.influence_matrix_csr.tocoo()
         matrix_state = list(zip(coo.row.tolist(), coo.col.tolist(), coo.data.tolist()))
@@ -290,9 +290,9 @@ class DynamicSocialGraph:
     @classmethod
     def from_dict(
         cls,
-        data: Dict,
+        data: dict,
         num_agents: int,
-        agent_ids: List[str],
+        agent_ids: list[str],
         use_gpu: bool = False,
         message_bus: Optional["MessageBus"] = None,
     ) -> "DynamicSocialGraph":
@@ -321,7 +321,7 @@ class DynamicSocialGraph:
 
         return instance
 
-    def load_state(self, state: Dict):
+    def load_state(self, state: dict):
         """Loads state from dictionary."""
         loaded_version = state.get("version")
         if loaded_version != FRAMEWORK_VERSION:
