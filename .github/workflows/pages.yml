@@ -2,7 +2,9 @@ name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - feature/update-agisa-sac
+      - main
     paths:
       - 'docs/**'
       - 'src/**'
