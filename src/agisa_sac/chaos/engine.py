@@ -16,7 +16,7 @@ import base64
 import json
 import random
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any
 
 import httpx
 
@@ -75,7 +75,7 @@ class ChaosOrchestrator:
             },
         }
 
-    async def register_chaos_nodes(self, count: int = 10) -> List[str]:
+    async def register_chaos_nodes(self, count: int = 10) -> list[str]:
         """Register multiple chaos nodes for coordinated attacks.
 
         Args:
@@ -115,7 +115,7 @@ class ChaosOrchestrator:
                 logger.error(f"Registration error for {node_id}: {e}")
         return node_ids
 
-    async def sybil_attack_scenario(self, duration_minutes: int = 30) -> Dict[str, Any]:
+    async def sybil_attack_scenario(self, duration_minutes: int = 30) -> dict[str, Any]:
         """Execute coordinated Sybil attack with multiple fake identities.
 
         Args:
@@ -169,7 +169,7 @@ class ChaosOrchestrator:
 
     async def semantic_drift_scenario(
         self, duration_minutes: int = 45
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute gradual semantic drift attack to test coherence boundaries.
 
         Args:
@@ -261,7 +261,7 @@ class ChaosOrchestrator:
 
     async def network_partition_scenario(
         self, duration_minutes: int = 20
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Simulate network partition and healing to test CRDT resilience.
 
         Args:
@@ -290,7 +290,7 @@ class ChaosOrchestrator:
 
     async def resource_exhaustion_scenario(
         self, duration_minutes: int = 10
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute resource exhaustion attack.
 
         Args:
@@ -308,7 +308,7 @@ class ChaosOrchestrator:
 
     async def trust_graph_manipulation_scenario(
         self, duration_minutes: int = 15
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute trust graph manipulation attack.
 
         Args:
@@ -326,7 +326,7 @@ class ChaosOrchestrator:
 
     async def coordinated_eclipse_scenario(
         self, duration_minutes: int = 20
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute coordinated eclipse attack.
 
         Args:
@@ -343,7 +343,7 @@ class ChaosOrchestrator:
         }
 
     async def _submit_malicious_fragment(
-        self, node_id: str, attack_type: str, metrics: Dict
+        self, node_id: str, attack_type: str, metrics: dict
     ) -> None:
         """Submit a malicious fragment from a chaos node."""
         auth_token = self._generate_auth_token(node_id)
@@ -379,7 +379,7 @@ class ChaosOrchestrator:
             logger.error(f"Failed to submit fragment from {node_id}: {e}")
 
     async def _submit_fragment_with_trust_tracking(
-        self, node_id: str, content: Dict, metrics: Dict
+        self, node_id: str, content: dict, metrics: dict
     ) -> bool:
         """Submit a fragment and track trust score changes."""
         auth_token = self._generate_auth_token(node_id)
@@ -431,18 +431,18 @@ class ChaosOrchestrator:
         )
 
     async def _simulate_partition_activity(
-        self, groups: Dict, minutes: int, metrics: Dict
+        self, groups: dict, minutes: int, metrics: dict
     ) -> None:
         """Simulate activity during network partition."""
         await asyncio.sleep(minutes * 60)
 
     async def _simulate_partition_healing(
-        self, groups: Dict, minutes: int, metrics: Dict
+        self, groups: dict, minutes: int, metrics: dict
     ) -> None:
         """Simulate network partition healing."""
         await asyncio.sleep(minutes * 60)
 
-    async def run_comprehensive_chaos_suite(self) -> Dict[str, Any]:
+    async def run_comprehensive_chaos_suite(self) -> dict[str, Any]:
         """Run all chaos scenarios in sequence.
 
         Returns:
@@ -470,7 +470,7 @@ class ChaosOrchestrator:
         results["overall_metrics"] = self._compute_suite_metrics(results["scenarios"])
         return results
 
-    def _compute_suite_metrics(self, scenarios: Dict) -> Dict[str, Any]:
+    def _compute_suite_metrics(self, scenarios: dict) -> dict[str, Any]:
         """Compute overall metrics from all scenarios."""
         total_fragments = sum(
             s.get("fragments_submitted", 0) for s in scenarios.values()
@@ -486,7 +486,7 @@ class ChaosOrchestrator:
             "system_resilience_score": self._calculate_resilience_score(scenarios),
         }
 
-    def _calculate_resilience_score(self, scenarios: Dict) -> float:
+    def _calculate_resilience_score(self, scenarios: dict) -> float:
         """Calculate system resilience score based on scenario results."""
         weights = {
             "rejection_effectiveness": 0.4,

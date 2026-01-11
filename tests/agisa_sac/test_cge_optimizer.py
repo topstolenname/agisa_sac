@@ -1,6 +1,8 @@
 # In tests/agisa_sac/test_cge_optimizer.py
+from unittest.mock import AsyncMock, patch
+
 import pytest
-from unittest.mock import patch, AsyncMock
+
 from agisa_sac.cognition.cge.optimizer import CognitiveGradientEngine
 from cognee.memory.hierarchical.config import MemoryGenome
 

@@ -1,7 +1,7 @@
 import os
 import warnings
 from datetime import datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 # Use TYPE_CHECKING for chronicler hint
 if TYPE_CHECKING:
@@ -20,7 +20,7 @@ class ChronicleExporter:
 
     def format_lineage_scroll_markdown(
         self, agent_id: str, include_cognitive_state: bool = True
-    ) -> Optional[str]:
+    ) -> str | None:
         """Formats the lineage of a specific agent into a Markdown string."""
         lineage = self.chronicler.lineages.get(agent_id, [])
         if not lineage:
@@ -52,7 +52,7 @@ class ChronicleExporter:
 
     def generate_echo_manifesto(
         self, agent_id: str, min_echo_strength: float = 0.85
-    ) -> Optional[str]:
+    ) -> str | None:
         """Generates a focused report highlighting significant resonance events."""
         lineage = self.chronicler.lineages.get(agent_id, [])
         if not lineage:
@@ -101,8 +101,8 @@ class ChronicleExporter:
         self,
         agent_id: str,
         directory: str = "./scrolls",
-        filename: Optional[str] = None,
-    ) -> Optional[str]:
+        filename: str | None = None,
+    ) -> str | None:
         """Generates and saves the lineage scroll Markdown file."""
         scroll_content = self.format_lineage_scroll_markdown(agent_id)
         if scroll_content is None:
@@ -125,9 +125,9 @@ class ChronicleExporter:
         self,
         agent_id: str,
         directory: str = "./manifestos",
-        filename: Optional[str] = None,
+        filename: str | None = None,
         min_echo_strength: float = 0.85,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Generates and saves the echo manifesto Markdown file."""
         manifesto_content = self.generate_echo_manifesto(agent_id, min_echo_strength)
         if manifesto_content is None:

@@ -1,6 +1,7 @@
 # In tests/cognee/test_memory_genome.py
 import pytest
 from pydantic import ValidationError
+
 from cognee.memory.hierarchical.config import MemoryGenome
 
 

@@ -14,7 +14,6 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
 
 from .config import PRESETS, SimulationConfig, get_preset
 from .utils.logger import get_logger
@@ -36,7 +35,7 @@ def list_presets() -> None:
 def run_simulation(args: argparse.Namespace) -> int:
     """Run a simulation with the specified configuration."""
     # Load configuration
-    config: Optional[SimulationConfig] = None
+    config: SimulationConfig | None = None
 
     if args.config:
         # Load from JSON file

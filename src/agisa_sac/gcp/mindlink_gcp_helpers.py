@@ -7,7 +7,7 @@ import json
 import logging
 import os
 from collections.abc import Iterable
-from typing import Any, Dict, Optional
+from typing import Any
 
 try:
     from fastapi import FastAPI
@@ -126,7 +126,7 @@ def upload_bytes(
     return blob.public_url
 
 
-def download_bytes(blob_name: str) -> Optional[bytes]:
+def download_bytes(blob_name: str) -> bytes | None:
     """Download data from Cloud Storage."""
     if not HAS_GOOGLE_STORAGE:
         raise ImportError("google-cloud-storage is required for download_bytes")
@@ -146,7 +146,7 @@ def download_bytes(blob_name: str) -> Optional[bytes]:
 # ------------------------------
 # Firestore and BigQuery state persistence
 # ------------------------------
-def save_state(agent_id: str, state: Dict[str, Any]) -> None:
+def save_state(agent_id: str, state: dict[str, Any]) -> None:
     """Persist agent state to Firestore."""
     if not HAS_FIRESTORE:
         raise ImportError("google-cloud-firestore is required for save_state")
@@ -157,7 +157,7 @@ def save_state(agent_id: str, state: Dict[str, Any]) -> None:
     logger.info("Saved agent state for %s", agent_id)
 
 
-def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
+def load_state(agent_id: str) -> dict[str, Any] | None:
     """Load agent state from Firestore."""
     if not HAS_FIRESTORE:
         raise ImportError("google-cloud-firestore is required for load_state")
@@ -170,7 +170,7 @@ def load_state(agent_id: str) -> Optional[Dict[str, Any]]:
     return None
 
 
-def save_state_bq(agent_id: str, state: Dict[str, Any]) -> None:
+def save_state_bq(agent_id: str, state: dict[str, Any]) -> None:
     """Insert agent state into BigQuery."""
     if not HAS_BIGQUERY:
         raise ImportError("google-cloud-bigquery is required for save_state_bq")
@@ -187,7 +187,7 @@ def save_state_bq(agent_id: str, state: Dict[str, Any]) -> None:
 # ------------------------------
 # Pub/Sub events
 # ------------------------------
-def publish_event(event: Dict[str, Any]) -> None:
+def publish_event(event: dict[str, Any]) -> None:
     """Publish an event dictionary to a Pub/Sub topic."""
     if not HAS_PUBSUB:
         raise ImportError("google-cloud-pubsub is required for publish_event")
@@ -233,7 +233,7 @@ class VertexAILLM:
 # ------------------------------
 # Observability helpers
 # ------------------------------
-def log_agent_event(event_type: str, agent_id: str, details: Dict[str, Any]) -> None:
+def log_agent_event(event_type: str, agent_id: str, details: dict[str, Any]) -> None:
     """Log an agent-related event."""
     logger.info("[%s] Agent: %s | Details: %s", event_type, agent_id, details)
 

@@ -1,4 +1,3 @@
-from typing import Dict
 
 from ..agents.agent import EnhancedAgent
 
@@ -7,10 +6,10 @@ class MultiAgentSystem:
     """Minimal container managing a collection of EnhancedAgent instances."""
 
     def __init__(self) -> None:
-        self.agents: Dict[str, EnhancedAgent] = {}
+        self.agents: dict[str, EnhancedAgent] = {}
         self.created_agents: int = 0
 
-    def create_agent(self, agent_id: str, personality: Dict) -> EnhancedAgent:
+    def create_agent(self, agent_id: str, personality: dict) -> EnhancedAgent:
         """Create and register a new EnhancedAgent."""
         agent = EnhancedAgent(
             agent_id=agent_id,
@@ -29,7 +28,7 @@ class MultiAgentSystem:
             return True
         return False
 
-    def get_system_stats(self) -> Dict:
+    def get_system_stats(self) -> dict:
         """Return simple statistics about the system."""
         return {
             "total_agents": len(self.agents),

@@ -11,7 +11,6 @@ from pathlib import Path
 
 import pytest
 
-from agisa_sac.config import get_preset
 from agisa_sac.gui.config_manager import ConfigManager
 from agisa_sac.gui.metrics_collector import MetricsCollector
 from agisa_sac.gui.simulation_runner import SimulationRunner, SimulationState
@@ -75,6 +74,8 @@ class TestConfigManagerIntegration:
             Path(temp_path).unlink(missing_ok=True)
 
 
+@pytest.mark.slow
+@pytest.mark.gui
 class TestSimulationRunnerIntegration:
     """Test SimulationRunner with actual simulations."""
 
@@ -182,6 +183,8 @@ class TestSimulationRunnerIntegration:
         assert runner.status.current_epoch < 99
 
 
+@pytest.mark.slow
+@pytest.mark.gui
 class TestMetricsCollectorIntegration:
     """Test MetricsCollector with real simulation."""
 
@@ -316,6 +319,8 @@ class TestMetricsCollectorIntegration:
             Path(temp_path).unlink(missing_ok=True)
 
 
+@pytest.mark.slow
+@pytest.mark.gui
 class TestFullWorkflowIntegration:
     """Test complete GUI workflow scenarios."""
 

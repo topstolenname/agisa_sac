@@ -1,5 +1,4 @@
 import warnings
-from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -31,15 +30,15 @@ class PersistentHomologyTracker:
 
     def __init__(self, max_dimension: int = 1):
         self.max_dimension = max_dimension
-        self.persistence_diagrams_history: List[Optional[List[np.ndarray]]] = []
+        self.persistence_diagrams_history: list[list[np.ndarray] | None] = []
         self.has_tda_lib = HAS_RIPSER  # Store availability
 
     def compute_persistence(
         self,
         point_cloud: np.ndarray,
-        max_radius: Optional[float] = None,
+        max_radius: float | None = None,
         **ripser_kwargs,
-    ) -> Optional[List[np.ndarray]]:
+    ) -> list[np.ndarray] | None:
         """Computes persistence diagram using ripser."""
         if (
             not self.has_tda_lib
@@ -89,7 +88,7 @@ class PersistentHomologyTracker:
         comparison_dimension: int = 1,
         distance_metric: str = "bottleneck",
         threshold: float = 0.2,
-    ) -> Tuple[bool, float]:
+    ) -> tuple[bool, float]:
         """Detects phase transitions by comparing diagrams using persim.
         Returns (detected, distance)."""
         if not HAS_PERSIM or len(self.persistence_diagrams_history) < 2:
@@ -139,7 +138,7 @@ class PersistentHomologyTracker:
         transition_detected = distance > threshold
         return transition_detected, float(distance)  # Return distance as well
 
-    def get_diagram_summary(self, diagram_index: int = -1) -> Dict:
+    def get_diagram_summary(self, diagram_index: int = -1) -> dict:
         """Returns summary stats for a specific diagram in history."""
         if (
             not self.persistence_diagrams_history
@@ -165,7 +164,7 @@ class PersistentHomologyTracker:
             )
         return summary
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         serializable_history = [
             [d.tolist() for d in diag_list] if diag_list is not None else None
             for diag_list in self.persistence_diagrams_history
@@ -176,7 +175,7 @@ class PersistentHomologyTracker:
             "persistence_diagrams_history": serializable_history,
         }
 
-    def load_state(self, state: Dict):
+    def load_state(self, state: dict):
         loaded_version = state.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(

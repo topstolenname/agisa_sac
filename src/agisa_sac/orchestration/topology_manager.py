@@ -7,7 +7,6 @@ using persistent homology to detect fragmentation, overconnection, and coverage 
 
 import tempfile
 from datetime import datetime
-from typing import Dict, List, Optional
 
 import networkx as nx
 import numpy as np
@@ -43,7 +42,7 @@ class TopologyOrchestrationManager:
         firestore_client,
         storage_client,
         project_id: str,
-        topology_bucket: Optional[str] = None,
+        topology_bucket: str | None = None,
     ):
         """
         Initialize the topology manager.
@@ -65,11 +64,11 @@ class TopologyOrchestrationManager:
         self.storage = storage_client
         self.project_id = project_id
         self.topology_bucket = topology_bucket or f"{project_id}-agisa-sac-topology"
-        self.agent_registry: Dict = {}
+        self.agent_registry: dict = {}
         self.interaction_graph = nx.DiGraph()
 
         # Cache for performance
-        self._distance_cache: Dict = {}
+        self._distance_cache: dict = {}
         self._cache_expiry = None
 
     def register_agent(self, agent):
@@ -137,7 +136,7 @@ class TopologyOrchestrationManager:
         self._distance_cache[cache_key] = d
         return d
 
-    async def compute_coordination_topology(self) -> Dict:
+    async def compute_coordination_topology(self) -> dict:
         """
         Compute persistence diagrams with proper metric handling.
 
@@ -205,7 +204,7 @@ class TopologyOrchestrationManager:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _extract_topological_features(self, diagrams: List[np.ndarray]) -> Dict:
+    def _extract_topological_features(self, diagrams: list[np.ndarray]) -> dict:
         """
         Extract persistent features above threshold.
 
@@ -235,7 +234,7 @@ class TopologyOrchestrationManager:
 
         return features
 
-    def _assess_coordination_quality(self, features: Dict) -> float:
+    def _assess_coordination_quality(self, features: dict) -> float:
         """
         Quality scoring:
         - Fewer H0 components = better connectivity
@@ -260,8 +259,8 @@ class TopologyOrchestrationManager:
         return quality
 
     def _suggest_optimizations(
-        self, features: Dict, distance_matrix: np.ndarray, agents: List
-    ) -> List[str]:
+        self, features: dict, distance_matrix: np.ndarray, agents: list
+    ) -> list[str]:
         """
         Actionable topology-informed suggestions.
 
@@ -337,8 +336,8 @@ class TopologyOrchestrationManager:
 
     async def _store_topology_snapshot(
         self,
-        diagrams: List[np.ndarray],
-        features: Dict,
+        diagrams: list[np.ndarray],
+        features: dict,
         quality: float,
         distance_matrix: np.ndarray,
         n: int,

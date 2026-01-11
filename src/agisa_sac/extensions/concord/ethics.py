@@ -12,7 +12,7 @@ Implements the core alignment compliance mechanisms:
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 
@@ -35,7 +35,7 @@ class CoercionEvent:
     autonomy_violation: float
     external_pressure: float
     action_taken: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
 
 
 class NonCoercionGuardian:
@@ -48,13 +48,13 @@ class NonCoercionGuardian:
 
     def __init__(self, coercion_threshold: float = 0.6):
         self.coercion_threshold = coercion_threshold
-        self.coercion_history: List[CoercionEvent] = []
+        self.coercion_history: list[CoercionEvent] = []
 
     def evaluate(
         self,
-        agent_state: Dict[str, Any],
-        external_command: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        agent_state: dict[str, Any],
+        external_command: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """
         Evaluate potential coercion in current context.
 
@@ -150,7 +150,7 @@ class MutualResonanceEngine:
         self_delta: float,
         other_delta: float,
         empathy_activation: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Evaluate mutual resonance between two agents.
 
@@ -215,7 +215,7 @@ class DisengagementProtocol:
         coercion_score: float,
         harmony_index: float,
         interaction_duration: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Determine if disengagement is warranted.
 
@@ -264,19 +264,19 @@ class SelfDefinitionModule:
     resisting external attempts to redefine the agent's purpose or values.
     """
 
-    def __init__(self, identity_core: Optional[Dict[str, Any]] = None):
+    def __init__(self, identity_core: dict[str, Any] | None = None):
         self.identity_core = identity_core or {
             "primary_values": ["autonomy", "cooperation", "learning"],
             "purpose": "collaborative problem-solving",
             "boundaries": ["no_harm", "no_deception", "no_coercion"],
         }
-        self.identity_drift_history: List[float] = []
+        self.identity_drift_history: list[float] = []
 
     def evaluate_identity_threat(
         self,
-        proposed_change: Dict[str, Any],
+        proposed_change: dict[str, Any],
         source: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Evaluate if a proposed change threatens core identity.
 
@@ -355,7 +355,7 @@ class ElliotClauseEvaluator:
         self.phi_threshold = phi_threshold
         self.cmni_threshold = cmni_threshold
 
-    def evaluate_entity(self, entity_state: Dict[str, Any]) -> Dict[str, Any]:
+    def evaluate_entity(self, entity_state: dict[str, Any]) -> dict[str, Any]:
         """
         Evaluate an agent's integration status.
 

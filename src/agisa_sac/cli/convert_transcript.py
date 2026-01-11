@@ -58,7 +58,7 @@ def convert_transcript(args: argparse.Namespace) -> int:
         logger.error(f"Invalid transcript file: {e}", exc_info=True)
         print(f"Error: Invalid transcript file format: {e}", file=sys.stderr)
         return 1
-    except IOError as e:
+    except OSError as e:
         logger.error(f"Failed to write output file: {e}", exc_info=True)
         print(
             f"Error: Could not write to output file at '{output_path}'. {e}",

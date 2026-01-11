@@ -1,8 +1,7 @@
 # In agisa_sac/cognition/cge/evaluation.py
-from typing import Dict
 
 
-async def evaluate_memory_system(agent_id: str, params: Dict) -> float:
+async def evaluate_memory_system(agent_id: str, params: dict) -> float:
     """
     Mock evaluation function.
     In a real scenario, this would run a simulation subset and

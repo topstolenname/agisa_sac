@@ -18,7 +18,6 @@ from unittest.mock import MagicMock, Mock, patch
 
 import numpy as np
 import pytest
-from scipy.sparse import csr_matrix
 
 from agisa_sac.core.components.continuity_bridge import ContinuityBridgeProtocol
 from agisa_sac.core.components.crdt_memory import CRDTMemoryLayer

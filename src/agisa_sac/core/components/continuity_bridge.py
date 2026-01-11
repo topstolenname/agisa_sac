@@ -3,7 +3,6 @@ import json
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Optional
 
 
 @dataclass
@@ -37,7 +36,7 @@ class ContinuityBridgeProtocol:
     def __init__(self, coherence_threshold: float = 0.8, memory_window_hours: int = 24):
         self.coherence_threshold = coherence_threshold
         self.memory_window = timedelta(hours=memory_window_hours)
-        self.identity_anchor: Optional[IdentityAnchor] = None
+        self.identity_anchor: IdentityAnchor | None = None
         self.trust_graph: dict[str, float] = {}
         self.quarantine_queue: list[CognitiveFragment] = []
 

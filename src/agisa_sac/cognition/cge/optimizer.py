@@ -2,10 +2,10 @@
 import asyncio
 from datetime import datetime
 
-from cognee.memory.hierarchical.config import MemoryGenome
 from hyperopt import Trials, fmin, hp, space_eval, tpe
 
 from agisa_sac.cognition.cge.evaluation import evaluate_memory_system
+from cognee.memory.hierarchical.config import MemoryGenome
 
 
 class CognitiveGradientEngine:

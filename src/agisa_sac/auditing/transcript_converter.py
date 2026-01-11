@@ -10,7 +10,7 @@ import json
 import re
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Any, TypedDict
 
 
 class Turn(TypedDict):
@@ -23,8 +23,8 @@ class Turn(TypedDict):
 class Transcript(TypedDict):
     """Transcript schema."""
 
-    meta: Optional[Dict[str, Any]]
-    turns: List[Turn]
+    meta: dict[str, Any] | None
+    turns: list[Turn]
 
 
 def load_transcript(path: Path) -> Transcript:
@@ -48,7 +48,7 @@ def load_transcript(path: Path) -> Transcript:
     if not path.exists():
         raise FileNotFoundError(f"Transcript file not found: {path}")
 
-    with open(path, "r") as f:
+    with open(path) as f:
         data = json.load(f)
 
     # Validate schema
@@ -92,9 +92,9 @@ def _slugify(text: str) -> str:
 
 def transcript_to_artifact(
     transcript: Transcript,
-    name: Optional[str] = None,
-    marker: Optional[str] = None,
-) -> Dict[str, Any]:
+    name: str | None = None,
+    marker: str | None = None,
+) -> dict[str, Any]:
     """Convert transcript to AGI-SAC artifact.
 
     Args:
@@ -160,8 +160,8 @@ def transcript_to_artifact(
 
 
 def write_context_blob(
-    base_context: Optional[Dict[str, Any]],
-    artifact: Dict[str, Any],
+    base_context: dict[str, Any] | None,
+    artifact: dict[str, Any],
     out_path: Path,
     target_epoch: int = 0,
     exposure_rate: float = 0.15,

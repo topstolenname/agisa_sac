@@ -1,6 +1,6 @@
 import math
 from collections import Counter
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -14,13 +14,13 @@ if TYPE_CHECKING:
 class AgentStateAnalyzer:
     """Computes system-wide metrics based on the current state of all agents."""
 
-    def __init__(self, agents: Dict[str, "EnhancedAgent"]):
+    def __init__(self, agents: dict[str, "EnhancedAgent"]):
         if not isinstance(agents, dict):
             raise TypeError("Input 'agents' must be a dictionary.")
         self.agents = agents
         self.num_agents = len(agents)
 
-    def compute_archetype_distribution(self) -> Dict[str, int]:
+    def compute_archetype_distribution(self) -> dict[str, int]:
         """Calculates the frequency distribution of declared agent archetypes."""
         if not self.agents:
             return {}
@@ -56,7 +56,7 @@ class AgentStateAnalyzer:
         return satori_count / self.num_agents if self.num_agents > 0 else 0.0
 
     def compute_archetype_entropy(
-        self, distribution: Optional[Dict[str, int]] = None
+        self, distribution: dict[str, int] | None = None
     ) -> float:
         """Calculates the Shannon entropy of the archetype distribution."""
         if distribution is None:
@@ -99,7 +99,7 @@ class AgentStateAnalyzer:
                 similarities.append(detected_echoes[0]["similarity"])
         return float(np.mean(similarities)) if similarities else 0.0
 
-    def summarize(self, satori_threshold: float = 0.88) -> Dict[str, Any]:
+    def summarize(self, satori_threshold: float = 0.88) -> dict[str, Any]:
         """Computes and returns a dictionary containing all key system metrics."""
         if not self.agents:
             return {
@@ -123,9 +123,9 @@ class AgentStateAnalyzer:
         }
         return summary
 
-    def generate_monitoring_metrics(self) -> Dict[str, Dict[str, float]]:
+    def generate_monitoring_metrics(self) -> dict[str, dict[str, float]]:
         """Return monitoring metrics for each agent."""
-        metrics: Dict[str, Dict[str, float]] = {}
+        metrics: dict[str, dict[str, float]] = {}
         for agent_id, agent in self.agents.items():
             metrics[agent_id] = monitoring.generate_monitoring_metrics(agent)
         return metrics

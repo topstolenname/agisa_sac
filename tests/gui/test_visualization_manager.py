@@ -3,7 +3,7 @@
 Tests the visualization system that generates matplotlib figures for GUI display.
 """
 
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import matplotlib.pyplot as plt
 import numpy as np
