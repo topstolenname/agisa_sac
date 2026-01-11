@@ -20,55 +20,75 @@ from .utils.logger import get_logger, setup_logging
 __version__ = "1.0.0-alpha"
 FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
 
-# Expose key classes for easier import from the top-level package
-try:
-    from .agents.agent import EnhancedAgent
-    from .analysis.analyzer import AgentStateAnalyzer
-    from .analysis.clustering import cluster_archetypes
-    from .analysis.exporter import ChronicleExporter
-    from .analysis.tda import PersistentHomologyTracker
-    from .analysis.visualization import (
-        plot_metric_comparison,
-        plot_persistence_barcode,
-        plot_persistence_diagram,
-    )
-    from .core.components.cognitive import CognitiveDiversityEngine
-    from .core.components.crdt_memory import CRDTMemoryLayer
-    from .core.components.enhanced_cbp import EnhancedContinuityBridgeProtocol
-    from .core.components.memory import (
-        MemoryContinuumLayer,
-        MemoryEncapsulation,
-    )
-    from .core.components.reflexivity import ReflexivityLayer
-    from .core.components.resonance import (
-        ResonanceLiturgy,
-        TemporalResonanceTracker,
-    )
-    from .core.components.semantic_analyzer import (
-        EnhancedSemanticAnalyzer,
-        SemanticProfile,
-    )
-    from .core.components.social import DynamicSocialGraph
-    from .core.components.voice import VoiceEngine
-    from .core.multi_agent_system import MultiAgentSystem
-    from .core.orchestrator import SimulationOrchestrator
-    from .gcp import VertexAgent
-    from .metrics.monitoring import (
-        compute_mce,
-        compute_nds,
-        compute_sri,
-        compute_vsd,
-        generate_monitoring_metrics,
-    )
-    from .utils.message_bus import MessageBus
-except ImportError as e:
-    import warnings
+# Lazy import mappings - components are loaded on first access
+# This keeps CLI startup fast while maintaining backward compatibility
+_LAZY_IMPORTS = {
+    # Core components
+    "SimulationOrchestrator": ".core.orchestrator",
+    "EnhancedAgent": ".agents.agent",
+    "MemoryContinuumLayer": ".core.components.memory",
+    "MemoryEncapsulation": ".core.components.memory",
+    "CognitiveDiversityEngine": ".core.components.cognitive",
+    "DynamicSocialGraph": ".core.components.social",
+    "TemporalResonanceTracker": ".core.components.resonance",
+    "ResonanceLiturgy": ".core.components.resonance",
+    "VoiceEngine": ".core.components.voice",
+    "ReflexivityLayer": ".core.components.reflexivity",
+    "EnhancedSemanticAnalyzer": ".core.components.semantic_analyzer",
+    "SemanticProfile": ".core.components.semantic_analyzer",
+    "CRDTMemoryLayer": ".core.components.crdt_memory",
+    "EnhancedContinuityBridgeProtocol": ".core.components.enhanced_cbp",
+    # Analysis
+    "AgentStateAnalyzer": ".analysis.analyzer",
+    "ChronicleExporter": ".analysis.exporter",
+    "PersistentHomologyTracker": ".analysis.tda",
+    "plot_persistence_diagram": ".analysis.visualization",
+    "plot_persistence_barcode": ".analysis.visualization",
+    "plot_metric_comparison": ".analysis.visualization",
+    "cluster_archetypes": ".analysis.clustering",
+    # Systems
+    "MultiAgentSystem": ".core.multi_agent_system",
+    "MessageBus": ".utils.message_bus",
+    # Metrics
+    "compute_sri": ".metrics.monitoring",
+    "compute_nds": ".metrics.monitoring",
+    "compute_vsd": ".metrics.monitoring",
+    "compute_mce": ".metrics.monitoring",
+    "generate_monitoring_metrics": ".metrics.monitoring",
+    # Cloud
+    "VertexAgent": ".gcp",
+}
 
-    warnings.warn(
-        f"Could not import all AGI-SAC components during "
-        f"package initialization: {e}",
-        ImportWarning,
-    )
+
+def __getattr__(name: str):
+    """Lazy-load heavy components only when accessed.
+
+    This dramatically improves CLI startup time by deferring imports
+    of ML dependencies (torch, sentence-transformers) until actually needed.
+    """
+    if name in _LAZY_IMPORTS:
+        module_path = _LAZY_IMPORTS[name]
+        try:
+            from importlib import import_module
+
+            module = import_module(module_path, package=__package__)
+            attr = getattr(module, name)
+            # Cache the imported attribute to avoid repeated imports
+            globals()[name] = attr
+            return attr
+        except ImportError as e:
+            import warnings
+
+            warnings.warn(
+                f"Could not import {name} from {module_path}: {e}",
+                ImportWarning,
+            )
+            raise AttributeError(
+                f"Module {__name__} has no attribute {name} "
+                f"(failed to lazy-load from {module_path})"
+            ) from e
+
+    raise AttributeError(f"Module {__name__} has no attribute {name}")
 
 __all__ = [
     "FRAMEWORK_VERSION",
