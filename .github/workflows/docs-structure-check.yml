@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - feature/update-agisa-sac
     paths:
       - 'docs/**'
       - 'mkdocs.yml'

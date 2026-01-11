@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/update-agisa-sac
       - develop
   pull_request:
   workflow_dispatch:  # Allow manual triggering
@@ -131,7 +132,7 @@ jobs:
     name: GCP Deployment Preview
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/feature/update-agisa-sac'
 
     steps:
       - uses: actions/checkout@v4
