@@ -35,7 +35,7 @@ All AGI-SAC commands are now available:
 
 Add to your `~/.zshrc` or `~/.bashrc`:
 ```bash
-source /home/tristanj/AGI-SAC/agisa_sac/.shellrc
+source /path/to/your/AGI-SAC/agisa_sac/.shellrc
 ```
 
 Or load it temporarily:
