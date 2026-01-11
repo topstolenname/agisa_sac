@@ -1,0 +1,99 @@
+# AGI-SAC Shell Configuration
+# Add this to your ~/.zshrc or ~/.bashrc:
+#   source /path/to/your/agisa_sac/.shellrc
+
+# Project root - auto-detect from script location
+AGISA_SAC_ROOT="${AGISA_SAC_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)}"
+export AGISA_SAC_ROOT
+
+# Add Poetry to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Load environment variables
+if [ -f "$AGISA_SAC_ROOT/.env" ]; then
+    set -a
+    source "$AGISA_SAC_ROOT/.env"
+    set +a
+fi
+
+# Helpful aliases
+alias agisa-sac='poetry run agisa-sac'
+alias agisa-dev='poetry run agisa-dev'
+alias agisa-chaos='poetry run agisa-chaos'
+alias agisa-federation='poetry run agisa-federation'
+alias agisa-shell='cd $AGISA_SAC_ROOT && poetry shell'
+alias agisa-test='cd $AGISA_SAC_ROOT && poetry run pytest'
+alias agisa-lint='cd $AGISA_SAC_ROOT && poetry run ruff check .'
+alias agisa-format='cd $AGISA_SAC_ROOT && poetry run black .'
+alias agisa-type='cd $AGISA_SAC_ROOT && poetry run mypy src/'
+
+# Quick navigation
+alias cd-agisa='cd $AGISA_SAC_ROOT'
+
+# Helper functions
+agisa-status() {
+    echo "AGI-SAC Development Environment Status"
+    echo "======================================="
+    echo "Project Root: $AGISA_SAC_ROOT"
+    echo "Python: $(python3 --version)"
+    echo "Poetry: $(poetry --version 2>/dev/null || echo 'Not found')"
+    echo ""
+    if [ -z "$ANTHROPIC_API_KEY" ]; then
+        echo "⚠️  ANTHROPIC_API_KEY: Not set"
+    else
+        echo "✓ ANTHROPIC_API_KEY: Configured"
+    fi
+    echo ""
+    echo "Available commands:"
+    echo "  agisa-sac, agisa-dev, agisa-chaos, agisa-federation"
+    echo "  agisa-shell, agisa-test, agisa-lint, agisa-format, agisa-type"
+}
+
+# Show quick help
+agisa-help() {
+    cat << 'EOF'
+AGI-SAC Development Commands
+============================
+
+Core Commands:
+  agisa-sac          - Multi-agent orchestration system
+  agisa-dev          - Development workflow agent (Claude SDK)
+  agisa-chaos        - Chaos engineering tests
+  agisa-federation   - Federated deployment manager
+
+Development:
+  agisa-shell        - Activate Poetry virtual environment
+  agisa-test         - Run pytest test suite
+  agisa-lint         - Run ruff linter
+  agisa-format       - Format code with black
+  agisa-type         - Run mypy type checker
+
+Navigation:
+  cd-agisa           - Navigate to project root
+
+Utilities:
+  agisa-status       - Show environment status
+  agisa-help         - Show this help
+
+Dev Agent Examples:
+  agisa-dev "Run all tests"
+  agisa-dev "Analyze code quality in src/"
+  agisa-dev --interactive
+  agisa-dev --allow-edits "Refactor module"
+
+Documentation:
+  README.md          - Project overview
+  DEV_AGENT_README.md - Dev agent guide
+  MERGE_NOTES.md     - Merge documentation
+
+Setup:
+  1. Ensure Python 3.10+ is installed
+  2. Set ANTHROPIC_API_KEY in .env
+  3. Run: poetry install
+  4. Run: agisa-dev --help
+
+EOF
+}
+
+# Auto-completion hint
+echo "💡 Tip: Run 'agisa-help' for available commands"

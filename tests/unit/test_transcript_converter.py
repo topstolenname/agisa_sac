@@ -79,6 +79,16 @@ def test_load_transcript_invalid_json(tmp_path):
         load_transcript(file_path)
 
 
+def test_load_transcript_not_dict(tmp_path):
+    """Test loading a transcript that is not a JSON object."""
+    file_path = tmp_path / "not_dict.json"
+    with open(file_path, "w") as f:
+        json.dump(["this", "is", "a", "list"], f)
+
+    with pytest.raises(ValueError, match="Transcript must be a JSON object"):
+        load_transcript(file_path)
+
+
 def test_load_transcript_missing_turns(tmp_path):
     """Test loading a transcript without turns field."""
     file_path = tmp_path / "no_turns.json"
@@ -86,6 +96,26 @@ def test_load_transcript_missing_turns(tmp_path):
         json.dump({"meta": {}}, f)
 
     with pytest.raises(ValueError, match="must contain 'turns' field"):
+        load_transcript(file_path)
+
+
+def test_load_transcript_turns_not_list(tmp_path):
+    """Test loading a transcript where 'turns' is not a list."""
+    file_path = tmp_path / "turns_not_list.json"
+    with open(file_path, "w") as f:
+        json.dump({"turns": "should be a list"}, f)
+
+    with pytest.raises(ValueError, match="'turns' field must be a list"):
+        load_transcript(file_path)
+
+
+def test_load_transcript_turn_not_dict(tmp_path):
+    """Test loading a transcript with a turn that is not a dictionary."""
+    file_path = tmp_path / "turn_not_dict.json"
+    with open(file_path, "w") as f:
+        json.dump({"turns": ["string instead of dict"]}, f)
+
+    with pytest.raises(ValueError, match="Turn 0 must be a dictionary"):
         load_transcript(file_path)
 
 

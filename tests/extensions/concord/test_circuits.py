@@ -166,3 +166,43 @@ def test_empathy_circuit_memory_limit():
 
     # Should be limited to 100
     assert len(circuit.affective_memory) == 100
+
+
+def test_empathy_circuit_empty_memory():
+    """Test get_recent_resonance_mean returns 0.0 when memory is empty."""
+    circuit = EmpathyCircuit(resonance_gain=0.8)
+
+    # Empty affective memory
+    assert len(circuit.affective_memory) == 0
+
+    # Should return 0.0
+    mean = circuit.get_recent_resonance_mean()
+    assert mean == 0.0
+
+
+def test_tactical_help_circuit_with_memory_trace_objects():
+    """Test tactical help circuit with MemoryTrace-like objects (not dicts)."""
+    from dataclasses import dataclass
+
+    @dataclass
+    class MockMemoryTrace:
+        event_type: str
+
+    circuit = TacticalHelpCircuit(help_threshold=0.5)
+
+    self_state = {"resource_level": 0.6, "current_load": 0.4}
+    other_state = {"need_level": 0.5, "priority": 0.6}
+
+    # History with MemoryTrace-like objects
+    history = [
+        MockMemoryTrace(event_type="help_provided"),
+        MockMemoryTrace(event_type="assistance_given"),
+        MockMemoryTrace(event_type="help_received"),
+        MockMemoryTrace(event_type="assistance_received"),
+        MockMemoryTrace(event_type="other_event"),
+    ]
+
+    activation = circuit.evaluate(self_state, other_state, relationship_history=history)
+
+    # Should process both help_provided and help_received types
+    assert activation.context["reciprocity_bonus"] > 0
