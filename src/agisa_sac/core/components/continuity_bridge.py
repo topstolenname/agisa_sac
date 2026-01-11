@@ -3,7 +3,7 @@ import json
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 
 @dataclass
@@ -12,7 +12,7 @@ class CognitiveFragment:
 
     node_id: str
     fragment_type: str  # "memory", "decision", "identity_update"
-    content: Dict
+    content: dict
     timestamp: datetime
     signature: str
     trust_score: float = 0.0
@@ -23,9 +23,9 @@ class IdentityAnchor:
     """Core identity elements that define coherence boundaries"""
 
     identity_hash: str
-    core_values: Dict
-    recent_memories: List[str]
-    ethical_principles: List[str]
+    core_values: dict
+    recent_memories: list[str]
+    ethical_principles: list[str]
     created_at: datetime
     last_updated: datetime
 
@@ -38,18 +38,18 @@ class ContinuityBridgeProtocol:
         self.coherence_threshold = coherence_threshold
         self.memory_window = timedelta(hours=memory_window_hours)
         self.identity_anchor: Optional[IdentityAnchor] = None
-        self.trust_graph: Dict[str, float] = {}
-        self.quarantine_queue: List[CognitiveFragment] = []
+        self.trust_graph: dict[str, float] = {}
+        self.quarantine_queue: list[CognitiveFragment] = []
 
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
     @property
-    def quarantined_fragments(self) -> List[CognitiveFragment]:
+    def quarantined_fragments(self) -> list[CognitiveFragment]:
         """Backward-compatible alias for quarantine_queue"""
         return self.quarantine_queue
 
-    def initialize_identity_anchor(self, core_identity: Dict) -> str:
+    def initialize_identity_anchor(self, core_identity: dict) -> str:
         """Initialize the identity anchor from core agent configuration"""
         identity_hash = self._compute_identity_hash(core_identity)
 
@@ -65,7 +65,7 @@ class ContinuityBridgeProtocol:
         self.logger.info("Identity anchor initialized: %s...", identity_hash[:8])
         return identity_hash
 
-    def validate_fragment(self, fragment: CognitiveFragment) -> Tuple[bool, str]:
+    def validate_fragment(self, fragment: CognitiveFragment) -> tuple[bool, str]:
         """Validates a cognitive fragment against identity coherence"""
         if not self.identity_anchor:
             return False, "No identity anchor established"
@@ -95,7 +95,7 @@ class ContinuityBridgeProtocol:
 
     def _validate_identity_update(
         self, fragment: CognitiveFragment, node_trust: float
-    ) -> Tuple[bool, str]:
+    ) -> tuple[bool, str]:
         """
         Extra validation for identity_update fragments.
 
@@ -125,25 +125,25 @@ class ContinuityBridgeProtocol:
         if proposed_values is None and proposed_ethics is None:
             return True, "Identity update validated"
 
-        anchor_values = set(
+        anchor_values = {
             k.lower() for k in (self.identity_anchor.core_values or {}).keys()
-        )
-        anchor_ethics = set(
+        }
+        anchor_ethics = {
             str(p).lower() for p in (self.identity_anchor.ethical_principles or [])
-        )
+        }
 
         proposed_value_keys = set()
         if isinstance(proposed_values, dict):
-            proposed_value_keys = set(str(k).lower() for k in proposed_values.keys())
+            proposed_value_keys = {str(k).lower() for k in proposed_values.keys()}
         elif isinstance(proposed_values, list):
-            proposed_value_keys = set(str(k).lower() for k in proposed_values)
+            proposed_value_keys = {str(k).lower() for k in proposed_values}
         elif proposed_values is not None:
             # String/other scalar: best-effort token
             proposed_value_keys = {str(proposed_values).lower()}
 
         proposed_ethics_set = set()
         if isinstance(proposed_ethics, list):
-            proposed_ethics_set = set(str(x).lower() for x in proposed_ethics)
+            proposed_ethics_set = {str(x).lower() for x in proposed_ethics}
         elif proposed_ethics is not None:
             proposed_ethics_set = {str(proposed_ethics).lower()}
 
@@ -185,7 +185,7 @@ class ContinuityBridgeProtocol:
         self.logger.warning("Fragment quarantined: %s", reason)
         return False
 
-    def _compute_identity_hash(self, identity_data: Dict) -> str:
+    def _compute_identity_hash(self, identity_data: dict) -> str:
         """Generate cryptographic hash of core identity"""
         identity_json = json.dumps(identity_data, sort_keys=True)
         return hashlib.sha256(identity_json.encode()).hexdigest()
@@ -301,7 +301,7 @@ class ContinuityBridgeProtocol:
         new_trust = max(0.0, min(1.0, current_trust + delta))
         self.trust_graph[node_id] = new_trust
 
-    def get_trust_metrics(self) -> Dict:
+    def get_trust_metrics(self) -> dict:
         """Return current trust graph and quarantine status"""
         return {
             "trust_graph": self.trust_graph,
@@ -316,9 +316,102 @@ class ContinuityBridgeProtocol:
             ),
         }
 
-    def review_quarantined_fragments(self) -> List[CognitiveFragment]:
+    def review_quarantined_fragments(self) -> list[CognitiveFragment]:
         """Return quarantined fragments for manual review"""
         return self.quarantine_queue.copy()
+
+    def to_dict(self) -> dict:
+        """Serialize ContinuityBridgeProtocol to dictionary."""
+        # Import here to avoid circular dependencies
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "coherence_threshold": self.coherence_threshold,
+            "memory_window_hours": int(self.memory_window.total_seconds() / 3600),
+            "identity_anchor": (
+                {
+                    "identity_hash": self.identity_anchor.identity_hash,
+                    "core_values": self.identity_anchor.core_values,
+                    "recent_memories": self.identity_anchor.recent_memories,
+                    "ethical_principles": self.identity_anchor.ethical_principles,
+                    "created_at": self.identity_anchor.created_at.isoformat(),
+                    "last_updated": self.identity_anchor.last_updated.isoformat(),
+                }
+                if self.identity_anchor
+                else None
+            ),
+            "trust_graph": self.trust_graph.copy(),
+            "quarantine_queue": [
+                {
+                    "node_id": frag.node_id,
+                    "fragment_type": frag.fragment_type,
+                    "content": frag.content,
+                    "timestamp": frag.timestamp.isoformat(),
+                    "signature": frag.signature,
+                    "trust_score": frag.trust_score,
+                }
+                for frag in self.quarantine_queue
+            ],
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "ContinuityBridgeProtocol":
+        """Reconstruct ContinuityBridgeProtocol from serialized state."""
+        import warnings
+
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading ContinuityBridgeProtocol v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Create instance with configuration
+        instance = cls(
+            coherence_threshold=data.get("coherence_threshold", 0.8),
+            memory_window_hours=data.get("memory_window_hours", 24),
+        )
+
+        # Restore identity anchor if present
+        identity_data = data.get("identity_anchor")
+        if identity_data:
+            instance.identity_anchor = IdentityAnchor(
+                identity_hash=identity_data["identity_hash"],
+                core_values=identity_data["core_values"],
+                recent_memories=identity_data["recent_memories"],
+                ethical_principles=identity_data["ethical_principles"],
+                created_at=datetime.fromisoformat(identity_data["created_at"]),
+                last_updated=datetime.fromisoformat(identity_data["last_updated"]),
+            )
+
+        # Restore trust graph
+        instance.trust_graph = data.get("trust_graph", {}).copy()
+
+        # Restore quarantine queue
+        quarantine_data = data.get("quarantine_queue", [])
+        instance.quarantine_queue = [
+            CognitiveFragment(
+                node_id=frag_data["node_id"],
+                fragment_type=frag_data["fragment_type"],
+                content=frag_data["content"],
+                timestamp=datetime.fromisoformat(frag_data["timestamp"]),
+                signature=frag_data["signature"],
+                trust_score=frag_data["trust_score"],
+            )
+            for frag_data in quarantine_data
+        ]
+
+        return instance
 
 
 class CBPMiddleware:
@@ -327,7 +420,7 @@ class CBPMiddleware:
     def __init__(self, cbp: ContinuityBridgeProtocol):
         self.cbp = cbp
 
-    def process_edge_update(self, node_id: str, update_data: Dict) -> Dict:
+    def process_edge_update(self, node_id: str, update_data: dict) -> dict:
         """Process update from edge node through CBP"""
         fragment = CognitiveFragment(
             node_id=node_id,

@@ -17,7 +17,6 @@ from pathlib import Path
 from typing import Optional
 
 from .config import PRESETS, SimulationConfig, get_preset
-from .core.orchestrator import SimulationOrchestrator
 from .utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -109,6 +108,9 @@ def run_simulation(args: argparse.Namespace) -> int:
     print("-" * 60)
 
     try:
+        # Lazy import to avoid loading heavy ML dependencies for --help/list-presets
+        from .core.orchestrator import SimulationOrchestrator
+
         orchestrator = SimulationOrchestrator(config.to_dict())
         orchestrator.run_simulation()
 

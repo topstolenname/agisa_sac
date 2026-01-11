@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 try:
     from .. import FRAMEWORK_VERSION
 except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+    FRAMEWORK_VERSION = "unknown"  # noqa: N806
 
 
 class CognitiveDiversityEngine:

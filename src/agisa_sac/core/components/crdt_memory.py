@@ -3,14 +3,14 @@ import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 
 @dataclass
 class VectorClock:
     """Vector clock for distributed timestamp ordering"""
 
-    clocks: Dict[str, int] = field(default_factory=dict)
+    clocks: dict[str, int] = field(default_factory=dict)
 
     def increment(self, node_id: str) -> "VectorClock":
         new_clocks = self.clocks.copy()
@@ -49,7 +49,7 @@ class CRDTMemoryEntry:
     """Individual memory entry with CRDT metadata"""
 
     entry_id: str
-    content: Dict[str, Any]
+    content: dict[str, Any]
     vector_clock: VectorClock
     node_id: str
     created_at: datetime
@@ -69,7 +69,7 @@ class MemoryMergeConflict:
 
     conflict_id: str
     entry_id: str
-    conflicting_entries: List[CRDTMemoryEntry]
+    conflicting_entries: list[CRDTMemoryEntry]
     resolution_strategy: str
     resolved_entry: Optional[CRDTMemoryEntry] = None
     manual_review_required: bool = False
@@ -81,24 +81,24 @@ class CRDTMemoryLayer:
     def __init__(self, node_id: str, max_memory_size: int = 10000):
         self.node_id = node_id
         self.max_memory_size = max_memory_size
-        self.memories: Dict[str, CRDTMemoryEntry] = {}
+        self.memories: dict[str, CRDTMemoryEntry] = {}
         self.vector_clock = VectorClock()
-        self.tombstones: Set[str] = set()
-        self.merge_conflicts: List[MemoryMergeConflict] = []
+        self.tombstones: set[str] = set()
+        self.merge_conflicts: list[MemoryMergeConflict] = []
         self.resolution_strategies = {
             "last_writer_wins": self._resolve_last_writer_wins,
             "semantic_merge": self._resolve_semantic_merge,
             "importance_weighted": self._resolve_importance_weighted,
             "consensus_required": self._resolve_consensus_required,
         }
-        self.sync_history: List[Dict] = []
+        self.sync_history: list[dict] = []
         self.compression_ratio = 1.0
         self.logger = logging.getLogger(__name__)
         self.logger.info(f"CRDT Memory Layer initialized for node {node_id}")
 
     def add_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         memory_type: str = "episodic",
         importance_score: float = 1.0,
     ) -> str:
@@ -119,7 +119,7 @@ class CRDTMemoryLayer:
         self.logger.debug(f"Added memory {entry_id} of type {memory_type}")
         return entry_id
 
-    def update_memory(self, entry_id: str, content_updates: Dict[str, Any]) -> bool:
+    def update_memory(self, entry_id: str, content_updates: dict[str, Any]) -> bool:
         if entry_id not in self.memories or entry_id in self.tombstones:
             self.logger.warning(f"Cannot update non-existent memory {entry_id}")
             return False
@@ -160,11 +160,11 @@ class CRDTMemoryLayer:
 
     def merge_remote_state(
         self,
-        remote_memories: Dict[str, CRDTMemoryEntry],
+        remote_memories: dict[str, CRDTMemoryEntry],
         remote_vector_clock: VectorClock,
-        remote_tombstones: Set[str],
-    ) -> Dict[str, str]:
-        merge_results: Dict[str, str] = {}
+        remote_tombstones: set[str],
+    ) -> dict[str, str]:
+        merge_results: dict[str, str] = {}
         conflicts_detected = 0
         self.vector_clock = self.vector_clock.update(remote_vector_clock)
         for entry_id, remote_entry in remote_memories.items():
@@ -255,7 +255,7 @@ class CRDTMemoryLayer:
 
     def _resolve_last_writer_wins(
         self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
-    ) -> Tuple[CRDTMemoryEntry, bool]:
+    ) -> tuple[CRDTMemoryEntry, bool]:
         if remote_entry.created_at > local_entry.created_at:
             return remote_entry, False
         else:
@@ -263,7 +263,7 @@ class CRDTMemoryLayer:
 
     def _resolve_semantic_merge(
         self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
-    ) -> Tuple[Optional[CRDTMemoryEntry], bool]:
+    ) -> tuple[Optional[CRDTMemoryEntry], bool]:
         try:
             merged_content = local_entry.content.copy()
             for key, remote_value in remote_entry.content.items():
@@ -293,7 +293,7 @@ class CRDTMemoryLayer:
 
     def _resolve_importance_weighted(
         self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
-    ) -> Tuple[CRDTMemoryEntry, bool]:
+    ) -> tuple[CRDTMemoryEntry, bool]:
         if remote_entry.importance_score > local_entry.importance_score:
             return remote_entry, False
         elif local_entry.importance_score > remote_entry.importance_score:
@@ -303,7 +303,7 @@ class CRDTMemoryLayer:
 
     def _resolve_consensus_required(
         self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
-    ) -> Tuple[None, bool]:
+    ) -> tuple[None, bool]:
         return None, True
 
     def _cleanup_old_memories(self):
@@ -325,7 +325,7 @@ class CRDTMemoryLayer:
                 del self.memories[entry_id]
         self.logger.info(f"Cleaned up {len(self.memories) - keep_count} old memories")
 
-    def get_sync_state(self) -> Dict[str, Any]:
+    def get_sync_state(self) -> dict[str, Any]:
         return {
             "memories": {
                 entry_id: {
@@ -344,9 +344,9 @@ class CRDTMemoryLayer:
             "node_id": self.node_id,
         }
 
-    def load_sync_state(self, state_data: Dict[str, Any]) -> bool:
+    def load_sync_state(self, state_data: dict[str, Any]) -> bool:
         try:
-            remote_memories: Dict[str, CRDTMemoryEntry] = {}
+            remote_memories: dict[str, CRDTMemoryEntry] = {}
             for entry_id, mem_data in state_data["memories"].items():
                 memory = CRDTMemoryEntry(
                     entry_id=mem_data["entry_id"],
@@ -369,7 +369,7 @@ class CRDTMemoryLayer:
             self.logger.error(f"Failed to load sync state: {e}")
             return False
 
-    def get_memory_statistics(self) -> Dict[str, Any]:
+    def get_memory_statistics(self) -> dict[str, Any]:
         if not self.memories:
             return {"total_memories": 0}
         memory_types = defaultdict(int)
@@ -398,3 +398,77 @@ class CRDTMemoryLayer:
             "vector_clock": self.vector_clock.clocks,
             "node_id": self.node_id,
         }
+
+    def to_dict(self) -> dict[str, Any]:
+        """Serialize CRDT memory layer to dictionary.
+
+        Returns serializable state including version tracking.
+        """
+        # Import here to avoid circular dependencies
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        # Use get_sync_state() and add version
+        sync_state = self.get_sync_state()
+        sync_state["version"] = FRAMEWORK_VERSION
+
+        # Add additional non-sync state
+        sync_state["max_memory_size"] = self.max_memory_size
+        sync_state["compression_ratio"] = self.compression_ratio
+
+        return sync_state
+
+    @classmethod
+    def from_dict(
+        cls, data: dict[str, Any], node_id: Optional[str] = None
+    ) -> "CRDTMemoryLayer":
+        """Reconstruct CRDT memory layer from serialized state.
+
+        Args:
+            data: Serialized state dictionary from to_dict()
+            node_id: Optional node_id override (uses data['node_id'] if not provided)
+
+        Returns:
+            Reconstructed CRDTMemoryLayer instance
+        """
+        import warnings
+
+        try:
+            from .. import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading CRDTMemoryLayer v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Use provided node_id or fall back to serialized one
+        final_node_id = (
+            node_id if node_id is not None else data.get("node_id", "unknown")
+        )
+
+        # Create new instance
+        instance = cls(
+            node_id=final_node_id,
+            max_memory_size=data.get("max_memory_size", 10000),
+        )
+
+        # Restore compression ratio
+        instance.compression_ratio = data.get("compression_ratio", 1.0)
+
+        # Load the sync state (memories, vector_clock, tombstones)
+        if instance.load_sync_state(data):
+            return instance
+        else:
+            warnings.warn(
+                f"Failed to load sync state for node {final_node_id}. "
+                "Returning partially initialized instance.",
+                RuntimeWarning,
+            )
+            return instance

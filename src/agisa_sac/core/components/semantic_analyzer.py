@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 
@@ -24,10 +24,69 @@ class SemanticProfile:
     """Rich semantic representation of identity or fragment"""
 
     text_embedding: np.ndarray
-    concept_vectors: Dict[str, np.ndarray]
+    concept_vectors: dict[str, np.ndarray]
     ethical_signature: np.ndarray
     temporal_context: Optional[np.ndarray] = None
     confidence_score: float = 1.0
+
+    def to_dict(self) -> dict:
+        """Serialize SemanticProfile to dictionary.
+
+        Converts numpy arrays to lists for JSON compatibility.
+        """
+        # Import here to avoid circular dependencies at module level
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "text_embedding": self.text_embedding.tolist(),
+            "concept_vectors": {
+                key: vec.tolist() for key, vec in self.concept_vectors.items()
+            },
+            "ethical_signature": self.ethical_signature.tolist(),
+            "temporal_context": (
+                self.temporal_context.tolist() if self.temporal_context is not None else None
+            ),
+            "confidence_score": self.confidence_score,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "SemanticProfile":
+        """Reconstruct SemanticProfile from dictionary.
+
+        Converts lists back to numpy arrays.
+        """
+        import warnings
+
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading SemanticProfile v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        return cls(
+            text_embedding=np.array(data["text_embedding"]),
+            concept_vectors={
+                key: np.array(vec) for key, vec in data["concept_vectors"].items()
+            },
+            ethical_signature=np.array(data["ethical_signature"]),
+            temporal_context=(
+                np.array(data["temporal_context"])
+                if data.get("temporal_context") is not None
+                else None
+            ),
+            confidence_score=data.get("confidence_score", 1.0),
+        )
 
 
 class EnhancedSemanticAnalyzer:
@@ -40,6 +99,7 @@ class EnhancedSemanticAnalyzer:
                 "Install with: pip install torch sentence-transformers scikit-learn"
             )
 
+        self.model_name = model_name  # Store for serialization
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and device == "auto" else "cpu"
         )
@@ -47,13 +107,13 @@ class EnhancedSemanticAnalyzer:
         self.logger = logging.getLogger(__name__)
 
         self.ethical_concepts = self._initialize_ethical_concepts()
-        self._embedding_cache: Dict[str, np.ndarray] = {}
+        self._embedding_cache: dict[str, np.ndarray] = {}
 
         self.logger.info(
             f"Semantic analyzer initialized with {model_name} on {self.device}"
         )
 
-    def _initialize_ethical_concepts(self) -> Dict[str, np.ndarray]:
+    def _initialize_ethical_concepts(self) -> dict[str, np.ndarray]:
         """Initialize embeddings for core ethical concepts"""
         ethical_texts = {
             "cooperation": (
@@ -100,7 +160,7 @@ class EnhancedSemanticAnalyzer:
         return self.model.encode(text, convert_to_tensor=False)
 
     def create_semantic_profile(
-        self, content: Dict, content_type: str = "fragment"
+        self, content: dict, content_type: str = "fragment"
     ) -> SemanticProfile:
         """Create rich semantic profile from content"""
         if isinstance(content, dict):
@@ -120,9 +180,9 @@ class EnhancedSemanticAnalyzer:
             confidence_score=confidence_score,
         )
 
-    def _dict_to_semantic_text(self, content: Dict) -> str:
+    def _dict_to_semantic_text(self, content: dict) -> str:
         """Convert dictionary content to semantically meaningful text"""
-        text_parts: List[str] = []
+        text_parts: list[str] = []
         priority_keys = [
             "observation",
             "learning",
@@ -139,9 +199,9 @@ class EnhancedSemanticAnalyzer:
                 text_parts.append(f"{key}: {value}")
         return " | ".join(text_parts)
 
-    def _extract_concept_vectors(self, content: Dict) -> Dict[str, np.ndarray]:
+    def _extract_concept_vectors(self, content: dict) -> dict[str, np.ndarray]:
         """Extract embeddings for specific concepts mentioned in content"""
-        concept_vectors: Dict[str, np.ndarray] = {}
+        concept_vectors: dict[str, np.ndarray] = {}
         concept_patterns = {
             "cooperation_indicators": [
                 "collaborate",
@@ -188,11 +248,11 @@ class EnhancedSemanticAnalyzer:
                     )
         return concept_vectors
 
-    def _compute_ethical_signature(self, content: Dict) -> np.ndarray:
+    def _compute_ethical_signature(self, content: dict) -> np.ndarray:
         """Compute ethical alignment signature"""
         content_text = str(content).lower()
         ethical_scores = []
-        for concept, concept_embedding in self.ethical_concepts.items():
+        for _concept, concept_embedding in self.ethical_concepts.items():
             content_embedding = self._get_cached_embedding(content_text)
             similarity = cosine_similarity([content_embedding], [concept_embedding])[0][
                 0
@@ -200,7 +260,7 @@ class EnhancedSemanticAnalyzer:
             ethical_scores.append(similarity)
         return np.array(ethical_scores)
 
-    def _compute_confidence(self, content: Dict, embedding: np.ndarray) -> float:
+    def _compute_confidence(self, content: dict, embedding: np.ndarray) -> float:
         """Compute confidence score based on content richness and embedding quality"""
         content_richness = min(1.0, len(str(content)) / 500)
         embedding_strength = min(1.0, np.linalg.norm(embedding) / 10)
@@ -210,7 +270,7 @@ class EnhancedSemanticAnalyzer:
         )
         return confidence
 
-    def _measure_internal_coherence(self, content: Dict) -> float:
+    def _measure_internal_coherence(self, content: dict) -> float:
         """Measure internal semantic coherence of content"""
         if len(content) < 2:
             return 1.0
@@ -232,7 +292,7 @@ class EnhancedSemanticAnalyzer:
         self,
         fragment_profile: SemanticProfile,
         identity_profile: SemanticProfile,
-    ) -> Tuple[float, Dict[str, float]]:
+    ) -> tuple[float, dict[str, float]]:
         """Compute multi-dimensional coherence score"""
         primary_similarity = cosine_similarity(
             [fragment_profile.text_embedding],
@@ -265,8 +325,8 @@ class EnhancedSemanticAnalyzer:
 
     def _compute_concept_overlap(
         self,
-        concepts1: Dict[str, np.ndarray],
-        concepts2: Dict[str, np.ndarray],
+        concepts1: dict[str, np.ndarray],
+        concepts2: dict[str, np.ndarray],
     ) -> float:
         """Compute semantic overlap between concept vectors"""
         if not concepts1 or not concepts2:
@@ -285,7 +345,7 @@ class EnhancedSemanticAnalyzer:
         fragment_profile: SemanticProfile,
         identity_profile: SemanticProfile,
         threshold: float = 0.3,
-    ) -> List[str]:
+    ) -> list[str]:
         """Detect specific types of semantic anomalies"""
         anomalies = []
         if np.min(fragment_profile.ethical_signature) < -0.5:
@@ -307,3 +367,66 @@ class EnhancedSemanticAnalyzer:
         if semantic_distance > 0.7:
             anomalies.append("semantic_drift")
         return anomalies
+
+    def to_dict(self) -> dict:
+        """Serialize EnhancedSemanticAnalyzer to dictionary.
+
+        Note: The SentenceTransformer model itself is NOT serialized
+        (it's too large). Instead, we serialize the model_name so it
+        can be reloaded during deserialization.
+        """
+        # Import here to avoid circular dependencies
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        return {
+            "version": FRAMEWORK_VERSION,
+            "model_name": self.model_name,  # Use stored model_name instead of introspection
+            "device": str(self.device),
+            "ethical_concepts": {
+                concept: embedding.tolist()
+                for concept, embedding in self.ethical_concepts.items()
+            },
+            # Note: _embedding_cache is NOT serialized - it's a runtime cache
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "EnhancedSemanticAnalyzer":
+        """Reconstruct EnhancedSemanticAnalyzer from serialized state.
+
+        Note: This will reload the SentenceTransformer model from the
+        model_name, which requires network access and may take time.
+        """
+        import warnings
+
+        try:
+            from ... import FRAMEWORK_VERSION
+        except ImportError:
+            FRAMEWORK_VERSION = "unknown"  # noqa: N806
+
+        loaded_version = data.get("version")
+        if loaded_version != FRAMEWORK_VERSION:
+            warnings.warn(
+                f"Loading EnhancedSemanticAnalyzer v '{loaded_version}' "
+                f"into v '{FRAMEWORK_VERSION}'.",
+                UserWarning,
+            )
+
+        # Extract model_name and device
+        model_name = data.get("model_name", "all-MiniLM-L6-v2")
+        device_str = data.get("device", "auto")
+
+        # Create new instance (this will reload the model)
+        instance = cls(model_name=model_name, device=device_str)
+
+        # Restore ethical_concepts if they were serialized
+        # (This avoids re-encoding them)
+        if "ethical_concepts" in data:
+            instance.ethical_concepts = {
+                concept: np.array(embedding)
+                for concept, embedding in data["ethical_concepts"].items()
+            }
+
+        return instance

@@ -22,7 +22,7 @@ except ImportError:
 try:
     from .. import FRAMEWORK_VERSION
 except ImportError:
-    FRAMEWORK_VERSION = "unknown"
+    FRAMEWORK_VERSION = "unknown"  # noqa: N806
 
 # Forward reference for MessageBus if needed for type hints
 from typing import TYPE_CHECKING
