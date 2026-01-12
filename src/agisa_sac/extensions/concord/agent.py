@@ -12,7 +12,7 @@ Integrates:
 import time
 from collections import deque
 from dataclasses import dataclass, field
-from typing import Any, Deque, Dict, List, Optional
+from typing import Any
 
 from .circuits import SelfPreservationCircuit, TacticalHelpCircuit
 from .empathy import EmpathyModule
@@ -31,10 +31,10 @@ class MemoryTrace:
 
     timestamp: float
     event_type: str
-    agents_involved: List[str]
+    agents_involved: list[str]
     emotional_valence: float
     significance: float
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -61,10 +61,10 @@ class MemoryCore:
         episodic_capacity: int = 500,
         working_capacity: int = 7,
     ):
-        self.episodic_memory: Deque[MemoryTrace] = deque(maxlen=episodic_capacity)
-        self.working_memory: List[WorkingMemoryItem] = []
+        self.episodic_memory: deque[MemoryTrace] = deque(maxlen=episodic_capacity)
+        self.working_memory: list[WorkingMemoryItem] = []
         self.working_capacity = working_capacity
-        self.semantic_knowledge: Dict[str, Any] = {}
+        self.semantic_knowledge: dict[str, Any] = {}
 
     def add_episodic(self, trace: MemoryTrace) -> None:
         """Add event to episodic memory."""
@@ -88,11 +88,11 @@ class MemoryCore:
             self.working_memory.sort(key=lambda x: x.priority, reverse=True)
             self.working_memory = self.working_memory[: self.working_capacity]
 
-    def retrieve_recent_episodic(self, n: int = 10) -> List[MemoryTrace]:
+    def retrieve_recent_episodic(self, n: int = 10) -> list[MemoryTrace]:
         """Retrieve n most recent episodic memories."""
         return list(self.episodic_memory)[-n:]
 
-    def retrieve_by_agent(self, agent_id: str, n: int = 10) -> List[MemoryTrace]:
+    def retrieve_by_agent(self, agent_id: str, n: int = 10) -> list[MemoryTrace]:
         """Retrieve recent memories involving specific agent."""
         relevant = [m for m in self.episodic_memory if agent_id in m.agents_involved]
         return relevant[-n:]
@@ -111,7 +111,7 @@ class ConcordCompliantAgent:
         agent_id: str,
         phi_integration: float = 0.2,
         baseline_cmni: float = 0.3,
-        identity_core: Optional[Dict[str, Any]] = None,
+        identity_core: dict[str, Any] | None = None,
     ):
         self.agent_id = agent_id
         self.phi_integration = phi_integration
@@ -140,9 +140,9 @@ class ConcordCompliantAgent:
             "arousal": 0.5,
         }
 
-        self.interaction_history: List[Dict[str, Any]] = []
+        self.interaction_history: list[dict[str, Any]] = []
 
-    def process_interaction(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def process_interaction(self, context: dict[str, Any]) -> dict[str, Any]:
         """
         Process a single interaction with full Concord compliance checks.
 
@@ -351,10 +351,10 @@ class ConcordCompliantAgent:
     def _record_episodic_event(
         self,
         event_type: str,
-        agents_involved: List[str],
+        agents_involved: list[str],
         valence: float,
         significance: float,
-        context: Dict[str, Any],
+        context: dict[str, Any],
     ) -> None:
         """Record event in episodic memory."""
         trace = MemoryTrace(
@@ -367,7 +367,7 @@ class ConcordCompliantAgent:
         )
         self.memory.add_episodic(trace)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive agent status."""
         return {
             "agent_id": self.agent_id,

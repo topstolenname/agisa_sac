@@ -44,6 +44,8 @@ class TestSimulationStatus:
         assert result["run_id"] == "test_run"
 
 
+@pytest.mark.slow
+@pytest.mark.gui
 class TestSimulationRunner:
     """Test suite for SimulationRunner class."""
 

@@ -6,7 +6,7 @@ Tests the metrics collection system that aggregates data from orchestrator hooks
 import queue
 import threading
 import time
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 

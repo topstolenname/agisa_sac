@@ -1,6 +1,8 @@
 # In tests/agisa_sac/test_agent_profile_swap.py
-import pytest
 from unittest.mock import AsyncMock, MagicMock
+
+import pytest
+
 from agisa_sac.agents.agent import EnhancedAgent
 from cognee.memory.hierarchical.config import MemoryGenome
 from cognee.memory.hierarchical.core import HierarchicalMemory

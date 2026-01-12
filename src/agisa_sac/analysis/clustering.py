@@ -1,5 +1,5 @@
 import warnings
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING
 
 # Use TYPE_CHECKING for chronicler hint
 if TYPE_CHECKING:
@@ -23,7 +23,7 @@ def cluster_archetypes(
     chronicler: "ResonanceChronicler",
     n_clusters: int = 5,
     min_samples: int = 10,
-) -> Optional[Dict[int, List[str]]]:
+) -> dict[int, list[str]] | None:
     """
     Clusters agent style vectors recorded by the chronicler using KMeans
     to identify emergent archetypes based on linguistic style.

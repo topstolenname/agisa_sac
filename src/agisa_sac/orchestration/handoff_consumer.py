@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Dict
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
@@ -24,6 +23,9 @@ except ImportError:
     trace = None
 
 from ..types.contracts import HandoffClaim, HandoffOffer
+from ..utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 if HAS_GCP:
     tracer = trace.get_tracer(__name__)
@@ -53,7 +55,7 @@ class HandoffConsumer:
     and claims offers with the best-suited agent.
     """
 
-    def __init__(self, project_id: str, subscription_id: str, agent_registry: Dict):
+    def __init__(self, project_id: str, subscription_id: str, agent_registry: dict):
         """
         Initialize the handoff consumer.
 
@@ -101,14 +103,14 @@ class HandoffConsumer:
                     self._process_offer(message), self._loop
                 )
             except Exception as e:
-                print(f"Error scheduling offer processing: {e}")
+                logger.error(f"Error scheduling offer processing: {e}")
                 message.nack()
 
         streaming_pull_future = self.subscriber.subscribe(
             self.subscription_path, callback=callback
         )
 
-        print(f"Listening for handoff offers on {self.subscription_path}")
+        logger.info(f"Listening for handoff offers on {self.subscription_path}")
 
         try:
             # Keep the event loop running while subscriber is active
@@ -163,7 +165,7 @@ class HandoffConsumer:
 
                     except ValueError as e:
                         # Context missing or invalid - log and ack to prevent retry loop
-                        print(f"Skipping offer {offer.run_id}: {e}")
+                        logger.warning(f"Skipping offer {offer.run_id}: {e}")
                         span.set_attribute("error", "context_missing")
                         message.ack()
                         return
@@ -171,7 +173,7 @@ class HandoffConsumer:
                 message.ack()
 
             except Exception as e:
-                print(f"Error processing handoff: {e}")
+                logger.error(f"Error processing handoff: {e}")
                 span.record_exception(e) if HAS_GCP else None
                 message.nack()
 
@@ -222,7 +224,7 @@ class HandoffConsumer:
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None, future.result)
 
-    async def _load_context(self, gcs_uri: str) -> Dict:
+    async def _load_context(self, gcs_uri: str) -> dict:
         """
         Load context from GCS.
 
@@ -248,5 +250,5 @@ class HandoffConsumer:
             return json.loads(content)
         except Exception as e:
             # Log and raise - caller should handle
-            print(f"Failed to load context from {gcs_uri}: {e}")
+            logger.error(f"Failed to load context from {gcs_uri}: {e}")
             raise ValueError(f"Context not found or invalid: {gcs_uri}") from e

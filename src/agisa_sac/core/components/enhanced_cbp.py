@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from agisa_sac.core.components.semantic_analyzer import (
     EnhancedSemanticAnalyzer,
@@ -17,7 +16,7 @@ class EnhancedContinuityBridgeProtocol:
             coherence_threshold, memory_window_hours
         )
         self.semantic_analyzer = EnhancedSemanticAnalyzer()
-        self.identity_semantic_profile: Optional[SemanticProfile] = None
+        self.identity_semantic_profile: SemanticProfile | None = None
         self.logger = logging.getLogger(__name__)
 
     def initialize_identity_anchor(self, core_identity: dict) -> str:

@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,7 +15,7 @@ except ImportError:
 def plot_persistence_diagram(
     diagram: np.ndarray,
     title: str = "Persistence Diagram",
-    ax: Optional[plt.Axes] = None,
+    ax: plt.Axes | None = None,
     show_plot: bool = True,
     **kwargs,
 ):
@@ -55,7 +55,7 @@ def plot_persistence_diagram(
 def plot_persistence_barcode(
     diagram: np.ndarray,
     title: str = "Persistence Barcode",
-    ax: Optional[plt.Axes] = None,
+    ax: plt.Axes | None = None,
     show_plot: bool = True,
     **kwargs,
 ):
@@ -93,12 +93,12 @@ def plot_persistence_barcode(
 
 
 def plot_metric_comparison(
-    epoch_history: Dict[int, Dict[str, Any]],
-    metrics_to_plot: List[str],
-    tda_metric_history: Optional[Dict[int, Dict[str, Any]]] = None,
-    tda_metrics_to_plot: Optional[List[str]] = None,
+    epoch_history: dict[int, dict[str, Any]],
+    metrics_to_plot: list[str],
+    tda_metric_history: dict[int, dict[str, Any]] | None = None,
+    tda_metrics_to_plot: list[str] | None = None,
     title: str = "Simulation Metrics Over Time",
-    figsize: Tuple[int, int] = (12, 6),
+    figsize: tuple[int, int] = (12, 6),
 ):
     """Plots specified simulation metrics and optional TDA metrics over epochs."""
     if not epoch_history:

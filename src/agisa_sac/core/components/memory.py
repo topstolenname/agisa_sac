@@ -5,7 +5,7 @@ import random
 import time
 import warnings
 from collections import defaultdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -38,21 +38,21 @@ class MemoryEncapsulation:
     def __init__(
         self,
         memory_id: str,
-        content: Dict,
+        content: dict,
         importance: float = 0.5,
         confidence: float = 1.0,
         encoding_strength: float = 0.8,
-        created_at: Optional[float] = None,
-        last_accessed: Optional[float] = None,
+        created_at: float | None = None,
+        last_accessed: float | None = None,
         access_count: int = 0,
-        embedding: Optional[np.ndarray] = None,
-        theme: Optional[str] = None,
+        embedding: np.ndarray | None = None,
+        theme: str | None = None,
     ):
         self.memory_id = memory_id
         self.content = content
-        self.importance = np.clip(importance, 0.0, 1.0)
-        self.confidence = np.clip(confidence, 0.0, 1.0)
-        self.encoding_strength = np.clip(encoding_strength, 0.1, 1.0)
+        self.importance: float = float(np.clip(importance, 0.0, 1.0))
+        self.confidence: float = float(np.clip(confidence, 0.0, 1.0))
+        self.encoding_strength: float = float(np.clip(encoding_strength, 0.1, 1.0))
         self.created_at = created_at if created_at is not None else time.time()
         self.last_accessed = (
             last_accessed if last_accessed is not None else self.created_at
@@ -62,7 +62,7 @@ class MemoryEncapsulation:
         self.embedding = embedding
         self.theme = theme if theme is not None else content.get("theme", "general")
 
-    def access(self) -> Dict:
+    def access(self) -> dict:
         self.last_accessed = time.time()
         self.access_count += 1
         return self.content
@@ -71,7 +71,7 @@ class MemoryEncapsulation:
         return self._generate_hash(self.content) != self.verification_hash
 
     def attempt_modification(
-        self, new_content: Dict, external_influence: float
+        self, new_content: dict, external_influence: float
     ) -> bool:
         protection = (self.importance * 0.4 + self.encoding_strength * 0.6) * (
             1 - np.clip(external_influence, 0.0, 1.0)
@@ -102,14 +102,14 @@ class MemoryEncapsulation:
     def set_embedding(self, embedding: np.ndarray):
         self.embedding = embedding
 
-    def _generate_hash(self, content: Dict) -> str:
+    def _generate_hash(self, content: dict) -> str:
         try:
             content_string = json.dumps(content, sort_keys=True).encode()
         except TypeError:
             content_string = str(content).encode()
         return hashlib.md5(content_string).hexdigest()
 
-    def to_dict(self, include_embedding: bool = False) -> Dict:
+    def to_dict(self, include_embedding: bool = False) -> dict:
         state = {
             "memory_id": self.memory_id,
             "content": self.content,
@@ -127,7 +127,7 @@ class MemoryEncapsulation:
         return state
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "MemoryEncapsulation":
+    def from_dict(cls, data: dict[str, Any]) -> "MemoryEncapsulation":
         embedding = (
             np.array(data["embedding"])
             if "embedding" in data and data["embedding"] is not None
@@ -170,10 +170,10 @@ class MemoryContinuumLayer:
         self.capacity = capacity
         self.use_semantic = use_semantic and HAS_SENTENCE_TRANSFORMER
         self.message_bus = message_bus
-        self.memories: Dict[str, MemoryEncapsulation] = {}
-        self.memory_indices = {"term": defaultdict(list)}
+        self.memories: dict[str, MemoryEncapsulation] = {}
+        self.memory_indices: dict[str, defaultdict[str, list]] = {"term": defaultdict(list)}
         self.last_update = time.time()
-        self.encoder = None
+        self.encoder: Optional[Any] = None  # SentenceTransformer when available
         if self.use_semantic:
             self._initialize_encoder()
 
@@ -188,7 +188,7 @@ class MemoryContinuumLayer:
                 )
                 self.use_semantic = False
 
-    def add_memory(self, content: Dict, importance: float = 0.5) -> str:
+    def add_memory(self, content: dict, importance: float = 0.5) -> str:
         if self.use_semantic and self.encoder is None:
             self._initialize_encoder()
         memory_id = (
@@ -223,13 +223,13 @@ class MemoryContinuumLayer:
 
     def retrieve_memory(
         self, query: str, threshold: float = 0.3, limit: int = 10
-    ) -> List[Dict]:
+    ) -> list[dict]:
         if self.use_semantic and self.encoder is None:
             self._initialize_encoder()
         matches = {}  # Code combines term and semantic search results
         # Term search
         query_terms = set(query.lower().split())
-        term_relevance_scores = defaultdict(float)
+        term_relevance_scores: dict[str, float] = defaultdict(float)
         if query_terms:
             for term in query_terms:
                 for memory_id in self.memory_indices["term"].get(term, []):
@@ -337,7 +337,7 @@ class MemoryContinuumLayer:
             return True
         return False
 
-    def get_memory_by_id(self, memory_id: str) -> Optional[Dict]:
+    def get_memory_by_id(self, memory_id: str) -> dict | None:
         if memory_id in self.memories:
             memory = self.memories[memory_id]
             memory.access()
@@ -372,7 +372,7 @@ class MemoryContinuumLayer:
             return True
         return False
 
-    def _update_indices(self, memory_id: str, content: Dict):
+    def _update_indices(self, memory_id: str, content: dict):
         text_to_index = ""
 
         def extract_strings(item):
@@ -440,7 +440,7 @@ class MemoryContinuumLayer:
 
     def get_current_focus_theme(self) -> str:
         latest_focus_mem = None
-        latest_ts = 0
+        latest_ts = 0.0
         for mem in self.memories.values():
             if (
                 mem.content.get("type") == "current_focus"
@@ -466,7 +466,7 @@ class MemoryContinuumLayer:
         for memory_id, memory in self.memories.items():
             self._update_indices(memory_id, memory.content)
 
-    def to_dict(self, include_embeddings: bool = False) -> Dict:
+    def to_dict(self, include_embeddings: bool = False) -> dict:
         return {
             "version": FRAMEWORK_VERSION,
             "agent_id": self.agent_id,
@@ -493,7 +493,7 @@ class MemoryContinuumLayer:
 
     @classmethod
     def from_dict(
-        cls, data: Dict[str, Any], message_bus: Optional["MessageBus"] = None
+        cls, data: dict[str, Any], message_bus: Optional["MessageBus"] = None
     ) -> "MemoryContinuumLayer":
         loaded_version = data.get("version")
         agent_id = data["agent_id"]

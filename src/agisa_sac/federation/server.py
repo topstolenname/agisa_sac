@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Dict, List, Optional
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel
@@ -38,16 +37,16 @@ cbp.initialize_identity_anchor(CORE_IDENTITY)
 
 class EdgeNodeUpdate(BaseModel):
     type: str
-    content: Dict
+    content: dict
     timestamp: str
     signature: str
-    metadata: Optional[Dict] = {}
+    metadata: dict | None = {}
 
 
 class NodeRegistration(BaseModel):
     node_type: str
-    capabilities: List[str]
-    trust_endorsements: Optional[List[str]] = []
+    capabilities: list[str]
+    trust_endorsements: list[str] | None = []
 
 
 class TrustMetricsResponse(BaseModel):

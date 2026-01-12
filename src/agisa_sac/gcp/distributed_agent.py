@@ -19,7 +19,7 @@ import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
@@ -77,11 +77,11 @@ class LoopResult:
     """Result of an agent execution loop"""
 
     exit: LoopExit
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     iterations: int
     total_tokens: int = 0
     tool_calls: int = 0
-    errors: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -92,7 +92,7 @@ class IntentionMessage:
     source_agent: str
     timestamp: str
     attention_weight: float
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
 
     def to_pubsub(self) -> bytes:
         """Serialize to Pub/Sub message format"""
@@ -108,7 +108,7 @@ class ToolInvocation:
     run_id: str
     agent_id: str
     tool: str
-    args: Dict[str, Any]
+    args: dict[str, Any]
     risk_level: str
 
     def to_pubsub(self) -> bytes:
@@ -124,8 +124,8 @@ class HandoffOffer:
 
     run_id: str
     from_agent: str
-    to_capabilities: List[str]
-    task_signature: Dict[str, Any]
+    to_capabilities: list[str]
+    task_signature: dict[str, Any]
     context_ref: str
     expires_at: str
 
@@ -252,10 +252,10 @@ class DistributedAgent:
         agent_id: str,
         instructions: str,
         model: str = "gpt-4",
-        tools: Optional[Dict[str, Any]] = None,
-        project_id: Optional[str] = None,
-        workspace_topic: Optional[str] = None,
-        budget: Optional[Budget] = None,
+        tools: dict[str, Any] | None = None,
+        project_id: str | None = None,
+        workspace_topic: str | None = None,
+        budget: Budget | None = None,
     ):
         """
         Initialize the distributed agent.
@@ -289,7 +289,7 @@ class DistributedAgent:
         self.storage_client = storage.Client(project=project_id)
 
         # State
-        self.interaction_history: List[Dict[str, Any]] = []
+        self.interaction_history: list[dict[str, Any]] = []
         self._broadcast_tokens = 10
         self._last_broadcast_refill = datetime.now(timezone.utc)
 
@@ -309,8 +309,8 @@ class DistributedAgent:
     async def run(
         self,
         message: str,
-        context: Optional[Dict[str, Any]] = None,
-        guardrails: Optional[Dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
+        guardrails: dict[str, Any] | None = None,
     ) -> LoopResult:
         """
         Execute the agent with the given message and context.
@@ -395,8 +395,8 @@ class DistributedAgent:
     # ───────────────────────── internal helpers ─────────────────────────
 
     async def _check_guardrails(
-        self, message: str, context: Dict[str, Any], guardrails: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, message: str, context: dict[str, Any], guardrails: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Check message against guardrails.
 
@@ -405,7 +405,7 @@ class DistributedAgent:
         # Placeholder implementation - actual guardrail logic would go here
         return {"block": False}
 
-    async def _handle_guardrail_violation(self, result: Dict[str, Any], run_ref):
+    async def _handle_guardrail_violation(self, result: dict[str, Any], run_ref):
         """Persist guardrail block and return standardized LoopResult"""
         detail = {
             "reason": result.get("reason", "guardrail_block"),
@@ -422,7 +422,7 @@ class DistributedAgent:
         )
         return LoopResult(exit=LoopExit.GUARDRAIL_BLOCK, payload=detail, iterations=0)
 
-    def _record_interaction(self, entry: Dict[str, Any]):
+    def _record_interaction(self, entry: dict[str, Any]):
         """Append lightweight interaction row to Firestore + in-memory history"""
         self.interaction_history.append(entry)
         # Also write a compact row into Firestore for topology processing
@@ -431,7 +431,7 @@ class DistributedAgent:
         )
 
     async def _maybe_broadcast_intention(
-        self, run_id: str, intention: Dict[str, Any], weight: float
+        self, run_id: str, intention: dict[str, Any], weight: float
     ):
         """Rate-limited global broadcast"""
         self._refill_broadcast_bucket()
@@ -452,7 +452,7 @@ class DistributedAgent:
     # ───────────────────────── agent loop ─────────────────────────
 
     @tracer.start_as_current_span("agent_execute_loop")
-    async def _execute_loop(self, message: str, context: Dict[str, Any]) -> LoopResult:
+    async def _execute_loop(self, message: str, context: dict[str, Any]) -> LoopResult:
         """
         OpenAI-style loop:
           - call model
@@ -464,7 +464,7 @@ class DistributedAgent:
         iteration = 0
         total_tokens = 0
         tool_calls = 0
-        errors: List[str] = []
+        errors: list[str] = []
 
         # Require an llm client (injected) to decouple infra
         llm = context.get("llm_client")
@@ -613,7 +613,7 @@ class DistributedAgent:
 
     # ───────────────────────── model / tools / handoff ─────────────────────────
 
-    async def _call_model(self, llm_client, ctx: Dict[str, Any]) -> Dict[str, Any]:
+    async def _call_model(self, llm_client, ctx: dict[str, Any]) -> dict[str, Any]:
         """
         Contract for llm_client:
           await llm_client({
@@ -632,7 +632,7 @@ class DistributedAgent:
         return await llm_client(req)
 
     async def _execute_tools(
-        self, tool_calls: List[Dict[str, Any]], context: Dict[str, Any]
+        self, tool_calls: list[dict[str, Any]], context: dict[str, Any]
     ):
         results = []
         invocations = []
@@ -677,8 +677,8 @@ class DistributedAgent:
     async def _emit_handoff_offer(
         self,
         run_id: str,
-        task_signature: Dict[str, Any],
-        to_capabilities: List[str],
+        task_signature: dict[str, Any],
+        to_capabilities: list[str],
         context_ref: str,
         ttl_seconds: int = 300,
     ) -> str:
@@ -703,7 +703,7 @@ class DistributedAgent:
         )
         return offer_id
 
-    async def _persist_context_blob(self, ctx: Dict[str, Any]) -> str:
+    async def _persist_context_blob(self, ctx: dict[str, Any]) -> str:
         """Persist a compact context snapshot to GCS and return gs:// URI"""
         bucket_name = f"{self.project_id}-agent-context"
         bucket = self.storage_client.bucket(bucket_name)
@@ -726,7 +726,7 @@ class DistributedAgent:
         msg_id = await loop.run_in_executor(None, future.result)
         return str(msg_id)
 
-    def _task_signature_from_ctx(self, ctx: Dict[str, Any]) -> Dict[str, Any]:
+    def _task_signature_from_ctx(self, ctx: dict[str, Any]) -> dict[str, Any]:
         last_user = next(
             (m for m in reversed(ctx["messages"]) if m["role"] == "user"), {}
         )
@@ -735,13 +735,13 @@ class DistributedAgent:
             "hint": (last_user.get("content", "") or "")[:180],
         }
 
-    def _should_exit(self, llm_resp: Dict[str, Any]) -> bool:
+    def _should_exit(self, llm_resp: dict[str, Any]) -> bool:
         # Exit if model indicates completion and no tool/handoff is requested
         done = llm_resp.get("done") is True
         no_more = not llm_resp.get("tool_calls") and not llm_resp.get("handoff_target")
         return bool(done and no_more)
 
-    def _format_tool_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _format_tool_results(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         return {"batched_tool_results": results}
 
     async def _maybe_await(self, x):
@@ -749,7 +749,7 @@ class DistributedAgent:
             return await x
         return x
 
-    def _estimate_tokens(self, messages: List[Dict[str, Any]]) -> int:
+    def _estimate_tokens(self, messages: list[dict[str, Any]]) -> int:
         # Conservative heuristic (~4 chars/token)
         total_chars = sum(len(str(m.get("content", ""))) for m in messages)
         return max(1, total_chars // 4)

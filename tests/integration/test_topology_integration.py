@@ -5,9 +5,10 @@ These tests verify the behavior of the TopologyOrchestrationManager
 and agent handoff mechanisms.
 """
 
+from unittest.mock import MagicMock, patch
+
 import numpy as np
 import pytest
-from unittest.mock import MagicMock, patch
 
 from agisa_sac.types.contracts import Tool, ToolType
 

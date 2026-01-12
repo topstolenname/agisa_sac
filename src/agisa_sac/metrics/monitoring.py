@@ -1,4 +1,3 @@
-from typing import Dict
 
 import numpy as np
 
@@ -43,7 +42,7 @@ def compute_mce(agent) -> float:
     return corrupted / total if total else 0.0
 
 
-def generate_monitoring_metrics(agent) -> Dict[str, float]:
+def generate_monitoring_metrics(agent) -> dict[str, float]:
     return {
         "sri": compute_sri(agent),
         "nds": compute_nds(agent),

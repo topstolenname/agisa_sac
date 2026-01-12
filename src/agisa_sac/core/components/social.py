@@ -62,7 +62,7 @@ class DynamicSocialGraph:
         if self.use_gpu:
             self._transfer_to_gpu()
         self.edge_changes_since_last_community_check = 0
-        self.last_communities: Optional[list[set[str]]] = (
+        self.last_communities: list[set[str]] | None = (
             None  # Store as set of agent IDs
         )
 
@@ -147,14 +147,14 @@ class DynamicSocialGraph:
             influence_on_agent = (
                 self.influence_matrix_csr[:, target_idx].toarray().flatten()
             )
-            influences = {}
-            total_influence = 0
+            influences: dict[str, float] = {}
+            total_influence: float = 0.0
             for i in range(self.num_agents):
                 if i != target_idx and influence_on_agent[i] > 1e-6:
                     influencer_id = self.agent_ids[i]
                     weight = float(influence_on_agent[i])
                     influences[influencer_id] = weight
-                    total_influence += weight
+                    total_influence += float(weight)
             if normalize and total_influence > 1e-6:
                 influences = {aid: w / total_influence for aid, w in influences.items()}
             return influences
@@ -224,7 +224,7 @@ class DynamicSocialGraph:
 
     def detect_communities(
         self, force_update: bool = False, threshold: float = 0.3
-    ) -> Optional[list[set[str]]]:  # Return Set[str]
+    ) -> list[set[str]] | None:  # Return Set[str]
         recalculation_threshold = max(10, self.num_agents // 5)
         if (
             not force_update
@@ -243,11 +243,9 @@ class DynamicSocialGraph:
         if HAS_LOUVAIN:
             try:
                 partition = community_louvain.best_partition(G, weight="weight")
-                community_map = defaultdict(set)
-                [
+                community_map: dict[int, set[str]] = defaultdict(set)
+                for node, comm_id in partition.items():
                     community_map[comm_id].add(node)
-                    for node, comm_id in partition.items()
-                ]
                 communities = list(community_map.values())
             except Exception as e:
                 warnings.warn(f"Louvain failed: {e}. Fallback.", RuntimeWarning)

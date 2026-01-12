@@ -2,8 +2,8 @@
 
 import pytest
 
-from agisa_sac.extensions.concord.empathy import CMNITracker, EmpathyModule
 from agisa_sac.extensions.concord.circuits import CircuitActivation
+from agisa_sac.extensions.concord.empathy import CMNITracker, EmpathyModule
 
 
 def test_cmni_tracker_initialization():

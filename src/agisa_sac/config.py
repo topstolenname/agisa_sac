@@ -6,7 +6,7 @@ This module provides configuration presets and validation for simulation runs.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 @dataclass
@@ -16,11 +16,11 @@ class SimulationConfig:
     # Agent configuration
     num_agents: int = 5
     agent_capacity: int = 100
-    personalities: Optional[List[Dict[str, float]]] = None
+    personalities: list[dict[str, float]] | None = None
 
     # Simulation parameters
     num_epochs: int = 10
-    random_seed: Optional[int] = 42
+    random_seed: int | None = 42
 
     # Feature flags
     use_semantic: bool = True
@@ -34,7 +34,7 @@ class SimulationConfig:
     community_check_frequency: int = 5
     epoch_log_frequency: int = 2
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert configuration to dictionary format."""
         return {
             "num_agents": self.num_agents,
@@ -51,7 +51,7 @@ class SimulationConfig:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> SimulationConfig:
+    def from_dict(cls, data: dict[str, Any]) -> SimulationConfig:
         """Create configuration from dictionary."""
         return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
 

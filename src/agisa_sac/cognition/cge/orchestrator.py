@@ -1,6 +1,7 @@
 # In agisa_sac/cognition/cge/orchestrator.py
 import asyncio
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING
+
 from agisa_sac.cognition.cge.optimizer import CognitiveGradientEngine
 from agisa_sac.utils.logger import get_logger
 
@@ -10,7 +11,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-async def evolve_pool(agent_pool: List["EnhancedAgent"]):
+async def evolve_pool(agent_pool: list["EnhancedAgent"]):
     """
     Run a cognitive evolution cycle for all agents in the pool.
 

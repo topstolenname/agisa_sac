@@ -5,18 +5,19 @@ This module provides comprehensive metrics collection for production monitoring
 of multi-agent simulations, including performance, resource usage, and system health.
 """
 
-from typing import Optional, Callable, Any
-from functools import wraps
 import logging
+from collections.abc import Callable
+from functools import wraps
+from typing import Any, Optional
 
 try:
     from prometheus_client import (
+        CONTENT_TYPE_LATEST,
+        CollectorRegistry,
         Counter,
         Gauge,
         Histogram,
-        CollectorRegistry,
         generate_latest,
-        CONTENT_TYPE_LATEST,
     )
 
     HAS_PROMETHEUS = True
@@ -445,7 +446,7 @@ class PrometheusMetrics:
 
 
 # Global metrics instance
-_global_metrics: Optional[PrometheusMetrics] = None
+_global_metrics: PrometheusMetrics | None = None
 
 
 def get_metrics() -> PrometheusMetrics:

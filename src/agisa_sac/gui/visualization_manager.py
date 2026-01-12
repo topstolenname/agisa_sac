@@ -7,6 +7,10 @@ All functions return figures without calling plt.show() to avoid blocking.
 from typing import Any
 
 import matplotlib
+
+# CRITICAL: Set backend BEFORE importing pyplot to avoid headless server failures
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -14,9 +18,6 @@ from agisa_sac.analysis import visualization
 from agisa_sac.utils.logger import get_logger
 
 logger = get_logger(__name__)
-
-# Use non-interactive backend for GUI
-matplotlib.use("Agg")
 
 
 class VisualizationManager:

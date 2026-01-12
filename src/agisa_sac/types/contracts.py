@@ -13,9 +13,10 @@ Terminology Notes:
 """
 
 import json
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, Optional, Protocol, TypedDict
+from typing import Any, Protocol, TypedDict
 
 
 class ToolType(Enum):
@@ -127,7 +128,7 @@ class GuardrailResult:
     """
 
     passed: bool
-    reason: Optional[str] = None
+    reason: str | None = None
     risk_level: str = "low"
     violations: list[dict] = field(default_factory=list)
     metadata: dict = field(default_factory=dict)
@@ -299,8 +300,8 @@ class Message(TypedDict, total=False):
 
     type: str
     content: Any
-    sender_id: Optional[str]
-    timestamp: Optional[float]
+    sender_id: str | None
+    timestamp: float | None
 
 
 class MessageBusProtocol(Protocol):
@@ -338,7 +339,7 @@ class SerializedState(TypedDict, total=False):
 
     version: str
     component_type: str
-    state: Dict[str, Any]
+    state: dict[str, Any]
 
 
 class Decision(TypedDict, total=False):
@@ -346,4 +347,4 @@ class Decision(TypedDict, total=False):
 
     action: str
     confidence: float
-    reasoning: Optional[str]
+    reasoning: str | None

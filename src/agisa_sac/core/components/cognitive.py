@@ -1,7 +1,7 @@
 import random
 import time
 import warnings
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np
 
@@ -23,7 +23,7 @@ class CognitiveDiversityEngine:
     def __init__(
         self,
         agent_id: str,
-        personality: Dict,
+        personality: dict,
         memory_layer: "MemoryContinuumLayer",
         message_bus: Optional["MessageBus"] = None,
     ):
@@ -38,7 +38,7 @@ class CognitiveDiversityEngine:
         self.learning_rate = 0.05
         self.stability_factor = 0.3
         self.cognitive_state = np.ones(4) / 4  # Vector over state aspects
-        self.decision_history: List[Dict] = []  # Runtime history
+        self.decision_history: list[dict] = []  # Runtime history
 
     def update_heuristics(self, situational_entropy: float):
         # ... (logic from previous combined file) ...
@@ -82,7 +82,7 @@ class CognitiveDiversityEngine:
                 },
             )
 
-    def decide(self, query: str, peer_influence: Dict[str, float]) -> str:
+    def decide(self, query: str, peer_influence: dict[str, float]) -> str:
         # ... (logic from previous combined file) ...
         memories = self.memory_layer.retrieve_memory(query, limit=5, threshold=0.25)
         memory_weight = (
@@ -134,12 +134,12 @@ class CognitiveDiversityEngine:
         ]
         exploration_prob = 0.1 + 0.3 * self.personality.get("openness", 0.5)
         if random.random() > exploration_prob:
-            choice_idx = np.argmax(decision_probs)
+            choice_idx = int(np.argmax(decision_probs))
         else:
             try:
-                choice_idx = np.random.choice(len(options), p=decision_probs)
+                choice_idx = int(np.random.choice(len(options), p=decision_probs))
             except ValueError:
-                choice_idx = np.random.choice(len(options))
+                choice_idx = int(np.random.choice(len(options)))
         response = options[choice_idx]
         decision_record = {
             "query": query,
@@ -222,7 +222,7 @@ class CognitiveDiversityEngine:
             )
         return False
 
-    def to_dict(self, history_limit: int = 10) -> Dict:
+    def to_dict(self, history_limit: int = 10) -> dict:
         """Serializes the cognitive engine state."""
         return {
             "version": FRAMEWORK_VERSION,
@@ -237,7 +237,7 @@ class CognitiveDiversityEngine:
     @classmethod
     def from_dict(
         cls,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         agent_id: str,
         memory_layer: "MemoryContinuumLayer",
         message_bus: Optional["MessageBus"],

@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, Dict, Optional
+from typing import Any
 
 import numpy as np
 
@@ -13,7 +13,7 @@ except ImportError:
 class VoiceEngine:
     """Agent's voice/style engine. Includes serialization."""
 
-    def __init__(self, agent_id: str, initial_style: Optional[Dict] = None):
+    def __init__(self, agent_id: str, initial_style: dict | None = None):
         self.agent_id = agent_id
         # Default linguistic signature
         self.linguistic_signature = {
@@ -42,7 +42,7 @@ class VoiceEngine:
         context = context_lines[-1] if context_lines else "prompt"
         return f"[{style}/{structure}] Response to: {context[:60]}..."
 
-    def evolve_style(self, influence: Dict):
+    def evolve_style(self, influence: dict):
         """Evolves the linguistic signature based on external influence."""
         if "archetype" in influence and isinstance(influence["archetype"], str):
             self.linguistic_signature["archetype"] = influence["archetype"]
@@ -76,7 +76,7 @@ class VoiceEngine:
             # if norm > 1.0:
             #     self.linguistic_signature["style_vector"] /= norm
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Serializes the voice engine state."""
         sig = self.linguistic_signature.copy()
         if "style_vector" in sig and isinstance(sig["style_vector"], np.ndarray):
@@ -84,7 +84,7 @@ class VoiceEngine:
         return {"version": FRAMEWORK_VERSION, "linguistic_signature": sig}
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any], agent_id: str) -> "VoiceEngine":
+    def from_dict(cls, data: dict[str, Any], agent_id: str) -> "VoiceEngine":
         """Reconstructs the voice engine from serialized data."""
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:

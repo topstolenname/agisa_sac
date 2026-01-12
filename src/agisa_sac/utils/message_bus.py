@@ -2,18 +2,19 @@ import asyncio
 import time
 import warnings
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 
 class MessageBus:
     """Simple asynchronous message passing system using a pub/sub pattern."""
 
-    def __init__(self):
-        self.subscribers: Dict[str, List[Callable]] = defaultdict(list)
-        self.message_history: List[Dict[str, Any]] = []
-        self._loop = None  # Store loop for task creation if needed
+    def __init__(self) -> None:
+        self.subscribers: dict[str, list[Callable[..., Any]]] = defaultdict(list)
+        self.message_history: list[dict[str, Any]] = []
+        self._loop: asyncio.AbstractEventLoop | None = None
 
-    def _get_loop(self):
+    def _get_loop(self) -> asyncio.AbstractEventLoop:
         """Get the current asyncio event loop."""
         if self._loop is None:
             try:
@@ -30,13 +31,13 @@ class MessageBus:
                 self._loop = asyncio.get_event_loop_policy().get_event_loop()
         return self._loop
 
-    def subscribe(self, topic: str, callback: Callable):
+    def subscribe(self, topic: str, callback: Callable[..., Any]) -> None:
         """Register a callback function for a specific topic."""
         if not callable(callback):
             raise TypeError("Callback must be a callable function.")
         self.subscribers[topic].append(callback)
 
-    def publish(self, topic: str, message: Dict):
+    def publish(self, topic: str, message: dict[str, Any]) -> None:
         """Publish a message to all subscribers registered for the topic."""
         if not isinstance(message, dict):
             warnings.warn(
@@ -81,7 +82,9 @@ class MessageBus:
                     RuntimeWarning,
                 )
 
-    async def _execute_callback(self, callback: Callable, message: Dict):
+    async def _execute_callback(
+        self, callback: Callable[..., Any], message: dict[str, Any]
+    ) -> None:
         """Safely execute an asynchronous callback."""
         try:
             await callback(message)
@@ -92,8 +95,8 @@ class MessageBus:
             )
 
     def get_recent_messages(
-        self, topic: Optional[str] = None, limit: int = 10
-    ) -> List[Dict]:
+        self, topic: str | None = None, limit: int = 10
+    ) -> list[dict]:
         """Retrieve recent messages, optionally filtered by topic."""
         if topic:
             # Iterate backwards for efficiency if history is large
@@ -104,11 +107,11 @@ class MessageBus:
         else:
             return self.message_history[-limit:]
 
-    def clear_history(self):
+    def clear_history(self) -> None:
         """Clears the message history."""
         self.message_history = []
 
-    def clear_subscribers(self, topic: Optional[str] = None):
+    def clear_subscribers(self, topic: str | None = None) -> None:
         """Clears subscribers, optionally for a specific topic."""
         if topic:
             if topic in self.subscribers:

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Dict
 
 import pytest
 
@@ -17,7 +16,7 @@ for path in (str(SRC_DIR), str(ROOT_DIR)):
 
 
 @pytest.fixture
-def sample_config() -> Dict:
+def sample_config() -> dict:
     """Minimal simulation configuration for testing."""
     return {
         "num_agents": 3,
@@ -34,7 +33,7 @@ def sample_config() -> Dict:
 
 
 @pytest.fixture
-def sample_personality() -> Dict:
+def sample_personality() -> dict:
     """Sample agent personality traits."""
     return {
         "openness": 0.5,

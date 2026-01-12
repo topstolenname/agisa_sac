@@ -5,10 +5,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from io import StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
-from unittest.mock import MagicMock, Mock, mock_open, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
@@ -16,7 +15,6 @@ from agisa_sac.cli import list_presets, main, run_simulation
 
 if TYPE_CHECKING:
     from _pytest.capture import CaptureFixture
-    from _pytest.monkeypatch import MonkeyPatch
 
 
 class TestListPresets:
