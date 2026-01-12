@@ -245,8 +245,9 @@ def test_elliot_clause_status_with_multiple_agents(agent, other_agent):
 
 def test_working_memory_capacity_limits(agent):
     """Test working memory respects capacity limits."""
-    from agisa_sac.extensions.concord import WorkingMemoryItem
     import time
+
+    from agisa_sac.extensions.concord import WorkingMemoryItem
 
     # Add more items than capacity
     for i in range(15):

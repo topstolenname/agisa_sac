@@ -3,7 +3,7 @@ import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -56,7 +56,7 @@ class CRDTMemoryEntry:
     memory_type: str
     importance_score: float = 1.0
     access_count: int = 0
-    last_accessed: Optional[datetime] = None
+    last_accessed: datetime | None = None
 
     def __post_init__(self):
         if self.last_accessed is None:
@@ -71,7 +71,7 @@ class MemoryMergeConflict:
     entry_id: str
     conflicting_entries: list[CRDTMemoryEntry]
     resolution_strategy: str
-    resolved_entry: Optional[CRDTMemoryEntry] = None
+    resolved_entry: CRDTMemoryEntry | None = None
     manual_review_required: bool = False
 
 
@@ -150,7 +150,7 @@ class CRDTMemoryLayer:
         self.logger.debug(f"Deleted memory {entry_id}")
         return True
 
-    def get_memory(self, entry_id: str) -> Optional[CRDTMemoryEntry]:
+    def get_memory(self, entry_id: str) -> CRDTMemoryEntry | None:
         if entry_id not in self.memories or entry_id in self.tombstones:
             return None
         memory = self.memories[entry_id]
@@ -263,7 +263,7 @@ class CRDTMemoryLayer:
 
     def _resolve_semantic_merge(
         self, local_entry: CRDTMemoryEntry, remote_entry: CRDTMemoryEntry
-    ) -> tuple[Optional[CRDTMemoryEntry], bool]:
+    ) -> tuple[CRDTMemoryEntry | None, bool]:
         try:
             merged_content = local_entry.content.copy()
             for key, remote_value in remote_entry.content.items():
@@ -311,8 +311,9 @@ class CRDTMemoryLayer:
             return
         scored_memories = []
         for entry_id, memory in self.memories.items():
+            last_access = memory.last_accessed or memory.created_at
             time_decay = 1.0 / (
-                1.0 + (datetime.now(timezone.utc) - memory.last_accessed).days
+                1.0 + (datetime.now(timezone.utc) - last_access).days
             )
             score = memory.importance_score * time_decay * memory.access_count
             scored_memories.append((score, entry_id))
@@ -372,7 +373,7 @@ class CRDTMemoryLayer:
     def get_memory_statistics(self) -> dict[str, Any]:
         if not self.memories:
             return {"total_memories": 0}
-        memory_types = defaultdict(int)
+        memory_types: dict[str, int] = defaultdict(int)
         importance_scores = []
         access_counts = []
         for memory in self.memories.values():
@@ -422,7 +423,7 @@ class CRDTMemoryLayer:
 
     @classmethod
     def from_dict(
-        cls, data: dict[str, Any], node_id: Optional[str] = None
+        cls, data: dict[str, Any], node_id: str | None = None
     ) -> "CRDTMemoryLayer":
         """Reconstruct CRDT memory layer from serialized state.
 

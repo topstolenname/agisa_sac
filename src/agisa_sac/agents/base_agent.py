@@ -12,7 +12,7 @@ This module implements a production-ready agent system with:
 import asyncio
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 try:
     from google.cloud import firestore, pubsub_v1, storage
@@ -123,8 +123,8 @@ class ResourceBudget:
         self.max_cost_per_day = max_cost_per_day
 
         # Tracking windows
-        self._token_window: List[tuple] = []
-        self._tool_window: List[datetime] = []
+        self._token_window: list[tuple] = []
+        self._tool_window: list[datetime] = []
         self._daily_cost = 0.0
         self._day_start = datetime.now().date()
 
@@ -192,15 +192,15 @@ class AGISAAgent:
         agent_id: str,
         name: str,
         instructions: str,
-        tools: List[Tool],
+        tools: list[Tool],
         model: str = "gpt-4o-mini",
-        workspace_topic: Optional[str] = None,
+        workspace_topic: str | None = None,
         enable_topology: bool = True,
-        budget: Optional[ResourceBudget] = None,
+        budget: ResourceBudget | None = None,
         project_id: str = "agisa-sac-prod",
-        context_bucket: Optional[str] = None,
-        handoff_offers_topic: Optional[str] = None,
-        tool_invocations_topic: Optional[str] = None,
+        context_bucket: str | None = None,
+        handoff_offers_topic: str | None = None,
+        tool_invocations_topic: str | None = None,
     ):
         """
         Initialize the AGISA agent.
@@ -246,10 +246,10 @@ class AGISAAgent:
         )
 
         # State tracking
-        self.interaction_history: List[Dict] = []
+        self.interaction_history: list[dict] = []
         self.persistence_diagram = None
-        self.handoff_targets: List[Dict] = []
-        self.guardrails: List[Any] = []
+        self.handoff_targets: list[dict] = []
+        self.guardrails: list[Any] = []
 
         # GCP clients
         self.db = firestore.Client(project=project_id)
@@ -284,7 +284,7 @@ class AGISAAgent:
             self._broadcast_tokens = min(10, self._broadcast_tokens + refill)
             self._broadcast_refill = now
 
-    def categorize_tools(self) -> Dict[ToolType, List[Tool]]:
+    def categorize_tools(self) -> dict[ToolType, list[Tool]]:
         """Group tools by type"""
         categorized = {
             ToolType.DATA: [],
@@ -296,7 +296,7 @@ class AGISAAgent:
         return categorized
 
     async def run(
-        self, input_message: str, context: Optional[Dict] = None
+        self, input_message: str, context: dict | None = None
     ) -> LoopResult:
         """
         Main execution with guardrails, tracing, and resource checks.
@@ -384,7 +384,7 @@ class AGISAAgent:
                 )
                 raise
 
-    async def _execute_loop(self, message: str, context: Dict) -> LoopResult:
+    async def _execute_loop(self, message: str, context: dict) -> LoopResult:
         """
         Deterministic loop with explicit exit conditions.
 
@@ -495,7 +495,7 @@ class AGISAAgent:
             errors=["Maximum iterations exceeded"],
         )
 
-    async def _emit_handoff_offer(self, model_out: Dict, context: Dict):
+    async def _emit_handoff_offer(self, model_out: dict, context: dict):
         """Publish handoff offer to Pub/Sub"""
         # Upload context to GCS
         context_uri = await self._upload_context_to_gcs(context)
@@ -521,7 +521,7 @@ class AGISAAgent:
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None, future.result)
 
-    async def _upload_context_to_gcs(self, context: Dict) -> str:
+    async def _upload_context_to_gcs(self, context: dict) -> str:
         """Store context in GCS for handoff"""
         import json
 
@@ -535,7 +535,7 @@ class AGISAAgent:
 
         return f"gs://{self.context_bucket}/{blob_name}"
 
-    async def _publish_to_workspace(self, result: LoopResult, context: Dict):
+    async def _publish_to_workspace(self, result: LoopResult, context: dict):
         """Publish to global workspace with rate limiting"""
         self._refill_broadcast_bucket()
 
@@ -564,14 +564,14 @@ class AGISAAgent:
 
         self._broadcast_tokens -= 1
 
-    def _record_interaction(self, interaction: Dict):
+    def _record_interaction(self, interaction: dict):
         """Record for topology analysis"""
         self.interaction_history.append(interaction)
         # Keep window manageable
         if len(self.interaction_history) > 1000:
             self.interaction_history = self.interaction_history[-500:]
 
-    async def _call_model(self, message: str, context: Dict) -> Dict:
+    async def _call_model(self, message: str, context: dict) -> dict:
         """Call LLM (placeholder - implement with actual LLM client)"""
         # This would be implemented with actual LLM API calls
         llm_client = context.get("llm_client")
@@ -579,11 +579,11 @@ class AGISAAgent:
             return await llm_client({"model": self.model, "messages": [message]})
         return {"content": "Not implemented", "done": True}
 
-    def _should_exit(self, response: Dict) -> bool:
+    def _should_exit(self, response: dict) -> bool:
         """Check if response indicates completion"""
         return response.get("done") is True or response.get("final_output") is not None
 
-    async def _execute_tool(self, tool_name: str, args: Dict, context: Dict) -> Dict:
+    async def _execute_tool(self, tool_name: str, args: dict, context: dict) -> dict:
         """Execute tool with risk checks"""
         if tool_name not in self.tools:
             return {"ok": False, "error": f"Tool {tool_name} not found"}
@@ -611,7 +611,7 @@ class AGISAAgent:
         except Exception as e:
             return {"ok": False, "error": str(e)}
 
-    def _format_tool_results(self, results: List[Dict]) -> str:
+    def _format_tool_results(self, results: list[dict]) -> str:
         """Format tool results for next iteration"""
         formatted = []
         for r in results:
@@ -621,7 +621,7 @@ class AGISAAgent:
                 formatted.append(f"{r['name']}: ERROR - {r.get('error', 'Unknown')}")
         return "\n".join(formatted)
 
-    async def _handle_guardrail_violation(self, result: Dict, run_ref) -> LoopResult:
+    async def _handle_guardrail_violation(self, result: dict, run_ref) -> LoopResult:
         """Handle guardrail block"""
         event_id = str(uuid.uuid4())
         self.db.collection("guardrail_events").document(event_id).set(

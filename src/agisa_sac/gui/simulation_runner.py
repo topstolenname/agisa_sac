@@ -70,6 +70,7 @@ class SimulationRunner:
         self.status = SimulationStatus()
         self.metrics_queue = metrics_queue
         self._stop_event = threading.Event()
+        self._pause_event = threading.Event()
         self._start_time: float = 0.0
         self._lock = threading.Lock()
 
@@ -103,6 +104,10 @@ class SimulationRunner:
                     f"{config.get('num_epochs')} epochs"
                 )
                 self.orchestrator = SimulationOrchestrator(config)
+                # CRITICAL: Set is_running to True to prevent immediate pause blocking
+                self.orchestrator.is_running = True
+                # Set pause event to indicate not paused
+                self._pause_event.set()
 
                 # Start simulation thread
                 self.thread = threading.Thread(
@@ -138,6 +143,7 @@ class SimulationRunner:
 
             try:
                 self.orchestrator.is_running = False
+                self._pause_event.clear()  # Clear pause event to signal pause
                 self.status.state = SimulationState.PAUSED
                 logger.info("Simulation paused")
                 return True
@@ -162,6 +168,7 @@ class SimulationRunner:
 
             try:
                 self.orchestrator.is_running = True
+                self._pause_event.set()  # Set pause event to signal resume
                 self.status.state = SimulationState.RUNNING
                 logger.info("Simulation resumed")
                 return True
@@ -298,11 +305,13 @@ class SimulationRunner:
                 if self._stop_event.is_set():
                     break
 
-                # Wait while paused
-                while (
-                    not self.orchestrator.is_running and not self._stop_event.is_set()
-                ):
-                    time.sleep(0.1)
+                # Wait while paused using threading.Event for CPU-efficient pause handling
+                # Instead of busy-wait with time.sleep(0.1), use Event.wait() which blocks
+                # the thread until resumed or stopped
+                if not self._pause_event.wait(timeout=0.1):
+                    # Still paused, continue waiting
+                    while not self._pause_event.is_set() and not self._stop_event.is_set():
+                        self._pause_event.wait(timeout=0.1)
 
                 if self._stop_event.is_set():
                     break

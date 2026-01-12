@@ -1,7 +1,6 @@
 import logging
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Optional
 
 import numpy as np
 
@@ -26,7 +25,7 @@ class SemanticProfile:
     text_embedding: np.ndarray
     concept_vectors: dict[str, np.ndarray]
     ethical_signature: np.ndarray
-    temporal_context: Optional[np.ndarray] = None
+    temporal_context: np.ndarray | None = None
     confidence_score: float = 1.0
 
     def to_dict(self) -> dict:

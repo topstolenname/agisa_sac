@@ -26,7 +26,7 @@ def main():
 
     # Load config from file if it exists, otherwise use fallback minimal config
     if config_file.exists():
-        with open(config_file, "r") as f:
+        with open(config_file) as f:
             config = json.load(f)
     else:
         # Fallback minimal config for testing environments

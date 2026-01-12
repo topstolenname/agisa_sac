@@ -9,7 +9,7 @@ Note: Module retains legacy name 'empathy.py' for compatibility.
 
 from collections import deque
 from dataclasses import dataclass, field
-from typing import Any, Deque, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 
@@ -22,9 +22,9 @@ class CMNISnapshot:
 
     timestamp: float
     cmni_score: float
-    resonance_samples: List[float]
+    resonance_samples: list[float]
     agent_count: int
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 class CMNITracker:
@@ -39,9 +39,9 @@ class CMNITracker:
     def __init__(self, window_size: int = 50, baseline_cmni: float = 0.3):
         self.window_size = window_size
         self.baseline_cmni = baseline_cmni
-        self.resonance_buffer: Deque[float] = deque(maxlen=window_size)
+        self.resonance_buffer: deque[float] = deque(maxlen=window_size)
         self.current_cmni: float = baseline_cmni
-        self.history: List[CMNISnapshot] = []
+        self.history: list[CMNISnapshot] = []
         self._activation_count = 0
 
     def update(self, activation: CircuitActivation) -> float:
@@ -128,16 +128,16 @@ class EmpathyModule:
         self.cmni_tracker = CMNITracker(
             window_size=cmni_window, baseline_cmni=baseline_cmni
         )
-        self.agent_resonance_map: Dict[str, List[float]] = (
+        self.agent_resonance_map: dict[str, list[float]] = (
             {}
         )  # Track per-agent resonance
 
     def process_interaction(
         self,
         agent_id: str,
-        self_state: Dict[str, Any],
-        other_state: Dict[str, Any],
-        emotional_context: Optional[Dict[str, Any]] = None,
+        self_state: dict[str, Any],
+        other_state: dict[str, Any],
+        emotional_context: dict[str, Any] | None = None,
     ) -> CircuitActivation:
         """
         Process a social inference interaction with another agent.
@@ -185,7 +185,7 @@ class EmpathyModule:
         history = self.agent_resonance_map[agent_id]
         return np.mean(history) if history else 0.0
 
-    def get_empathy_capacity(self) -> Dict[str, Any]:
+    def get_empathy_capacity(self) -> dict[str, Any]:
         """
         Get comprehensive social inference capacity report.
 

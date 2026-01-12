@@ -27,9 +27,9 @@ def get_metrics():
 
             _metrics_module = NoOpMetrics()
 
-    if hasattr(_metrics_module, "get_metrics"):
+    if _metrics_module is not None and hasattr(_metrics_module, "get_metrics"):
         return _metrics_module.get_metrics()
-    return _metrics_module.get_metrics
+    return _metrics_module.get_metrics if _metrics_module is not None else None
 
 
 def reset_metrics():

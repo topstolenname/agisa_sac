@@ -10,11 +10,10 @@ except Exception:  # pragma: no cover - optional dependency
     storage = None
     HAS_GOOGLE_CLOUD_STORAGE = False
 from pathlib import Path
-from typing import Union
 
 
 def upload_file(
-    bucket_name: str, source: Union[str, Path], destination_blob: str
+    bucket_name: str, source: str | Path, destination_blob: str
 ) -> None:
     """Upload a file to a bucket."""
     if not HAS_GOOGLE_CLOUD_STORAGE:
@@ -26,7 +25,7 @@ def upload_file(
 
 
 def download_file(
-    bucket_name: str, blob_name: str, destination: Union[str, Path]
+    bucket_name: str, blob_name: str, destination: str | Path
 ) -> None:
     """Download a blob from a bucket."""
     if not HAS_GOOGLE_CLOUD_STORAGE:

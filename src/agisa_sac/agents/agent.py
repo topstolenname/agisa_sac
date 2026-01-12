@@ -1,6 +1,6 @@
 import time
 import warnings
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 
@@ -20,8 +20,8 @@ from ..core.components.resonance import (
     TemporalResonanceTracker,
 )
 from ..core.components.voice import VoiceEngine
-from ..utils.message_bus import MessageBus  # Assuming message_bus is in utils
 from ..utils.logger import get_logger
+from ..utils.message_bus import MessageBus  # Assuming message_bus is in utils
 
 # Import for cognitive profile hot-swapping
 try:
@@ -43,15 +43,15 @@ class EnhancedAgent:
     def __init__(
         self,
         agent_id: str,
-        personality: Dict,
+        personality: dict,
         capacity: int = 100,
-        message_bus: Optional[MessageBus] = None,
+        message_bus: MessageBus | None = None,
         use_semantic: bool = True,
         # Allow passing pre-constructed components for loading state
-        memory: Optional[MemoryContinuumLayer] = None,
-        cognitive: Optional[CognitiveDiversityEngine] = None,
-        voice: Optional[VoiceEngine] = None,
-        temporal_resonance: Optional[TemporalResonanceTracker] = None,
+        memory: MemoryContinuumLayer | None = None,
+        cognitive: CognitiveDiversityEngine | None = None,
+        voice: VoiceEngine | None = None,
+        temporal_resonance: TemporalResonanceTracker | None = None,
         add_initial_memory: bool = True,
     ):  # Flag to control initial memory
         self.agent_id = agent_id
@@ -84,8 +84,8 @@ class EnhancedAgent:
         )  # Stateless, init normally
 
         # Agent-level state
-        self.last_reflection_trigger: Optional[str] = None
-        self.recent_decision_log: List[Dict] = []  # Runtime log
+        self.last_reflection_trigger: str | None = None
+        self.recent_decision_log: list[dict] = []  # Runtime log
 
         # Add initial memory only if specified (i.e., not loading from state)
         if add_initial_memory:
@@ -102,8 +102,8 @@ class EnhancedAgent:
     def simulation_step(
         self,
         situational_entropy: float,
-        peer_influence: Dict[str, float],
-        query: Optional[str] = None,
+        peer_influence: dict[str, float],
+        query: str | None = None,
     ):
         self.cognitive.update_heuristics(situational_entropy)
         decision_response = None
@@ -199,8 +199,8 @@ class EnhancedAgent:
     def to_dict(
         self,
         include_memory_embeddings: bool = False,
-        resonance_history_limit: Optional[int] = 50,
-    ) -> Dict[str, Any]:
+        resonance_history_limit: int | None = 50,
+    ) -> dict[str, Any]:
         """Serializes the agent's state using component to_dict methods."""
         return {
             "agent_id": self.agent_id,
@@ -219,8 +219,8 @@ class EnhancedAgent:
     @classmethod
     def from_dict(
         cls,
-        data: Dict[str, Any],
-        message_bus: Optional[MessageBus] = None,
+        data: dict[str, Any],
+        message_bus: MessageBus | None = None,
         strict_validation: bool = True,
     ) -> "EnhancedAgent":
         """Reconstructs an EnhancedAgent using component from_dict methods."""

@@ -2,7 +2,7 @@ import random
 import time
 import warnings
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -32,7 +32,7 @@ class TemporalResonanceTracker:
         timestamp: float,
         vector: np.ndarray,
         theme: str,
-        content: Optional[dict] = None,
+        content: dict | None = None,
     ):
         if vector is not None and theme is not None:
             self.history[timestamp] = {
@@ -43,7 +43,7 @@ class TemporalResonanceTracker:
 
     def detect_echo(self, current_vector: np.ndarray, current_theme: str) -> list[dict]:
         # ... (logic from previous combined file) ...
-        echoes = []
+        echoes: list[dict] = []
         if current_vector is None or current_theme is None:
             return echoes
         current_norm = np.linalg.norm(current_vector)
@@ -119,7 +119,7 @@ class TemporalResonanceTracker:
             )
         return summary
 
-    def to_dict(self, history_limit: Optional[int] = None) -> dict:
+    def to_dict(self, history_limit: int | None = None) -> dict:
         history_to_save = self.history
         if history_limit is not None:
             sorted_ts = sorted(self.history.keys(), reverse=True)[:history_limit]
@@ -222,7 +222,7 @@ class ResonanceLiturgy:
 
     @classmethod
     def from_dict(
-        cls, data: dict, agent_id: Optional[str] = None
+        cls, data: dict, agent_id: str | None = None
     ) -> "ResonanceLiturgy":
         """Reconstruct ResonanceLiturgy from serialized state.
 

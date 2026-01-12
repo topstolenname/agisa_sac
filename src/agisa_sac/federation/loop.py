@@ -5,7 +5,8 @@ Federation heartbeat loop with CGE integration.
 This module provides the main coordination loop for agent federation,
 triggering cognitive evolution cycles at regular intervals.
 """
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING
+
 from agisa_sac.cognition.cge.orchestrator import evolve_pool
 from agisa_sac.utils.logger import get_logger
 
@@ -33,7 +34,7 @@ class FederationLoop:
         self.tick = 0
         self.cge_trigger_interval = cge_trigger_interval
 
-    async def federation_tick(self, agent_pool: List["EnhancedAgent"]):
+    async def federation_tick(self, agent_pool: list["EnhancedAgent"]):
         """
         Federation heartbeat function called on each simulation cycle.
 
@@ -64,7 +65,7 @@ class FederationLoop:
 _default_loop = FederationLoop()
 
 
-async def federation_tick(agent_pool: List["EnhancedAgent"]):
+async def federation_tick(agent_pool: list["EnhancedAgent"]):
     """
     Legacy function that uses the default FederationLoop instance.
 

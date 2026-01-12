@@ -12,18 +12,19 @@ A Claude-powered agent for managing development workflows including:
 import asyncio
 import sys
 from typing import Any
+
 from claude_agent_sdk import (
-    query,
-    ClaudeAgentOptions,
-    tool,
-    create_sdk_mcp_server,
     AssistantMessage,
-    TextBlock,
-    ToolUseBlock,
-    ResultMessage,
+    ClaudeAgentOptions,
+    CLIJSONDecodeError,
     CLINotFoundError,
     ProcessError,
-    CLIJSONDecodeError,
+    ResultMessage,
+    TextBlock,
+    ToolUseBlock,
+    create_sdk_mcp_server,
+    query,
+    tool,
 )
 
 
@@ -104,8 +105,8 @@ async def execute_tests(args: dict[str, Any]) -> dict[str, Any]:
 )
 async def build_project(args: dict[str, Any]) -> dict[str, Any]:
     """Execute build commands for the project."""
-    import subprocess
     import shlex
+    import subprocess
 
     build_command = args.get("build_command", "pip install -e .")
 
@@ -215,8 +216,8 @@ async def analyze_code_quality(args: dict[str, Any]) -> dict[str, Any]:
 )
 async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
     """Get comprehensive project status."""
-    import subprocess
     import os
+    import subprocess
 
     status_parts = []
 
@@ -260,9 +261,9 @@ async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
         py_count = 0
         for root, dirs, files in os.walk("."):
             # Skip common ignored directories
-            dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__', 'node_modules', '.venv', 'venv'}]
+            dirs[:] = [d for d in dirs if d not in {".git", "__pycache__", "node_modules", ".venv", "venv"}]
             file_count += len(files)
-            py_count += sum(1 for f in files if f.endswith('.py'))
+            py_count += sum(1 for f in files if f.endswith(".py"))
 
         status_parts.append(
             f"\n=== PROJECT STRUCTURE ===\n"
@@ -354,7 +355,7 @@ async def run_orchestration_agent(prompt: str, allow_edits: bool = False):
             # Display final result
             elif isinstance(message, ResultMessage):
                 print("\n" + "=" * 80)
-                print(f"\n✅ Task completed!")
+                print("\n✅ Task completed!")
                 print(f"⏱️  Duration: {message.duration_ms / 1000:.2f}s")
                 print(f"🔄 Turns: {message.num_turns}")
                 if message.total_cost_usd:
@@ -392,7 +393,7 @@ async def run_orchestration_agent(prompt: str, allow_edits: bool = False):
 
 async def interactive_mode():
     """Run the agent in interactive mode for continuous conversations."""
-    from claude_agent_sdk import ClaudeSDKClient, ClaudeAgentOptions
+    from claude_agent_sdk import ClaudeAgentOptions, ClaudeSDKClient
 
     # Create SDK MCP server with custom dev tools
     dev_tools_server = create_sdk_mcp_server(
@@ -437,11 +438,11 @@ async def interactive_mode():
                 if not user_input:
                     continue
 
-                if user_input.lower() == 'exit':
+                if user_input.lower() == "exit":
                     print("👋 Goodbye!")
                     break
 
-                if user_input.lower() == 'new':
+                if user_input.lower() == "new":
                     print("🔄 Starting new session...")
                     await client.disconnect()
                     await client.connect()

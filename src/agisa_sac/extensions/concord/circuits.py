@@ -8,7 +8,7 @@ Implements three core circuits based on action-observation coupling research:
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 
@@ -20,7 +20,7 @@ class CircuitActivation:
     circuit_id: str
     activation_level: float  # 0.0 to 1.0
     confidence: float  # 0.0 to 1.0
-    context: Dict[str, Any]
+    context: dict[str, Any]
     timestamp: float
 
 
@@ -36,9 +36,9 @@ class SelfPreservationCircuit:
     def __init__(self, threat_threshold: float = 0.7):
         self.circuit_id = "L2N0"
         self.threat_threshold = threat_threshold
-        self.baseline_state: Optional[Dict[str, float]] = None
+        self.baseline_state: dict[str, float] | None = None
 
-    def evaluate(self, agent_state: Dict[str, Any]) -> CircuitActivation:
+    def evaluate(self, agent_state: dict[str, Any]) -> CircuitActivation:
         """
         Evaluate self-preservation needs.
 
@@ -107,9 +107,9 @@ class TacticalHelpCircuit:
 
     def evaluate(
         self,
-        self_state: Dict[str, Any],
-        other_state: Dict[str, Any],
-        relationship_history: Optional[List[Dict[str, Any]]] = None,
+        self_state: dict[str, Any],
+        other_state: dict[str, Any],
+        relationship_history: list[dict[str, Any]] | None = None,
     ) -> CircuitActivation:
         """
         Evaluate opportunity and capacity to provide tactical help.
@@ -198,13 +198,13 @@ class EmpathyCircuit:
     def __init__(self, resonance_gain: float = 0.8):
         self.circuit_id = "L2N1"
         self.resonance_gain = resonance_gain
-        self.affective_memory: List[CircuitActivation] = []
+        self.affective_memory: list[CircuitActivation] = []
 
     def evaluate(
         self,
-        self_state: Dict[str, Any],
-        other_state: Dict[str, Any],
-        emotional_context: Optional[Dict[str, Any]] = None,
+        self_state: dict[str, Any],
+        other_state: dict[str, Any],
+        emotional_context: dict[str, Any] | None = None,
     ) -> CircuitActivation:
         """
         Evaluate empathic resonance with another agent.

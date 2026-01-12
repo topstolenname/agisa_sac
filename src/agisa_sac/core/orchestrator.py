@@ -2,7 +2,8 @@ import json
 import random
 import time
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -35,7 +36,7 @@ logger = get_logger(__name__)
 class SimulationOrchestrator:
     """Manages the setup, execution, state, and analysis of the AGI-SAC simulation."""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.num_agents = config.get("num_agents", 100)
         self.num_epochs = config.get("num_epochs", 50)
@@ -50,7 +51,7 @@ class SimulationOrchestrator:
         self.message_bus = MessageBus()
         self.agent_ids = [f"agent_{i}" for i in range(self.num_agents)]
         # Agent creation requires config details
-        self.agents: Dict[str, EnhancedAgent] = self._create_agents()
+        self.agents: dict[str, EnhancedAgent] = self._create_agents()
         self.social_graph = DynamicSocialGraph(
             self.num_agents,
             self.agent_ids,
@@ -65,8 +66,8 @@ class SimulationOrchestrator:
 
         self.current_epoch = 0
         self.is_running = False
-        self.simulation_start_time = None
-        self.hooks: Dict[str, List[Callable]] = defaultdict(list)
+        self.simulation_start_time: float | None = None
+        self.hooks: dict[str, list[Callable[..., Any]]] = defaultdict(list)
 
         # Initialize metrics collection
         self.metrics = get_metrics()
@@ -79,7 +80,7 @@ class SimulationOrchestrator:
             f"GPU: {self.social_graph.use_gpu}"
         )
 
-    def _create_agents(self) -> Dict[str, EnhancedAgent]:
+    def _create_agents(self) -> dict[str, EnhancedAgent]:
         agents = {}
         personalities = self.config.get("personalities", [])
         if len(personalities) != self.num_agents:
@@ -115,7 +116,7 @@ class SimulationOrchestrator:
     # ... (register_hook, _trigger_hooks, run_epoch, run_simulation,
     # inject_protocol, get_summary_metrics methods as defined in
     # agisa_orchestrator_serialization_v1) ...
-    def register_hook(self, hook_point: str, callback: Callable):
+    def register_hook(self, hook_point: str, callback: Callable[..., Any]) -> None:
         valid_hooks = {
             "pre_epoch",
             "post_epoch",
@@ -134,7 +135,7 @@ class SimulationOrchestrator:
         self.hooks[hook_point].append(callback)
         logger.debug(f"Registered hook '{callback.__name__}' for '{hook_point}'")
 
-    def _trigger_hooks(self, hook_point: str, **kwargs):
+    def _trigger_hooks(self, hook_point: str, **kwargs: Any) -> None:
         if hook_point in self.hooks:
             for callback in self.hooks[hook_point]:
                 try:
@@ -145,7 +146,7 @@ class SimulationOrchestrator:
                         exc_info=True,
                     )
 
-    def run_epoch(self):
+    def run_epoch(self) -> None:
         if not self.is_running:
             logger.warning("Attempted to run epoch but simulation is not running")
             return
@@ -243,8 +244,8 @@ class SimulationOrchestrator:
             )
 
     def run_simulation(
-        self, num_epochs: Optional[int] = None
-    ):  # Allow overriding num_epochs
+        self, num_epochs: int | None = None
+    ) -> dict[str, Any]:
         run_epochs = num_epochs if num_epochs is not None else self.num_epochs
         if run_epochs <= 0:
             logger.warning("No epochs to run (run_epochs <= 0)")
@@ -268,6 +269,7 @@ class SimulationOrchestrator:
             self.current_epoch = epoch
             self.run_epoch()
         self.is_running = False
+        assert self.simulation_start_time is not None  # Set at start of run
         total_duration = time.perf_counter() - self.simulation_start_time
         logger.info(
             f"Simulation run complete: {run_epochs} epochs "
@@ -285,7 +287,7 @@ class SimulationOrchestrator:
             "duration": total_duration,
         }
 
-    def inject_protocol(self, protocol_name: str, parameters: Dict):
+    def inject_protocol(self, protocol_name: str, parameters: dict[str, Any]) -> None:
         # ... (logic as defined in agisa_orchestrator_protocol_v1) ...
         logger.info(
             f"Injecting protocol '{protocol_name}' with parameters: {parameters}"
@@ -363,8 +365,8 @@ class SimulationOrchestrator:
         )
 
     def get_summary_metrics(
-        self, satori_threshold: Optional[float] = None
-    ) -> Dict[str, Any]:
+        self, satori_threshold: float | None = None
+    ) -> dict[str, Any]:
         if not self.analyzer:
             return {"error": "Analyzer N/A."}
 
@@ -379,7 +381,7 @@ class SimulationOrchestrator:
         self,
         filepath: str,
         include_memory_embeddings: bool = False,
-        resonance_history_limit: Optional[int] = 100,
+        resonance_history_limit: int | None = 100,
     ) -> bool:
         """Serialize orchestrator state to disk using JSON."""
         if self.is_running:
@@ -419,7 +421,7 @@ class SimulationOrchestrator:
             logger.warning("Loading state while simulation is running")
         try:
             logger.info(f"Loading simulation state from {filepath}")
-            with open(filepath, "r") as f:
+            with open(filepath) as f:
                 state = json.load(f)
 
             # Restore config first to ensure other components are initialized correctly
@@ -475,7 +477,9 @@ class SimulationOrchestrator:
             logger.error(f"Failed to load state from {filepath}: {e}", exc_info=True)
             return False
 
-    def _select_agents_for_protocol(self, parameters: Dict) -> List[EnhancedAgent]:
+    def _select_agents_for_protocol(
+        self, parameters: dict[str, Any]
+    ) -> list[EnhancedAgent]:
         selection_method = parameters.get("selection_method", "percentage")
         agent_list = list(self.agents.values())
         if not agent_list:
@@ -489,9 +493,8 @@ class SimulationOrchestrator:
                 f"Selecting {selected_count} agents "
                 f"({percentage*100:.1f}%) for protocol"
             )
-            return self.rng.choice(
-                agent_list, size=selected_count, replace=False
-            ).tolist()
+            indices = self.rng.choice(len(agent_list), size=selected_count, replace=False)
+            return [agent_list[i] for i in indices]
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."
         )

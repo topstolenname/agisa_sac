@@ -50,10 +50,10 @@ def create_gui(
 
         # Create tabs
         with gr.Tabs():
-            config_tab, config_components = create_config_tab(config_manager)
-            control_tab, control_components = create_control_tab(config_manager)
-            _, viz_components = create_visualization_tab()
-            export_tab, export_components = create_export_tab()
+            _, _ = create_config_tab(config_manager)
+            _, _ = create_control_tab(config_manager)
+            _, _ = create_visualization_tab()
+            _, _ = create_export_tab()
 
         # Footer
         gr.Markdown(
