@@ -26,7 +26,7 @@ This guide covers production deployment of AGI-SAC simulations and federation in
 **Minimum (Development/Testing):**
 - CPU: 4 cores
 - RAM: 8 GB
-- Python: 3.9+
+- Python: 3.10+
 - OS: Linux, macOS, Windows
 
 **Recommended (Production):**

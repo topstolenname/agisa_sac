@@ -11,7 +11,7 @@
 
 **Last Updated**: 2026-01-10
 **Framework Version**: 1.0.0-alpha
-**Python Version**: 3.9+
+**Python Version**: 3.10+
 **Build System**: Poetry
 
 ---
@@ -73,7 +73,7 @@ Before relying on information in this document:
 - **Integration Studies**: Computational models of emergent system behavior
 
 ### Technology Stack
-- **Language**: Python 3.9+
+- **Language**: Python 3.10+
 - **Build System**: Poetry 2.x
 - **Core Libraries**: PyTorch, Scikit-learn, NetworkX, SentenceTransformers
 - **API Framework**: FastAPI
@@ -1336,7 +1336,7 @@ config = {
 - **Build System**: `poetry` (2.x)
 - **Code Formatter**: `black` (line-length=88)
 - **Linters**: `flake8` (max-line-length=88), `ruff`
-- **Type Checker**: `mypy` (Python 3.9+)
+- **Type Checker**: `mypy` (Python 3.10+)
 - **Test Framework**: `pytest` with coverage
 - **Documentation**: `mkdocs` with Material theme
 - **Pre-commit**: `.pre-commit-config.yaml`
