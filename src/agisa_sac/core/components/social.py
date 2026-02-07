@@ -306,12 +306,42 @@ class DynamicSocialGraph:
         Returns:
             Reconstructed DynamicSocialGraph instance
         """
-        num_agents = num_agents if num_agents is not None else data.get("num_agents", 0)
-        agent_ids = agent_ids if agent_ids is not None else data.get("agent_ids", [])
+        # Determine num_agents, preferring explicit argument, then serialized metadata,
+        # then inferring from other serialized fields. Fail if it cannot be inferred.
+        inferred_num_agents = num_agents
+        if inferred_num_agents is None:
+            # Try direct field from serialized data
+            if "num_agents" in data and data["num_agents"] is not None:
+                inferred_num_agents = int(data["num_agents"])
+            else:
+                # Try to infer from reputation length
+                reputation_state = data.get("reputation")
+                if isinstance(reputation_state, (list, np.ndarray)):
+                    inferred_num_agents = len(reputation_state)
+                else:
+                    # Try to infer from influence_matrix_coo indices
+                    coo_state = data.get("influence_matrix_coo") or []
+                    if coo_state:
+                        try:
+                            max_index = max(
+                                max(int(row), int(col)) for row, col, _ in coo_state
+                            )
+                            inferred_num_agents = max_index + 1
+                        except (TypeError, ValueError):
+                            inferred_num_agents = None
+        if inferred_num_agents is None:
+            raise ValueError(
+                "Cannot infer 'num_agents' from serialized DynamicSocialGraph data."
+            )
+
+        # Determine agent_ids, preferring explicit argument, then serialized metadata.
+        # If still unknown, leave as None so the constructor can apply its defaults.
+        if agent_ids is None:
+            agent_ids = data.get("agent_ids")
 
         # Create new instance with default initialization
         instance = cls(
-            num_agents=num_agents,
+            num_agents=inferred_num_agents,
             agent_ids=agent_ids,
             use_gpu=use_gpu,
             message_bus=message_bus,
