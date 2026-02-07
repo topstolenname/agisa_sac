@@ -239,6 +239,11 @@ def main() -> int:
         help="Fraction of agents to expose (default: 0.15)",
     )
 
+    # Concord governance commands
+    from agisa_sac.governance.cli import add_concord_subparser
+
+    add_concord_subparser(subparsers)
+
     # Parse arguments
     args = parser.parse_args()
 
@@ -269,6 +274,10 @@ def main() -> int:
     elif args.command == "list-presets":
         list_presets()
         return 0
+    elif args.command == "concord":
+        from agisa_sac.governance.cli import handle_concord
+
+        return handle_concord(args)
     elif args.command == "convert-transcript":
         from .cli.convert_transcript import convert_transcript
 
