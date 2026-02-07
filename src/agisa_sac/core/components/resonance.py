@@ -126,14 +126,16 @@ class TemporalResonanceTracker:
             history_to_save = {ts: self.history[ts] for ts in sorted_ts}
         return {
             "version": FRAMEWORK_VERSION,
+            "agent_id": self.agent_id,
             "resonance_threshold": self.resonance_threshold,
             "history": history_to_save,
         }
 
     @classmethod
     def from_dict(
-        cls, data: dict[str, Any], agent_id: str
+        cls, data: dict[str, Any], agent_id: str | None = None
     ) -> "TemporalResonanceTracker":
+        agent_id = agent_id or data.get("agent_id", "unknown")
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(
@@ -221,9 +223,7 @@ class ResonanceLiturgy:
         }
 
     @classmethod
-    def from_dict(
-        cls, data: dict, agent_id: str | None = None
-    ) -> "ResonanceLiturgy":
+    def from_dict(cls, data: dict, agent_id: str | None = None) -> "ResonanceLiturgy":
         """Reconstruct ResonanceLiturgy from serialized state.
 
         Args:

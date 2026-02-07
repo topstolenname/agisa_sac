@@ -81,11 +81,18 @@ class VoiceEngine:
         sig = self.linguistic_signature.copy()
         if "style_vector" in sig and isinstance(sig["style_vector"], np.ndarray):
             sig["style_vector"] = sig["style_vector"].tolist()  # Convert numpy array
-        return {"version": FRAMEWORK_VERSION, "linguistic_signature": sig}
+        return {
+            "version": FRAMEWORK_VERSION,
+            "agent_id": self.agent_id,
+            "linguistic_signature": sig,
+        }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any], agent_id: str) -> "VoiceEngine":
+    def from_dict(
+        cls, data: dict[str, Any], agent_id: str | None = None
+    ) -> "VoiceEngine":
         """Reconstructs the voice engine from serialized data."""
+        agent_id = agent_id or data.get("agent_id", "unknown")
         loaded_version = data.get("version")
         if loaded_version != FRAMEWORK_VERSION:
             warnings.warn(

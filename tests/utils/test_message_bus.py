@@ -1,4 +1,5 @@
 """Comprehensive tests for MessageBus."""
+
 import asyncio
 import pytest
 import warnings
@@ -130,6 +131,7 @@ class TestPublishSync:
 
     def test_publish_callback_error_handling(self, message_bus):
         """Test that callback errors are caught and warned."""
+
         def failing_callback(message):
             raise ValueError("Callback error")
 
@@ -199,6 +201,7 @@ class TestPublishAsync:
     @pytest.mark.asyncio
     async def test_async_callback_error_handling(self, message_bus):
         """Test that async callback errors are caught."""
+
         async def failing_async_callback(message):
             raise ValueError("Async error")
 
@@ -211,6 +214,7 @@ class TestPublishAsync:
 
     def test_publish_async_no_running_loop(self, message_bus):
         """Test async callback when loop is not running."""
+
         async def async_callback(message):
             pass
 

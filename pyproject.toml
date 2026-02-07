@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "agisa-sac"
-version = "1.0.0-alpha"
+version = "1.0.0"
 description = "AGI Stand Alone Complex: Distributed Consciousness Simulation Framework"
 authors = ["Tristan Jessup <your-email@domain.com>"]
 readme = "README.md"
 license = "MIT"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Programming Language :: Python :: 3.10",

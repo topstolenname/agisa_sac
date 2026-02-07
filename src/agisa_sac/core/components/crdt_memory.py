@@ -312,9 +312,7 @@ class CRDTMemoryLayer:
         scored_memories = []
         for entry_id, memory in self.memories.items():
             last_access = memory.last_accessed or memory.created_at
-            time_decay = 1.0 / (
-                1.0 + (datetime.now(timezone.utc) - last_access).days
-            )
+            time_decay = 1.0 / (1.0 + (datetime.now(timezone.utc) - last_access).days)
             score = memory.importance_score * time_decay * memory.access_count
             scored_memories.append((score, entry_id))
         scored_memories.sort(reverse=True)

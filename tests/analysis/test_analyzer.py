@@ -1,4 +1,5 @@
 """Comprehensive tests for AgentStateAnalyzer."""
+
 import pytest
 import math
 from unittest.mock import Mock, patch
@@ -29,7 +30,11 @@ def mock_agents_full():
         agent.voice = Mock()
         agent.voice.linguistic_signature = {
             "archetype": f"archetype_{i % 3}",
-            "style_vector": [0.1 * i, 0.2 * i, 0.3 * i]  # Mock as list instead of numpy array
+            "style_vector": [
+                0.1 * i,
+                0.2 * i,
+                0.3 * i,
+            ],  # Mock as list instead of numpy array
         }
 
         # Memory with focus theme
@@ -348,7 +353,7 @@ class TestSummarize:
         """Test that computed distribution is passed to entropy calculation."""
         analyzer = AgentStateAnalyzer(mock_agents_basic)
 
-        with patch.object(analyzer, 'compute_archetype_entropy') as mock_entropy:
+        with patch.object(analyzer, "compute_archetype_entropy") as mock_entropy:
             mock_entropy.return_value = 1.0
             summary = analyzer.summarize()
 
@@ -360,7 +365,7 @@ class TestSummarize:
 class TestGenerateMonitoringMetrics:
     """Test monitoring metrics generation."""
 
-    @patch('agisa_sac.analysis.analyzer.monitoring.generate_monitoring_metrics')
+    @patch("agisa_sac.analysis.analyzer.monitoring.generate_monitoring_metrics")
     def test_generate_monitoring_metrics(self, mock_generate, mock_agents_basic):
         """Test generating monitoring metrics for all agents."""
         mock_generate.return_value = {"metric": 1.0}
@@ -377,7 +382,7 @@ class TestGenerateMonitoringMetrics:
         # Verify monitoring.generate_monitoring_metrics was called for each agent
         assert mock_generate.call_count == 3
 
-    @patch('agisa_sac.analysis.analyzer.monitoring.generate_monitoring_metrics')
+    @patch("agisa_sac.analysis.analyzer.monitoring.generate_monitoring_metrics")
     def test_generate_monitoring_metrics_empty(self, mock_generate):
         """Test generating monitoring metrics with no agents."""
         analyzer = AgentStateAnalyzer({})

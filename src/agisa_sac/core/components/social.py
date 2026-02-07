@@ -62,9 +62,7 @@ class DynamicSocialGraph:
         if self.use_gpu:
             self._transfer_to_gpu()
         self.edge_changes_since_last_community_check = 0
-        self.last_communities: list[set[str]] | None = (
-            None  # Store as set of agent IDs
-        )
+        self.last_communities: list[set[str]] | None = None  # Store as set of agent IDs
 
     def _convert_to_csr(self):
         self.influence_matrix_csr = self.influence_matrix.tocsr()
@@ -275,6 +273,8 @@ class DynamicSocialGraph:
         matrix_state = list(zip(coo.row.tolist(), coo.col.tolist(), coo.data.tolist()))
         return {
             "version": FRAMEWORK_VERSION,
+            "num_agents": self.num_agents,
+            "agent_ids": self.agent_ids,
             "influence_matrix_coo": matrix_state,
             "reputation": self.reputation.tolist(),
             "last_communities": (
@@ -289,8 +289,8 @@ class DynamicSocialGraph:
     def from_dict(
         cls,
         data: dict,
-        num_agents: int,
-        agent_ids: list[str],
+        num_agents: int | None = None,
+        agent_ids: list[str] | None = None,
         use_gpu: bool = False,
         message_bus: Optional["MessageBus"] = None,
     ) -> "DynamicSocialGraph":
@@ -298,17 +298,50 @@ class DynamicSocialGraph:
 
         Args:
             data: Serialized state dictionary from to_dict()
-            num_agents: Number of agents in the graph
-            agent_ids: List of agent IDs
+            num_agents: Number of agents (extracted from data if not provided)
+            agent_ids: List of agent IDs (extracted from data if not provided)
             use_gpu: Whether to use GPU acceleration
             message_bus: Optional message bus for publishing events
 
         Returns:
             Reconstructed DynamicSocialGraph instance
         """
+        # Determine num_agents, preferring explicit argument, then serialized metadata,
+        # then inferring from other serialized fields. Fail if it cannot be inferred.
+        inferred_num_agents = num_agents
+        if inferred_num_agents is None:
+            # Try direct field from serialized data
+            if "num_agents" in data and data["num_agents"] is not None:
+                inferred_num_agents = int(data["num_agents"])
+            else:
+                # Try to infer from reputation length
+                reputation_state = data.get("reputation")
+                if isinstance(reputation_state, (list, np.ndarray)):
+                    inferred_num_agents = len(reputation_state)
+                else:
+                    # Try to infer from influence_matrix_coo indices
+                    coo_state = data.get("influence_matrix_coo") or []
+                    if coo_state:
+                        try:
+                            max_index = max(
+                                max(int(row), int(col)) for row, col, _ in coo_state
+                            )
+                            inferred_num_agents = max_index + 1
+                        except (TypeError, ValueError):
+                            inferred_num_agents = None
+        if inferred_num_agents is None:
+            raise ValueError(
+                "Cannot infer 'num_agents' from serialized DynamicSocialGraph data."
+            )
+
+        # Determine agent_ids, preferring explicit argument, then serialized metadata.
+        # If still unknown, leave as None so the constructor can apply its defaults.
+        if agent_ids is None:
+            agent_ids = data.get("agent_ids")
+
         # Create new instance with default initialization
         instance = cls(
-            num_agents=num_agents,
+            num_agents=inferred_num_agents,
             agent_ids=agent_ids,
             use_gpu=use_gpu,
             message_bus=message_bus,

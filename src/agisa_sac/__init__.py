@@ -17,7 +17,7 @@ from .config import (
 )
 from .utils.logger import get_logger, setup_logging
 
-__version__ = "1.0.0-alpha"
+__version__ = "1.0.0"
 FRAMEWORK_VERSION = f"AGI-SAC v{__version__}"
 
 # Lazy import mappings - components are loaded on first access
@@ -89,6 +89,7 @@ def __getattr__(name: str):
             ) from e
 
     raise AttributeError(f"Module {__name__} has no attribute {name}")
+
 
 __all__ = [
     "FRAMEWORK_VERSION",

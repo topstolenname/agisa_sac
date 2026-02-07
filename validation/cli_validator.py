@@ -22,10 +22,7 @@ CLI_COMMANDS = [
 
 
 def validate_command(
-    cmd: str,
-    args: List[str],
-    expected_code: int,
-    description: str
+    cmd: str, args: List[str], expected_code: int, description: str
 ) -> Tuple[bool, str]:
     """Run a CLI command and validate exit code.
 
@@ -41,7 +38,7 @@ def validate_command(
             capture_output=True,
             text=True,
             timeout=10,
-            cwd=None  # Use current directory
+            cwd=None,  # Use current directory
         )
 
         # Check exit code

@@ -211,9 +211,7 @@ class TestAGISAAgentToolCategorization:
     @patch("agisa_sac.agents.base_agent.firestore")
     @patch("agisa_sac.agents.base_agent.pubsub_v1")
     @patch("agisa_sac.agents.base_agent.storage")
-    def test_categorize_tools_empty(
-        self, mock_storage, mock_pubsub, mock_firestore
-    ):
+    def test_categorize_tools_empty(self, mock_storage, mock_pubsub, mock_firestore):
         """Test categorize_tools with no tools."""
         from agisa_sac.agents.base_agent import AGISAAgent
 
@@ -239,15 +237,21 @@ class TestAGISAAgentToolCategorization:
     @patch("agisa_sac.agents.base_agent.firestore")
     @patch("agisa_sac.agents.base_agent.pubsub_v1")
     @patch("agisa_sac.agents.base_agent.storage")
-    def test_categorize_tools_mixed(
-        self, mock_storage, mock_pubsub, mock_firestore
-    ):
+    def test_categorize_tools_mixed(self, mock_storage, mock_pubsub, mock_firestore):
         """Test categorize_tools with mixed tool types."""
         from agisa_sac.agents.base_agent import AGISAAgent
 
         tools = [
-            Tool(name="broadcast", type=ToolType.COMMUNICATION, description="Broadcast message"),
-            Tool(name="observe", type=ToolType.OBSERVATION, description="Observe environment"),
+            Tool(
+                name="broadcast",
+                type=ToolType.COMMUNICATION,
+                description="Broadcast message",
+            ),
+            Tool(
+                name="observe",
+                type=ToolType.OBSERVATION,
+                description="Observe environment",
+            ),
             Tool(name="act", type=ToolType.ACTION, description="Take action"),
         ]
 
@@ -276,9 +280,7 @@ class TestAGISAAgentInitialization:
     @patch("agisa_sac.agents.base_agent.firestore")
     @patch("agisa_sac.agents.base_agent.pubsub_v1")
     @patch("agisa_sac.agents.base_agent.storage")
-    def test_initialization_basic(
-        self, mock_storage, mock_pubsub, mock_firestore
-    ):
+    def test_initialization_basic(self, mock_storage, mock_pubsub, mock_firestore):
         """Test basic AGISAAgent initialization."""
         from agisa_sac.agents.base_agent import AGISAAgent
 

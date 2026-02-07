@@ -32,7 +32,7 @@ from claude_agent_sdk import (
 @tool(
     "execute_tests",
     "Run test suite for the project using pytest or unittest",
-    {"test_path": str, "verbose": bool}
+    {"test_path": str, "verbose": bool},
 )
 async def execute_tests(args: dict[str, Any]) -> dict[str, Any]:
     """Execute tests and return results."""
@@ -48,20 +48,19 @@ async def execute_tests(args: dict[str, Any]) -> dict[str, Any]:
             cmd.append("-v")
 
         result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=300  # 5 minute timeout
+            cmd, capture_output=True, text=True, timeout=300  # 5 minute timeout
         )
 
         output = f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}"
 
         return {
-            "content": [{
-                "type": "text",
-                "text": f"Test execution completed (exit code: {result.returncode})\n\n{output}"
-            }],
-            "is_error": result.returncode != 0
+            "content": [
+                {
+                    "type": "text",
+                    "text": f"Test execution completed (exit code: {result.returncode})\n\n{output}",
+                }
+            ],
+            "is_error": result.returncode != 0,
         }
     except FileNotFoundError:
         # Fallback to unittest
@@ -70,38 +69,34 @@ async def execute_tests(args: dict[str, Any]) -> dict[str, Any]:
                 ["python", "-m", "unittest", "discover", test_path],
                 capture_output=True,
                 text=True,
-                timeout=300
+                timeout=300,
             )
             output = f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}"
             return {
-                "content": [{
-                    "type": "text",
-                    "text": f"Test execution completed (exit code: {result.returncode})\n\n{output}"
-                }],
-                "is_error": result.returncode != 0
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"Test execution completed (exit code: {result.returncode})\n\n{output}",
+                    }
+                ],
+                "is_error": result.returncode != 0,
             }
         except Exception as e:
             return {
-                "content": [{
-                    "type": "text",
-                    "text": f"Failed to run tests: {str(e)}"
-                }],
-                "is_error": True
+                "content": [{"type": "text", "text": f"Failed to run tests: {str(e)}"}],
+                "is_error": True,
             }
     except Exception as e:
         return {
-            "content": [{
-                "type": "text",
-                "text": f"Error executing tests: {str(e)}"
-            }],
-            "is_error": True
+            "content": [{"type": "text", "text": f"Error executing tests: {str(e)}"}],
+            "is_error": True,
         }
 
 
 @tool(
     "build_project",
     "Build the project using common build tools (pip, setup.py, etc.)",
-    {"build_command": str}
+    {"build_command": str},
 )
 async def build_project(args: dict[str, Any]) -> dict[str, Any]:
     """Execute build commands for the project."""
@@ -117,32 +112,31 @@ async def build_project(args: dict[str, Any]) -> dict[str, Any]:
             shell=False,
             capture_output=True,
             text=True,
-            timeout=600  # 10 minute timeout
+            timeout=600,  # 10 minute timeout
         )
 
         output = f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}"
 
         return {
-            "content": [{
-                "type": "text",
-                "text": f"Build completed (exit code: {result.returncode})\n\n{output}"
-            }],
-            "is_error": result.returncode != 0
+            "content": [
+                {
+                    "type": "text",
+                    "text": f"Build completed (exit code: {result.returncode})\n\n{output}",
+                }
+            ],
+            "is_error": result.returncode != 0,
         }
     except Exception as e:
         return {
-            "content": [{
-                "type": "text",
-                "text": f"Build failed: {str(e)}"
-            }],
-            "is_error": True
+            "content": [{"type": "text", "text": f"Build failed: {str(e)}"}],
+            "is_error": True,
         }
 
 
 @tool(
     "analyze_code_quality",
     "Analyze code quality using linters and static analysis tools",
-    {"path": str, "tools": str}
+    {"path": str, "tools": str},
 )
 async def analyze_code_quality(args: dict[str, Any]) -> dict[str, Any]:
     """Run code quality analysis tools."""
@@ -158,31 +152,22 @@ async def analyze_code_quality(args: dict[str, Any]) -> dict[str, Any]:
         try:
             if tool_name == "pylint":
                 result = subprocess.run(
-                    ["pylint", path],
-                    capture_output=True,
-                    text=True,
-                    timeout=300
+                    ["pylint", path], capture_output=True, text=True, timeout=300
                 )
             elif tool_name == "mypy":
                 result = subprocess.run(
-                    ["mypy", path],
-                    capture_output=True,
-                    text=True,
-                    timeout=300
+                    ["mypy", path], capture_output=True, text=True, timeout=300
                 )
             elif tool_name == "flake8":
                 result = subprocess.run(
-                    ["flake8", path],
-                    capture_output=True,
-                    text=True,
-                    timeout=300
+                    ["flake8", path], capture_output=True, text=True, timeout=300
                 )
             elif tool_name == "black":
                 result = subprocess.run(
                     ["black", "--check", path],
                     capture_output=True,
                     text=True,
-                    timeout=300
+                    timeout=300,
                 )
             else:
                 results.append(f"\n{tool_name}: Tool not recognized")
@@ -202,17 +187,19 @@ async def analyze_code_quality(args: dict[str, Any]) -> dict[str, Any]:
             results.append(f"\n{tool_name}: Error - {str(e)}")
 
     return {
-        "content": [{
-            "type": "text",
-            "text": "Code Quality Analysis Results:\n" + "\n".join(results)
-        }]
+        "content": [
+            {
+                "type": "text",
+                "text": "Code Quality Analysis Results:\n" + "\n".join(results),
+            }
+        ]
     }
 
 
 @tool(
     "get_project_status",
     "Get comprehensive status of the project (git, dependencies, tests)",
-    {}
+    {},
 )
 async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
     """Get comprehensive project status."""
@@ -224,16 +211,13 @@ async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
     # Git status
     try:
         git_status = subprocess.run(
-            ["git", "status", "--short"],
-            capture_output=True,
-            text=True,
-            timeout=30
+            ["git", "status", "--short"], capture_output=True, text=True, timeout=30
         )
         git_branch = subprocess.run(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=30,
         )
         status_parts.append(
             f"=== GIT STATUS ===\n"
@@ -241,15 +225,14 @@ async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
             f"Changes:\n{git_status.stdout if git_status.stdout else 'No changes'}"
         )
     except Exception:
-        status_parts.append("=== GIT STATUS ===\nNot a git repository or git not available")
+        status_parts.append(
+            "=== GIT STATUS ===\nNot a git repository or git not available"
+        )
 
     # Python environment
     try:
         python_version = subprocess.run(
-            ["python", "--version"],
-            capture_output=True,
-            text=True,
-            timeout=10
+            ["python", "--version"], capture_output=True, text=True, timeout=10
         )
         status_parts.append(f"\n=== PYTHON ENVIRONMENT ===\n{python_version.stdout}")
     except Exception as e:
@@ -261,7 +244,11 @@ async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
         py_count = 0
         for root, dirs, files in os.walk("."):
             # Skip common ignored directories
-            dirs[:] = [d for d in dirs if d not in {".git", "__pycache__", "node_modules", ".venv", "venv"}]
+            dirs[:] = [
+                d
+                for d in dirs
+                if d not in {".git", "__pycache__", "node_modules", ".venv", "venv"}
+            ]
             file_count += len(files)
             py_count += sum(1 for f in files if f.endswith(".py"))
 
@@ -273,12 +260,7 @@ async def get_project_status(args: dict[str, Any]) -> dict[str, Any]:
     except Exception as e:
         status_parts.append(f"\n=== PROJECT STRUCTURE ===\nError: {str(e)}")
 
-    return {
-        "content": [{
-            "type": "text",
-            "text": "\n".join(status_parts)
-        }]
-    }
+    return {"content": [{"type": "text", "text": "\n".join(status_parts)}]}
 
 
 async def run_orchestration_agent(prompt: str, allow_edits: bool = False):
@@ -298,7 +280,7 @@ async def run_orchestration_agent(prompt: str, allow_edits: bool = False):
             build_project,
             analyze_code_quality,
             get_project_status,
-        ]
+        ],
     )
 
     # Configure agent options
@@ -307,13 +289,13 @@ async def run_orchestration_agent(prompt: str, allow_edits: bool = False):
         model="claude-sonnet-4-5-20251101",
         # Built-in tools for file operations and execution
         allowed_tools=[
-            "Read",           # Read files
-            "Write",          # Create new files
-            "Edit",           # Edit existing files
-            "Bash",           # Execute commands
-            "Glob",           # Find files by pattern
-            "Grep",           # Search file contents
-            "TodoWrite",      # Task management
+            "Read",  # Read files
+            "Write",  # Create new files
+            "Edit",  # Edit existing files
+            "Bash",  # Execute commands
+            "Glob",  # Find files by pattern
+            "Grep",  # Search file contents
+            "TodoWrite",  # Task management
             # Custom dev tools via MCP
             "mcp__dev-tools__execute_tests",
             "mcp__dev-tools__build_project",
@@ -404,13 +386,19 @@ async def interactive_mode():
             build_project,
             analyze_code_quality,
             get_project_status,
-        ]
+        ],
     )
 
     options = ClaudeAgentOptions(
         model="claude-sonnet-4-5-20251101",
         allowed_tools=[
-            "Read", "Write", "Edit", "Bash", "Glob", "Grep", "TodoWrite",
+            "Read",
+            "Write",
+            "Edit",
+            "Bash",
+            "Glob",
+            "Grep",
+            "TodoWrite",
             "mcp__dev-tools__execute_tests",
             "mcp__dev-tools__build_project",
             "mcp__dev-tools__analyze_code_quality",
@@ -473,10 +461,16 @@ async def interactive_mode():
                 break
             except CLINotFoundError as e:
                 print(f"\n❌ Claude Code CLI not found: {e}", file=sys.stderr)
-                print("Install with: npm install -g @anthropic-ai/claude-code", file=sys.stderr)
+                print(
+                    "Install with: npm install -g @anthropic-ai/claude-code",
+                    file=sys.stderr,
+                )
                 break
             except ProcessError as e:
-                print(f"\n❌ Process error (exit code {e.exit_code}): {e}", file=sys.stderr)
+                print(
+                    f"\n❌ Process error (exit code {e.exit_code}): {e}",
+                    file=sys.stderr,
+                )
             except CLIJSONDecodeError as e:
                 print(f"\n❌ Failed to parse response: {e}", file=sys.stderr)
             except Exception as e:
@@ -503,34 +497,36 @@ Examples:
 
   # Analyze project
   python main.py "Analyze the codebase and suggest improvements"
-        """
+        """,
     )
 
+    parser.add_argument("prompt", nargs="?", help="Task or question for the agent")
     parser.add_argument(
-        "prompt",
-        nargs="?",
-        help="Task or question for the agent"
-    )
-    parser.add_argument(
-        "-i", "--interactive",
+        "-i",
+        "--interactive",
         action="store_true",
-        help="Run in interactive mode for continuous conversation"
+        help="Run in interactive mode for continuous conversation",
     )
     parser.add_argument(
         "--allow-edits",
         action="store_true",
-        help="Allow the agent to automatically edit files without prompting"
+        help="Allow the agent to automatically edit files without prompting",
     )
 
     args = parser.parse_args()
 
     # Verify API key is set
     import os
+
     if not os.getenv("ANTHROPIC_API_KEY"):
-        print("❌ Error: ANTHROPIC_API_KEY environment variable not set", file=sys.stderr)
+        print(
+            "❌ Error: ANTHROPIC_API_KEY environment variable not set", file=sys.stderr
+        )
         print("\nPlease set your API key:", file=sys.stderr)
         print("  export ANTHROPIC_API_KEY=your-api-key-here", file=sys.stderr)
-        print("\nGet your API key from: https://console.anthropic.com/", file=sys.stderr)
+        print(
+            "\nGet your API key from: https://console.anthropic.com/", file=sys.stderr
+        )
         sys.exit(1)
 
     if args.interactive:

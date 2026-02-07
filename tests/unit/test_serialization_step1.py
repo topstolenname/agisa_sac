@@ -195,7 +195,9 @@ class TestResonanceLiturgy:
             ResonanceLiturgy.from_dict(data)
 
             assert len(w) >= 1
-            assert any("resonanceliturgy" in str(warning.message).lower() for warning in w)
+            assert any(
+                "resonanceliturgy" in str(warning.message).lower() for warning in w
+            )
 
 
 class TestSemanticProfile:
@@ -280,9 +282,7 @@ class TestEnhancedSemanticAnalyzer:
         mock_instance = Mock()
         mock_transformer.return_value = mock_instance
 
-        analyzer = EnhancedSemanticAnalyzer(
-            device="cpu", model_name="test-model-v1"
-        )
+        analyzer = EnhancedSemanticAnalyzer(device="cpu", model_name="test-model-v1")
         data = analyzer.to_dict()
 
         assert "model_name" in data
@@ -513,7 +513,8 @@ class TestContinuityBridgeProtocol:
 class TestEnhancedContinuityBridgeProtocol:
     """Tests for EnhancedContinuityBridgeProtocol serialization."""
 
-    def test_to_dict_includes_version(self):
+    @patch("agisa_sac.core.components.semantic_analyzer.SentenceTransformer")
+    def test_to_dict_includes_version(self, mock_transformer):
         """Test that to_dict includes version field."""
         enhanced = EnhancedContinuityBridgeProtocol(coherence_threshold=0.8)
         data = enhanced.to_dict()
@@ -521,7 +522,8 @@ class TestEnhancedContinuityBridgeProtocol:
         assert "version" in data
         assert isinstance(data["version"], str)
 
-    def test_to_dict_delegates_to_base(self):
+    @patch("agisa_sac.core.components.semantic_analyzer.SentenceTransformer")
+    def test_to_dict_delegates_to_base(self, mock_transformer):
         """Test that to_dict delegates to base ContinuityBridgeProtocol."""
         enhanced = EnhancedContinuityBridgeProtocol(coherence_threshold=0.8)
         data = enhanced.to_dict()
@@ -530,7 +532,8 @@ class TestEnhancedContinuityBridgeProtocol:
         assert "base_cbp" in data
         assert "coherence_threshold" in data["base_cbp"]
 
-    def test_from_dict_reconstructs_enhanced_bridge(self):
+    @patch("agisa_sac.core.components.semantic_analyzer.SentenceTransformer")
+    def test_from_dict_reconstructs_enhanced_bridge(self, mock_transformer):
         """Test that from_dict reconstructs the enhanced bridge."""
         enhanced = EnhancedContinuityBridgeProtocol(coherence_threshold=0.75)
         data = enhanced.to_dict()
@@ -540,7 +543,8 @@ class TestEnhancedContinuityBridgeProtocol:
         assert isinstance(reconstructed, EnhancedContinuityBridgeProtocol)
         assert reconstructed.base_cbp.coherence_threshold == 0.75
 
-    def test_round_trip_serialization(self):
+    @patch("agisa_sac.core.components.semantic_analyzer.SentenceTransformer")
+    def test_round_trip_serialization(self, mock_transformer):
         """Test round-trip serialization."""
         enhanced = EnhancedContinuityBridgeProtocol(coherence_threshold=0.9)
 
@@ -548,9 +552,13 @@ class TestEnhancedContinuityBridgeProtocol:
         reconstructed = EnhancedContinuityBridgeProtocol.from_dict(data1)
         data2 = reconstructed.to_dict()
 
-        assert data1["base_cbp"]["coherence_threshold"] == data2["base_cbp"]["coherence_threshold"]
+        assert (
+            data1["base_cbp"]["coherence_threshold"]
+            == data2["base_cbp"]["coherence_threshold"]
+        )
 
-    def test_version_mismatch_warning(self):
+    @patch("agisa_sac.core.components.semantic_analyzer.SentenceTransformer")
+    def test_version_mismatch_warning(self, mock_transformer):
         """Test that version mismatch triggers warning."""
         data = {"version": "0.0.1", "coherence_threshold": 0.8}
 

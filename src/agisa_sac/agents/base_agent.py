@@ -295,9 +295,7 @@ class AGISAAgent:
             categorized[tool.type].append(tool)
         return categorized
 
-    async def run(
-        self, input_message: str, context: dict | None = None
-    ) -> LoopResult:
+    async def run(self, input_message: str, context: dict | None = None) -> LoopResult:
         """
         Main execution with guardrails, tracing, and resource checks.
 
