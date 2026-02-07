@@ -47,7 +47,9 @@ class SemanticProfile:
             },
             "ethical_signature": self.ethical_signature.tolist(),
             "temporal_context": (
-                self.temporal_context.tolist() if self.temporal_context is not None else None
+                self.temporal_context.tolist()
+                if self.temporal_context is not None
+                else None
             ),
             "confidence_score": self.confidence_score,
         }

@@ -62,9 +62,7 @@ class DynamicSocialGraph:
         if self.use_gpu:
             self._transfer_to_gpu()
         self.edge_changes_since_last_community_check = 0
-        self.last_communities: list[set[str]] | None = (
-            None  # Store as set of agent IDs
-        )
+        self.last_communities: list[set[str]] | None = None  # Store as set of agent IDs
 
     def _convert_to_csr(self):
         self.influence_matrix_csr = self.influence_matrix.tocsr()
@@ -275,6 +273,8 @@ class DynamicSocialGraph:
         matrix_state = list(zip(coo.row.tolist(), coo.col.tolist(), coo.data.tolist()))
         return {
             "version": FRAMEWORK_VERSION,
+            "num_agents": self.num_agents,
+            "agent_ids": self.agent_ids,
             "influence_matrix_coo": matrix_state,
             "reputation": self.reputation.tolist(),
             "last_communities": (
@@ -289,8 +289,8 @@ class DynamicSocialGraph:
     def from_dict(
         cls,
         data: dict,
-        num_agents: int,
-        agent_ids: list[str],
+        num_agents: int | None = None,
+        agent_ids: list[str] | None = None,
         use_gpu: bool = False,
         message_bus: Optional["MessageBus"] = None,
     ) -> "DynamicSocialGraph":
@@ -298,14 +298,17 @@ class DynamicSocialGraph:
 
         Args:
             data: Serialized state dictionary from to_dict()
-            num_agents: Number of agents in the graph
-            agent_ids: List of agent IDs
+            num_agents: Number of agents (extracted from data if not provided)
+            agent_ids: List of agent IDs (extracted from data if not provided)
             use_gpu: Whether to use GPU acceleration
             message_bus: Optional message bus for publishing events
 
         Returns:
             Reconstructed DynamicSocialGraph instance
         """
+        num_agents = num_agents if num_agents is not None else data.get("num_agents", 0)
+        agent_ids = agent_ids if agent_ids is not None else data.get("agent_ids", [])
+
         # Create new instance with default initialization
         instance = cls(
             num_agents=num_agents,

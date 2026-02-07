@@ -243,9 +243,7 @@ class SimulationOrchestrator:
                 f"completed in {epoch_duration:.2f}s"
             )
 
-    def run_simulation(
-        self, num_epochs: int | None = None
-    ) -> dict[str, Any]:
+    def run_simulation(self, num_epochs: int | None = None) -> dict[str, Any]:
         run_epochs = num_epochs if num_epochs is not None else self.num_epochs
         if run_epochs <= 0:
             logger.warning("No epochs to run (run_epochs <= 0)")
@@ -493,7 +491,9 @@ class SimulationOrchestrator:
                 f"Selecting {selected_count} agents "
                 f"({percentage*100:.1f}%) for protocol"
             )
-            indices = self.rng.choice(len(agent_list), size=selected_count, replace=False)
+            indices = self.rng.choice(
+                len(agent_list), size=selected_count, replace=False
+            )
             return [agent_list[i] for i in indices]
         logger.warning(
             f"Unknown selection method '{selection_method}'. Returning all agents."

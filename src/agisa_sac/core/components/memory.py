@@ -111,6 +111,7 @@ class MemoryEncapsulation:
 
     def to_dict(self, include_embedding: bool = False) -> dict:
         state = {
+            "version": FRAMEWORK_VERSION,
             "memory_id": self.memory_id,
             "content": self.content,
             "theme": self.theme,
@@ -171,9 +172,11 @@ class MemoryContinuumLayer:
         self.use_semantic = use_semantic and HAS_SENTENCE_TRANSFORMER
         self.message_bus = message_bus
         self.memories: dict[str, MemoryEncapsulation] = {}
-        self.memory_indices: dict[str, defaultdict[str, list]] = {"term": defaultdict(list)}
+        self.memory_indices: dict[str, defaultdict[str, list]] = {
+            "term": defaultdict(list)
+        }
         self.last_update = time.time()
-        self.encoder: Optional[Any] = None  # SentenceTransformer when available
+        self.encoder: Any | None = None  # SentenceTransformer when available
         if self.use_semantic:
             self._initialize_encoder()
 

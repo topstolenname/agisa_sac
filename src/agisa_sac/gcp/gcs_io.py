@@ -12,9 +12,7 @@ except Exception:  # pragma: no cover - optional dependency
 from pathlib import Path
 
 
-def upload_file(
-    bucket_name: str, source: str | Path, destination_blob: str
-) -> None:
+def upload_file(bucket_name: str, source: str | Path, destination_blob: str) -> None:
     """Upload a file to a bucket."""
     if not HAS_GOOGLE_CLOUD_STORAGE:
         raise ImportError("google-cloud-storage is required for upload_file")
@@ -24,9 +22,7 @@ def upload_file(
     blob.upload_from_filename(str(source))
 
 
-def download_file(
-    bucket_name: str, blob_name: str, destination: str | Path
-) -> None:
+def download_file(bucket_name: str, blob_name: str, destination: str | Path) -> None:
     """Download a blob from a bucket."""
     if not HAS_GOOGLE_CLOUD_STORAGE:
         raise ImportError("google-cloud-storage is required for download_file")

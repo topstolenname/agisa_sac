@@ -1,4 +1,5 @@
 """Comprehensive tests for SimulationOrchestrator."""
+
 import pytest
 from unittest.mock import Mock, patch
 import numpy as np
@@ -23,11 +24,11 @@ def minimal_config():
 @pytest.fixture
 def orchestrator(minimal_config):
     """Create an orchestrator instance with mocked dependencies."""
-    with patch('agisa_sac.core.orchestrator.EnhancedAgent'):
-        with patch('agisa_sac.core.orchestrator.DynamicSocialGraph'):
-            with patch('agisa_sac.core.orchestrator.ResonanceChronicler'):
-                with patch('agisa_sac.core.orchestrator.AgentStateAnalyzer'):
-                    with patch('agisa_sac.core.orchestrator.PersistentHomologyTracker'):
+    with patch("agisa_sac.core.orchestrator.EnhancedAgent"):
+        with patch("agisa_sac.core.orchestrator.DynamicSocialGraph"):
+            with patch("agisa_sac.core.orchestrator.ResonanceChronicler"):
+                with patch("agisa_sac.core.orchestrator.AgentStateAnalyzer"):
+                    with patch("agisa_sac.core.orchestrator.PersistentHomologyTracker"):
                         orch = SimulationOrchestrator(minimal_config)
                         return orch
 
@@ -45,11 +46,13 @@ class TestOrchestratorInitialization:
 
     def test_random_seed_sets_rng(self, minimal_config):
         """Test that random seed properly initializes RNG."""
-        with patch('agisa_sac.core.orchestrator.EnhancedAgent'):
-            with patch('agisa_sac.core.orchestrator.DynamicSocialGraph'):
-                with patch('agisa_sac.core.orchestrator.ResonanceChronicler'):
-                    with patch('agisa_sac.core.orchestrator.AgentStateAnalyzer'):
-                        with patch('agisa_sac.core.orchestrator.PersistentHomologyTracker'):
+        with patch("agisa_sac.core.orchestrator.EnhancedAgent"):
+            with patch("agisa_sac.core.orchestrator.DynamicSocialGraph"):
+                with patch("agisa_sac.core.orchestrator.ResonanceChronicler"):
+                    with patch("agisa_sac.core.orchestrator.AgentStateAnalyzer"):
+                        with patch(
+                            "agisa_sac.core.orchestrator.PersistentHomologyTracker"
+                        ):
                             orch1 = SimulationOrchestrator(minimal_config)
                             orch2 = SimulationOrchestrator(minimal_config)
                             # Reset RNGs to same state
@@ -91,15 +94,22 @@ class TestAgentSelection:
 
     def test_select_agents_empty_list(self):
         """Test agent selection with no agents available."""
-        with patch('agisa_sac.core.orchestrator.EnhancedAgent'):
-            with patch('agisa_sac.core.orchestrator.DynamicSocialGraph'):
-                with patch('agisa_sac.core.orchestrator.ResonanceChronicler'):
-                    with patch('agisa_sac.core.orchestrator.AgentStateAnalyzer'):
-                        with patch('agisa_sac.core.orchestrator.PersistentHomologyTracker'):
-                            orch = SimulationOrchestrator({"num_agents": 0, "num_epochs": 1})
+        with patch("agisa_sac.core.orchestrator.EnhancedAgent"):
+            with patch("agisa_sac.core.orchestrator.DynamicSocialGraph"):
+                with patch("agisa_sac.core.orchestrator.ResonanceChronicler"):
+                    with patch("agisa_sac.core.orchestrator.AgentStateAnalyzer"):
+                        with patch(
+                            "agisa_sac.core.orchestrator.PersistentHomologyTracker"
+                        ):
+                            orch = SimulationOrchestrator(
+                                {"num_agents": 0, "num_epochs": 1}
+                            )
                             orch.agents = {}
 
-                            params = {"selection_method": "percentage", "percentage": 0.5}
+                            params = {
+                                "selection_method": "percentage",
+                                "percentage": 0.5,
+                            }
                             selected = orch._select_agents_for_protocol(params)
 
                             assert selected == []
@@ -182,6 +192,7 @@ class TestHooks:
 
     def test_hook_execution_continues_on_error(self, orchestrator):
         """Test that hook execution continues even if one hook fails."""
+
         def failing_hook(**kwargs):
             raise ValueError("Hook error")
 
@@ -243,7 +254,7 @@ class TestGetState:
         orchestrator.analyzer.summarize.return_value = {
             "current_epoch": 0,
             "num_agents": 5,
-            "test_metric": "test_value"
+            "test_metric": "test_value",
         }
 
         metrics = orchestrator.get_summary_metrics()
@@ -268,11 +279,13 @@ class TestEdgeCases:
         """Test that orchestrator handles zero agents gracefully."""
         config = {"num_agents": 0, "num_epochs": 1}
 
-        with patch('agisa_sac.core.orchestrator.EnhancedAgent'):
-            with patch('agisa_sac.core.orchestrator.DynamicSocialGraph'):
-                with patch('agisa_sac.core.orchestrator.ResonanceChronicler'):
-                    with patch('agisa_sac.core.orchestrator.AgentStateAnalyzer'):
-                        with patch('agisa_sac.core.orchestrator.PersistentHomologyTracker'):
+        with patch("agisa_sac.core.orchestrator.EnhancedAgent"):
+            with patch("agisa_sac.core.orchestrator.DynamicSocialGraph"):
+                with patch("agisa_sac.core.orchestrator.ResonanceChronicler"):
+                    with patch("agisa_sac.core.orchestrator.AgentStateAnalyzer"):
+                        with patch(
+                            "agisa_sac.core.orchestrator.PersistentHomologyTracker"
+                        ):
                             orch = SimulationOrchestrator(config)
                             assert orch.num_agents == 0
                             assert len(orch.agent_ids) == 0
@@ -281,11 +294,13 @@ class TestEdgeCases:
         """Test that orchestrator handles negative epochs."""
         config = {"num_agents": 5, "num_epochs": -1}
 
-        with patch('agisa_sac.core.orchestrator.EnhancedAgent'):
-            with patch('agisa_sac.core.orchestrator.DynamicSocialGraph'):
-                with patch('agisa_sac.core.orchestrator.ResonanceChronicler'):
-                    with patch('agisa_sac.core.orchestrator.AgentStateAnalyzer'):
-                        with patch('agisa_sac.core.orchestrator.PersistentHomologyTracker'):
+        with patch("agisa_sac.core.orchestrator.EnhancedAgent"):
+            with patch("agisa_sac.core.orchestrator.DynamicSocialGraph"):
+                with patch("agisa_sac.core.orchestrator.ResonanceChronicler"):
+                    with patch("agisa_sac.core.orchestrator.AgentStateAnalyzer"):
+                        with patch(
+                            "agisa_sac.core.orchestrator.PersistentHomologyTracker"
+                        ):
                             orch = SimulationOrchestrator(config)
                             # Should accept the value (validation is caller's responsibility)
                             assert orch.num_epochs == -1
@@ -294,12 +309,14 @@ class TestEdgeCases:
         """Test that missing config keys use default values."""
         config = {}  # Empty config
 
-        with patch('agisa_sac.core.orchestrator.EnhancedAgent'):
-            with patch('agisa_sac.core.orchestrator.DynamicSocialGraph'):
-                with patch('agisa_sac.core.orchestrator.ResonanceChronicler'):
-                    with patch('agisa_sac.core.orchestrator.AgentStateAnalyzer'):
-                        with patch('agisa_sac.core.orchestrator.PersistentHomologyTracker'):
+        with patch("agisa_sac.core.orchestrator.EnhancedAgent"):
+            with patch("agisa_sac.core.orchestrator.DynamicSocialGraph"):
+                with patch("agisa_sac.core.orchestrator.ResonanceChronicler"):
+                    with patch("agisa_sac.core.orchestrator.AgentStateAnalyzer"):
+                        with patch(
+                            "agisa_sac.core.orchestrator.PersistentHomologyTracker"
+                        ):
                             orch = SimulationOrchestrator(config)
                             # Should use defaults
                             assert orch.num_agents == 100  # Default
-                            assert orch.num_epochs == 50   # Default
+                            assert orch.num_epochs == 50  # Default

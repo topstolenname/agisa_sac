@@ -53,7 +53,9 @@ class TestListPresets:
 class TestRunSimulation:
     """Tests for run_simulation() function."""
 
-    def test_config_file_not_found(self, capsys: CaptureFixture, tmp_path: Path) -> None:
+    def test_config_file_not_found(
+        self, capsys: CaptureFixture, tmp_path: Path
+    ) -> None:
         """Test error handling when config file doesn't exist."""
         args = argparse.Namespace(
             config=str(tmp_path / "nonexistent.json"),
@@ -459,14 +461,14 @@ class TestMain:
         assert args.gpu is True
 
     @patch("agisa_sac.cli.run_simulation")
-    def test_run_command_with_agents_override(
-        self, mock_run_simulation: Mock
-    ) -> None:
+    def test_run_command_with_agents_override(self, mock_run_simulation: Mock) -> None:
         """Test run command with agents override."""
         mock_run_simulation.return_value = 0
 
         with patch.object(
-            sys, "argv", ["agisa-sac", "run", "--preset", "quick_test", "--agents", "10"]
+            sys,
+            "argv",
+            ["agisa-sac", "run", "--preset", "quick_test", "--agents", "10"],
         ):
             exit_code = main()
 
@@ -475,9 +477,7 @@ class TestMain:
         assert args.agents == 10
 
     @patch("agisa_sac.cli.run_simulation")
-    def test_run_command_with_epochs_override(
-        self, mock_run_simulation: Mock
-    ) -> None:
+    def test_run_command_with_epochs_override(self, mock_run_simulation: Mock) -> None:
         """Test run command with epochs override."""
         mock_run_simulation.return_value = 0
 

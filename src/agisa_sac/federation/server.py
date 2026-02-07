@@ -88,7 +88,7 @@ async def health_check():
         "registered_nodes": len(cbp.trust_graph),
         "uptime_seconds": uptime_seconds,
         "identity_initialized": cbp.identity_anchor is not None,
-        "version": "1.0.0-alpha",
+        "version": "1.0.0",
     }
 
 
