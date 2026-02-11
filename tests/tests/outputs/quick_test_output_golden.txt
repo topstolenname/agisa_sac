@@ -1,6 +1,0 @@
-{
-  "final_satori_count": 0,
-  "num_agents": 3,
-  "num_epochs": 4,
-  "simulation_completed": true
-}
