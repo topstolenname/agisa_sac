@@ -1,0 +1,57 @@
+%% Figure Code — Code ↔ Consciousness Class Diagram
+%% UML class diagram showing bidirectional traceability between theory and implementation
+
+classDiagram
+    class planner_function {
+        <<Cloud Function>>
+        +generate_action_plan()
+        +decompose_tasks()
+        +apply_priors()
+    }
+    note for planner_function "Theory: Predictive Processing\nTheory: Active Inference\nCode: agents/planner.py"
+    
+    class evaluator_function {
+        <<Cloud Function>>
+        +score_performance()
+        +detect_errors()
+        +validate_alignment()
+    }
+    note for evaluator_function "Theory: Metacognition\nTheory: Error Monitoring\nCode: agents/evaluator.py"
+    
+    class PubSub {
+        <<Message Broker>>
+        +publish()
+        +subscribe()
+        +broadcast()
+    }
+    note for PubSub "Theory: Global Workspace\nCode: gcp/pubsub.py"
+    
+    class Firestore {
+        <<Database>>
+        +write_episode()
+        +query_history()
+        +update_reputation()
+    }
+    note for Firestore "Theory: Autobiographical Memory\nCode: core/memory.py"
+    
+    class CloudTasks {
+        <<Queue Service>>
+        +enqueue()
+        +prioritize()
+    }
+    note for CloudTasks "Theory: Attention Mechanisms\nCode: gcp/tasks.py"
+    
+    %% Associations showing architectural dependencies
+    planner_function --> PubSub : publish/subscribe
+    evaluator_function --> PubSub : publish/subscribe
+    planner_function <--> Firestore : read/write
+    evaluator_function <--> Firestore : read/write
+    CloudTasks --> planner_function : dispatch
+    CloudTasks --> evaluator_function : dispatch
+    
+    %% Styling
+    style planner_function fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style evaluator_function fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style PubSub fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style Firestore fill:#fff8e1,stroke:#ffa726,stroke-width:2px
+    style CloudTasks fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px

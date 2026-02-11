@@ -1,0 +1,178 @@
+version: '3.8'
+
+services:
+  pcp-coordinator:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - SERVICE_TYPE=coordinator
+      - COHERENCE_THRESHOLD=0.8
+      - MEMORY_WINDOW_HOURS=24
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - federation-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/pcp/agent/telemetry"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  smartphone-node-1:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.edge
+    environment:
+      - NODE_TYPE=smartphone
+      - NODE_ID=smartphone_primary_alice
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.9
+      - CAPABILITIES=text_processing,sensor_data,user_interaction
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  smartphone-node-2:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.edge
+    environment:
+      - NODE_TYPE=smartphone
+      - NODE_ID=smartphone_primary_bob
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.85
+      - CAPABILITIES=text_processing,sensor_data,user_interaction
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  smart-hub-1:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.edge
+    environment:
+      - NODE_TYPE=smart_hub
+      - NODE_ID=home_hub_living_room
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.6
+      - CAPABILITIES=local_processing,device_control,pattern_analysis
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  smart-hub-2:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.edge
+    environment:
+      - NODE_TYPE=smart_hub
+      - NODE_ID=home_hub_kitchen
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.6
+      - CAPABILITIES=local_processing,device_control,pattern_analysis
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  server-node-1:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.edge
+    environment:
+      - NODE_TYPE=server
+      - NODE_ID=cloud_server_us_east
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.4
+      - CAPABILITIES=heavy_computation,data_storage,model_training
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  server-node-2:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.edge
+    environment:
+      - NODE_TYPE=server
+      - NODE_ID=cloud_server_eu_west
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.4
+      - CAPABILITIES=heavy_computation,data_storage,model_training
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  chaos-node:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.chaos
+    environment:
+      - NODE_TYPE=desktop
+      - NODE_ID=chaos_testing_node
+      - COORDINATOR_URL=http://pcp-coordinator:8000
+      - TRUST_LEVEL=0.3
+      - CHAOS_MODE=true
+      - ATTACK_TYPES=identity_drift,memory_poisoning,resource_hoarding
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+  federation-monitor:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=agisac_federation
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - federation-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-storage:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    networks:
+      - federation-net
+
+  nginx-lb:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - pcp-coordinator
+    networks:
+      - federation-net
+
+networks:
+  federation-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  grafana-storage:
+  prometheus-storage:

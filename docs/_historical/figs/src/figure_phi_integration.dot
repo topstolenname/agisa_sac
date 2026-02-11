@@ -1,0 +1,70 @@
+// Figure Φ — Integrated Information (Φ) Network Map
+// Shows information integration topology with edge thickness representing integration strength
+// Render with: dot -Tsvg docs/figs/src/figure_phi_integration.dot -o docs/figs/svg/figure_phi_integration.svg
+
+digraph phi_integration {
+  // Graph attributes
+  rankdir=LR;
+  bgcolor=transparent;
+  nodesep=0.8;
+  ranksep=1.2;
+  
+  // Node defaults
+  node [fontname="Arial", fontsize=12];
+  edge [fontname="Arial", fontsize=10];
+  
+  // High-Integration Agent Cluster (left)
+  subgraph cluster_agents {
+    label="High-Φ Agent Cluster";
+    style=filled;
+    fillcolor="#e3f2fd";
+    
+    // Agent nodes
+    A1 [shape=circle, style=filled, fillcolor=white, label="A1"];
+    A2 [shape=circle, style=filled, fillcolor=white, label="A2"];
+    A3 [shape=circle, style=filled, fillcolor=white, label="A3"];
+    E1 [shape=circle, style=filled, fillcolor=white, label="E1"];
+    P1 [shape=circle, style=filled, fillcolor=white, label="P1"];
+    P2 [shape=circle, style=filled, fillcolor=white, label="P2"];
+    R1 [shape=circle, style=filled, fillcolor=white, label="R1"];
+    
+    // Dense bidirectional connections (high integration)
+    A1 -> A2 [dir=both, penwidth=2.4, color="#1565c0"];
+    A2 -> A2 [dir=none, penwidth=0]; // invisible spacing
+    A2 -> P1 [dir=both, penwidth=2.0, color="#1976d2"];
+    P1 -> E1 [dir=both, penwidth=2.0, color="#1976d2"];
+    E1 -> A3 [dir=both, penwidth=1.8, color="#1e88e5"];
+    A3 -> R1 [dir=both, penwidth=1.5, color="#2196f3"];
+    P1 -> P2 [dir=both, penwidth=1.5, color="#2196f3"];
+  }
+  
+  // Global Workspace Hub (center)
+  GW [shape=doublecircle, style=filled, fillcolor="#90caf9", label="GW\nBroadcast"];
+  
+  // Global Workspace connections (thick edges)
+  A1 -> GW [label="broadcast", penwidth=2.4, color="#1565c0"];
+  A2 -> GW [penwidth=2.0, color="#1976d2"];
+  GW -> P1 [label="global access", penwidth=2.4, color="#1565c0"];
+  GW -> E1 [penwidth=2.0, color="#1976d2"];
+  
+  // Memory Storage Region (right)
+  subgraph cluster_memory {
+    label="Memory Storage (Lower Integration)";
+    style=filled;
+    fillcolor="#fff8e1";
+    
+    M1 [shape=box, style=filled, fillcolor="#ffb74d", label="M1:\nEpisodes"];
+    M2 [shape=box, style=filled, fillcolor="#ffb74d", label="M2:\nIdentity"];
+  }
+  
+  // Memory connections (dashed = lower integration)
+  R1 -> M1 [label="log", style=dashed, color="#f57c00"];
+  P2 -> M2 [label="update", style=dashed, color="#f57c00"];
+  
+  // Legend
+  {
+    rank=sink;
+    legend [shape=box, style=filled, fillcolor="#f5f5f5", 
+            label="Legend:\nEdge thickness ∝ integration strength\nDense bidirectionality ⇒ High Φ\nDashed edges ⇒ Lower integration"];
+  }
+}

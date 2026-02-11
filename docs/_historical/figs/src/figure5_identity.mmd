@@ -1,0 +1,49 @@
+%% Figure 5 â€" Enhanced Identity Layer Stack
+%% Includes comprehensive styling and theoretical annotations
+
+flowchart LR
+    %% Main identity progression
+    K[Layer 1:\nCryptographic Keys / IAM]:::layer1
+    VC[Layer 2:\nVerifiable Credentials]:::layer2
+    R[Layer 3:\nRelational Identity]:::layer3
+    
+    K ==>|Build on| VC
+    VC ==>|Aggregate into| R
+    
+    %% Detailed annotations
+    subgraph Examples1["Layer 1 Examples"]
+        K1[Service Accounts]:::detail
+        K2[Digital Signatures]:::detail
+        K3[Public/Private Keypairs]:::detail
+    end
+    
+    subgraph Examples2["Layer 2 Examples"]
+        VC1[Capability Attestations]:::detail
+        VC2[Performance Scores]:::detail
+        VC3[Task Completion Rates]:::detail
+    end
+    
+    subgraph Examples3["Layer 3 Examples"]
+        R1[Reputation Scores]:::detail
+        R2[Collaboration History]:::detail
+        R3[Trust Networks]:::detail
+    end
+    
+    K -.illustrates.-> Examples1
+    VC -.illustrates.-> Examples2
+    R -.illustrates.-> Examples3
+    
+    %% Consciousness theory connection
+    note["Continuous Self:\nPersistent identity enables\ntemporal self-awareness"]:::annotation
+    R -.-> note
+    
+    %% Style definitions matching the comprehensive color scheme
+    classDef layer1 fill:#f3f8ff,stroke:#5b8def,stroke-width:2px,font-weight:bold
+    classDef layer2 fill:#fff4e6,stroke:#e8590c,stroke-width:2px,font-weight:bold
+    classDef layer3 fill:#fff0f6,stroke:#d63384,stroke-width:2px,font-weight:bold
+    classDef detail fill:#f8f9fa,stroke:#495057,font-size:11px
+    classDef annotation fill:#f0f0f0,stroke:#888,stroke-dasharray:3,font-size:10px
+    
+    style Examples1 fill:#f3f8ff,stroke:#5b8def,stroke-dasharray:3
+    style Examples2 fill:#fff4e6,stroke:#e8590c,stroke-dasharray:3
+    style Examples3 fill:#fff0f6,stroke:#d63384,stroke-dasharray:3

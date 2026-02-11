@@ -1,0 +1,8 @@
+graph TD
+    A[audit-log]
+    B[sandbox-enforcer] --> A
+    C[objection-manager] --> A
+    D[governance-engine] --> B
+    D --> C
+    D --> A
+    E[cli-interface] --> D

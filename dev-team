@@ -1,0 +1,15 @@
+#!/bin/bash
+# Wrapper to run the orchestrator from the project root
+
+# Get absolute path to the script logic
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ORCHESTRATOR="$SCRIPT_DIR/scripts/orchestrator.py"
+
+# Check if python3 is available
+if ! command -v python3 &> /dev/null; then
+    echo "Error: python3 is required but not found."
+    exit 1
+fi
+
+# Pass all arguments to the python script
+python3 "$ORCHESTRATOR" "$@"

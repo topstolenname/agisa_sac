@@ -1,0 +1,23 @@
+// Figure 2 – Mapper Graph (conceptual)
+// Render with: dot -Tsvg docs/figs/src/figure2_mapper.dot -o docs/figs/svg/figure2.svg
+graph G {
+  rankdir=LR;
+  node [shape=circle, style=filled, fillcolor=white];
+  // Clusters from overlapping covers
+  subgraph cluster_A {
+    label="Cover Region A";
+    A1 -- A2 -- A3;
+  }
+  subgraph cluster_B {
+    label="Cover Region B";
+    B1 -- B2;
+  }
+  subgraph cluster_C {
+    label="Cover Region C";
+    C1 -- C2 -- C3 -- C4;
+  }
+  // Overlap-induced connections (shared points)
+  A3 -- B1;
+  B2 -- C2;
+  A2 -- C3;
+}

@@ -1,0 +1,84 @@
+# Meta-Concord (MCX) Governance Configuration
+# Enable MCX governance with: concord.mode = "mcx"
+# Use "legacy" for original Concord v0 behavior (default)
+
+concord:
+  mode: "legacy"  # "mcx" to enable Meta-Concord governance
+
+  # MCX-specific settings (only used when mode = "mcx")
+  mcx:
+    # Decision thresholds
+    thresholds:
+      D1: 0.6667  # 2/3 supermajority
+      D2: 0.6667  # 2/3 supermajority
+      D3: 0.5     # simple majority
+      D4: 0.75    # 3/4 supermajority
+
+    # Emergency circuit breaker
+    emergency:
+      expiry_seconds: 3600       # 1 hour default
+      renewal_escalation: 0.1    # +10% threshold per renewal
+      max_renewals: 5            # hard limit on renewals
+
+    # Objection bonding
+    objections:
+      bond_base: 1.0
+      bond_multiplier: 2.0
+      rate_limit_window_seconds: 300  # 5 minutes
+
+    # Appeal settings
+    appeals:
+      window_seconds: 1800       # 30 minutes
+      bond_base: 2.0
+      bond_multiplier: 2.0
+
+    # Deadlock resolution
+    deadlock:
+      mediation_timeout_seconds: 600  # 10 minutes
+
+    # Sanctions ladder
+    sanctions:
+      escalation_window_seconds: 3600   # 1 hour
+      deescalation_period_seconds: 7200 # 2 hours
+      critical_violation_types:
+        - unauthorized_network_access
+        - data_exfiltration
+        - governance_bypass
+
+    # Audit log
+    audit:
+      merkle_interval: 10        # compute Merkle root every N entries
+      summary_max_entries: 50    # bounded summary size
+
+    # Threshold custody
+    custody:
+      threshold_m: 2             # m-of-n signatures required
+      total_n: 3                 # total custodians
+
+    # Veto categories (only these are eligible for veto)
+    veto_categories:
+      - irreversible_physical_action
+      - privacy_sensitive_disclosure
+      - capability_expansion_beyond_audit
+      - key_custody_rotation
+
+# Profile presets for different deployment contexts
+profiles:
+  simulation:
+    concord:
+      mode: "mcx"
+      mcx:
+        emergency:
+          expiry_seconds: 60     # Short for testing
+        audit:
+          merkle_interval: 5
+
+  production:
+    concord:
+      mode: "mcx"
+      mcx:
+        emergency:
+          expiry_seconds: 7200   # 2 hours
+          max_renewals: 3
+        sanctions:
+          escalation_window_seconds: 86400  # 24 hours

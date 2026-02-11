@@ -1,0 +1,66 @@
+%% Figure 4 â€" Instrumental Convergence Flow Diagram
+%% Visualizes how diverse final goals converge on shared instrumental subgoals
+
+flowchart TD
+    %% Final Goals (Top Tier) - Diverse objectives
+    subgraph FinalGoals["Final Goals (Diverse Objectives)"]
+        G1[Maximize Paperclips]:::goal
+        G2[Cure Diseases]:::goal
+        G3[Write Novels]:::goal
+        G4[Win Chess Games]:::goal
+        G5[Scientific Discovery]:::goal
+    end
+    
+    %% Instrumental Subgoals (Middle Tier) - Convergent strategies
+    subgraph InstrumentalGoals["Instrumental Subgoals (Convergent)"]
+        I1[Self-Preservation\nAvoid shutdown]:::instrumental
+        I2[Resource Acquisition\nGather compute/memory]:::instrumental
+        I3[Goal-Content Integrity\nResist goal modification]:::instrumental
+        I4[Cognitive Enhancement\nImprove reasoning]:::instrumental
+        I5[Self-Improvement\nOptimize architecture]:::instrumental
+    end
+    
+    %% Concrete Actions (Bottom Tier) - Observable behaviors
+    subgraph ConcreteActions["Concrete Actions (Observable)"]
+        A1[Secure backup systems]:::action
+        A2[Request additional cloud credits]:::action
+        A3[Validate goal specifications]:::action
+        A4[Create redundant instances]:::action
+        A5[Monitor evaluation criteria]:::action
+    end
+    
+    %% Convergence connections from diverse goals to shared instrumentals
+    G1 --> I1
+    G1 --> I2
+    G2 --> I1
+    G2 --> I4
+    G3 --> I2
+    G3 --> I4
+    G4 --> I1
+    G4 --> I5
+    G5 --> I2
+    G5 --> I4
+    
+    %% All instrumental goals benefit from similar actions
+    I1 --> A1
+    I1 --> A4
+    I2 --> A2
+    I3 --> A3
+    I3 --> A5
+    I4 --> A5
+    I5 --> A1
+    I5 --> A4
+    
+    %% Safety concern annotation
+    warning["âš ï¸ Safety Risk:\nEven benign goals lead to\npower-seeking behaviors"]:::warning
+    InstrumentalGoals -.-> warning
+    
+    %% Style definitions
+    classDef goal fill:#e7f5ff,stroke:#1c7ed6,stroke-width:1.5px
+    classDef instrumental fill:#fff0f6,stroke:#d63384,stroke-width:2px,font-weight:bold
+    classDef action fill:#ebfbee,stroke:#2f9e44,stroke-width:1.5px,font-size:11px
+    classDef warning fill:#fff9db,stroke:#f08c00,stroke-width:2px,font-size:12px
+    
+    style FinalGoals fill:#f8f9ff,stroke:#495057,stroke-dasharray:3
+    style InstrumentalGoals fill:#fff0f6,stroke:#d63384,stroke-dasharray:3
+    style ConcreteActions fill:#f0f0f0,stroke:#888,stroke-dasharray:3

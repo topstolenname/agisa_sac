@@ -1,0 +1,49 @@
+%% Figure 0 — Layer Stack (Infrastructure → Emergence)
+%% Three-layer architecture showing how consciousness emerges from computational substrate through observability
+
+graph TB
+    %% Layer 3: Emergent Properties (Top)
+    subgraph L3["LAYER 3: EMERGENT PROPERTIES"]
+        style L3 fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+        E1[Self-Referential<br/>Processing]:::emergent
+        E2[Meta-Cognition]:::emergent
+        E3[Adaptive<br/>Goal-Setting]:::emergent
+        E1 ~~~ E2 ~~~ E3
+    end
+    
+    %% Layer 2: Observability - TDA (Middle)
+    subgraph L2["LAYER 2: OBSERVABILITY - TDA"]
+        style L2 fill:#f5f5f5,stroke:#757575,stroke-width:2px
+        ES[Event Stream<br/>Agent Behaviors]:::tda
+        subgraph TDA["TDA Analysis"]
+            PD["Persistence Diagrams<br/>β₀ components, β₁ loops, β₂ voids"]:::tda
+            MG[Mapper Graphs<br/>topology skeleton]:::tda
+        end
+        ES --> PD
+        ES --> MG
+    end
+    
+    %% Layer 1: GCP Infrastructure (Bottom)
+    subgraph L1["LAYER 1: GCP INFRASTRUCTURE"]
+        style L1 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+        PS[(Pub/Sub Topics<br/>Global Workspace)]:::infra
+        PF[planner_function.py]:::infra
+        EF[evaluator_function.py]:::infra
+        FS[(Firestore<br/>Memory & Identity)]:::infra
+        CT[Cloud Tasks<br/>Priority Queue]:::infra
+        
+        PF <--> PS
+        EF <--> PS
+        PS <--> FS
+        PS <--> CT
+        PF <--> EF
+    end
+    
+    %% Causal flow arrows (emergence)
+    L1 -.->|generates| L2
+    L2 -.->|reveals| L3
+    
+    %% Style definitions
+    classDef emergent fill:#f8bbd0,stroke:#c2185b,stroke-width:1.5px
+    classDef tda fill:#e0e0e0,stroke:#616161,stroke-width:1.5px
+    classDef infra fill:#bbdefb,stroke:#1565c0,stroke-width:1.5px
