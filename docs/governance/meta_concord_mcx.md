@@ -1,7 +1,9 @@
 # Meta-Concord (MCX) Governance Specification
 
+> **Superseded.** This v1.0.0 document is kept as a historical artifact and no longer describes MCX. The current version is Meta-Concord 0.4, specified and tested in [topstolenname/mcx-experiment](https://github.com/topstolenname/mcx-experiment). Where this document conflicts with 0.4 (for example, required agent-class assent for D1–D4 decisions and emergency entry), 0.4 governs.
+
 > **Version**: 1.0.0
-> **Status**: Active
+> **Status**: Superseded by Meta-Concord 0.4
 > **Last Updated**: 2025-11-17
 
 ## 1. Overview
